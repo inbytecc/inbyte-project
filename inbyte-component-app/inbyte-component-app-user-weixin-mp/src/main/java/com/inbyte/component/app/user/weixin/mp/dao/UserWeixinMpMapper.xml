@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper">
+
+    <select id="detail" resultType="com.inbyte.component.app.user.weixin.mp.model.UserWeixinDetail">
+        SELECT eid,
+               openId,
+               unionId,
+               boundWithUser,
+               appId,
+               userId,
+               tel,
+               nickName,
+               avatarUrl,
+               locationUpdateTime,
+               createTime
+          FROM user_weixin_mp uwmp
+         WHERE openId = #{openId}
+    </select>
+
+    <select id="info" parameterType="java.lang.Integer" resultType="com.inbyte.component.app.user.weixin.mp.model.UserWeixinDto">
+        SELECT eid,
+               userId,
+               tel,
+               nickName,
+               realName,
+               avatarUrl
+          FROM user_weixin_mp
+         WHERE eid = #{eid, jdbcType=INTEGER}
+    </select>
+
+
+</mapper>

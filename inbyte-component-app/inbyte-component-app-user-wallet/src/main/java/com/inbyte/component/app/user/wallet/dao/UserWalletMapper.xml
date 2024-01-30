@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.app.user.wallet.dao.UserWalletMapper">
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.app.user.wallet.model.user.wallet.UserWalletDetail">
+        SELECT balance
+          FROM user_wallet
+         WHERE userId = #{userId, jdbcType=INTEGER}
+    </select>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.marketing.dao.QrcodeMerchantUserMapper">
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserDetail">
+        SELECT qmUserId,
+               qcid,
+               eid,
+               etp,
+               longitude,
+               latitude,
+               createTime
+          FROM qrcode_merchant_user
+         WHERE qmUserId = #{qmUserId, jdbcType=INTEGER}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserBrief">
+        SELECT qmr.qmUserId,
+               qmr.qcid,
+               qmr.eid,
+               qmr.etp,
+               qmr.registered,
+               qmr.appointed,
+               qmr.madeDeal,
+               qmr.orderCount,
+               qmr.tradeAmount,
+               qmr.createTime,
+               uw.nickName
+          FROM qrcode_merchant_user qmr
+          LEFT JOIN user_weixin_mp uw
+            ON qmr.eid = uw.eid
+         WHERE deleted = 0
+           AND uw.mctNo = #{mctNo}
+           AND qmr.qcid = #{qcid, jdbcType=INTEGER}
+        <if test="startDate != null">
+           AND qmr.createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND qmr.createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND uw.nickName LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+         ORDER BY qmr.qmUserId DESC
+    </select>
+
+    <select id="userDistribution" resultType="com.inbyte.component.admin.marketing.model.UserLocationBrief">
+        SELECT longitude,
+               latitude,
+               count(1) AS `count`
+          FROM qrcode_merchant_user
+         WHERE qcid = #{qcid}
+         GROUP BY longitude,
+                  latitude
+    </select>
+
+    <select id="userTrend" resultType="com.inbyte.component.admin.marketing.model.UserTrendBrief">
+        SELECT DATE_FORMAT(createTime,'%Y-%m-%d') `date`,
+               count(1) `count`
+          FROM qrcode_merchant_user
+         WHERE qcid = #{qcid}
+        <if test="startDate != null">
+           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+         GROUP BY `date`
+         ORDER BY `date` ASC
+    </select>
+</mapper>

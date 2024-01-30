@@ -1,0 +1,41 @@
+package com.inbyte.component.admin.aliyun.oss.model;
+
+
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * OSS安全令牌对象
+ *
+ * @author chenjw
+ * @date 2020/08/04 04:35:21
+ */
+@Getter
+@Setter
+@ToString
+public class AliYunOssSignParam {
+
+    /**
+     * 页面
+     * 小程序页面地址
+     * 等于 page
+     **/
+    @NotNull(message = "上传资源所在页面路径不能为空")
+    private String path;
+
+//    /**
+//     * 进入页面地址所需参数
+//     * JSON对象类型
+//     * 可空
+//     **/
+//    @Nullable
+//    private JSONObject pathParam;
+
+    /**
+     * 文件类型
+     */
+    private Integer fileType;
+
+}

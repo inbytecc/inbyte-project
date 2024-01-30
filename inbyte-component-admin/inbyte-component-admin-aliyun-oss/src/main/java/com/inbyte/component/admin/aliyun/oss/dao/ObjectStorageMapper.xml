@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.aliyun.oss.dao.ObjectStorageMapper">
+
+    <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">
+        SELECT objectId,
+               endPoint,
+               bucket,
+               mctNo,
+               fileName,
+               uploaded,
+               `size`,
+               fileType,
+               mimeType,
+               uploadSource,
+               height,
+               width,
+               updateTime
+          FROM object_storage
+         WHERE objectId = #{objectId, jdbcType=INTEGER}
+    </select>
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageDetail">
+        SELECT objectId,
+               endPoint,
+               bucket,
+               mctNo,
+               fileName,
+               filePath,
+               uploaded,
+               `size`,
+               fileType,
+               mimeType,
+               uploadSource,
+               height,
+               width,
+               createTime,
+               createUserId,
+               createUserName,
+               updateTime
+          FROM object_storage
+         WHERE objectId = #{objectId, jdbcType=INTEGER}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">
+        SELECT objectId,
+               endPoint,
+               bucket,
+               mctNo,
+               fileName,
+               filePath,
+               uploaded,
+               `size`,
+               fileType,
+               mimeType,
+               uploadSource,
+               height,
+               width,
+               remark,
+               createUserName,
+               createTime
+          FROM object_storage
+         WHERE deleted = 0
+           AND mctNo = #{mctNo}
+        <if test="query.startDate != null">
+           AND createTime &gt; #{query.startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="query.endDate != null">
+           AND createTime &lt; #{query.endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="query.keyword != null and query.keyword != ''">
+            AND fileName LIKE CONCAT('%', #{query.keyword}, '%')
+        </if>
+         ORDER BY objectId DESC
+    </select>
+</mapper>

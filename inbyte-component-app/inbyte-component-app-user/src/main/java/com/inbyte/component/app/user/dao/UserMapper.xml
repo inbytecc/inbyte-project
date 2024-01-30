@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.app.user.dao.UserMapper">
+
+    <insert id="insertSelective" parameterType="com.inbyte.component.app.user.model.UserPo" keyProperty="userId" useGeneratedKeys="true">
+        INSERT INTO user
+            (tel, userName, nickName, realName, avatarUrl, createTime)
+        SELECT #{tel, jdbcType=VARCHAR},
+               #{userName, jdbcType=VARCHAR},
+               #{nickName, jdbcType=VARCHAR},
+               #{realName, jdbcType=VARCHAR},
+               #{avatarUrl, jdbcType=VARCHAR},
+               #{createTime, jdbcType=TIMESTAMP}
+          FROM DUAL
+         WHERE NOT EXISTS(SELECT 1
+                            FROM user
+                           WHERE tel = #{tel})
+    </insert>
+
+    <select id="queryByTel" resultType="com.inbyte.component.app.user.model.UserBrief">
+        SELECT userId,
+               tel,
+               nickName,
+               realName,
+               pwd,
+               avatarUrl,
+               createTime
+          FROM user
+         WHERE tel = #{tel}
+    </select>
+
+    <insert id="insertLocationSelective">
+        INSERT INTO user_location
+            (userId, etp, eid, longitude, latitude, createTime)
+        SELECT #{userId,jdbcType=INTEGER},
+               #{etp,jdbcType=INTEGER},
+               #{eid,jdbcType=INTEGER},
+               #{longitude,jdbcType=DECIMAL},
+               #{latitude,jdbcType=DECIMAL},
+               #{createTime,jdbcType=TIMESTAMP}
+          FROM DUAL
+         WHERE NOT EXISTS(SELECT 1
+                            FROM user_location
+                           WHERE eid = #{eid,jdbcType=INTEGER}
+                             AND etp = #{etp,jdbcType=INTEGER}
+                             AND createTime > DATE_SUB(#{createTime,jdbcType=TIMESTAMP}, INTERVAL 2 HOUR))
+    </insert>
+
+</mapper>
