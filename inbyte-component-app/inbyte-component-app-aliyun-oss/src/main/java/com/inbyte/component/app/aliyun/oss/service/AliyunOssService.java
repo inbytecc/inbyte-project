@@ -91,7 +91,8 @@ public class AliyunOssService {
                 .append(now.getYear()).append("/")
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
-                .append(new Random().nextInt(100000)).append("/")
+                .append(new Random().nextInt(100000)).append("-")
+                .append(param.getFileName())
                 .toString()
                 .replace("//", "/");
 

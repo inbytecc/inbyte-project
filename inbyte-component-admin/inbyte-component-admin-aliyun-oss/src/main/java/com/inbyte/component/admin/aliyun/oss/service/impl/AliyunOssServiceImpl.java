@@ -87,7 +87,8 @@ public class AliyunOssServiceImpl implements AliyunOssService {
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
 //                .append(StringUtil.jsonToStr(param.getPathParam(), "/")).append("/")
-                .append(new Random().nextInt(100000)).append("/")
+                .append(new Random().nextInt(100000)).append("-")
+                .append(param.getFileName())
                 .toString()
                 .replace("//", "/");
 

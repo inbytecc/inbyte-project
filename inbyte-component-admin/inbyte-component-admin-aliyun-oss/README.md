@@ -1,12 +1,12 @@
 # README
-## 客户端配置
+## 依赖项目配置
 ```
-wx:
-  miniapp:
-    configs:
-      - appid: #小程序ID
-        secret: #小程序秘钥
-        token:
-        aesKey:
-        msgDataFormat: JSON
+aliyun:
+  oss:
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    AccessKeyId: LTAI5txxxxxxxxxxxxxxxxxxxx
+    accessKeySecret: EVuqYANxxxxxxxxxxxxxxxxxxxxxxxxx
+    host: https://xxx.oss-cn-guangzhou.aliyuncs.com
+    bucket: xxxx
+    callbackUrl: https://xxx.xxx.com/api/aliyun/oss/callback
 ```
