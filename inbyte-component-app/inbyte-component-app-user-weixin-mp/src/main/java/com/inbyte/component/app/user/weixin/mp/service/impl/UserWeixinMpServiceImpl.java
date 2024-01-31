@@ -14,7 +14,7 @@ import com.inbyte.component.app.user.weixin.mp.model.*;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.BuildRelationParam;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
 import com.inbyte.component.app.user.weixin.mp.service.UserWeixinMpService;
-import com.inbyte.commons.exception.PyrangeException;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.AppTypeDict;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePage;
@@ -242,7 +242,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         int update = userWeixinMpMapper.updateById(userWeixinMpPo);
         if (update == 0) {
-            throw new PyrangeException("注册账号异常, 请重试看看");
+            throw new InbyteException("注册账号异常, 请重试看看");
         }
 
         // 用户 Session 信息
@@ -286,7 +286,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .build();
         int update = userWeixinMpMapper.updateById(userWeixinPO);
         if (update == 0) {
-            throw new PyrangeException("注册账号异常, 请重试看看");
+            throw new InbyteException("注册账号异常, 请重试看看");
         }
 
         // 用户 Session 信息

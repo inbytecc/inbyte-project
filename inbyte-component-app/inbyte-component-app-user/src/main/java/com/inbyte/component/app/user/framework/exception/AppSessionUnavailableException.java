@@ -1,6 +1,6 @@
 package com.inbyte.component.app.user.framework.exception;
 
-import com.inbyte.commons.exception.PyrangeException;
+import com.inbyte.commons.exception.InbyteException;
 
 /**
  * Session 信息不可用异常
@@ -9,6 +9,6 @@ import com.inbyte.commons.exception.PyrangeException;
  * @author: chenjw
  * @date: 2020/7/14
  */
-public class AppSessionUnavailableException extends PyrangeException {
+public class AppSessionUnavailableException extends InbyteException {
 
 }

@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.base.Throwables;
 import com.inbyte.component.app.payment.weixin.model.*;
-import com.inbyte.commons.exception.PyrangeException;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
@@ -346,11 +346,11 @@ public class PaymentWeixinService {
             } else {
                 alarmSystemClient.alert("微信支付退款申请",
                         "退款申请异常,状态码:" + e.getHttpStatusCode() + ", 请求参数:" + JSON.toJSONString(param));
-                throw new PyrangeException("退款申请失败, 请稍后再试, 或联系管理员操作(" + e.getHttpStatusCode() + ")");
+                throw new InbyteException("退款申请失败, 请稍后再试, 或联系管理员操作(" + e.getHttpStatusCode() + ")");
             }
         } catch (Exception e) {
             log.error("微信支付退款申请异常:", e);
-            throw new PyrangeException("申请退款失败, 请稍后再试");
+            throw new InbyteException("申请退款失败, 请稍后再试");
         }
     }
 
