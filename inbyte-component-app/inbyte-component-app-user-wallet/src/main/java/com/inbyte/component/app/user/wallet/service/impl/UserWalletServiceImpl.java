@@ -40,11 +40,11 @@ public class UserWalletServiceImpl implements UserWalletService {
                     .build();
             userWalletMapper.insert(userWalletPo);
         }
-        return R.success(detail);
+        return R.ok(detail);
     }
 
     @Override
     public R<List<UserWalletRechargeBrief>> list() {
-        return R.success();
+        return R.ok();
     }
 }

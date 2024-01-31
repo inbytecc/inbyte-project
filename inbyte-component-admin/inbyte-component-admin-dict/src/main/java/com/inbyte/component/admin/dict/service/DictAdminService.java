@@ -37,7 +37,7 @@ public class DictAdminService {
                 .build();
         BeanUtils.copyProperties(insert, dictPo);
         dictAdminMapper.insert(dictPo);
-        return R.success("新增成功");
+        return R.ok("新增成功");
     }
 
     public R delete(String dictId) {
@@ -47,7 +47,7 @@ public class DictAdminService {
                 .eq(DictPo::getDictId, dictId)
                 .eq(DictPo::getMctNo, SessionUtil.getDefaultMctNo());
         dictAdminMapper.delete(queryWrapper);
-        return R.success("删除成功");
+        return R.ok("删除成功");
     }
 
     public R update(DictUpdate update) {
@@ -62,15 +62,15 @@ public class DictAdminService {
                 .eq(DictPo::getDictId, update.getDictId())
                 .eq(DictPo::getMctNo, SessionUtil.getDefaultMctNo());
         dictAdminMapper.update(dictPo, queryWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     public R<DictDetail> detail(String dictId) {
-        return R.success(dictAdminMapper.detail(dictId));
+        return R.ok(dictAdminMapper.detail(dictId));
     }
 
     public R<List<DictBrief>> list(DictQuery query) {
-        return R.success(dictAdminMapper.list(query));
+        return R.ok(dictAdminMapper.list(query));
     }
 
 }

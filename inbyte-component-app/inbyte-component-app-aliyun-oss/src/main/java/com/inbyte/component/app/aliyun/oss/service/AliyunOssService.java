@@ -146,7 +146,7 @@ public class AliyunOssService {
                     .expire(expireEndTime / 1000)
                     .callback(base64CallbackBody)
                     .build();
-            return R.success(aliYunOssSignDto);
+            return R.ok(aliYunOssSignDto);
         } catch (Exception e) {
             log.error("获取阿里云 OSS 文件上传授权异常", e);
             return R.failure("获取授权失败");
@@ -381,7 +381,7 @@ public class AliyunOssService {
                 .build();
         objectStorageMapper.insert(objectStoragePo);
 
-        return R.success("上传成功", url);
+        return R.ok("上传成功", url);
     }
 
 }

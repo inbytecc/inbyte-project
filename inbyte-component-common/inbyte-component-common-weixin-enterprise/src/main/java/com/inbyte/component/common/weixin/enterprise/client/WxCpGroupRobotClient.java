@@ -32,7 +32,7 @@ public class WxCpGroupRobotClient {
         }
         wxCpGroupRobotFactory.getGroupRobot(param.getGroupRobotWebHookKey()).sendText(
                 text, param.getMentionedList(), param.getMobileList());
-        return R.success("发送成功");
+        return R.ok("发送成功");
     }
 
     /**
@@ -53,7 +53,7 @@ public class WxCpGroupRobotClient {
             log.error("企微消息发送失败", e);
             return R.failure("企微消息发送失败");
         }
-        return R.success("发送成功");
+        return R.ok("发送成功");
     }
 
 }

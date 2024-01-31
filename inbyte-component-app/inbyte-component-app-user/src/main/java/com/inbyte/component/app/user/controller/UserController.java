@@ -39,7 +39,7 @@ public class UserController {
      **/
     @PostMapping("logout")
     public R<String> logout() {
-        return R.success("退出成功");
+        return R.ok("退出成功");
     }
 
 //    @GetMapping("t")

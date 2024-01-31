@@ -32,12 +32,12 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         updateWrapper.eq(UserWeixinMpPo::getMctNo, SessionUtil.getDefaultMctNo());
         updateWrapper.set(UserWeixinMpPo::getRemark, update.getRemark());
         userWeixinMpMapper.update(null, updateWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
     public R<UserWeixinMpDetail> detail(Integer eid) {
-        return R.success(userWeixinMpMapper.detail(eid, SessionUtil.getDefaultMctNo()));
+        return R.ok(userWeixinMpMapper.detail(eid, SessionUtil.getDefaultMctNo()));
     }
 
     @Override

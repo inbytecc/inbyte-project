@@ -43,7 +43,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
                 .build();
         BeanUtils.copyProperties(insert, systemRolePo);
         systemRoleMapper.insert(systemRolePo);
-        return R.success("新增成功");
+        return R.ok("新增成功");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
         queryWrapper.eq(SystemRolePo::getRoleId, roleId);
         queryWrapper.eq(SystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
         systemRoleMapper.delete(queryWrapper);
-        return R.success("删除成功");
+        return R.ok("删除成功");
     }
 
     @Override
@@ -66,12 +66,12 @@ public class SystemRoleServiceImpl implements SystemRoleService {
         queryWrapper.eq(SystemRolePo::getRoleId, update.getRoleId());
         queryWrapper.eq(SystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
         systemRoleMapper.update(systemRolePo, queryWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
     public R<SystemRoleDetail> detail(Integer roleId) {
-        return R.success(systemRoleMapper.detail(roleId));
+        return R.ok(systemRoleMapper.detail(roleId));
     }
 
     @Override

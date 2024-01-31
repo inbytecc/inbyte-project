@@ -71,7 +71,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         sessionUser.setLoginTime(LocalDateTime.now());
         sessionUser.setAdmin(detail.getAdmin());
         String jwt = SystemUserJwtUtil.createJwt(sessionUser);
-        return R.success(new SystemUserLoginDto(jwt));
+        return R.ok(new SystemUserLoginDto(jwt));
     }
 
     @Override
@@ -82,12 +82,12 @@ public class SystemUserServiceImpl implements SystemUserService {
         systemUserInfo.setAvatar(detail.getAvatar());
         systemUserInfo.setRole(detail.getRole());
         systemUserInfo.setNeedUpdatePwd(detail.getNeedUpdatePwd());
-        return R.success(systemUserInfo);
+        return R.ok(systemUserInfo);
     }
 
     @Override
     public R<List<Dict>> dict(String keyword) {
-        return R.success(systemUserMapper.dict(keyword));
+        return R.ok(systemUserMapper.dict(keyword));
     }
 
     @Override
@@ -102,7 +102,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         systemUserPo.setPwd(MD5Util.md5(insert.getPwd()));
         systemUserPo.setNeedUpdatePwd(1);
         systemUserMapper.insert(systemUserPo);
-        return R.success("新增成功");
+        return R.ok("新增成功");
     }
 
     @Override
@@ -111,7 +111,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .eq(SystemUserPo::getUserId, userId)
                 .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
         systemUserMapper.delete(queryWrapper);
-        return R.success("删除成功");
+        return R.ok("删除成功");
     }
 
     @Override
@@ -133,12 +133,12 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .eq(SystemUserPo::getUserId, update.getUserId())
                 .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
         systemUserMapper.update(systemUserPo, queryWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
     public R<SystemUserDetail> detail(Integer userId) {
-        return R.success(systemUserMapper.detail(userId));
+        return R.ok(systemUserMapper.detail(userId));
     }
 
     @Override
@@ -158,7 +158,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .set(SystemUserPo::getPwd, MD5Util.md5(update.getPwd()))
                 .set(SystemUserPo::getNeedUpdatePwd, WhetherDict.No.code);
         systemUserMapper.update(null, updateWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
@@ -178,6 +178,6 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .set(SystemUserPo::getUpdateTime, LocalDateTime.now())
                 ;
         systemUserMapper.update(null, updateWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 }

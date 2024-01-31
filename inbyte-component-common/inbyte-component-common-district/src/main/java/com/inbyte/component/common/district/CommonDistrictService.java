@@ -110,16 +110,16 @@ public class CommonDistrictService {
     }
 
     public R<List<CommonProvince>> province(String keyword) {
-        return R.success(commonDistrictMapper.queryProvince(keyword));
+        return R.ok(commonDistrictMapper.queryProvince(keyword));
     }
 
 
     public R<List<CommonCity>> city(String keyword, Integer provinceId) {
-        return R.success(commonDistrictMapper.queryCity(keyword, provinceId));
+        return R.ok(commonDistrictMapper.queryCity(keyword, provinceId));
     }
 
     public R<List<CommonDistrict>> district(String keyword, Integer cityId) {
-        return R.success(commonDistrictMapper.queryDistrict(keyword, cityId));
+        return R.ok(commonDistrictMapper.queryDistrict(keyword, cityId));
     }
 
     /**

@@ -29,7 +29,7 @@ public class ObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public R<ObjectStorageDetail> detail(Integer objectId) {
-        return R.success(objectstorageMapper.detail(objectId));
+        return R.ok(objectstorageMapper.detail(objectId));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ObjectStorageServiceImpl implements ObjectStorageService {
                 .updateTime(LocalDateTime.now())
                 .build();
         objectstorageMapper.update(objectstoragePo, wrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
 }

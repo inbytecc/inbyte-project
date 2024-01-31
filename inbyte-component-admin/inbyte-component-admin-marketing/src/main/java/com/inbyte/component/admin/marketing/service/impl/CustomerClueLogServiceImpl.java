@@ -82,7 +82,7 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
         queryWrapper.eq(CustomerCluePo::getClueId, insert.getClueId());
         queryWrapper.eq(CustomerCluePo::getMctNo, sessionUser.getMctNo());
         customerclueMapper.update(cluePo, queryWrapper);
-        return R.success("新增成功");
+        return R.ok("新增成功");
     }
 
     @Override
@@ -91,7 +91,7 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
         deleteWrapper.eq(CustomerClueLogPo::getLogId, logId);
         deleteWrapper.eq(CustomerClueLogPo::getMctNo, SessionUtil.getDefaultMctNo());
         customerClueLogMapper.delete(deleteWrapper);
-        return R.success("删除成功");
+        return R.ok("删除成功");
     }
 
     @Override
@@ -101,12 +101,12 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
                 .build();
         BeanUtils.copyProperties(update, customerClueLogPo);
         customerClueLogMapper.updateById(customerClueLogPo);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
     public R<CustomerClueLogDetail> detail(Integer logId) {
-        return R.success(customerClueLogMapper.detail(logId));
+        return R.ok(customerClueLogMapper.detail(logId));
     }
 
     @Override

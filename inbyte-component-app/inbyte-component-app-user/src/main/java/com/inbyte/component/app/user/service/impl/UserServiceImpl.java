@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
                 .build();
-        return R.success(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
+        return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
     }
 
     /**
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 
         registerEventInvoke(userPo.getUserId());
 
-        return R.success("注册成功", userPo.getUserId());
+        return R.ok("注册成功", userPo.getUserId());
     }
 
     /**

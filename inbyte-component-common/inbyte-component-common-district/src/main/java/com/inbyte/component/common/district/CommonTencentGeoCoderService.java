@@ -36,7 +36,7 @@ public class CommonTencentGeoCoderService {
         if (longitude == null) {
             commonCity.setCityId(cityId);
             commonCity.setCityName(cityName);
-            return R.success(commonCity);
+            return R.ok(commonCity);
         }
 
         JSONObject jsonObject = restTemplate.getForObject(Tencent_Geo_Parse_Url,
@@ -46,12 +46,12 @@ public class CommonTencentGeoCoderService {
         if (jsonObject == null || jsonObject.getIntValue("status") != 0) {
             commonCity.setCityId(4401);
             commonCity.setCityName("广州市");
-            return R.success(commonCity);
+            return R.ok(commonCity);
         }
 
         JSONObject adInfo = jsonObject.getJSONObject("result").getJSONObject("ad_info");
         commonCity.setCityId(Integer.valueOf(adInfo.getString("adcode").substring(0, 4)));
         commonCity.setCityName(adInfo.getString("city"));
-        return R.success(commonCity);
+        return R.ok(commonCity);
     }
 }

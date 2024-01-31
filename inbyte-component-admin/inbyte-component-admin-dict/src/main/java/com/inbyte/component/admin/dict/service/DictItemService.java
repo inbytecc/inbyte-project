@@ -46,7 +46,7 @@ public class DictItemService {
         dictItemPo.setCode(count);
         dictItemPo.setOrdinal(BigDecimal.valueOf(count));
         dictItemMapper.insert(dictItemPo);
-        return R.success("新增成功");
+        return R.ok("新增成功");
     }
 
     public R delete(Integer itemId) {
@@ -56,7 +56,7 @@ public class DictItemService {
                 .eq(DictItemPo::getItemId, itemId)
                 .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
         dictItemMapper.delete(queryWrapper);
-        return R.success("删除成功");
+        return R.ok("删除成功");
     }
 
     public R update(DictItemUpdate update) {
@@ -71,11 +71,11 @@ public class DictItemService {
                 .eq(DictItemPo::getItemId, update.getItemId())
                 .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
         dictItemMapper.update(dictItemPo, queryWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     public R<DictItemDetail> detail(Integer itemId) {
-        return R.success(dictItemMapper.detail(itemId));
+        return R.ok(dictItemMapper.detail(itemId));
     }
 
     public R<Page<List<DictItemBrief>>> list(DictItemQuery query) {
