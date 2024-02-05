@@ -47,7 +47,7 @@ public class CustomerClueServiceImpl implements CustomerClueService {
             customercluePo.setContactPersonName(detail.getUserName());
         }
         customerclueMapper.insert(customercluePo);
-        return R.success("新增成功");
+        return R.ok("新增成功");
     }
 
     @Override
@@ -61,12 +61,12 @@ public class CustomerClueServiceImpl implements CustomerClueService {
         updateWrapper.eq(CustomerCluePo::getClueId, update.getClueId());
         updateWrapper.eq(CustomerCluePo::getMctNo, SessionUtil.getDefaultMctNo());
         customerclueMapper.update(customercluePo, updateWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
     public R<CustomerClueDetail> detail(Integer clueId) {
-        return R.success(customerclueMapper.detail(clueId));
+        return R.ok(customerclueMapper.detail(clueId));
     }
 
     @Override

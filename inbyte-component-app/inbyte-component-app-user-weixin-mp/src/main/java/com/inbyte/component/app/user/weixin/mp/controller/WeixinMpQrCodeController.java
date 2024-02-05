@@ -42,7 +42,7 @@ public class WeixinMpQrCodeController {
      **/
     @PostMapping({"qr-code/weixin/mini-program/image-data", "qr-code/weixin/mp/image-data"})
     public R qrCode(@RequestBody @Valid BasePath param) {
-        return R.success(qrCodeService.qrCode(param));
+        return R.ok(qrCodeService.qrCode(param));
     }
 
 
@@ -73,7 +73,7 @@ public class WeixinMpQrCodeController {
         scanEventNotify.setEid(SessionUtil.getEid());
         scanEventNotify.setEtp(AppUtil.getAppType());
         qrCodeService.viewed(scanEventNotify);
-        return R.success();
+        return R.ok();
     }
 
 }

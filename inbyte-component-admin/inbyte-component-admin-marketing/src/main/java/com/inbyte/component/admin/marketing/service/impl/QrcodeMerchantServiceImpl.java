@@ -79,7 +79,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         updateWrapper.set(QrcodeMerchantPo::getScene, scene);
         qrcodeMerchantMapper.update(null, updateWrapper);
 
-        return R.success("新增成功");
+        return R.ok("新增成功");
     }
 
     @Override
@@ -88,7 +88,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         queryWrapper.eq(QrcodeMerchantPo::getQcid, qcid);
         queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getDefaultMctNo());
         qrcodeMerchantMapper.delete(queryWrapper);
-        return R.success("删除成功");
+        return R.ok("删除成功");
     }
 
     @Override
@@ -102,12 +102,12 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         queryWrapper.eq(QrcodeMerchantPo::getQcid, update.getQcid());
         queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getDefaultMctNo());
         qrcodeMerchantMapper.update(qrcodeMerchantPo, queryWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
     public R<QrcodeMerchantDetail> detail(Integer qcid) {
-        return R.success(qrcodeMerchantMapper.detail(qcid));
+        return R.ok(qrcodeMerchantMapper.detail(qcid));
     }
 
     @Override
@@ -122,12 +122,12 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
     @Override
     public R<List<UserLocationBrief>> userDistribution(Integer qcid) {
-        return R.success(qrcodeMerchantUserMapper.userDistribution(qcid));
+        return R.ok(qrcodeMerchantUserMapper.userDistribution(qcid));
     }
 
     @Override
     public R<List<UserTrendBrief>> userTrend(QrcodeMerchantUserTrendQuery query) {
-        return R.success(qrcodeMerchantUserMapper.userTrend(query));
+        return R.ok(qrcodeMerchantUserMapper.userTrend(query));
     }
 
     @Override

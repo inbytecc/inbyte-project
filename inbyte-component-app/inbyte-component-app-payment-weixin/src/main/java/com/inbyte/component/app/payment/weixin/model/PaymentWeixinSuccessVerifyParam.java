@@ -15,11 +15,6 @@ import lombok.*;
 @Builder
 public class PaymentWeixinSuccessVerifyParam {
 
-//    /**
-//     * 小程序ID
-//     */
-//    private String appId;
-
     /**
      * 微信支付商户ID
      */

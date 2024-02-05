@@ -28,7 +28,7 @@ public class QrcodeMerchantUserServiceImpl implements QrcodeMerchantUserService 
 
     @Override
     public R<QrcodeMerchantUserDetail> detail(Integer qmUserId) {
-        return R.success(qrcodeMerchantUserMapper.detail(qmUserId));
+        return R.ok(qrcodeMerchantUserMapper.detail(qmUserId));
     }
 
     @Override

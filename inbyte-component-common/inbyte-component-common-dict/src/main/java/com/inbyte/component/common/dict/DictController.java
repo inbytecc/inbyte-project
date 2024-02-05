@@ -36,7 +36,7 @@ public class DictController {
      */
     @GetMapping("{dictName}")
     public R<Map<String, String>> dict(@PathVariable String dictName) {
-        return R.success(dictService.getDict(dictName));
+        return R.ok(dictService.getDict(dictName));
     }
 
     /**
@@ -52,6 +52,6 @@ public class DictController {
      */
     @GetMapping("{dictName}/tree")
     public R<List<DictItemBrief>> tree(@PathVariable String dictName) {
-        return R.success(dictService.getDictTree(dictName));
+        return R.ok(dictService.getDictTree(dictName));
     }
 }

@@ -32,11 +32,11 @@ public class DataCenterUserDataServiceImpl implements UserDataService {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
-        return R.success(userLocationMapper.list(query));
+        return R.ok(userLocationMapper.list(query));
     }
 
     @Override
     public R<List<UserTrendBrief>> userTrend(UserTrendQuery query) {
-        return R.success(userWeixinMpMapper.userTrend(query));
+        return R.ok(userWeixinMpMapper.userTrend(query));
     }
 }

@@ -32,12 +32,12 @@ public class UserServiceImpl implements UserService {
                 .build();
         BeanUtils.copyProperties(update, userPo);
         userMapper.updateById(userPo);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
     @Override
     public R<UserDetail> detail(Integer userId) {
-        return R.success(userMapper.detail(userId));
+        return R.ok(userMapper.detail(userId));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     public R<Integer> register(String tel) {
         UserBrief userBrief = userMapper.briefByTel(tel);
         if (userBrief != null) {
-            return R.success("用户已注册", userBrief.getUserId());
+            return R.ok("用户已注册", userBrief.getUserId());
         }
 
         String nickName = "用户" + tel.substring(7);
@@ -71,6 +71,6 @@ public class UserServiceImpl implements UserService {
                 .createTime(LocalDateTime.now())
                 .build();
         userMapper.insert(userPo);
-        return R.success("注册成功", userPo.getUserId());
+        return R.ok("注册成功", userPo.getUserId());
     }
 }

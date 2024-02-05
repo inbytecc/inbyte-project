@@ -59,7 +59,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
         sessionUser.setMctNo(detail.getMctNo());
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
-        return R.success(new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
+        return R.ok(new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
         sessionUser.setMctNo(detail.getMctNo());
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
-        return R.success(new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
+        return R.ok(new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
     }
 
 }

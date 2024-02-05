@@ -28,7 +28,7 @@ public class SystemUserWeixinEnterpriseController {
      * 参考文档：https://developer.work.weixin.qq.com/document/path/91335
      * <p>
      * 企业微信授权登录参数: </br>
-     * https://open.weixin.qq.com/connect/oauth2/authorize?appid=ww4b02eb8d9a97ad6c&redirect_uri=https://m.inbyte.cc/api/user-platform/login/enterprise-weixin-oauth&response_type=code&scope=snsapi_privateinfo&state=STATE&agentid=1000002#wechat_redirect </br>
+     * https://open.weixin.qq.com/connect/oauth2/authorize?appid=企微小程序ID&redirect_uri=https://m.inbyte.cc/api/user-platform/login/enterprise-weixin-oauth&response_type=code&scope=snsapi_privateinfo&state=STATE&agentid=1000002#wechat_redirect </br>
      * 注: 需要在企业微信内访问才有效
      *
      * @param authCode
@@ -46,7 +46,7 @@ public class SystemUserWeixinEnterpriseController {
      * 参考文档：https://developer.work.weixin.qq.com/document/path/91025
      * <p>
      * 企业微信授权登录参数参考: </br>
-     * https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=ww4b02eb8d9a97ad6c&agentid=1000002&redirect_uri=https://m.inbyte.cc/api/user-platform/login/enterprise-weixin-qr-code&state=STATE</br>
+     * https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=企微小程序ID&agentid=1000002&redirect_uri=https://m.inbyte.cc/api/user-platform/login/enterprise-weixin-qr-code&state=STATE</br>
      *
      * @param authCode
      * @return

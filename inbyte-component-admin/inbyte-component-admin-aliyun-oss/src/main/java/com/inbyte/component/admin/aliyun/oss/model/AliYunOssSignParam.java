@@ -25,13 +25,11 @@ public class AliYunOssSignParam {
     @NotNull(message = "上传资源所在页面路径不能为空")
     private String path;
 
-//    /**
-//     * 进入页面地址所需参数
-//     * JSON对象类型
-//     * 可空
-//     **/
-//    @Nullable
-//    private JSONObject pathParam;
+    /**
+     * 文件名称
+     **/
+    @NotNull(message = "文件名称")
+    private String fileName;
 
     /**
      * 文件类型

@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.logging;
 
-import com.inbyte.commons.exception.PyrangeException;
-import com.inbyte.commons.exception.TransactionAdvancedException;
+import com.inbyte.commons.exception.InbyteException;
+import com.inbyte.commons.exception.InbyteTransactionException;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.commons.util.StringUtil;
@@ -176,9 +176,9 @@ public class AdminWebExceptionResolver {
      * @param e
      * @return
      */
-    @ExceptionHandler(value = PyrangeException.class)
+    @ExceptionHandler(value = InbyteException.class)
     @ResponseBody
-    public R pyrangeException(PyrangeException e) {
+    public R pyrangeException(InbyteException e) {
         if (e.getResult() != null) {
             return e.getResult();
         }
@@ -211,9 +211,9 @@ public class AdminWebExceptionResolver {
      * @param e
      * @return
      */
-    @ExceptionHandler(value = TransactionAdvancedException.class)
+    @ExceptionHandler(value = InbyteTransactionException.class)
     @ResponseBody
-    public R sessionUnavailableException(TransactionAdvancedException e) {
+    public R sessionUnavailableException(InbyteTransactionException e) {
         return R.valueOf(e.getResult());
     }
 

@@ -95,7 +95,8 @@ public class WechatOpenPlatformController {
                 wxOpenService.getWxOpenConfigStorage(), timestamp, nonce, msgSignature);
         log.debug("接收微信事件回调通知消息解密后内容为：\n{} ", inMessage.toString());
         // 全网发布测试用例
-        if (StringUtils.equalsAnyIgnoreCase(appId, "wxd101a85aa106f53e", "wx570bc396a51b8ff8")) {
+        // TODO 忽略用例
+        if (StringUtils.equalsAnyIgnoreCase(appId, "")) {
             try {
                 if (StringUtils.equals(inMessage.getMsgType(), "text")) {
                     if (StringUtils.equals(inMessage.getContent(), "TESTCOMPONENT_MSG_TYPE_TEXT")) {

@@ -7,6 +7,7 @@ import com.inbyte.commons.model.dto.R;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
  * @author chenjw
  * @date 2020/8/11
  **/
+@Slf4j
 @RestController
 @RequestMapping("aliyun/oss")
 public class AliyunOssController {
@@ -48,7 +50,7 @@ public class AliyunOssController {
         try {
             aliyunOssService.callback(request, response);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("阿里云OSS回调异常:", e);
         }
     }
 }

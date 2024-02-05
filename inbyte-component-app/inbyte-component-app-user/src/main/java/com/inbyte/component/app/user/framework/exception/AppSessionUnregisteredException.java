@@ -1,6 +1,6 @@
 package com.inbyte.component.app.user.framework.exception;
 
-import com.inbyte.commons.exception.PyrangeException;
+import com.inbyte.commons.exception.InbyteException;
 
 /**
  * 未注册异常
@@ -9,6 +9,6 @@ import com.inbyte.commons.exception.PyrangeException;
  * @author: chenjw
  * @date: 2020/7/14
  */
-public class AppSessionUnregisteredException extends PyrangeException {
+public class AppSessionUnregisteredException extends InbyteException {
 
 }

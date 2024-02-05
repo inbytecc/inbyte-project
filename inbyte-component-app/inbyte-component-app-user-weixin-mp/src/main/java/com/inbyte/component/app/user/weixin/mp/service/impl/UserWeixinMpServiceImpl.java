@@ -14,7 +14,7 @@ import com.inbyte.component.app.user.weixin.mp.model.*;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.BuildRelationParam;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
 import com.inbyte.component.app.user.weixin.mp.service.UserWeixinMpService;
-import com.inbyte.commons.exception.PyrangeException;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.AppTypeDict;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePage;
@@ -126,7 +126,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .tokenVersion(SessionUtil.User_Token_Version)
                     .telBound(WhetherDict.No.code)
                     .build();
-            return R.success(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
+            return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
         }
 
         // 非首次注册登录用户
@@ -155,7 +155,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .tokenVersion(SessionUtil.User_Token_Version)
                     .telBound(WhetherDict.No.code)
                     .build();
-            return R.success(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
+            return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
         }
 
         // 已绑定手机号用户 Session 信息
@@ -170,7 +170,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
                 .build();
-        return R.success(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
+        return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
     }
 
     /**
@@ -242,7 +242,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         int update = userWeixinMpMapper.updateById(userWeixinMpPo);
         if (update == 0) {
-            throw new PyrangeException("注册账号异常, 请重试看看");
+            throw new InbyteException("注册账号异常, 请重试看看");
         }
 
         // 用户 Session 信息
@@ -257,7 +257,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
                 .build();
-        return R.success(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
+        return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
     }
 
     /**
@@ -286,7 +286,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .build();
         int update = userWeixinMpMapper.updateById(userWeixinPO);
         if (update == 0) {
-            throw new PyrangeException("注册账号异常, 请重试看看");
+            throw new InbyteException("注册账号异常, 请重试看看");
         }
 
         // 用户 Session 信息
@@ -301,7 +301,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
                 .build();
-        return R.success(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
+        return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
     }
 
     /**
@@ -316,7 +316,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     public R updateLocation(LocationUpdate locationUpdate) {
         SessionUser sessionUser = SessionUtil.getSessionUserUnchecked();
         if (sessionUser == null) {
-            return R.success();
+            return R.ok();
         }
 
         // 更新用户当前定位
@@ -337,7 +337,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 sessionUser.getUserId(),
                 locationUpdate.getLongitude(),
                 locationUpdate.getLatitude());
-        return R.success();
+        return R.ok();
     }
 
     /**
@@ -351,7 +351,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         if (info == null) {
             return R.set(ResultStatus.Unauthorized, "用户信息查询失败");
         }
-        return R.success(info);
+        return R.ok(info);
     }
 
     @Override
@@ -361,7 +361,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         updateWrapper.set(UserWeixinMpPo::getNickName, userWeixinMpUpdate.getNickName());
         updateWrapper.set(UserWeixinMpPo::getAvatarUrl, userWeixinMpUpdate.getAvatarUrl());
         userWeixinMpMapper.update(null, updateWrapper);
-        return R.success("修改成功");
+        return R.ok("修改成功");
     }
 
 
@@ -379,7 +379,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         queryWrapper.select(UserWeixinMpPo::getInviteCount);
         queryWrapper.eq(UserWeixinMpPo::getEid, SessionUtil.getEid());
         UserWeixinMpPo userWeixinMpPo = userWeixinMpMapper.selectOne(queryWrapper);
-        return R.success("ok", userWeixinMpPo.getInviteCount());
+        return R.ok("ok", userWeixinMpPo.getInviteCount());
     }
 
     /**
@@ -394,6 +394,6 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             return R.failure("暂时不支持查询邀请数据");
         }
         PageHelper.startPage(basePage);
-        return R.success(inviteMapper.list(SessionUtil.getEid()));
+        return R.ok(inviteMapper.list(SessionUtil.getEid()));
     }
 }

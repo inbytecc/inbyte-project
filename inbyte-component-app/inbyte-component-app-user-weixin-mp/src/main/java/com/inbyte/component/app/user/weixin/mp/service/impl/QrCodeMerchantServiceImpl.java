@@ -17,6 +17,7 @@ import com.inbyte.commons.model.dict.WhetherDict;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,6 +47,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
         return qrcodeMerchantMapper.selectById(qcid);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void buildRelation(Integer qcid, Integer eid, Integer etp) {
         log.info("建立用户二维码关系 qcid:{}, eid:{}, etp:{}", qcid, eid, etp);
@@ -61,12 +63,13 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
             return;
         }
 
-        LambdaQueryWrapper<QrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper();
-        queryWrapper.eq(QrcodeMerchantUserPo::getQcid, qcid);
-        queryWrapper.eq(QrcodeMerchantUserPo::getEid, eid);
-        queryWrapper.eq(QrcodeMerchantUserPo::getEtp, etp);
+        LambdaQueryWrapper<QrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<QrcodeMerchantUserPo>()
+                .eq(QrcodeMerchantUserPo::getQcid, qcid)
+                .eq(QrcodeMerchantUserPo::getEid, eid)
+                .eq(QrcodeMerchantUserPo::getEtp, etp);
         QrcodeMerchantUserPo merchantUserPo = qrcodeMerchantUserMapper.selectOne(queryWrapper);
         if (merchantUserPo != null) {
+            log.info("当前用户二维码关系已建立, 无需重复：qcid:{}, eid:{}, etp:{}", qcid, eid, etp);
             return;
         }
 
@@ -80,15 +83,16 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
                 .build();
         int i = qrcodeMerchantUserMapper.insertSelective(qrcodeMerchantUserPo);
         if (i > 0) {
-            LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper();
-            updateWrapper.eq(QrcodeMerchantPo::getQcid, qcid);
-            updateWrapper.setSql("relationCount = relationCount + 1");
+            LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
+                    .eq(QrcodeMerchantPo::getQcid, qcid)
+                    .setSql("relationCount = relationCount + 1");
             qrcodeMerchantMapper.update(null, updateWrapper);
+            log.info("关联用户商户二维码关系成功:{}, {}, {}", qcid, eid, etp);
         }
-        log.info("关联用户商户二维码关系:{}, {}, {}", qcid, eid, etp);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void viewed(ScanEventNotify scanEventNotify) {
         QrcodeMerchantPo detail = qrcodeMerchantMapper.selectById(scanEventNotify.getQ());
         if (detail == null) {
@@ -96,9 +100,9 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
             return;
         }
 
-        LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper();
-        updateWrapper.eq(QrcodeMerchantPo::getQcid, scanEventNotify.getQ());
-        updateWrapper.setSql("viewCount = viewCount + 1");
+        LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
+                .eq(QrcodeMerchantPo::getQcid, scanEventNotify.getQ())
+                .setSql("viewCount = viewCount + 1");
         qrcodeMerchantMapper.update(null, updateWrapper);
 
         log.info("用户扫描商家码, 扫码信息:{}, 二维码:{}",
@@ -109,6 +113,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void registered(QrRegisterMerchantParam qrRegisterMerchantParam) {
         QrcodeMerchantPo detail = qrcodeMerchantMapper.selectById(qrRegisterMerchantParam.getQ());
@@ -117,16 +122,16 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
             return;
         }
 
-        LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper();
-        updateWrapper.eq(QrcodeMerchantPo::getQcid, qrRegisterMerchantParam.getQ());
-        updateWrapper.setSql("registerCount = registerCount + 1");
+        LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
+                .eq(QrcodeMerchantPo::getQcid, qrRegisterMerchantParam.getQ())
+                .setSql("registerCount = registerCount + 1");
         qrcodeMerchantMapper.update(null, updateWrapper);
 
-        LambdaUpdateWrapper<QrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper();
-        qmUpdateWrapper.eq(QrcodeMerchantUserPo::getQcid, qrRegisterMerchantParam.getQ());
-        qmUpdateWrapper.eq(QrcodeMerchantUserPo::getEid, qrRegisterMerchantParam.getEid());
-        qmUpdateWrapper.eq(QrcodeMerchantUserPo::getEtp, qrRegisterMerchantParam.getEtp());
-        qmUpdateWrapper.set(QrcodeMerchantUserPo::getRegistered, WhetherDict.Yes.code);
+        LambdaUpdateWrapper<QrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
+                .eq(QrcodeMerchantUserPo::getQcid, qrRegisterMerchantParam.getQ())
+                .eq(QrcodeMerchantUserPo::getEid, qrRegisterMerchantParam.getEid())
+                .eq(QrcodeMerchantUserPo::getEtp, qrRegisterMerchantParam.getEtp())
+                .set(QrcodeMerchantUserPo::getRegistered, WhetherDict.Yes.code);
         qrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
 
         log.info("商家码用户注册事件:{}, 二维码:{}",
@@ -134,6 +139,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
                 JSON.toJSONString(detail));
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void purchased(QrCodePurchaseEventNotify purchaseEventNotify, UserWeixinMpPo userWeixinMpPo) {
         if (userWeixinMpPo.getQcid() == null) {
@@ -144,19 +150,19 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
             log.warn("扫码的二维码不存在");
             return;
         }
-        LambdaUpdateWrapper<QrcodeMerchantUserPo> updateWrapper1 = new LambdaUpdateWrapper();
-        updateWrapper1.eq(QrcodeMerchantUserPo::getQcid, userWeixinMpPo.getQcid());
-        updateWrapper1.eq(QrcodeMerchantUserPo::getEid, userWeixinMpPo.getEid());
-        updateWrapper1.set(QrcodeMerchantUserPo::getMadeDeal, WhetherDict.Yes.code);
-        updateWrapper1.setSql("orderCount = orderCount + 1");
-        updateWrapper1.setSql("tradeAmount = tradeAmount + " + purchaseEventNotify.getOrderAmount());
+        LambdaUpdateWrapper<QrcodeMerchantUserPo> qrcodeMerchantUserUpdate = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
+                .eq(QrcodeMerchantUserPo::getQcid, userWeixinMpPo.getQcid())
+                .eq(QrcodeMerchantUserPo::getEid, userWeixinMpPo.getEid())
+                .set(QrcodeMerchantUserPo::getMadeDeal, WhetherDict.Yes.code)
+                .setSql("orderCount = orderCount + 1")
+                .setSql("tradeAmount = tradeAmount + " + purchaseEventNotify.getOrderAmount());
 
-        int update = qrcodeMerchantUserMapper.update(null, updateWrapper1);
+        int update = qrcodeMerchantUserMapper.update(null, qrcodeMerchantUserUpdate);
         if (update == 1) {
-            LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper();
-            updateWrapper.eq(QrcodeMerchantPo::getQcid, userWeixinMpPo.getQcid());
-            updateWrapper.setSql("orderCount = orderCount + 1");
-            updateWrapper.setSql("tradeAmount = tradeAmount + " + purchaseEventNotify.getOrderAmount());
+            LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
+                    .eq(QrcodeMerchantPo::getQcid, userWeixinMpPo.getQcid())
+                    .setSql("orderCount = orderCount + 1")
+                    .setSql("tradeAmount = tradeAmount + " + purchaseEventNotify.getOrderAmount());
             qrcodeMerchantMapper.update(null, updateWrapper);
         }
 
@@ -179,11 +185,11 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
             return;
         }
 
-        LambdaUpdateWrapper<QrcodeMerchantUserPo> registerPoLambdaUpdateWrapper = new LambdaUpdateWrapper();
-        registerPoLambdaUpdateWrapper.eq(QrcodeMerchantUserPo::getQcid, userWeixinMpPo.getQcid());
-        registerPoLambdaUpdateWrapper.eq(QrcodeMerchantUserPo::getEid, userWeixinMpPo.getEid());
-        registerPoLambdaUpdateWrapper.eq(QrcodeMerchantUserPo::getAppointed, WhetherDict.No.code);
-        registerPoLambdaUpdateWrapper.set(QrcodeMerchantUserPo::getAppointed, WhetherDict.Yes.code);
+        LambdaUpdateWrapper<QrcodeMerchantUserPo> registerPoLambdaUpdateWrapper = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
+                .eq(QrcodeMerchantUserPo::getQcid, userWeixinMpPo.getQcid())
+                .eq(QrcodeMerchantUserPo::getEid, userWeixinMpPo.getEid())
+                .eq(QrcodeMerchantUserPo::getAppointed, WhetherDict.No.code)
+                .set(QrcodeMerchantUserPo::getAppointed, WhetherDict.Yes.code);
         int update = qrcodeMerchantUserMapper.update(null, registerPoLambdaUpdateWrapper);
         if (update == 1) {
             LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper();
@@ -199,17 +205,17 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
 
     @Override
     public void syncLocation(Integer qcid, Integer eid, Integer etp, BigDecimal longitude, BigDecimal latitude) {
-        LambdaQueryWrapper<QrcodeMerchantUserPo> qmQueryWrapper = new LambdaQueryWrapper();
-        qmQueryWrapper.eq(QrcodeMerchantUserPo::getQcid, qcid);
-        qmQueryWrapper.eq(QrcodeMerchantUserPo::getEid, eid);
-        qmQueryWrapper.eq(QrcodeMerchantUserPo::getEtp, etp);
+        LambdaQueryWrapper<QrcodeMerchantUserPo> qmQueryWrapper = new LambdaQueryWrapper<QrcodeMerchantUserPo>()
+                .eq(QrcodeMerchantUserPo::getQcid, qcid)
+                .eq(QrcodeMerchantUserPo::getEid, eid)
+                .eq(QrcodeMerchantUserPo::getEtp, etp);
         QrcodeMerchantUserPo qrcodeMerchantUserPo = qrcodeMerchantUserMapper.selectOne(qmQueryWrapper);
 
         if (qrcodeMerchantUserPo != null && qrcodeMerchantUserPo.getLongitude() == null) {
-            LambdaUpdateWrapper<QrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper();
-            qmUpdateWrapper.eq(QrcodeMerchantUserPo::getQmUserId, qrcodeMerchantUserPo.getQmUserId());
-            qmUpdateWrapper.set(QrcodeMerchantUserPo::getLongitude, longitude);
-            qmUpdateWrapper.set(QrcodeMerchantUserPo::getLatitude, latitude);
+            LambdaUpdateWrapper<QrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
+                    .eq(QrcodeMerchantUserPo::getQmUserId, qrcodeMerchantUserPo.getQmUserId())
+                    .set(QrcodeMerchantUserPo::getLongitude, longitude)
+                    .set(QrcodeMerchantUserPo::getLatitude, latitude);
             qrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
             log.info("补齐商户码用户定位信息, 关联信息:{}, 位置:{}, {}", JSON.toJSONString(qrcodeMerchantUserPo), longitude, latitude);
         }

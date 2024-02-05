@@ -72,7 +72,7 @@ public class QrCodeServiceImpl implements QrCodeService {
     public R<ShareDto> shareDirectly(BasePath param) {
         ShareDto shareDto = new ShareDto();
         shareDto.setScene(SceneUtil.getUserShareScene(SessionUtil.getEid(), param.getPathParam()));
-        return R.success("创建成功", shareDto);
+        return R.ok("创建成功", shareDto);
     }
 
 

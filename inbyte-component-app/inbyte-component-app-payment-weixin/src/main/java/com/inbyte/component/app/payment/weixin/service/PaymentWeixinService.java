@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.base.Throwables;
 import com.inbyte.component.app.payment.weixin.model.*;
-import com.inbyte.commons.exception.PyrangeException;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
@@ -188,13 +188,13 @@ public class PaymentWeixinService {
                 .paySign(sign)
                 .signType("RSA")
                 .build();
-        return R.success(requestPayment);
+        return R.ok(requestPayment);
     }
 
     public R close(String orderNo) {
         PaymentWeixinInfoBrief brief = paymentWeixinInfoMapper.selectByNo(orderNo);
         if (brief == null) {
-            return R.success("该订单未支付, 无需取消");
+            return R.ok("该订单未支付, 无需取消");
         }
         JsapiService service = getJsApiService(brief.getWeixinPaymentMerchantId());
         CloseOrderRequest request = new CloseOrderRequest();
@@ -211,7 +211,7 @@ public class PaymentWeixinService {
             int update = paymentWeixinInfoMapper.updateById(paymentWeixinInfoPo);
             log.info("微信支付取消更新参数:{}, 响应结果:{}", JSON.toJSONString(paymentWeixinInfoPo), update);
 
-            return R.success("关闭成功");
+            return R.ok("关闭成功");
         } catch (ServiceException e) {
             log.warn("取消订单失败, 异常信息:{}", e);
             if ("ORDERPAID".equals(e.getErrorCode())) {
@@ -267,7 +267,7 @@ public class PaymentWeixinService {
                 .paymentNo(transaction.getTransactionId())
                 .paymentTime(LocalDateTime.now())
                 .build();
-        return R.success(dto);
+        return R.ok(dto);
     }
 
     /**
@@ -280,7 +280,7 @@ public class PaymentWeixinService {
     public R<Refund> refundApply(RefundCommonApplyParam param) {
         PaymentWeixinInfoBrief paymentInfoBrief = paymentWeixinInfoMapper.selectByNo(param.getOrderNo());
         if (paymentInfoBrief == null) {
-            return R.success("交易不存在, 无法申请退款");
+            return R.ok("交易不存在, 无法申请退款");
         }
         if (param.getRefundAmount().compareTo(paymentInfoBrief.getPaymentAmount()) == 1) {
             log.info("退款申请金额不能大于支付金额退款请求参数{}, 错误信息{}", param);
@@ -330,7 +330,7 @@ public class PaymentWeixinService {
             int insert = refundMapper.insert(refundPo);
             log.info("微信支付退款明细参数新增:{}, 响应结果:{}", JSON.toJSONString(refundPo), insert);
 
-            return R.success("退款请求发送成功", refund);
+            return R.ok("退款请求发送成功", refund);
         } catch (ServiceException e) {
             log.warn("微信支付退款申请失败请求参数:{}, 异常参数:{}", JSON.toJSONString(param), e);
             if (e.getHttpStatusCode() == HttpStatus.BAD_REQUEST.value()) {
@@ -342,15 +342,15 @@ public class PaymentWeixinService {
                 // 账户余额不足, 无法申请退款
                 alarmSystemClient.alert("微信支付退款申请",
                         "账户余额不足, 无法申请退款, 但业务按照成功处理, 需要人工在支付平台手动处理 请求参数:" + JSON.toJSONString(param));
-                return R.success("退款申请成功, 预计 1 至 3 个工作处理完成, 请留意通知与账户余额");
+                return R.ok("退款申请成功, 预计 1 至 3 个工作处理完成, 请留意通知与账户余额");
             } else {
                 alarmSystemClient.alert("微信支付退款申请",
                         "退款申请异常,状态码:" + e.getHttpStatusCode() + ", 请求参数:" + JSON.toJSONString(param));
-                throw new PyrangeException("退款申请失败, 请稍后再试, 或联系管理员操作(" + e.getHttpStatusCode() + ")");
+                throw new InbyteException("退款申请失败, 请稍后再试, 或联系管理员操作(" + e.getHttpStatusCode() + ")");
             }
         } catch (Exception e) {
             log.error("微信支付退款申请异常:", e);
-            throw new PyrangeException("申请退款失败, 请稍后再试");
+            throw new InbyteException("申请退款失败, 请稍后再试");
         }
     }
 
@@ -433,7 +433,7 @@ public class PaymentWeixinService {
                 .paymentTime(PaymentWeixinService.dateFormatConvert(transaction.getSuccessTime()))
                 .build();
 
-        return R.success(paymentSuccessDto);
+        return R.ok(paymentSuccessDto);
     }
 
     public R<RefundSuccessDto> refundSuccessVerify(RefundWeixinSuccessVerifyParam param) {
@@ -493,7 +493,7 @@ public class PaymentWeixinService {
                 .refundAmount(refundAmount)
                 .userReceivedAccount(refund.getUserReceivedAccount())
                 .build();
-        return R.success(refundSuccessDto);
+        return R.ok(refundSuccessDto);
     }
 
     static LocalDateTime dateFormatConvert(String oldDateStr) {

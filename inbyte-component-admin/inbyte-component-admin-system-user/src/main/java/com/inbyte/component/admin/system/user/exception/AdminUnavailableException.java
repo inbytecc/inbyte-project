@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.system.user.exception;
 
-import com.inbyte.commons.exception.PyrangeException;
+import com.inbyte.commons.exception.InbyteException;
 
 /**
  * 非超管操作异常
@@ -8,6 +8,6 @@ import com.inbyte.commons.exception.PyrangeException;
  * @author: chenjw
  * @date: 2020/7/14
  */
-public class AdminUnavailableException extends PyrangeException {
+public class AdminUnavailableException extends InbyteException {
 
 }
