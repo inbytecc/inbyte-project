@@ -92,7 +92,7 @@ public class AliyunOssService {
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
                 .append(new Random().nextInt(100000)).append("-")
-                .append(param.getFileName())
+                .append(StringUtil.defaultIfEmpty(param.getFileName(), ""))
                 .toString()
                 .replace("//", "/");
 

@@ -28,7 +28,6 @@ public class AliYunOssSignParam {
     /**
      * 文件名称
      **/
-    @NotNull(message = "文件名称")
     private String fileName;
 
     /**
