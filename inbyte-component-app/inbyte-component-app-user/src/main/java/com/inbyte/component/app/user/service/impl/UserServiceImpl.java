@@ -39,10 +39,9 @@ import java.util.Random;
 public class UserServiceImpl implements UserService {
 
     /**
-     * 12个头像
+     * 默认头像
      */
-    public static final int AVATAR_COUNT = 12;
-    public static final String AVTAR_URL = "https://pyrange.oss-cn-hangzhou.aliyuncs.com/pyrange/mp/avatar/common/%s.png";
+    private String defaultAvatar = "https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epA4X3XuP7q94mWyPMts1uR9D1HtnicwqbJIIewtqzMJuhbAGUzXCibweLibqucIxMRYC6v5h6M7icJnw/132";
 
     @Autowired
     private UserMapper userMapper;
@@ -134,7 +133,7 @@ public class UserServiceImpl implements UserService {
         if (componentUserProperties.getAvatars() != null && !componentUserProperties.getAvatars().isEmpty()) {
             return componentUserProperties.getAvatars().get(new Random().nextInt(componentUserProperties.getAvatars().size()));
         }
-        return String.format(AVTAR_URL, new Random().nextInt(AVATAR_COUNT));
+        return defaultAvatar;
     }
 
     @Override
