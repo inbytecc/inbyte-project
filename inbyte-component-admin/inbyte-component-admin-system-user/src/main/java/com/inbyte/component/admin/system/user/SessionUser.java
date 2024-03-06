@@ -17,7 +17,6 @@ public class SessionUser {
 
     /**
      * 微信用户ID
-     * 湃橙教务
      */
     private String openId;
 

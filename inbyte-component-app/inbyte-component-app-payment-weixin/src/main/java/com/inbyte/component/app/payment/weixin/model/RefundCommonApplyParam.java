@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 杭州湃橙体育科技有限公司
+ * 杭州易思网络
  *
  * @author chenjw
  * @date 2016年06月29日

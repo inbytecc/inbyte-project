@@ -171,7 +171,7 @@ public class AdminWebExceptionResolver {
     }
 
     /**
-     * 湃橙全局异常拦截
+     * 全局异常拦截
      *
      * @param e
      * @return

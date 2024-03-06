@@ -2,7 +2,7 @@ package com.inbyte.component.app.user.dict;
 
 /**
  * 性别
- * 杭州湃橙体育科技有限公司
+ * 杭州易思网络
  *
  * @author chenjw
  * @date 2016年08月29日
