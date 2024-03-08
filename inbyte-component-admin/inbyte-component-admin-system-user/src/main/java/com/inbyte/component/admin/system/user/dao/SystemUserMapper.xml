@@ -3,116 +3,116 @@
 <mapper namespace="com.inbyte.component.admin.system.user.dao.SystemUserMapper">
 
     <select id="detail" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
-        SELECT userId,
-               userName,
-               userName,
-               nickName,
-               realName,
+        SELECT user_id,
+               user_name,
+               user_name,
+               nick_name,
+               real_name,
                tel,
                avatar,
                email,
                disabled,
                role,
-               roleDesc,
-               createTime,
-               latestLoginTime,
+               role_desc,
+               create_time,
+               latest_login_time,
                deleted,
                remark,
-               needUpdatePwd,
-               mctNo
+               need_update_pwd,
+               mct_no
           FROM system_user
-         WHERE userId = #{userId, jdbcType=INTEGER}
+         WHERE user_id = #{userId, jdbcType=INTEGER}
     </select>
 
     <select id="queryByPwd" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
-        SELECT um.userId,
-               um.userName,
+        SELECT um.user_id,
+               um.user_name,
                um.tel,
                um.avatar,
                um.email,
-               um.createTime,
-               um.latestLoginTime,
+               um.create_time,
+               um.latest_login_time,
                um.deleted,
                um.remark,
-               um.needUpdatePwd,
-               um.mctNo,
+               um.need_update_pwd,
+               um.mct_no,
                um.admin,
-               m.mctName,
-               m.pinYinName
+               m.mct_name,
+               m.pinyin_name
           FROM system_user um
          INNER JOIN merchant m
-            ON um.mctNo = m.mctNo
-         WHERE (tel = #{id, jdbcType=VARCHAR} OR userName = #{id, jdbcType=VARCHAR})
+            ON um.mct_no = m.mct_no
+         WHERE (tel = #{id, jdbcType=VARCHAR} OR user_name = #{id, jdbcType=VARCHAR})
            AND pwd = #{pwd, jdbcType=VARCHAR}
     </select>
 
     <select id="queryByOpenId" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
-        SELECT userId,
-               userName,
+        SELECT user_id,
+               user_name,
                tel,
                avatar,
                email,
-               createTime,
-               latestLoginTime,
+               create_time,
+               latest_login_time,
                deleted,
                remark,
-               needUpdatePwd,
-               mctNo
+               need_update_pwd,
+               mct_no
           FROM system_user
          WHERE openId = #{openId}
     </select>
 
     <select id="queryByTel" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
-        SELECT userId,
-               userName,
+        SELECT user_id,
+               user_name,
                tel,
                avatar,
                email,
-               createTime,
-               latestLoginTime,
+               create_time,
+               latest_login_time,
                deleted,
                remark,
-               needUpdatePwd,
-               mctNo
+               need_update_pwd,
+               mct_no
           FROM system_user
          WHERE tel = #{tel}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserBrief">
-        SELECT userId,
-               userName,
-               nickName,
-               realName,
+        SELECT user_id,
+               user_name,
+               nick_name,
+               real_name,
                tel,
                avatar,
                email,
                disabled,
                role,
-               roleDesc,
-               createTime,
-               latestLoginTime,
+               role_desc,
+               create_time,
+               latest_login_time,
                deleted,
                remark,
-               needUpdatePwd,
-               mctNo
+               need_update_pwd,
+               mct_no
           FROM system_user
          WHERE deleted = 0
         <if test="keyword != null and keyword != ''">
-            AND (userName LIKE CONCAT('%', #{keyword}, '%') OR
-                 realName LIKE CONCAT('%', #{keyword}, '%') OR
+            AND (user_name LIKE CONCAT('%', #{keyword}, '%') OR
+                 real_name LIKE CONCAT('%', #{keyword}, '%') OR
                  tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
     </select>
 
     <select id="dict" resultType="com.inbyte.commons.model.dto.Dict">
-        SELECT userId AS code,
-               userId AS codeStr,
-               userName AS name
+        SELECT user_id AS code,
+               user_id AS codeStr,
+               user_name AS name
           FROM system_user
          WHERE deleted = 0
         <if test="keyword != null and keyword != ''">
-            AND (userName LIKE CONCAT('%', #{keyword}, '%') OR
-                 realName LIKE CONCAT('%', #{keyword}, '%') OR
+            AND (user_name LIKE CONCAT('%', #{keyword}, '%') OR
+                 real_name LIKE CONCAT('%', #{keyword}, '%') OR
                  tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
     </select>
