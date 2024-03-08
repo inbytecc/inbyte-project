@@ -55,7 +55,7 @@ public class ObjectStorageController {
      * @return Result<Page<List<ObjectStorageBrief>>>
      **/
     @GetMapping
-    public R<Page<List<ObjectStorageBrief>>> list(@ModelAttribute @Valid ObjectStorageQuery query) {
+    public R<Page<ObjectStorageBrief>> list(@ModelAttribute @Valid ObjectStorageQuery query) {
         return objectstorageService.list(query);
     }
 }

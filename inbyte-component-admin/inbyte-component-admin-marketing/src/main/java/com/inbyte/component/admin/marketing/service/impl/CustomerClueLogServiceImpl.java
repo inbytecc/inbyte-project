@@ -110,7 +110,7 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
     }
 
     @Override
-    public R<Page<List<CustomerClueLogBrief>>> list(CustomerClueLogQuery query) {
+    public R<Page<CustomerClueLogBrief>> list(CustomerClueLogQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

@@ -43,7 +43,7 @@ public class QrcodeMerchantUserController {
      * @return Result<Page<List<QrcodeMerchantRegisterBrief>>>
      **/
     @GetMapping
-    public R<Page<List<QrcodeMerchantUserBrief>>> list(@ModelAttribute @Valid QrcodeMerchantUserQuery query) {
+    public R<Page<QrcodeMerchantUserBrief>> list(@ModelAttribute @Valid QrcodeMerchantUserQuery query) {
         return qrcodeMerchantUserService.list(query);
     }
 }

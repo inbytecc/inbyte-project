@@ -74,7 +74,7 @@ public class CustomerClueLogController {
      * @return Result<Page<List<CustomerClueContactLogBrief>>>
      **/
     @GetMapping
-    public R<Page<List<CustomerClueLogBrief>>> list(@ModelAttribute @Valid CustomerClueLogQuery query) {
+    public R<Page<CustomerClueLogBrief>> list(@ModelAttribute @Valid CustomerClueLogQuery query) {
         return customerClueLogService.list(query);
     }
 }

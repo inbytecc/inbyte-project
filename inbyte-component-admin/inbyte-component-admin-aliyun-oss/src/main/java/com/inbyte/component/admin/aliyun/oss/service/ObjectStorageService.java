@@ -31,7 +31,7 @@ public interface ObjectStorageService {
      * @param query
      * @return Result<Page<List<ObjectStorageBrief>>>
      **/
-    R<Page<List<ObjectStorageBrief>>> list(ObjectStorageQuery query);
+    R<Page<ObjectStorageBrief>> list(ObjectStorageQuery query);
 
     R update(ObjectStorageUpdate update);
 }

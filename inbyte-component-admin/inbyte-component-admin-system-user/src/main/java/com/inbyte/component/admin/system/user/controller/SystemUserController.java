@@ -136,7 +136,7 @@ public class SystemUserController {
      * @return Result<Page < List < UserPlatformBrief>>>
      **/
     @GetMapping
-    public R<Page<List<SystemUserBrief>>> list(@ModelAttribute @Valid SystemUserQuery query) {
+    public R<Page<SystemUserBrief>> list(@ModelAttribute @Valid SystemUserQuery query) {
         return systemUserService.list(query);
     }
 

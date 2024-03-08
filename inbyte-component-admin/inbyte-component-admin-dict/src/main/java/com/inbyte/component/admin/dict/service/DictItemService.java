@@ -78,7 +78,7 @@ public class DictItemService {
         return R.ok(dictItemMapper.detail(itemId));
     }
 
-    public R<Page<List<DictItemBrief>>> list(DictItemQuery query) {
+    public R<Page<DictItemBrief>> list(DictItemQuery query) {
         PageUtil.startPage(query);
         return R.page(dictItemMapper.list(query));
     }

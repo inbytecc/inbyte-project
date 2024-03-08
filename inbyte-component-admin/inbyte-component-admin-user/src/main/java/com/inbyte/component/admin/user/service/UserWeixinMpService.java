@@ -39,5 +39,5 @@ public interface UserWeixinMpService {
      * @param query
      * @return Result<Page<List<UserWeixinMpBrief>>>
      **/
-    R<Page<List<UserWeixinMpBrief>>> list(UserWeixinMpQuery query);
+    R<Page<UserWeixinMpBrief>> list(UserWeixinMpQuery query);
 }

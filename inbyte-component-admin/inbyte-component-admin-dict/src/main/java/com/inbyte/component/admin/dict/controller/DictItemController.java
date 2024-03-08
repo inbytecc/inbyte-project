@@ -77,7 +77,7 @@ public class DictItemController {
      * @return Result<Page<List<DictItemBrief>>>
      **/
     @GetMapping
-    public R<Page<List<DictItemBrief>>> list(@ModelAttribute @Valid DictItemQuery query) {
+    public R<Page<DictItemBrief>> list(@ModelAttribute @Valid DictItemQuery query) {
         return dictItemService.list(query);
     }
 }

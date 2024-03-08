@@ -70,7 +70,7 @@ public class CustomerClueServiceImpl implements CustomerClueService {
     }
 
     @Override
-    public R<Page<List<CustomerClueBrief>>> list(CustomerClueQuery query) {
+    public R<Page<CustomerClueBrief>> list(CustomerClueQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

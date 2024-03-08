@@ -32,7 +32,7 @@ public class QrcodeMerchantUserServiceImpl implements QrcodeMerchantUserService 
     }
 
     @Override
-    public R<Page<List<QrcodeMerchantUserBrief>>> list(QrcodeMerchantUserQuery query) {
+    public R<Page<QrcodeMerchantUserBrief>> list(QrcodeMerchantUserQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

@@ -41,7 +41,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     }
 
     @Override
-    public R<Page<List<UserWeixinMpBrief>>> list(UserWeixinMpQuery query) {
+    public R<Page<UserWeixinMpBrief>> list(UserWeixinMpQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

@@ -75,7 +75,7 @@ public interface SystemUserService {
      * @param query
      * @return Result<Page<List<UserPlatformBrief>>>
      **/
-    R<Page<List<SystemUserBrief>>> list(SystemUserQuery query);
+    R<Page<SystemUserBrief>> list(SystemUserQuery query);
 
     R updatePwd(SystemUserPwdUpdate update);
 

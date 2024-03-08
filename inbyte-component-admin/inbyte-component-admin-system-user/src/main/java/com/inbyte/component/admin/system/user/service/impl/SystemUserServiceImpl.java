@@ -142,7 +142,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     @Override
-    public R<Page<List<SystemUserBrief>>> list(SystemUserQuery query) {
+    public R<Page<SystemUserBrief>> list(SystemUserQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

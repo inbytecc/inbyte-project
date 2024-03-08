@@ -52,12 +52,12 @@ public class UserController {
      * @return Result<Page<List<UserBrief>>>
      **/
     @GetMapping
-    public R<Page<List<UserBrief>>> list(@ModelAttribute @Valid UserQuery query) {
+    public R<Page<UserBrief>> list(@ModelAttribute @Valid UserQuery query) {
         return userService.list(query);
     }
 
     @GetMapping("dict")
-    public R<Page<List<UserDictBrief>>> dict(UserQuery query) {
+    public R<Page<UserDictBrief>> dict(UserQuery query) {
         return userService.dict(query);
     }
 

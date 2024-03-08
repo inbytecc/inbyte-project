@@ -75,7 +75,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
     }
 
     @Override
-    public R<Page<List<SystemRoleBrief>>> list(SystemRoleQuery query) {
+    public R<Page<SystemRoleBrief>> list(SystemRoleQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

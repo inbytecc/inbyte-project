@@ -33,7 +33,7 @@ public class ObjectStorageServiceImpl implements ObjectStorageService {
     }
 
     @Override
-    public R<Page<List<ObjectStorageBrief>>> list(ObjectStorageQuery query) {
+    public R<Page<ObjectStorageBrief>> list(ObjectStorageQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

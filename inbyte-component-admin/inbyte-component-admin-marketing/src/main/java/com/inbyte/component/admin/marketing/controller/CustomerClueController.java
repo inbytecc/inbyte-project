@@ -63,7 +63,7 @@ public class CustomerClueController {
      * @return Result<Page<List<CustomerClueBrief>>>
      **/
     @GetMapping
-    public R<Page<List<CustomerClueBrief>>> list(@ModelAttribute @Valid CustomerClueQuery query) {
+    public R<Page<CustomerClueBrief>> list(@ModelAttribute @Valid CustomerClueQuery query) {
         return customerclueService.list(query);
     }
 }

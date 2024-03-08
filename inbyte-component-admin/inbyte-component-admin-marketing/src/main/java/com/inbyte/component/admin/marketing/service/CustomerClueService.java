@@ -44,6 +44,6 @@ public interface CustomerClueService {
      * @param query
      * @return Result<Page<List<CustomerClueBrief>>>
      **/
-    R<Page<List<CustomerClueBrief>>> list(CustomerClueQuery query);
+    R<Page<CustomerClueBrief>> list(CustomerClueQuery query);
 
 }

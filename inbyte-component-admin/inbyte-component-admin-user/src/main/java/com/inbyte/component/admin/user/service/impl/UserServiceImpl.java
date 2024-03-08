@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public R<Page<List<UserBrief>>> list(UserQuery query) {
+    public R<Page<UserBrief>> list(UserQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public R<Page<List<UserDictBrief>>> dict(UserQuery query) {
+    public R<Page<UserDictBrief>> dict(UserQuery query) {
         PageUtil.startPage(query);
         return R.page(userMapper.dict(query));
     }

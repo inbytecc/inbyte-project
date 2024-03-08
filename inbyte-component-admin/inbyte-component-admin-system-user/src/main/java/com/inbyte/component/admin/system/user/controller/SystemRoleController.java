@@ -77,7 +77,7 @@ public class SystemRoleController {
      * @return Result<Page<List<SystemRoleBrief>>>
      **/
     @GetMapping
-    public R<Page<List<SystemRoleBrief>>> list(@ModelAttribute @Valid SystemRoleQuery query) {
+    public R<Page<SystemRoleBrief>> list(@ModelAttribute @Valid SystemRoleQuery query) {
         return systemRoleService.list(query);
     }
 }

@@ -111,7 +111,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     }
 
     @Override
-    public R<Page<List<QrcodeMerchantBrief>>> list(QrcodeMerchantQuery query) {
+    public R<Page<QrcodeMerchantBrief>> list(QrcodeMerchantQuery query) {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }

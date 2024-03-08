@@ -55,5 +55,5 @@ public interface SystemRoleService {
      * @param query
      * @return Result<Page<List<SystemRoleBrief>>>
      **/
-    R<Page<List<SystemRoleBrief>>> list(SystemRoleQuery query);
+    R<Page<SystemRoleBrief>> list(SystemRoleQuery query);
 }

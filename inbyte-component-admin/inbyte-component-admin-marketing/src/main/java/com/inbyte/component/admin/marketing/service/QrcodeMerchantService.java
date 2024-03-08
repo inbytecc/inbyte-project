@@ -54,7 +54,7 @@ public interface QrcodeMerchantService {
      * @param query
      * @return Result<Page<List<QrcodeMerchantBrief>>>
      **/
-    R<Page<List<QrcodeMerchantBrief>>> list(QrcodeMerchantQuery query);
+    R<Page<QrcodeMerchantBrief>> list(QrcodeMerchantQuery query);
 
     R<List<UserLocationBrief>> userDistribution(Integer qcid);
 

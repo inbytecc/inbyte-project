@@ -55,7 +55,7 @@ public class UserWeixinMpController {
      * @return Result<Page<List<UserWeixinMpBrief>>>
      **/
     @GetMapping
-    public R<Page<List<UserWeixinMpBrief>>> list(@ModelAttribute @Valid UserWeixinMpQuery query) {
+    public R<Page<UserWeixinMpBrief>> list(@ModelAttribute @Valid UserWeixinMpQuery query) {
         return userWeixinMpService.list(query);
     }
 }

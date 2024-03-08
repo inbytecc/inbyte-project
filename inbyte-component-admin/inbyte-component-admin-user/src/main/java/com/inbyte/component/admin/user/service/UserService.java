@@ -36,13 +36,13 @@ public interface UserService {
      * @param query
      * @return Result<Page<List<UserBrief>>>
      **/
-    R<Page<List<UserBrief>>> list(UserQuery query);
+    R<Page<UserBrief>> list(UserQuery query);
 
     /**
      * 微信小程序用户字典
      * @return
      */
-    R<Page<List<UserDictBrief>>> dict(UserQuery query);
+    R<Page<UserDictBrief>> dict(UserQuery query);
 
     /**
      * 手机号注册账号

@@ -52,5 +52,5 @@ public interface CustomerClueLogService {
      * @param query
      * @return Result<Page<List<CustomerClueContactLogBrief>>>
      **/
-    R<Page<List<CustomerClueLogBrief>>> list(CustomerClueLogQuery query);
+    R<Page<CustomerClueLogBrief>> list(CustomerClueLogQuery query);
 }
