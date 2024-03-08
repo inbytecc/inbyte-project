@@ -7,7 +7,7 @@
                di.name
           FROM dict d
          INNER JOIN dict_item di
-            ON d.dictId = di.dictId
+            ON d.dict_id = di.dict_id
            AND di.deleted = 0
          WHERE d.deleted = 0
            AND d.name = #{dictName}
@@ -15,14 +15,14 @@
     </select>
 
     <select id="list" resultType="com.inbyte.component.common.dict.model.DictItemBrief">
-        SELECT di.itemId,
-               di.parentId,
+        SELECT di.item_id,
+               di.parent_id,
                di.code,
                di.name,
                di.ordinal
           FROM dict d
          INNER JOIN dict_item di
-            ON d.dictId = di.dictId
+            ON d.dict_id = di.dict_id
            AND di.deleted = 0
          WHERE d.deleted = 0
            AND d.name = #{dictName}

@@ -25,7 +25,7 @@ public class SystemRolePo {
     /**
       * 角色ID
       */
-    @TableId(value = "roleId", type = IdType.AUTO)
+    @TableId(value = "role_id", type = IdType.AUTO)
     private Integer roleId;
 
     /**

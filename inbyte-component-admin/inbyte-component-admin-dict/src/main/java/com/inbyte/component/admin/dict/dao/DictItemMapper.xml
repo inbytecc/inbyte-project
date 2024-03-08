@@ -3,39 +3,39 @@
 <mapper namespace="com.inbyte.component.admin.dict.dao.DictItemMapper">
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.dict.model.dict.item.DictItemDetail">
-        SELECT di.itemId,
-               di.dictId,
+        SELECT di.item_id,
+               di.dict_id,
                d.name AS dictName,
                di.code,
                di.`name`,
                di.remark,
                di.`system`,
                di.ordinal,
-               di.createTime,
-               di.createUserName,
-               di.createUserId,
-               di.updateTime
+               di.create_time,
+               di.create_user_name,
+               di.create_user_id,
+               di.update_time
           FROM dict_item
           LEFT JOIN dict d
-           ON di.dictId = d.dictId
-         WHERE itemId = #{itemId, jdbcType=INTEGER}
+           ON di.dict_id = d.dict_id
+         WHERE item_id = #{itemId, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.dict.model.dict.item.DictItemBrief">
-        SELECT di.itemId,
-               di.dictId,
+        SELECT di.item_id,
+               di.dict_id,
                d.name AS dictName,
                di.code,
                di.`name`,
                di.remark,
                di.ordinal,
-               di.createTime,
-               di.updateTime
+               di.create_time,
+               di.update_time
           FROM dict_item di
           LEFT JOIN dict d
-            ON di.dictId = d.dictId
+            ON di.dict_id = d.dict_id
          WHERE di.deleted = 0
-           AND di.dictId = #{dictId}
+           AND di.dict_id = #{dictId}
         <if test="keyword != null and keyword != ''">
             AND (di.name LIKE CONCAT('%', #{keyword}, '%')
             OR di.remark LIKE CONCAT('%', #{keyword}, '%'))

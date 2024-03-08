@@ -3,39 +3,39 @@
 <mapper namespace="com.inbyte.component.admin.system.user.dao.SystemRoleMapper">
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.system.user.model.system.role.SystemRoleDetail">
-        SELECT roleId,
+        SELECT role_id,
                `name`,
                menu,
                remark,
-               createUserId,
-               createUserName,
-               createTime,
-               updateUserId,
-               updateTime
+               create_user_id,
+               create_user_name,
+               create_time,
+               update_user_id,
+               update_time
           FROM system_role
-         WHERE roleId = #{roleId, jdbcType=INTEGER}
+         WHERE role_id = #{roleId, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.system.user.model.system.role.SystemRoleBrief">
-        SELECT roleId,
+        SELECT role_id,
                `name`,
                menu,
                remark,
-               createTime,
-               updateTime
+               create_time,
+               update_time
           FROM system_role
          WHERE deleted = 0
-           AND mctNo = #{mctNo}
+           AND mct_no = #{mctNo}
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
             AND (name LIKE CONCAT('%', #{keyword}, '%')
             OR remark LIKE CONCAT('%', #{keyword}, '%'))
         </if>
-         ORDER BY roleId DESC
+         ORDER BY role_id DESC
     </select>
 </mapper>
