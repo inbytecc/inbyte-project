@@ -25,7 +25,7 @@ public class DictItemPo {
     /**
       * 条目ID
       */
-    @TableId(value = "itemId", type = IdType.AUTO)
+    @TableId(value = "item_id", type = IdType.AUTO)
     private Integer itemId;
 
     /**
