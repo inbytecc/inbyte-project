@@ -1,7 +1,9 @@
 package com.inbyte.component.app.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.inbyte.commons.util.MD5Util;
 import com.inbyte.component.app.user.ComponentUserProperties;
+import com.inbyte.component.app.user.model.*;
 import com.inbyte.component.app.user.model.location.UserLocationPo;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
@@ -10,12 +12,9 @@ import com.inbyte.component.app.user.api.UserRegisterEvent;
 import com.inbyte.component.app.user.dao.UserMapper;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
-import com.inbyte.component.app.user.model.UserBrief;
-import com.inbyte.component.app.user.model.UserLoginDto;
-import com.inbyte.component.app.user.model.UserPo;
-import com.inbyte.component.app.user.model.UserTelLoginParam;
 import com.inbyte.component.app.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,7 @@ import java.util.Random;
 /**
  * 用户服务
  * <p>
- * 杭州易思网络
+ * 易思网络
  *
  * @author chenjw
  * @date: 2017/5/27
@@ -47,6 +46,82 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private ComponentUserProperties componentUserProperties;
+
+    /**
+     * 注册用户
+     *
+     * @param param 用户注册参数，包含必要的用户信息，如用户名、密码等。
+     * @return 返回用户登录信息的封装对象，通常包含登录成功与否的状态和相关信息。
+     */
+    @Override
+    public R<UserLoginDto> register(UserRegisterParam param) {
+        LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<UserPo>()
+                .eq(UserPo::getEmail, param.getEmail())
+                .or().eq(UserPo::getTel, param.getTel())
+                .or().eq(UserPo::getUserName, param.getUserName());
+        UserPo userExists = userMapper.selectOne(queryWrapper);
+        if (userExists != null) {
+            if (userExists.getEmail() != null && userExists.getEmail().equals(param.getEmail())) {
+                return R.failure("该邮箱已被注册");
+            }
+            if (userExists.getTel() != null && userExists.getTel().equals(param.getTel())) {
+                return R.failure("该手机号已被注册");
+            }
+            if (userExists.getUserName() != null && userExists.getUserName().equals(param.getUserName())) {
+                return R.failure("该用户名已被注册");
+            }
+        }
+
+        UserPo userPo = UserPo.builder()
+                .email(param.getEmail())
+                .userName(param.getUserName())
+                .nickName(param.getUserName())
+                .tel(param.getTel())
+                .pwd(MD5Util.md5(param.getPwd()))
+                .createTime(LocalDateTime.now())
+                .build();
+        userMapper.insert(userPo);
+
+        SessionUser sessionUser = SessionUser.builder()
+                .userId(userPo.getUserId())
+                .tel(userPo.getTel())
+                .nickName(param.getUserName())
+                .avatar(userPo.getAvatarUrl())
+                .loginTime(LocalDateTime.now())
+                .tokenVersion(SessionUtil.User_Token_Version)
+                .build();
+        return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
+    }
+
+    /**
+     * 邮箱登录
+     * 使用邮箱登录参数进行用户登录验证。
+     *
+     * @param param 包含用户邮箱和密码等登录必要信息的参数对象。
+     * @return 返回一个包含登录结果的响应对象。成功时，包含登录成功的用户信息；失败时，包含错误信息。
+     */
+    @Override
+    public R<UserLoginDto> emailLogin(UserEmailLoginParam param) {
+        LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<UserPo>()
+                .eq(UserPo::getEmail, param.getEmail())
+                .eq(UserPo::getPwd, MD5Util.md5(param.getPwd()))
+                .select(UserPo::getUserId, UserPo::getTel, UserPo::getNickName, UserPo::getAvatarUrl);
+        UserPo userPo = userMapper.selectOne(queryWrapper);
+        if (userPo == null) {
+            return R.failure("账号或密码错误");
+        }
+
+        SessionUser sessionUser = SessionUser.builder()
+                .userId(userPo.getUserId())
+                .tel(userPo.getTel())
+                .nickName(userPo.getNickName())
+                .avatar(userPo.getAvatarUrl())
+                .loginTime(LocalDateTime.now())
+                .tokenVersion(SessionUtil.User_Token_Version)
+                .build();
+        return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
+    }
+
 
     /**
      * 手机号登录
@@ -147,5 +222,13 @@ public class UserServiceImpl implements UserService {
                 .createTime(LocalDateTime.now())
                 .build();
         userMapper.insertLocationSelective(locationPo);
+    }
+
+    @Override
+    public R<UserBrief> info() {
+        UserPo userPo = userMapper.selectById(SessionUtil.getUserId());
+        UserBrief userBrief = new UserBrief();
+        BeanUtils.copyProperties(userPo, userBrief);
+        return R.ok(userBrief);
     }
 }

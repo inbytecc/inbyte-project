@@ -1,9 +1,7 @@
 package com.inbyte.component.app.user.service;
 
-import com.inbyte.component.app.user.model.UserBrief;
-import com.inbyte.component.app.user.model.UserTelLoginParam;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.user.model.UserLoginDto;
+import com.inbyte.component.app.user.model.*;
 
 import java.math.BigDecimal;
 
@@ -16,6 +14,13 @@ import java.math.BigDecimal;
  */
 public interface UserService {
 
+    /**
+     * 账号登录
+     *
+     * @param param
+     * @return
+     */
+    R<UserLoginDto> emailLogin(UserEmailLoginParam param);
 
     /**
      * 用户登录验证
@@ -27,6 +32,7 @@ public interface UserService {
 
     /**
      * 注册用户
+     *
      * @param tel
      * @param nickName
      * @return 返回用户ID
@@ -39,4 +45,7 @@ public interface UserService {
 
     void insertLocationSelective(Integer eid, Integer etp, Integer userId, BigDecimal longitude, BigDecimal latitude);
 
+    R<UserLoginDto> register(UserRegisterParam param);
+
+    R<UserBrief> info();
 }

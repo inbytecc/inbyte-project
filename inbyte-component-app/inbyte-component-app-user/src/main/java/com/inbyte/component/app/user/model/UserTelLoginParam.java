@@ -17,11 +17,13 @@ public class UserTelLoginParam {
     @NotNull(message = "手机号不能为空")
     @Pattern(regexp = "\\d{11}", message = "手机号不正确")
     private String tel;
+
     /**
      * 小程序AppId
      */
     @NotNull(message = "appId不能为空")
     private String appId;
+
     /**
      * 密码
      */

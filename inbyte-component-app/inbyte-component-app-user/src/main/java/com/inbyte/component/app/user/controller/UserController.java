@@ -1,7 +1,6 @@
 package com.inbyte.component.app.user.controller;
 
-import com.inbyte.component.app.user.model.UserLoginDto;
-import com.inbyte.component.app.user.model.UserTelLoginParam;
+import com.inbyte.component.app.user.model.*;
 import com.inbyte.component.app.user.service.UserService;
 import com.inbyte.commons.model.dto.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,26 @@ public class UserController {
     private UserService userService;
 
     /**
+     * 邮箱登录
+     * <p>
+     * 使用JWT无状态Token, 支持多设备登录, 但不支持服务端控制退出等操作
+     **/
+    @PostMapping("login/email")
+    public R<UserLoginDto> emailLogin(@RequestBody @Valid UserEmailLoginParam param) {
+        return userService.emailLogin(param);
+    }
+
+    /**
+     * 账号注册
+     * <p>
+     * 使用JWT无状态Token, 支持多设备登录, 但不支持服务端控制退出等操作
+     **/
+    @PostMapping("register")
+    public R<UserLoginDto> register(@RequestBody @Valid UserRegisterParam param) {
+        return userService.register(param);
+    }
+
+    /**
      * 手机号登录
      * <p>
      * 使用JWT无状态Token, 支持多设备登录, 但不支持服务端控制退出等操作
@@ -42,8 +61,12 @@ public class UserController {
         return R.ok("退出成功");
     }
 
-//    @GetMapping("t")
-//    public void test() {
-//        userService.getRandomCommonAvatar();
-//    }
+
+    /**
+     * 个人基本信息
+     **/
+    @GetMapping("info")
+    public R<UserBrief> info() {
+        return userService.info();
+    }
 }

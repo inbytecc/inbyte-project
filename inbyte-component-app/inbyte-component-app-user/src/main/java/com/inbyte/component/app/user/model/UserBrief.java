@@ -19,14 +19,11 @@ public class UserBrief {
     /** 手机号 */
     private String tel;
 
-    /** 密码 */
-    private String pwd;
-
     /** 昵称 */
     private String nickName;
 
-    /** 真实姓名 */
-    private String realName;
+    /** 邮箱 */
+    private String email;
 
     /** 头像 */
     private String avatarUrl;

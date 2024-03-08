@@ -1,4 +1,4 @@
-//package com.pyrange.component.user.api;
+package com.inbyte.component.app.user.api;//package com.pyrange.component.user.api;
 //
 ///**
 // * 登录事件

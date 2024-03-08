@@ -47,9 +47,19 @@ public class UserPo {
     private String realName;
 
     /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
      * 性别
      */
     private Integer gender;
+
+    /**
+     * 密码MD5
+     */
+    private String pwd;
 
     /**
      * 头像
