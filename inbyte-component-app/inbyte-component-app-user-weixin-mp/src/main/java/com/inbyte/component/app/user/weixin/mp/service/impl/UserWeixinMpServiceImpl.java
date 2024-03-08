@@ -75,7 +75,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         }
         WxMaJscode2SessionResult credentialDto = weixinUserCredentialR.getData();
 
-        // 查询湃橙微信小程序用户信息
+        // 查询微信小程序用户信息
         UserWeixinDetail userWeixin = userWeixinMpMapper.detail(credentialDto.getOpenid());
         // 如果微信用户未创建, 新增基本信息, 并且提示注册
         if (userWeixin == null) {

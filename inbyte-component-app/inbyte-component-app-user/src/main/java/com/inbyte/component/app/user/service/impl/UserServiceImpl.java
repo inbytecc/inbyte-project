@@ -29,7 +29,7 @@ import java.util.Random;
 /**
  * 用户服务
  * <p>
- * 杭州湃橙体育科技有限公司
+ * 杭州易思网络
  *
  * @author chenjw
  * @date: 2017/5/27
