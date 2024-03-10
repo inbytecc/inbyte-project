@@ -22,8 +22,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppSessionCheckAspect {
 
-//    private static String Unauthorized_JSON_String = "{\"status\":4010,\"msg\":\"请先注册用户\"}";
-
     /**
      * 登录校验拦截
      */

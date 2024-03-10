@@ -24,7 +24,7 @@ public class UserJwtUtil {
     private static final Logger log = LoggerFactory.getLogger(AppJwtUtil.class);
 
     private static final String JWT_SECRET = "f0108f4a377615f3e2d7437cc5b17f58";
-    private static final String Default_Issuer = "pyrange";
+    private static final String Default_Issuer = "inbyte";
     private static final String Audience = "audience";
     private static final String Bearer = "Bearer ";
 

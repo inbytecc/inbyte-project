@@ -1,6 +1,6 @@
 package com.inbyte.component.app.user.framework.exception;
 
-import com.inbyte.commons.exception.InbyteException;
+import com.inbyte.commons.exception.BizException;
 
 /**
  * 未注册异常
@@ -9,6 +9,6 @@ import com.inbyte.commons.exception.InbyteException;
  * @author: chenjw
  * @date: 2020/7/14
  */
-public class AppSessionUnregisteredException extends InbyteException {
+public class AppSessionUnregisteredException extends BizException {
 
 }

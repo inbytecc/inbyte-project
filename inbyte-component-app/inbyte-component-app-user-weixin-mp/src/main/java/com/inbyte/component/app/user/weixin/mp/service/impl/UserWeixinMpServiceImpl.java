@@ -242,7 +242,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         int update = userWeixinMpMapper.updateById(userWeixinMpPo);
         if (update == 0) {
-            throw new InbyteException("注册账号异常, 请重试看看");
+            throw InbyteException.failure("注册账号异常, 请重试看看");
         }
 
         // 用户 Session 信息
@@ -286,7 +286,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .build();
         int update = userWeixinMpMapper.updateById(userWeixinPO);
         if (update == 0) {
-            throw new InbyteException("注册账号异常, 请重试看看");
+            throw InbyteException.failure("注册账号异常, 请重试看看");
         }
 
         // 用户 Session 信息

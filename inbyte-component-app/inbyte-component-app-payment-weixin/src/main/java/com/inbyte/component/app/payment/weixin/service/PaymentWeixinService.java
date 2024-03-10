@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.base.Throwables;
 import com.inbyte.component.app.payment.weixin.model.*;
-import com.inbyte.commons.exception.InbyteException;
+import com.inbyte.commons.exception.BizException;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
@@ -14,7 +14,7 @@ import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinRefundMapper;
 import com.inbyte.component.app.payment.weixin.dict.PaymentStatusDict;
 import com.inbyte.component.app.payment.weixin.dict.PaymentTypeDict;
-import com.inbyte.component.common.weixin.enterprise.client.AlarmSystemClient;
+import com.inbyte.component.common.weixin.enterprise.client.SystemAlarmWeixinEnterpriseClient;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.cipher.Signer;
 import com.wechat.pay.java.core.exception.ServiceException;
@@ -69,7 +69,7 @@ public class PaymentWeixinService {
     @Autowired
     private PaymentWeixinRefundMapper refundMapper;
     @Autowired
-    private AlarmSystemClient alarmSystemClient;
+    private SystemAlarmWeixinEnterpriseClient alarmSystemClient;
 
     /**
      * 微信支付配置
@@ -346,11 +346,11 @@ public class PaymentWeixinService {
             } else {
                 alarmSystemClient.alert("微信支付退款申请",
                         "退款申请异常,状态码:" + e.getHttpStatusCode() + ", 请求参数:" + JSON.toJSONString(param));
-                throw new InbyteException("退款申请失败, 请稍后再试, 或联系管理员操作(" + e.getHttpStatusCode() + ")");
+                throw BizException.error("退款申请失败, 请稍后再试, 或联系管理员操作(" + e.getHttpStatusCode() + ")");
             }
         } catch (Exception e) {
             log.error("微信支付退款申请异常:", e);
-            throw new InbyteException("申请退款失败, 请稍后再试");
+            throw BizException.error("申请退款失败, 请稍后再试");
         }
     }
 

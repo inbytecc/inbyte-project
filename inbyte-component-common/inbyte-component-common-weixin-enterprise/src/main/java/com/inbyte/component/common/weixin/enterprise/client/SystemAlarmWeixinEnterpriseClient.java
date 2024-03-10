@@ -1,7 +1,7 @@
 package com.inbyte.component.common.weixin.enterprise.client;
 
 import com.google.common.base.Throwables;
-import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.SystemAlarm;
 import com.inbyte.commons.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 @Component
-public class AlarmSystemClient {
-
+public class SystemAlarmWeixinEnterpriseClient implements SystemAlarm {
 
     @Autowired
     private WxCpGroupRobotClient wxCpGroupRobotClient;
+
     /**
      * 微信消息内容最大长度
      */
@@ -35,8 +35,8 @@ public class AlarmSystemClient {
      *
      * @return
      */
-    public R alert(String module, String requestInfo) {
-        return alert(module, requestInfo, null);
+    public void alert(String module, String requestInfo) {
+        alert(module, requestInfo, null);
     }
 
     /**
@@ -44,7 +44,7 @@ public class AlarmSystemClient {
      *
      * @return
      */
-    public R alert(String module, String requestInfo, Exception e) {
+    public void alert(String module, String requestInfo, Exception e) {
         StringBuilder content = new StringBuilder()
                 .append("应用: ").append(SpringContextUtil.getApplicationName()).append("\n\n")
                 .append("模块: ").append(module).append("\n\n")
@@ -64,8 +64,6 @@ public class AlarmSystemClient {
         content.append("\n报警时间: ").append(LocalDateTime.now()).append("\n\n");
 
         wxCpGroupRobotClient.sendText(Weixin_Error_Group_Bot_Key, content.toString());
-
-        return R.failure("发送群机器人文本消息失败");
     }
 
 

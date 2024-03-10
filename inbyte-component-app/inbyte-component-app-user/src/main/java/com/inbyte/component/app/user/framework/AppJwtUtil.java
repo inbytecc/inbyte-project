@@ -23,8 +23,8 @@ public class AppJwtUtil {
 
     private static final Logger log = LoggerFactory.getLogger(AppJwtUtil.class);
 
-    private static final String JWT_SECRET = "pyrange-app-jwt-secret";
-    private static final String Default_Issuer = "pyrange";
+    private static final String JWT_SECRET = "inbyte-app-jwt-secret";
+    private static final String Default_Issuer = "inbyte";
     private static final String Audience = "audience";
     private static final String Bearer = "Bearer ";
 
