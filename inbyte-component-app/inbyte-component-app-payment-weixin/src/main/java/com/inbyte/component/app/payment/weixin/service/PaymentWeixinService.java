@@ -3,6 +3,7 @@ package com.inbyte.component.app.payment.weixin.service;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.base.Throwables;
+import com.inbyte.commons.SystemAlarm;
 import com.inbyte.component.app.payment.weixin.model.*;
 import com.inbyte.commons.exception.BizException;
 import com.inbyte.commons.model.dict.WhetherDict;
@@ -14,7 +15,6 @@ import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinRefundMapper;
 import com.inbyte.component.app.payment.weixin.dict.PaymentStatusDict;
 import com.inbyte.component.app.payment.weixin.dict.PaymentTypeDict;
-import com.inbyte.component.common.weixin.enterprise.client.SystemAlarmWeixinEnterpriseClient;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.cipher.Signer;
 import com.wechat.pay.java.core.exception.ServiceException;
@@ -69,7 +69,7 @@ public class PaymentWeixinService {
     @Autowired
     private PaymentWeixinRefundMapper refundMapper;
     @Autowired
-    private SystemAlarmWeixinEnterpriseClient alarmSystemClient;
+    private SystemAlarm alarmSystemClient;
 
     /**
      * 微信支付配置
