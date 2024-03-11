@@ -73,7 +73,7 @@ public class SystemConfigController {
      * 列表
      *
      * @param query
-     * @return R<Page<List<SystemConfigBrief>>>
+     * @return R<Page<SystemConfigBrief>>
      **/
     @GetMapping
     public R<Page<SystemConfigBrief>> list(@ModelAttribute @Valid SystemConfigQuery query) {
