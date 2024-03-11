@@ -12,5 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @Configuration
 @MapperScan("com.inbyte.component.admin.system.config.dao")
-public class SystemConfigConfiguration {
+public class SystemBasicConfiguration {
 }
