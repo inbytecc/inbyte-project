@@ -85,7 +85,7 @@ public class ObjectStoragePo {
     /**
       * 文件类型
       */
-    private Integer fileType;
+    private String fileType;
 
     /**
       * 文件类型回调

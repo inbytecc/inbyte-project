@@ -13,6 +13,7 @@ import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
+import com.inbyte.component.app.user.framework.AppInfo;
 import com.inbyte.component.app.user.framework.AppUtil;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
@@ -65,6 +66,11 @@ public class AliyunOssService {
     @Autowired
     private ObjectStorageMapper objectStorageMapper;
 
+    @Value(value = "${merchant.mctName:#{null}}")
+    private String mctName;
+    @Value(value = "${merchant.mctNo:#{null}}")
+    private String mctNo;
+
     /**
      * 获取OSS授权
      *
@@ -74,7 +80,15 @@ public class AliyunOssService {
      */
     public R<AliYunOssSignDto> getCredential(AliYunOssSignParam param) {
         LocalDateTime now = LocalDateTime.now();
-        String mctNo = AppUtil.getMctNo();
+        String mctSpaceName, realMctNo;
+
+        if (mctName == null) {
+            mctSpaceName = mctName;
+            realMctNo = mctNo;
+        } else {
+            mctSpaceName = AppUtil.getAppInfo().getMctPinyinName();
+            realMctNo = AppUtil.getMctNo();
+        }
         SessionUser sessionUser = SessionUtil.getSessionUser();
         if (sessionUser == null) {
             return R.set(ResultStatus.Unauthorized);
@@ -86,7 +100,7 @@ public class AliyunOssService {
          */
         String direction = new StringBuilder()
                 .append("mct-space/")
-                .append(mctNo).append("/")
+                .append(mctSpaceName).append("/")
                 .append(param.getPath()).append("/")
                 .append(now.getYear()).append("/")
                 .append(now.getMonthValue()).append("/")
@@ -100,7 +114,7 @@ public class AliyunOssService {
         try {
 
             ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
-                    .mctNo(mctNo)
+                    .mctNo(realMctNo)
                     .endPoint(endpoint)
                     .fileName(param.getFileName())
                     .fileType(param.getFileType())
@@ -369,7 +383,7 @@ public class AliyunOssService {
                 .fileName(param.getFileName())
                 .filePath(objectName)
                 .fileType(param.getFileType())
-                .mimeType(FileTypeDict.getByCode(param.getFileType()).name)
+                .mimeType(FileTypeDict.getByCode(Integer.valueOf(param.getFileType())).name)
                 .uploadSource(UploadSourceDict.User.code)
                 .size(param.getFileBytes().length)
                 .bucket(bucketName)

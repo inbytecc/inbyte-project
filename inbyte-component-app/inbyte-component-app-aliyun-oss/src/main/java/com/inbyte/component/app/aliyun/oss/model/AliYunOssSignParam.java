@@ -33,5 +33,5 @@ public class AliYunOssSignParam {
     /**
      * 文件类型
      */
-    private Integer fileType;
+    private String fileType;
 }

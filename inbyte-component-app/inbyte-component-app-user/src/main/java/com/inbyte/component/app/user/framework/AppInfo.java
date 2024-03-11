@@ -28,6 +28,8 @@ public class AppInfo {
      */
     private String AppVersion;
 
+    /** 所属商户名 */
+    private String mctPinyinName;
 
     /** 所属商户 ID */
     private String mctNo;
@@ -75,5 +77,13 @@ public class AppInfo {
 
     public void setAppType(Integer appType) {
         this.appType = appType;
+    }
+
+    public String getMctPinyinName() {
+        return mctPinyinName;
+    }
+
+    public void setMctPinyinName(String mctPinyinName) {
+        this.mctPinyinName = mctPinyinName;
     }
 }

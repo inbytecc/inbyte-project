@@ -32,6 +32,18 @@ public class AppUtil {
         }
         return AppJwtUtil.parseObject(authorization);
     }
+    /**
+     * 获取 App 应用对象
+     *
+     * @return
+     */
+    public static AppInfo getAppInfoUncheck() {
+        String authorization = WebUtil.getHeader(App_Token);
+        if (StringUtil.isEmpty(authorization)) {
+            return null;
+        }
+        return AppJwtUtil.parseObject(authorization);
+    }
 
     /**
      * 获取小程序AppId
