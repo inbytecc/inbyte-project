@@ -31,10 +31,10 @@
           FROM system_config
          WHERE deleted = 0
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
             AND (`key` LIKE CONCAT('%', #{keyword}, '%')

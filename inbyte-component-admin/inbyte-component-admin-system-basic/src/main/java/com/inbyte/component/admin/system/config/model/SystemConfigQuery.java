@@ -35,7 +35,7 @@ public class SystemConfigQuery extends BasePage {
     /**
      * 排序字段
      **/
-    @Pattern(regexp = "createTime", message = "排序字段不合法")
+    @Pattern(regexp = "create_time", message = "排序字段不合法")
     private String orderColumn;
 
     /**
