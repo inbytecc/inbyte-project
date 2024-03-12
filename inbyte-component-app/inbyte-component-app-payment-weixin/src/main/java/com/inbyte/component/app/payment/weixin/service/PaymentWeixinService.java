@@ -3,7 +3,7 @@ package com.inbyte.component.app.payment.weixin.service;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.base.Throwables;
-import com.inbyte.commons.SystemAlarm;
+import com.inbyte.commons.api.SystemAlarm;
 import com.inbyte.component.app.payment.weixin.model.*;
 import com.inbyte.commons.exception.BizException;
 import com.inbyte.commons.model.dict.WhetherDict;

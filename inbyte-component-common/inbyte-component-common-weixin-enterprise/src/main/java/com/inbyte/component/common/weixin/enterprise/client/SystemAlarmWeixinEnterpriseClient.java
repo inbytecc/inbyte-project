@@ -1,7 +1,7 @@
 package com.inbyte.component.common.weixin.enterprise.client;
 
 import com.google.common.base.Throwables;
-import com.inbyte.commons.SystemAlarm;
+import com.inbyte.commons.api.SystemAlarm;
 import com.inbyte.commons.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,7 @@
-package com.inbyte.component.app.basic.service;
+package com.inbyte.component.app.basic.service.impl;
 
 import com.inbyte.component.app.basic.dao.SystemConfigMapper;
+import com.inbyte.component.app.basic.service.SystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,6 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
     @Override
     public String getValue(String key) {
-        systemConfigMapper.selectById(key);
-        return null;
+        return systemConfigMapper.getValue(key);
     }
 }
