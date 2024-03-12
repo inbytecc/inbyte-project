@@ -3,84 +3,84 @@
 <mapper namespace="com.inbyte.component.admin.user.dao.UserMapper">
 
     <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.user.model.UserBrief">
-        SELECT userId,
+        SELECT user_id,
                tel,
-               nickName,
-               realName,
-               avatarUrl,
+               nick_name,
+               real_name,
+               avatar,
                remark
           FROM user
-         WHERE userId = #{userId, jdbcType=INTEGER}
+         WHERE user_id = #{userId, jdbcType=INTEGER}
     </select>
 
     <select id="briefByTel" resultType="com.inbyte.component.admin.user.model.UserBrief">
-        SELECT userId,
+        SELECT user_id,
                tel,
-               nickName,
-               realName,
-               avatarUrl,
+               nick_name,
+               real_name,
+               avatar,
                remark
           FROM user
          WHERE tel = #{tel}
     </select>
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.user.model.UserDetail">
-        SELECT userId,
+        SELECT user_id,
                tel,
-               userName,
-               nickName,
-               realName,
-               avatarUrl,
-               createTime,
-               updateTime,
+               user_name,
+               nick_name,
+               real_name,
+               avatar,
+               create_time,
+               update_time,
                remark
           FROM user
-         WHERE userId = #{userId, jdbcType=INTEGER}
+         WHERE user_id = #{userId, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.user.model.UserBrief">
-        SELECT userId,
+        SELECT user_id,
                tel,
-               userName,
-               nickName,
-               realName,
+               user_name,
+               nick_name,
+               real_name,
                gender,
-               avatarUrl,
-               createTime,
+               avatar,
+               create_time,
                remark
           FROM user
          WHERE deleted = 0
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
-            AND (userName LIKE CONCAT('%', #{keyword}, '%')
+            AND (user_name LIKE CONCAT('%', #{keyword}, '%')
             OR tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
-         ORDER BY userId DESC
+         ORDER BY user_id DESC
     </select>
 
     <select id="dict" resultType="com.inbyte.component.admin.user.model.UserDictBrief">
-        SELECT userId,
+        SELECT user_id,
                tel,
-               nickName,
-               avatarUrl,
-               createTime
+               nick_name,
+               avatar,
+               create_time
           FROM user
          WHERE deleted = 0
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
-           AND (nickName LIKE CONCAT('%', #{keyword}, '%')
+           AND (nick_name LIKE CONCAT('%', #{keyword}, '%')
            OR tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
-        ORDER BY createTime DESC
+        ORDER BY user_id DESC
     </select>
 </mapper>

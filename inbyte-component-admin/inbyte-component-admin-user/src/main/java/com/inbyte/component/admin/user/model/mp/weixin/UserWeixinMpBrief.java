@@ -1,5 +1,7 @@
-package com.inbyte.component.admin.user.model.mp;
+package com.inbyte.component.admin.user.model.mp.weixin;
 
+import com.inbyte.commons.util.convert.Sensitive;
+import com.inbyte.commons.util.convert.SensitiveStrategy;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +12,11 @@ import java.time.LocalDateTime;
  * 微信小程序用户实体
  *
  * @author chenjw
- * @date 2023-08-08 15:07:05
+ * @date 2023-03-29 13:58:35
  **/
 @Getter
 @Setter
-public class UserWeixinMpDetail {
+public class UserWeixinMpBrief {
 
     /**
      * 外部用户ID
@@ -47,23 +49,9 @@ public class UserWeixinMpDetail {
     private Integer gender;
 
     /**
-     * 微信 unionId 多应用唯一
-     */
-    private String unionId;
-
-    /**
-     * 小程序客户端appId
-     */
-    private String appId;
-
-    /**
-     * 商户号
-     */
-    private String mctNo;
-
-    /**
      * 手机号
      */
+    @Sensitive(strategy = SensitiveStrategy.PHONE)
     private String tel;
 
     /**
@@ -75,11 +63,6 @@ public class UserWeixinMpDetail {
      * 头像
      */
     private String avatarUrl;
-
-    /**
-     * 会话密钥
-     */
-    private String sessionKey;
 
     /**
      * 创建时间
@@ -122,24 +105,19 @@ public class UserWeixinMpDetail {
     private Integer recommendEid;
 
     /**
-     * 已绑定用户
+     * 商户推荐码
      */
-    private Integer boundWithUser;
+    private Integer qcid;
 
     /**
-     * 绑定用户时间
-     */
-    private LocalDateTime boundWithUserTime;
-
-    /**
-     * 逻辑删除
-     */
-    private Integer deleted;
-
-    /**
-     * 邀请数量
+     * 邀请数
      */
     private Integer inviteCount;
+
+    /**
+     * 登录次数
+     */
+    private Integer loginCount;
 
     /**
      * 备注
@@ -155,5 +133,4 @@ public class UserWeixinMpDetail {
      * 注册说明
      */
     private String registerRemark;
-
 }

@@ -26,7 +26,7 @@ public class UserLocationPo {
     /**
       * 定位ID
       */
-    @TableId(value = "locationId", type = IdType.AUTO)
+    @TableId(value = "location_id", type = IdType.AUTO)
     private Integer locationId;
 
     /**

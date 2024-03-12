@@ -1,4 +1,4 @@
-package com.inbyte.component.admin.user.model.mp;
+package com.inbyte.component.admin.user.model.mp.alipay;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

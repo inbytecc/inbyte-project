@@ -3,15 +3,13 @@ package com.inbyte.component.admin.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.user.dao.UserWeixinMpMapper;
-import com.inbyte.component.admin.user.model.mp.*;
+import com.inbyte.component.admin.user.model.mp.weixin.*;
 import com.inbyte.component.admin.user.service.UserWeixinMpService;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 微信小程序用户服务

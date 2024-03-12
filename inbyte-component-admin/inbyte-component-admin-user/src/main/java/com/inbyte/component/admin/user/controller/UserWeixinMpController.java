@@ -3,15 +3,13 @@ package com.inbyte.component.admin.user.controller;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.admin.user.service.UserWeixinMpService;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpBrief;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpDetail;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpQuery;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpUpdate;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpBrief;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpQuery;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpUpdate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 微信小程序用户

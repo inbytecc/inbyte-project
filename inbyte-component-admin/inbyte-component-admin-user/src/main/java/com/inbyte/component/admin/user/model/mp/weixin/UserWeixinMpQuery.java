@@ -1,4 +1,4 @@
-package com.inbyte.component.admin.user.model.mp;
+package com.inbyte.component.admin.user.model.mp.weixin;
 
 import com.inbyte.commons.model.dto.BaseQuery;
 import jakarta.validation.constraints.Pattern;

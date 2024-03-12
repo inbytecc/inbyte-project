@@ -2,12 +2,10 @@ package com.inbyte.component.admin.user.service;
 
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpBrief;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpDetail;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpQuery;
-import com.inbyte.component.admin.user.model.mp.UserWeixinMpUpdate;
-
-import java.util.List;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpBrief;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpQuery;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpUpdate;
 
 /**
  * 微信小程序用户服务

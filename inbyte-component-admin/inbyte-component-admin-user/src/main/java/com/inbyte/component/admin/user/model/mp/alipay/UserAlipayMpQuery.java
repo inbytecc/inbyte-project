@@ -1,4 +1,4 @@
-package com.inbyte.component.admin.user.model.mp;
+package com.inbyte.component.admin.user.model.mp.alipay;
 
 import com.inbyte.commons.model.dto.BasePage;
 import jakarta.validation.constraints.Pattern;

@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 public class UserPo {
 
     /** 用户ID */
-    @TableId(value = "userId", type = IdType.AUTO)
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
     /** 手机号 */

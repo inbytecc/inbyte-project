@@ -3,6 +3,10 @@ package com.inbyte.component.admin.user.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.inbyte.component.admin.user.model.data.UserTrendQuery;
 import com.inbyte.component.admin.user.model.mp.*;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpBrief;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpPo;
+import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
