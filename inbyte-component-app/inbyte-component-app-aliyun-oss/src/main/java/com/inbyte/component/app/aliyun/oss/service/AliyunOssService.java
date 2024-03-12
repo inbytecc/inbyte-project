@@ -103,7 +103,7 @@ public class AliyunOssService implements InitializingBean {
          * 商户空间/商户名/模块路径/年/月/日/模块参数/防重复随机数
          */
         String direction = new StringBuilder()
-                .append("/mct-space/")
+                .append("mct-space/")
                 .append(mctSpaceName).append("/")
                 .append(param.getPath()).append("/")
                 .append(now.getYear()).append("/")
@@ -119,7 +119,7 @@ public class AliyunOssService implements InitializingBean {
 
             ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
                     .mctNo(realMctNo)
-                    .url(host + direction)
+                    .url(host + "/" + direction)
                     .endPoint(endpoint)
                     .fileName(param.getFileName())
                     .fileType(param.getFileType())
