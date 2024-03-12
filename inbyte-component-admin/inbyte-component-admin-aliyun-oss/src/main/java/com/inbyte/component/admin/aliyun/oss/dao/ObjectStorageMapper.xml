@@ -3,74 +3,76 @@
 <mapper namespace="com.inbyte.component.admin.aliyun.oss.dao.ObjectStorageMapper">
 
     <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">
-        SELECT objectId,
-               endPoint,
+        SELECT object_id,
+               url,
+               end_point,
                bucket,
-               mctNo,
-               fileName,
+               mct_no,
+               file_name,
                uploaded,
                `size`,
-               fileType,
-               mimeType,
-               uploadSource,
+               file_type,
+               mime_type,
+               upload_source,
                height,
                width,
-               updateTime
+               update_time
           FROM object_storage
-         WHERE objectId = #{objectId, jdbcType=INTEGER}
+         WHERE object_id = #{objectId, jdbcType=INTEGER}
     </select>
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageDetail">
-        SELECT objectId,
-               endPoint,
+        SELECT object_id,
+               end_point,
+               url,
                bucket,
-               mctNo,
-               fileName,
-               filePath,
+               mct_no,
+               file_name,
+               file_path,
                uploaded,
                `size`,
-               fileType,
-               mimeType,
-               uploadSource,
+               file_type,
+               mime_type,
+               upload_source,
                height,
                width,
-               createTime,
-               createUserId,
-               createUserName,
-               updateTime
+               create_time,
+               creator_id,
+               creator_name,
+               update_time
           FROM object_storage
-         WHERE objectId = #{objectId, jdbcType=INTEGER}
+         WHERE objectId = #{object_id, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">
-        SELECT objectId,
-               endPoint,
+        SELECT object_id,
+               end_point,
                bucket,
-               mctNo,
-               fileName,
-               filePath,
+               mct_no,
+               file_name,
+               file_path,
                uploaded,
                `size`,
-               fileType,
-               mimeType,
-               uploadSource,
+               file_type,
+               mime_type,
+               upload_source,
                height,
                width,
                remark,
-               createUserName,
-               createTime
+               creator_name,
+               creator_time
           FROM object_storage
          WHERE deleted = 0
            AND mctNo = #{mctNo}
         <if test="query.startDate != null">
-           AND createTime &gt; #{query.startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{query.start_date, jdbcType=TIMESTAMP}
         </if>
         <if test="query.endDate != null">
-           AND createTime &lt; #{query.endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{query.endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="query.keyword != null and query.keyword != ''">
-            AND fileName LIKE CONCAT('%', #{query.keyword}, '%')
+            AND file_name LIKE CONCAT('%', #{query.keyword}, '%')
         </if>
-         ORDER BY objectId DESC
+         ORDER BY object_id DESC
     </select>
 </mapper>

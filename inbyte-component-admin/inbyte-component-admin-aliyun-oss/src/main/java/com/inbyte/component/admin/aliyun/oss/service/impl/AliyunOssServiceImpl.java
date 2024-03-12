@@ -371,8 +371,8 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 //                .pathParam(param.getScene())
 //                .uploaded(WhetherDict.Yes.code)
 //                .createTime(now)
-//                .createUserId(param.getUserId())
-//                .createUserName(param.getUserName())
+//                .creatorId(param.getUserId())
+//                .creatorName(param.getUserName())
 //                .build();
 //        objectStorageMapper.insert(objectStoragePo);
 //

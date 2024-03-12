@@ -24,8 +24,8 @@
                remark,
                nextContactTime,
                createTime,
-               createUserId,
-               createUserName,
+               creatorId,
+               creatorName,
                updateTime
           FROM customer_clue_log
          WHERE logId = #{logId, jdbcType=INTEGER}

@@ -3,63 +3,63 @@
 <mapper namespace="com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper">
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.app.aliyun.oss.model.storage.ObjectStorageDetail">
-        SELECT objectId,
+        SELECT object_id,
                url,
-               endPoint,
+               end_point,
                bucket,
-               mctNo,
-               venueId,
-               fileName,
-               filePath,
+               mct_no,
+               venue_id,
+               file_name,
+               file_path,
                `path`,
-               pathParam,
+               path_param,
                uploaded,
                `size`,
-               fileType,
-               mimeType,
-               uploadSource,
+               file_type,
+               mime_type,
+               upload_source,
                height,
                width,
                remark,
-               createTime,
-               createUserId,
-               createUserName,
-               updateTime
+               create_time,
+               creator_id,
+               creator_name,
+               update_time
           FROM object_storage
-         WHERE objectId = #{objectId, jdbcType=INTEGER}
+         WHERE object_id = #{objectId, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.app.aliyun.oss.model.storage.ObjectStorageBrief">
-        SELECT objectId,
+        SELECT object_id,
                url,
-               endPoint,
+               end_point,
                bucket,
-               mctNo,
-               venueId,
-               fileName,
-               filePath,
+               mct_no,
+               venue_id,
+               file_name,
+               file_path,
                `path`,
-               pathParam,
+               path_param,
                uploaded,
                `size`,
-               fileType,
-               mimeType,
-               uploadSource,
+               file_type,
+               mime_type,
+               upload_source,
                height,
                width,
                remark,
-               createTime,
-               updateTime
+               create_time,
+               update_time
           FROM object_storage
          WHERE deleted = 0
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{start_date, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{end_date, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
-            AND (fileName LIKE CONCAT('%', #{keyword}, '%')
+            AND (file_name LIKE CONCAT('%', #{keyword}, '%')
             OR remark LIKE CONCAT('%', #{keyword}, '%'))
         </if>
          ORDER BY objectId DESC

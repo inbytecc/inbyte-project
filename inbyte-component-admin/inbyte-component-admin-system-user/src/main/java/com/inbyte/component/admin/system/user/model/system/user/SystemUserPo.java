@@ -79,12 +79,12 @@ public class SystemUserPo {
     /**
      * 创建人ID
      */
-    private Integer createUserId;
+    private Integer creatorId;
 
     /**
      * 创建人名字
      */
-    private String createUserName;
+    private String creatorName;
 
     /**
      * 创建人ID

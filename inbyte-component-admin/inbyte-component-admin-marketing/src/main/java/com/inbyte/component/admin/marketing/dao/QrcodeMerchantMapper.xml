@@ -19,8 +19,8 @@
                longitude,
                latitude,
                createTime,
-               createUserId,
-               createUserName,
+               creatorId,
+               creatorName,
                updateTime
           FROM qrcode_merchant
          WHERE qcid = #{qcid, jdbcType=INTEGER}

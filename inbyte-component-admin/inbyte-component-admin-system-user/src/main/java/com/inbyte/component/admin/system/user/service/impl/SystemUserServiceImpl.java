@@ -95,8 +95,8 @@ public class SystemUserServiceImpl implements SystemUserService {
         SystemUserPo systemUserPo = SystemUserPo.builder()
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .createTime(LocalDateTime.now())
-                .createUserId(SessionUtil.getUserId())
-                .createUserName(SessionUtil.getUserName())
+                .creatorId(SessionUtil.getUserId())
+                .creatorName(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(insert, systemUserPo);
         systemUserPo.setPwd(MD5Util.md5(insert.getPwd()));

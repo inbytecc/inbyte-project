@@ -25,7 +25,7 @@ public class MerchantPo {
     /**
      * 商户号
      */
-    @TableId(value = "mctNo", type = IdType.AUTO)
+    @TableId(value = "mct_no", type = IdType.AUTO)
     private String mctNo;
 
     /**
@@ -106,12 +106,12 @@ public class MerchantPo {
     /**
      * 创建人ID
      */
-    private Integer createUserId;
+    private Integer creatorId;
 
     /**
      * 创建人名字
      */
-    private String createUserName;
+    private String creatorName;
 
     /**
      * 更新时间

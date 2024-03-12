@@ -28,10 +28,10 @@ public class SystemRoleDetail {
     private String remark;
 
     /** 创建人 */
-    private Integer createUserId;
+    private Integer creatorId;
 
     /** 修改人 */
-    private String createUserName;
+    private String creatorName;
 
     /** 创建时间 */
     private LocalDateTime createTime;

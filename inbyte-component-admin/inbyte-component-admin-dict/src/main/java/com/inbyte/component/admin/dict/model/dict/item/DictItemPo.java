@@ -66,12 +66,12 @@ public class DictItemPo {
     /**
       * 创建人名称
       */
-    private String createUserName;
+    private String creatorName;
 
     /**
       * 创建人ID
       */
-    private Integer createUserId;
+    private Integer creatorId;
 
     /**
       * 更新日期

@@ -3,26 +3,20 @@
 <mapper namespace="com.inbyte.component.admin.system.user.dao.MerchantMapper">
 
     <select id="detail" parameterType="String" resultType="com.inbyte.component.admin.system.user.model.merchant.MerchantDetail">
-        SELECT mctNo,
-               mctName,
-               pinYinName,
-               fileCount,
-               fileSizeCount,
-               homePageConfig,
-               joinUs,
-               goldenBanner,
-               companyIntroduce,
-               aboutUs,
-               salesPartner,
-               itPartner,
-               itEntrepreneurship,
-               chatToBoss,
-               createTime,
-               createUserId,
-               createUserName,
-               updateTime
+        SELECT mct_no,
+               mct_name,
+               pinYin_name,
+               file_count,
+               file_size_count,
+               join_us,
+               company_introduce,
+               about_us,
+               create_time,
+               creator_id,
+               creator_name,
+               update_time
           FROM merchant
-         WHERE mctNo = #{mctNo, jdbcType=VARCHAR}
+         WHERE mct_no = #{mctNo, jdbcType=VARCHAR}
     </select>
 
 </mapper>

@@ -33,10 +33,10 @@ public class DictDetail {
     private LocalDateTime createTime;
 
     /** 创建人ID */
-    private Integer createUserId;
+    private Integer creatorId;
 
     /** 创建人名字 */
-    private String createUserName;
+    private String creatorName;
 
     /** 更新时间 */
     private LocalDateTime updateTime;

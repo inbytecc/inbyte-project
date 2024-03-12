@@ -31,8 +31,8 @@ public class DictAdminService {
 
         DictPo dictPo = DictPo.builder()
                 .createTime(LocalDateTime.now())
-                .createUserId(SessionUtil.getUserId())
-                .createUserName(SessionUtil.getUserName())
+                .creatorId(SessionUtil.getUserId())
+                .creatorName(SessionUtil.getUserName())
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .build();
         BeanUtils.copyProperties(insert, dictPo);

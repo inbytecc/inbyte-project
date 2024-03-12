@@ -37,8 +37,8 @@ public class SystemRoleServiceImpl implements SystemRoleService {
     public R insert(SystemRoleInsert insert) {
         SystemRolePo systemRolePo = SystemRolePo.builder()
                 .createTime(LocalDateTime.now())
-                .createUserId(SessionUtil.getUserId())
-                .createUserName(SessionUtil.getUserName())
+                .creatorId(SessionUtil.getUserId())
+                .creatorName(SessionUtil.getUserName())
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .build();
         BeanUtils.copyProperties(insert, systemRolePo);

@@ -39,8 +39,8 @@
                converted,
                remark,
                createTime,
-               createUserId,
-               createUserName,
+               creatorId,
+               creatorName,
                updateTime
           FROM customer_clue
          WHERE clueId = #{clueId, jdbcType=INTEGER}
