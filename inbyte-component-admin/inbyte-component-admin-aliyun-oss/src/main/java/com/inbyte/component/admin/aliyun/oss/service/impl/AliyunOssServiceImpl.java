@@ -95,6 +95,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
         try {
 
             ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
+                    .url(host + "/" + dir)
                     .endPoint(endpoint)
                     .fileType(param.getFileType())
                     .uploadSource(UploadSourceDict.User.code)
@@ -103,8 +104,8 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 //                    .pathParam(param.getPathParam().toJSONString())
                     .mctNo(sessionUser.getMctNo())
                     .createTime(now)
-                    .createUserId(sessionUser.getUserId())
-                    .createUserName(sessionUser.getUserName())
+                    .creatorId(sessionUser.getUserId())
+                    .creatorName(sessionUser.getUserName())
                     .build();
             objectStorageMapper.insert(objectStoragePo);
 
@@ -249,11 +250,9 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             JSONObject json = StringUtil.strToJson(decode);
             String object = json.getString("object");
 
-
             ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
                     .objectId(json.getInteger("objectId"))
                     .fileName(object.substring(object.lastIndexOf("/") + 1))
-                    .filePath(object)
                     .mimeType(json.getString("mimeType"))
                     .height(json.getInteger("height"))
                     .width(json.getInteger("width"))

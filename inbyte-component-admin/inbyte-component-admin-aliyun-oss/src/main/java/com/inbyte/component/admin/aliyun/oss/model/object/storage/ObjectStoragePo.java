@@ -21,17 +21,17 @@ import java.time.LocalDateTime;
 @TableName("object_storage")
 public class ObjectStoragePo {
 
+
     /**
      * 对象ID
      */
-    @TableId(value = "objectId", type = IdType.AUTO)
+    @TableId(value = "object_id", type = IdType.AUTO)
     private Integer objectId;
 
     /**
      * 文件地址
      */
     private String url;
-
 
     /**
      * 访问域名
@@ -54,19 +54,9 @@ public class ObjectStoragePo {
     private String fileName;
 
     /**
-     * 文件路径
-     */
-    private String filePath;
-
-    /**
      * 模块路径
      */
     private String path;
-
-    /**
-     * 模块路径参数
-     */
-    private Object pathParam;
 
     /**
      * 已上传
@@ -81,7 +71,7 @@ public class ObjectStoragePo {
     /**
      * 文件类型
      */
-    private Integer fileType;
+    private String fileType;
 
     /**
      * 文件类型回调
@@ -121,16 +111,26 @@ public class ObjectStoragePo {
     /**
      * 创建人ID
      */
-    private Integer createUserId;
+    private Integer creatorId;
 
     /**
-     * 创建人名字
+     * 创建人
      */
-    private String createUserName;
+    private String creatorName;
 
     /**
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 更新人ID
+     */
+    private Integer modifierId;
+
+    /**
+     * 更新人
+     */
+    private String modifierName;
 
 }
