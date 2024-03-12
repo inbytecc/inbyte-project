@@ -1,12 +1,12 @@
-package com.inbyte.component.admin.system.config.controller;
+package com.inbyte.component.admin.system.basic.controller;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.config.model.SystemConfigQuery;
-import com.inbyte.component.admin.system.config.model.SystemConfigInsert;
-import com.inbyte.component.admin.system.config.model.SystemConfigUpdate;
-import com.inbyte.component.admin.system.config.model.SystemConfigBrief;
-import com.inbyte.component.admin.system.config.model.SystemConfigDetail;
-import com.inbyte.component.admin.system.config.service.SystemConfigService;
+import com.inbyte.component.admin.system.basic.model.SystemConfigQuery;
+import com.inbyte.component.admin.system.basic.model.SystemConfigInsert;
+import com.inbyte.component.admin.system.basic.model.SystemConfigUpdate;
+import com.inbyte.component.admin.system.basic.model.SystemConfigBrief;
+import com.inbyte.component.admin.system.basic.model.SystemConfigDetail;
+import com.inbyte.component.admin.system.basic.service.SystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

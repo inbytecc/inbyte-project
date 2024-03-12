@@ -1,10 +1,10 @@
-package com.inbyte.component.admin.system.config.dao;
+package com.inbyte.component.admin.system.basic.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.admin.system.config.model.SystemConfigPo;
-import com.inbyte.component.admin.system.config.model.SystemConfigQuery;
-import com.inbyte.component.admin.system.config.model.SystemConfigBrief;
-import com.inbyte.component.admin.system.config.model.SystemConfigDetail;
+import com.inbyte.component.admin.system.basic.model.SystemConfigPo;
+import com.inbyte.component.admin.system.basic.model.SystemConfigQuery;
+import com.inbyte.component.admin.system.basic.model.SystemConfigBrief;
+import com.inbyte.component.admin.system.basic.model.SystemConfigDetail;
 import java.util.List;
 
 /**

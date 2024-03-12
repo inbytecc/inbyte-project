@@ -1,19 +1,18 @@
-package com.inbyte.component.admin.system.config.model;
+package com.inbyte.component.admin.system.basic.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
-import com.alibaba.fastjson2.JSONArray;
 
 /**
- * 系统配置详情
+ * 系统配置摘要
  *
  * @author chenjw
  * @date 2024-03-11 11:03:58
  **/
 @Getter
 @Setter
-public class SystemConfigDetail {
+public class SystemConfigBrief {
 
     /** 配置id */
     private Integer id;
@@ -41,8 +40,5 @@ public class SystemConfigDetail {
 
     /** 最近更新人姓名 */
     private String modifierName;
-
-    /** 最近更新时间 */
-    private LocalDateTime updateTime;
 
 }

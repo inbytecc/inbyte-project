@@ -1,18 +1,18 @@
-package com.inbyte.component.admin.system.config.service.impl;
+package com.inbyte.component.admin.system.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
 import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.system.config.service.SystemConfigService;
-import com.inbyte.component.admin.system.config.dao.SystemConfigMapper;
-import com.inbyte.component.admin.system.config.model.SystemConfigPo;
-import com.inbyte.component.admin.system.config.model.SystemConfigQuery;
-import com.inbyte.component.admin.system.config.model.SystemConfigInsert;
-import com.inbyte.component.admin.system.config.model.SystemConfigUpdate;
-import com.inbyte.component.admin.system.config.model.SystemConfigBrief;
-import com.inbyte.component.admin.system.config.model.SystemConfigDetail;
+import com.inbyte.component.admin.system.basic.service.SystemConfigService;
+import com.inbyte.component.admin.system.basic.dao.SystemConfigMapper;
+import com.inbyte.component.admin.system.basic.model.SystemConfigPo;
+import com.inbyte.component.admin.system.basic.model.SystemConfigQuery;
+import com.inbyte.component.admin.system.basic.model.SystemConfigInsert;
+import com.inbyte.component.admin.system.basic.model.SystemConfigUpdate;
+import com.inbyte.component.admin.system.basic.model.SystemConfigBrief;
+import com.inbyte.component.admin.system.basic.model.SystemConfigDetail;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

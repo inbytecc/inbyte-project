@@ -1,4 +1,4 @@
-package com.inbyte.component.admin.system.config.model;
+package com.inbyte.component.admin.system.basic.model;
 
 import com.inbyte.commons.model.dto.BasePage;
 import lombok.Getter;

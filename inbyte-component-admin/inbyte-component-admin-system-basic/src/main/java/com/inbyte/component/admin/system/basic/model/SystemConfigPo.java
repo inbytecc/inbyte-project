@@ -1,4 +1,4 @@
-package com.inbyte.component.admin.system.config.model;
+package com.inbyte.component.admin.system.basic.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import java.time.LocalDateTime;
-import com.alibaba.fastjson2.JSONArray;
 
 /**
  * 系统配置实体

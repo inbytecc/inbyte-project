@@ -1,4 +1,4 @@
-package com.inbyte.component.admin.system.config;
+package com.inbyte.component.admin.system.basic;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan("com.inbyte.component.admin.system.config.dao")
+@MapperScan("com.inbyte.component.admin.system.basic.dao")
 public class SystemBasicConfiguration {
 }
