@@ -6,8 +6,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.inbyte.component.app.user.framework.exception.AppSessionUnavailableException;
 import com.inbyte.commons.util.StringUtil;
+import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +76,7 @@ public class AppJwtUtil {
         } catch (JWTVerificationException e) {
             // 这里只做验证, 不抛异常也不做进一步记录
             // 因为日志拦截记录需要, 而使用时不影响业务
-            log.info("JWT Token签名验证异常");
+            log.info("App JWT Token签名验证异常");
             return null;
         }
     }
@@ -90,7 +90,7 @@ public class AppJwtUtil {
     public static AppInfo parseObject(String jwtToken) {
         DecodedJWT jwt = verifierToken(jwtToken);
         if (jwt == null) {
-            throw new AppSessionUnavailableException();
+            throw new AppTokenUnavailableException();
         }
         return JSON.parseObject(jwt.getSubject(), AppInfo.class);
     }
