@@ -7,6 +7,6 @@ package com.inbyte.component.app.user.framework.exception;
  * @author: chenjw
  * @date: 2020/7/14
  */
-public class AppSessionUnregisteredException extends RuntimeException {
+public class AppUserUnregisteredException extends RuntimeException {
 
 }

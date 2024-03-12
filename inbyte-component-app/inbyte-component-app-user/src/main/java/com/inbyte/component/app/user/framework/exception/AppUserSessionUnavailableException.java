@@ -7,6 +7,6 @@ package com.inbyte.component.app.user.framework.exception;
  * @author: chenjw
  * @date: 2020/7/14
  */
-public class AppSessionUnavailableException extends RuntimeException {
+public class AppUserSessionUnavailableException extends RuntimeException {
 
 }

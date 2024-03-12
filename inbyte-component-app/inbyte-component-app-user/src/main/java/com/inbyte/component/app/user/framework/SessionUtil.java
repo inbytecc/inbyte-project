@@ -2,8 +2,8 @@ package com.inbyte.component.app.user.framework;
 
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.inbyte.component.app.user.framework.exception.AppSessionUnavailableException;
-import com.inbyte.component.app.user.framework.exception.AppSessionUnregisteredException;
+import com.inbyte.component.app.user.framework.exception.AppUserSessionUnavailableException;
+import com.inbyte.component.app.user.framework.exception.AppUserUnregisteredException;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 
@@ -26,7 +26,7 @@ public class SessionUtil {
     public static Integer getUserId() {
         Integer userId = getSessionUser().getUserId();
         if (userId == null) {
-            throw new AppSessionUnregisteredException();
+            throw new AppUserUnregisteredException();
         }
         return userId;
     }
@@ -39,7 +39,7 @@ public class SessionUtil {
     public static Integer getEid() {
         Integer eid = getSessionUser().getEid();
         if (eid == null) {
-            throw new AppSessionUnavailableException();
+            throw new AppUserSessionUnavailableException();
         }
         return eid;
     }
@@ -63,11 +63,11 @@ public class SessionUtil {
     public static SessionUser getSessionUser() {
         String authorization = WebUtil.getHeader(Authorization);
         if (authorization == null) {
-            throw new AppSessionUnavailableException();
+            throw new AppUserSessionUnavailableException();
         }
         SessionUser sessionUser = UserJwtUtil.parseObject(authorization, SessionUser.class);
         if (sessionUser.getTokenVersion() < User_Token_Version) {
-            throw new AppSessionUnavailableException();
+            throw new AppUserSessionUnavailableException();
         }
 
         return sessionUser;

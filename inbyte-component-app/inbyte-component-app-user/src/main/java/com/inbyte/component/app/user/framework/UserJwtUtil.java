@@ -6,7 +6,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.inbyte.component.app.user.framework.exception.AppSessionUnavailableException;
+import com.inbyte.component.app.user.framework.exception.AppUserSessionUnavailableException;
 import com.inbyte.commons.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +91,7 @@ public class UserJwtUtil {
     public static <T> T parseObject(String jwtToken, Class<T> objectType) {
         DecodedJWT jwt = verifierToken(jwtToken);
         if (jwt == null) {
-            throw new AppSessionUnavailableException();
+            throw new AppUserSessionUnavailableException();
         }
         return JSON.parseObject(jwt.getSubject(), objectType);
     }
