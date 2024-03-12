@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.model.app;
+package com.inbyte.component.app.sign.model;
 
 
 /**

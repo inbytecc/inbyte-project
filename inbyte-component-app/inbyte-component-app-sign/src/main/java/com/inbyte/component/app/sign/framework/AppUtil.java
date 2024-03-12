@@ -1,6 +1,6 @@
-package com.inbyte.component.app.user.framework;
+package com.inbyte.component.app.sign.framework;
 
-import com.inbyte.component.app.user.framework.exception.AppTokenUnavailableException;
+import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;
 import com.inbyte.commons.model.dict.AppTypeDict;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;

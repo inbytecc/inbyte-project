@@ -1,9 +1,9 @@
-package com.inbyte.component.app.user.controller;
+package com.inbyte.component.app.sign.controller;
 
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.user.model.app.AppSignDto;
-import com.inbyte.component.app.user.model.app.AppSignParam;
-import com.inbyte.component.app.user.service.AppService;
+import com.inbyte.component.app.sign.model.AppSignDto;
+import com.inbyte.component.app.sign.model.AppSignParam;
+import com.inbyte.component.app.sign.service.AppSignService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AppSignController {
 
     @Autowired
-    private AppService appService;
+    private AppSignService appSignService;
 
     /**
      * app签名
@@ -31,8 +31,7 @@ public class AppSignController {
      **/
     @PostMapping("app/sign")
     public R<AppSignDto> appSign(@RequestBody @Valid AppSignParam param) {
-        return appService.appSign(param);
+        return appSignService.appSign(param);
     }
-
 
 }

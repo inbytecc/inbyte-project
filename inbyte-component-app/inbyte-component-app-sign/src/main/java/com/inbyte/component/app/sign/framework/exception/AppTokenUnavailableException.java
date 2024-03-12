@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.framework.exception;
+package com.inbyte.component.app.sign.framework.exception;
 
 import com.inbyte.commons.exception.InbyteException;
 

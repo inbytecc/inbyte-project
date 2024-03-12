@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.model;
+package com.inbyte.component.app.basic.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

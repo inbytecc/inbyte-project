@@ -57,7 +57,7 @@ public class AliYunOssUploadFileParam {
     /**
      * 上传用户ID
      */
-    private String userId;
+    private Integer userId;
     /**
      * 上传用户名
      */

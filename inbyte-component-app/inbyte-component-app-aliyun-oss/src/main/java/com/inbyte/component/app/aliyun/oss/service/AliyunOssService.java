@@ -5,16 +5,16 @@ import com.aliyun.oss.*;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
-import com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper;
-import com.inbyte.component.app.aliyun.oss.model.*;
-import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStoragePo;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
-import com.inbyte.component.app.user.framework.AppInfo;
-import com.inbyte.component.app.user.framework.AppUtil;
+import com.inbyte.component.app.aliyun.oss.api.OssMerchant;
+import com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper;
+import com.inbyte.component.app.aliyun.oss.model.*;
+import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStoragePo;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ import java.util.Random;
  */
 @Slf4j
 @Service
-public class AliyunOssService {
+public class AliyunOssService implements InitializingBean {
 
     @Value("${aliyun.oss.endpoint}")
     private String endpoint;
@@ -65,10 +66,12 @@ public class AliyunOssService {
 
     @Autowired
     private ObjectStorageMapper objectStorageMapper;
+    @Autowired(required = false)
+    private OssMerchant ossMerchant;
 
-    @Value(value = "${merchant.mctName:#{null}}")
+    @Value(value = "${inbyte.oss.mctName:#{null}}")
     private String mctName;
-    @Value(value = "${merchant.mctNo:#{null}}")
+    @Value(value = "${inbyte.oss.mctNo:#{null}}")
     private String mctNo;
 
     /**
@@ -83,11 +86,12 @@ public class AliyunOssService {
         String mctSpaceName, realMctNo;
 
         if (mctName == null) {
+            OssMerchantDto ossMerchantDto = ossMerchant.getOssMerchant();
+            mctSpaceName = ossMerchantDto.getMctPinyinName();
+            realMctNo = ossMerchantDto.getMctNo();
+        } else {
             mctSpaceName = mctName;
             realMctNo = mctNo;
-        } else {
-            mctSpaceName = AppUtil.getAppInfo().getMctPinyinName();
-            realMctNo = AppUtil.getMctNo();
         }
         SessionUser sessionUser = SessionUtil.getSessionUser();
         if (sessionUser == null) {
@@ -99,14 +103,14 @@ public class AliyunOssService {
          * 商户空间/商户名/模块路径/年/月/日/模块参数/防重复随机数
          */
         String direction = new StringBuilder()
-                .append("mct-space/")
+                .append("/mct-space/")
                 .append(mctSpaceName).append("/")
                 .append(param.getPath()).append("/")
                 .append(now.getYear()).append("/")
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
-                .append(new Random().nextInt(100000)).append("-")
-                .append(StringUtil.defaultIfEmpty(param.getFileName(), ""))
+                .append(new Random().nextInt(1000000)).append("-")
+                .append(param.getFileName())
                 .toString()
                 .replace("//", "/");
 
@@ -115,6 +119,7 @@ public class AliyunOssService {
 
             ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
                     .mctNo(realMctNo)
+                    .url(host + direction)
                     .endPoint(endpoint)
                     .fileName(param.getFileName())
                     .fileType(param.getFileType())
@@ -122,8 +127,8 @@ public class AliyunOssService {
                     .bucket(bucketName)
                     .path(param.getPath())
                     .createTime(now)
-                    .createUserId(sessionUser.getUserId().toString())
-                    .createUserName(sessionUser.getNickName())
+                    .creatorId(sessionUser.getUserId())
+                    .creatorName(sessionUser.getNickName())
                     .build();
             objectStorageMapper.insert(objectStoragePo);
 
@@ -391,12 +396,19 @@ public class AliyunOssService {
                 .pathParam(param.getScene())
                 .uploaded(WhetherDict.Yes.code)
                 .createTime(now)
-                .createUserId(param.getUserId())
-                .createUserName(param.getUserName())
+                .creatorId(param.getUserId())
+                .creatorName(param.getUserName())
                 .build();
         objectStorageMapper.insert(objectStoragePo);
 
         return R.ok("上传成功", url);
     }
 
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (mctName == null && ossMerchant == null) {
+            throw InbyteException.error("依赖使用OSS存储，请配置inbyte.oss.mctNo与mctName，或实现OssMerchant接口");
+        }
+    }
 }

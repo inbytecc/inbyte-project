@@ -1,8 +1,8 @@
-package com.inbyte.component.app.user.service;
+package com.inbyte.component.app.sign.service;
 
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.user.model.app.AppSignDto;
-import com.inbyte.component.app.user.model.app.AppSignParam;
+import com.inbyte.component.app.sign.model.AppSignDto;
+import com.inbyte.component.app.sign.model.AppSignParam;
 
 /**
  * 应用服务
@@ -10,7 +10,7 @@ import com.inbyte.component.app.user.model.app.AppSignParam;
  * @author chenjw
  * @date: 2022/12/31
  */
-public interface AppService {
+public interface AppSignService {
 
 
     /**

@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.framework;
+package com.inbyte.component.app.sign.framework;
 
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.JWT;

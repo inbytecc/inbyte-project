@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.framework;
+package com.inbyte.component.app.sign.framework;
 
 import jakarta.validation.constraints.NotNull;
 

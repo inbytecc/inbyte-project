@@ -1,12 +1,11 @@
-package com.inbyte.component.app.user.service.impl;
+package com.inbyte.component.app.sign.service.impl;
 
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.user.dao.MerchantMapper;
-import com.inbyte.component.app.user.framework.AppInfo;
-import com.inbyte.component.app.user.framework.AppJwtUtil;
-import com.inbyte.component.app.user.service.AppService;
-import com.inbyte.component.app.user.model.app.AppSignDto;
-import com.inbyte.component.app.user.model.app.AppSignParam;
+import com.inbyte.component.app.sign.framework.AppInfo;
+import com.inbyte.component.app.sign.framework.AppJwtUtil;
+import com.inbyte.component.app.sign.service.AppSignService;
+import com.inbyte.component.app.sign.model.AppSignDto;
+import com.inbyte.component.app.sign.model.AppSignParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +22,10 @@ import java.time.LocalDateTime;
  */
 @Slf4j
 @Service
-public class AppServiceImpl implements AppService {
+public class AppSignServiceImpl implements AppSignService {
 
-    @Autowired
-    private MerchantMapper merchantMapper;
+//    @Autowired
+//    private MerchantMapper merchantMapper;
 
     @Override
     public R<AppSignDto> appSign(AppSignParam param) {
