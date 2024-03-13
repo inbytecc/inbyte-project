@@ -3,7 +3,7 @@
 
 ### 枚举字典
 - 类名【Enum】结尾
-- 包含 public final String name 字段
+- 包含 public final String name 字段，注意属性要 public final 声明
 - 枚举对象使用大写下划线命名方式
 ```
 public enum CurrencyEnum {

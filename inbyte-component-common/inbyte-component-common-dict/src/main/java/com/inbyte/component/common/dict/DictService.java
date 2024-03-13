@@ -113,7 +113,7 @@ public class DictService implements InitializingBean {
             }
             SYSTEM_DICT_CACHE.put(dictName.replace(DICT_SUFFIX, ""), dict);
         } catch (Exception e) {
-            log.warn("字典{}命名不规范, 请增加字段code和name, 否则无法加入字典池", dictName);
+            log.warn("枚举字典{}命名不规范, 请增加字段code和name, 否则无法加入字典池, 详情请参考:https://github.com/inbytecc/inbyte-component/blob/dev/inbyte-component-common/inbyte-component-common-dict/README.md", dictName);
         }
     }
 
@@ -132,7 +132,7 @@ public class DictService implements InitializingBean {
             }
             SYSTEM_DICT_CACHE.put(dictName.toLowerCase().replace(ENUM_SUFFIX, ""), dict);
         } catch (Exception e) {
-            log.warn("字典{}命名不规范, 请增加字段【name】, 否则无法加入字典池", dictName);
+            log.warn("枚举字典{}命名不规范, 请增加字段【name】, 否则无法加入字典池, 详情请参考:https://github.com/inbytecc/inbyte-component/blob/dev/inbyte-component-common/inbyte-component-common-dict/README.md", dictName);
         }
     }
 
