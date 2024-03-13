@@ -1,4 +1,4 @@
-package com.inbyte.component.app.basic.service;
+package com.inbyte.component.common.basic.service;
 
 /**
  * 系统配置服务
@@ -6,7 +6,7 @@ package com.inbyte.component.app.basic.service;
  * @author chenjw
  * @date 2024-03-11 11:03:58
  **/
-public interface SystemConfigClientService {
+public interface CommonSystemConfigService {
 
     String getValue(String key);
 }

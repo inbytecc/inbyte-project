@@ -15,7 +15,7 @@ import com.inbyte.component.app.aliyun.oss.api.OssMerchant;
 import com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.app.aliyun.oss.model.*;
 import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStoragePo;
-import com.inbyte.component.app.basic.InbyteMerchantProperties;
+import com.inbyte.component.common.basic.InbyteMerchantProperties;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;

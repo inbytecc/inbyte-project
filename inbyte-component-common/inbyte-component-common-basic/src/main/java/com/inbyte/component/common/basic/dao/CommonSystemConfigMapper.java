@@ -1,7 +1,7 @@
-package com.inbyte.component.app.basic.dao;
+package com.inbyte.component.common.basic.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.basic.model.SystemConfigPo;
+import com.inbyte.component.common.basic.model.SystemConfigPo;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -21,7 +21,7 @@ import org.apache.ibatis.cache.decorators.FifoCache;
         size = 1024,
         readWrite = false
 )
-public interface SystemConfigMapper extends BaseMapper<SystemConfigPo> {
+public interface CommonSystemConfigMapper extends BaseMapper<SystemConfigPo> {
 
     @Select("SELECT `value` " +
             "  FROM system_config" +

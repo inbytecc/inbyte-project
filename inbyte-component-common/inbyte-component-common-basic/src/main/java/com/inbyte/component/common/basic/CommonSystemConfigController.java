@@ -1,8 +1,8 @@
-package com.inbyte.component.app.basic;
+package com.inbyte.component.common.basic;
 
 import com.alibaba.fastjson2.JSON;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.basic.service.SystemConfigClientService;
+import com.inbyte.component.common.basic.service.CommonSystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
  **/
 @RestController
 @RequestMapping("system/config")
-public class SystemConfigClientController {
+public class CommonSystemConfigController {
 
     @Autowired
-    private SystemConfigClientService systemConfigClientService;
+    private CommonSystemConfigService commonSystemConfigService;
 
 
     /**
@@ -28,7 +28,7 @@ public class SystemConfigClientController {
      **/
     @GetMapping("{key}")
     public R<String> value(@PathVariable("key") String key) {
-        return R.okStr(systemConfigClientService.getValue(key));
+        return R.okStr(commonSystemConfigService.getValue(key));
     }
 
     /**
@@ -39,7 +39,7 @@ public class SystemConfigClientController {
      **/
     @GetMapping("{key}/json")
     public R<Object> json(@PathVariable("key") String key) {
-        return R.ok(JSON.parse(systemConfigClientService.getValue(key)));
+        return R.ok(JSON.parse(commonSystemConfigService.getValue(key)));
     }
 
 }

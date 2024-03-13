@@ -1,4 +1,4 @@
-package com.inbyte.component.app.basic;
+package com.inbyte.component.common.basic;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan("com.inbyte.component.app.basic.dao")
-public class AppBasicConfiguration {
+@MapperScan("com.inbyte.component.common.basic.dao")
+public class CommonBasicConfiguration {
 }

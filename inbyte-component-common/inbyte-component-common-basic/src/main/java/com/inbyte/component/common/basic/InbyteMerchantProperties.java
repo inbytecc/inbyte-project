@@ -1,4 +1,4 @@
-package com.inbyte.component.app.basic;
+package com.inbyte.component.common.basic;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

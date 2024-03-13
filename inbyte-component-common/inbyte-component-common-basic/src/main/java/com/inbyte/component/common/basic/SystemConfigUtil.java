@@ -1,9 +1,9 @@
-package com.inbyte.component.app.basic;
+package com.inbyte.component.common.basic;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.inbyte.commons.util.SpringContextUtil;
-import com.inbyte.component.app.basic.dao.SystemConfigMapper;
+import com.inbyte.component.common.basic.dao.CommonSystemConfigMapper;
 
 import java.math.BigDecimal;
 
@@ -22,7 +22,7 @@ public class SystemConfigUtil {
      * @return
      */
     public static String getValue(String key) {
-        return SpringContextUtil.getBean(SystemConfigMapper.class).getValue(key);
+        return SpringContextUtil.getBean(CommonSystemConfigMapper.class).getValue(key);
     }
 
     /**

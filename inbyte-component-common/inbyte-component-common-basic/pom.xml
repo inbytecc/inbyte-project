@@ -8,7 +8,7 @@
 		<artifactId>inbyte-component-app</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>inbyte-component-app-basic</artifactId>
+	<artifactId>inbyte-component-common-basic</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>

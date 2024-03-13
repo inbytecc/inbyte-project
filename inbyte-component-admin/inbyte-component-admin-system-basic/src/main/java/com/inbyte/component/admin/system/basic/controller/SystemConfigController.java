@@ -88,26 +88,4 @@ public class SystemConfigController {
         return systemConfigService.list(query);
     }
 
-    /**
-     * Key获取 String Value
-     *
-     * @param key
-     * @return R<String>
-     **/
-    @GetMapping("{key}/value")
-    public R<String> value(@PathVariable("key") String key) {
-        return R.okStr(systemConfigService.getValue(key));
-    }
-
-    /**
-     * Key获取Value
-     *
-     * @param key
-     * @return R<String>
-     **/
-    @GetMapping("{key}/json")
-    public R<Object> json(@PathVariable("key") String key) {
-        return R.ok(JSON.parse(systemConfigService.getValue(key)));
-    }
-
 }

@@ -1,7 +1,7 @@
-package com.inbyte.component.app.basic.dao;
+package com.inbyte.component.common.basic.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.basic.model.MerchantPo;
+import com.inbyte.component.common.basic.model.MerchantPo;
 
 /**
  * 商户
