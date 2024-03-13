@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.system.basic.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
@@ -67,8 +68,14 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
     @Override
     public R updateByKey(SystemConfigUpdateByKey update) {
+        String val;
+        if (update.getValue() instanceof String || update.getValue() instanceof Integer) {
+            val = update.getValue().toString();
+        } else {
+            val = JSON.toJSONString(update.getValue());
+        }
         SystemConfigPo systemConfigPo = SystemConfigPo.builder()
-                .value(update.getValue().toString())
+                .value(val)
                 .updateTime(LocalDateTime.now())
                 .modifierId(SessionUtil.getUserId())
                 .modifierName(SessionUtil.getUserName())
