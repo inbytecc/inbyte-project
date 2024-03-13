@@ -54,7 +54,7 @@ public class UserAlipayMpInsert {
 
     /** 头像 */
     @Length(max = 256, message = "头像长度不能超过256位")
-    private String avatarUrl;
+    private String avatar;
 
     /** 最近登录时间 */
     private LocalDateTime latestLoginTime;

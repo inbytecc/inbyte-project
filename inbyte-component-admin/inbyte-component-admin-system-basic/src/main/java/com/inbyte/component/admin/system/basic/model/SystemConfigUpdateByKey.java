@@ -17,14 +17,13 @@ import org.hibernate.validator.constraints.Length;
 public class SystemConfigUpdateByKey {
 
     /** 配置项key */
-    @NotNull
+    @NotNull(message = "配置项不能为空")
     @Length(max = 64, message = "配置项key长度不能超过64位")
     private String key;
 
     /** 配置值 */
-    @NotNull
-    @Length(max = 65535, message = "配置值长度不能超过65535位")
-    private String value;
+    @NotNull(message = "配置值不能为空")
+    private Object value;
 
 
 }

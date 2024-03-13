@@ -23,6 +23,6 @@ public class UserWeixinDto {
     private String nickName;
 
     /** 头像 */
-    private String avatarUrl;
+    private String avatar;
 
 }

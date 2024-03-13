@@ -49,7 +49,7 @@ public class UserWeixinDetail {
     /**
      * 头像URL
      */
-    private String avatarUrl;
+    private String avatar;
     /**
      * 位置更新时间
      */

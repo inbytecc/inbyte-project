@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
                 .userId(userPo.getUserId())
                 .tel(userPo.getTel())
                 .nickName(param.getUserName())
-                .avatar(userPo.getAvatarUrl())
+                .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .build();
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<UserPo>()
                 .eq(UserPo::getEmail, param.getEmail())
                 .eq(UserPo::getPwd, MD5Util.md5(param.getPwd()))
-                .select(UserPo::getUserId, UserPo::getTel, UserPo::getNickName, UserPo::getAvatarUrl);
+                .select(UserPo::getUserId, UserPo::getTel, UserPo::getNickName, UserPo::getAvatar);
         UserPo userPo = userMapper.selectOne(queryWrapper);
         if (userPo == null) {
             return R.failure("账号或密码错误");
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
                 .userId(userPo.getUserId())
                 .tel(userPo.getTel())
                 .nickName(userPo.getNickName())
-                .avatar(userPo.getAvatarUrl())
+                .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .build();
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
         }
         LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserPo::getTel, param.getTel())
-                .select(UserPo::getUserId, UserPo::getNickName, UserPo::getAvatarUrl);
+                .select(UserPo::getUserId, UserPo::getNickName, UserPo::getAvatar);
         UserPo userPo = userMapper.selectOne(queryWrapper);
         if (userPo == null) {
             return R.failure("用户不存在哦, 请先注册后登录");
@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
                 .eid(1)
                 .etp(0)
                 .nickName(userPo.getNickName())
-                .avatar(userPo.getAvatarUrl())
+                .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
                 .tel(tel)
                 .userName(nickName)
                 .nickName(nickName)
-                .avatarUrl(avatar)
+                .avatar(avatar)
                 .createTime(LocalDateTime.now())
                 .build();
         int insert = userMapper.insertSelective(userPo);

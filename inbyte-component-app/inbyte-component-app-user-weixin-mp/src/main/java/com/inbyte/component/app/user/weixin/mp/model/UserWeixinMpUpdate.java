@@ -16,7 +16,7 @@ public class UserWeixinMpUpdate {
     /**
      * 头像
      */
-    private String avatarUrl;
+    private String avatar;
 
     /**
      * 昵称

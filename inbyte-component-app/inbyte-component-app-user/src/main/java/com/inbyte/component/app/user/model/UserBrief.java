@@ -26,6 +26,6 @@ public class UserBrief {
     private String email;
 
     /** 头像 */
-    private String avatarUrl;
+    private String avatar;
 
 }

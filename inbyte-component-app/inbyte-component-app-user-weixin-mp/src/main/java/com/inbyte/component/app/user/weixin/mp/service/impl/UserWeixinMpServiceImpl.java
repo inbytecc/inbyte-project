@@ -85,7 +85,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .openId(credentialDto.getOpenid())
                     .unionId(credentialDto.getUnionid())
                     .nickName("游客")
-                    .avatarUrl(randomCommonAvatar)
+                    .avatar(randomCommonAvatar)
                     .sessionKey(credentialDto.getSessionKey())
                     .appId(AppUtil.getAppId())
                     .mctNo(AppUtil.getMctNo())
@@ -150,7 +150,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .eid(userWeixin.getEid())
                     .etp(AppTypeDict.Weixin_MiniProgram.code)
                     .nickName("游客")
-                    .avatar(userWeixin.getAvatarUrl())
+                    .avatar(userWeixin.getAvatar())
                     .loginTime(now)
                     .tokenVersion(SessionUtil.User_Token_Version)
                     .telBound(WhetherDict.No.code)
@@ -165,7 +165,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .userId(userWeixin.getUserId())
                 .tel(userWeixin.getTel())
                 .nickName(userWeixin.getNickName())
-                .avatar(userWeixin.getAvatarUrl())
+                .avatar(userWeixin.getAvatar())
                 .loginTime(now)
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
@@ -359,7 +359,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         LambdaUpdateWrapper<UserWeixinMpPo> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(UserWeixinMpPo::getEid, SessionUtil.getEid());
         updateWrapper.set(UserWeixinMpPo::getNickName, userWeixinMpUpdate.getNickName());
-        updateWrapper.set(UserWeixinMpPo::getAvatarUrl, userWeixinMpUpdate.getAvatarUrl());
+        updateWrapper.set(UserWeixinMpPo::getAvatar, userWeixinMpUpdate.getAvatar());
         userWeixinMpMapper.update(null, updateWrapper);
         return R.ok("修改成功");
     }

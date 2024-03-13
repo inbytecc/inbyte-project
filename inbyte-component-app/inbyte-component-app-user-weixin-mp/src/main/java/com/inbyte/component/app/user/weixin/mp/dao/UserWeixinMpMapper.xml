@@ -11,7 +11,7 @@
                userId,
                tel,
                nickName,
-               avatarUrl,
+               avatar,
                locationUpdateTime,
                createTime
           FROM user_weixin_mp uwmp
@@ -24,7 +24,7 @@
                tel,
                nickName,
                realName,
-               avatarUrl
+               avatar
           FROM user_weixin_mp
          WHERE eid = #{eid, jdbcType=INTEGER}
     </select>

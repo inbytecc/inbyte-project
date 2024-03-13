@@ -33,7 +33,7 @@
                register_remark
           FROM user_weixin_mp
          WHERE eid = #{eid, jdbcType=INTEGER}
-           AND mctNo = #{mctNo}
+           AND mct_no = #{mctNo}
     </select>
     <select id="getByUserId" resultType="com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail">
         SELECT eid,

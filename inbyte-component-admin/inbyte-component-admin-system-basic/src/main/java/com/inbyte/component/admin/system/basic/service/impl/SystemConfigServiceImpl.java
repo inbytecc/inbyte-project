@@ -68,7 +68,7 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     @Override
     public R updateByKey(SystemConfigUpdateByKey update) {
         SystemConfigPo systemConfigPo = SystemConfigPo.builder()
-                .value(update.getValue())
+                .value(update.getValue().toString())
                 .updateTime(LocalDateTime.now())
                 .modifierId(SessionUtil.getUserId())
                 .modifierName(SessionUtil.getUserName())

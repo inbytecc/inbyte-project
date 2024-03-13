@@ -33,7 +33,7 @@ public class UserExternalDto {
 
     /** 头像 */
     @NotNull
-    private String avatarUrl;
+    private String avatar;
 
     /**
      * 最近经度
@@ -82,12 +82,12 @@ public class UserExternalDto {
         this.nickName = nickName;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getavatar() {
+        return avatar;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setavatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public BigDecimal getLongitude() {

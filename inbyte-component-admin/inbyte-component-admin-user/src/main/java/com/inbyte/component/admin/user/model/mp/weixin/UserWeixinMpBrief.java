@@ -62,7 +62,7 @@ public class UserWeixinMpBrief {
     /**
      * 头像
      */
-    private String avatarUrl;
+    private String avatar;
 
     /**
      * 创建时间

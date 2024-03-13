@@ -80,7 +80,7 @@ public class UserWeixinMpPo {
     /**
      * 头像
      */
-    private String avatarUrl;
+    private String avatar;
 
     /**
      * 会话密钥
