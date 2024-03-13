@@ -9,7 +9,7 @@ import com.inbyte.component.app.basic.dao.SystemConfigMapper;
  * @author chenjw
  * @date 20240312
  */
-public class SystemConfigClientUtil {
+public class SystemConfigUtil {
 
     /**
      * 获取系统配置值
