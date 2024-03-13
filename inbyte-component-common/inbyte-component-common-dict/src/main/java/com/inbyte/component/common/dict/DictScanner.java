@@ -1,4 +1,4 @@
-package com.inbyte.component.common.dict.config;
+package com.inbyte.component.common.dict;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.inbyte.component.app.aliyun.oss.service;
+package com.inbyte.component.app.aliyun.oss;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.oss.*;
@@ -15,6 +15,7 @@ import com.inbyte.component.app.aliyun.oss.api.OssMerchant;
 import com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.app.aliyun.oss.model.*;
 import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStoragePo;
+import com.inbyte.component.app.basic.InbyteMerchantProperties;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,14 +66,11 @@ public class AliyunOssService implements InitializingBean {
     private String callbackUrl;
 
     @Autowired
+    private InbyteMerchantProperties inbyteMerchantProperties;
+    @Autowired
     private ObjectStorageMapper objectStorageMapper;
     @Autowired(required = false)
     private OssMerchant ossMerchant;
-
-    @Value(value = "${inbyte.oss.mctName:#{null}}")
-    private String mctName;
-    @Value(value = "${inbyte.oss.mctNo:#{null}}")
-    private String mctNo;
 
     /**
      * 获取OSS授权
@@ -85,13 +83,13 @@ public class AliyunOssService implements InitializingBean {
         LocalDateTime now = LocalDateTime.now();
         String mctSpaceName, realMctNo;
 
-        if (mctName == null) {
+        if (inbyteMerchantProperties.getMctName() == null) {
             OssMerchantDto ossMerchantDto = ossMerchant.getOssMerchant();
             mctSpaceName = ossMerchantDto.getMctPinyinName();
             realMctNo = ossMerchantDto.getMctNo();
         } else {
-            mctSpaceName = mctName;
-            realMctNo = mctNo;
+            mctSpaceName = inbyteMerchantProperties.getMctName();
+            realMctNo = inbyteMerchantProperties.getMctNo();
         }
         SessionUser sessionUser = SessionUtil.getSessionUser();
         if (sessionUser == null) {
@@ -407,7 +405,7 @@ public class AliyunOssService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (mctName == null && ossMerchant == null) {
+        if (inbyteMerchantProperties.getMctName() == null && ossMerchant == null) {
             throw InbyteException.error("依赖使用OSS存储，请配置inbyte.oss.mctNo与mctName，或实现OssMerchant接口");
         }
     }

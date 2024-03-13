@@ -2,7 +2,6 @@ package com.inbyte.component.common.dict;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.inbyte.component.common.dict.config.DictScanner;
 import com.inbyte.component.common.dict.dao.DictMapper;
 import com.inbyte.component.common.dict.model.DictItemBrief;
 import com.inbyte.commons.model.dto.Dict;
@@ -28,10 +27,17 @@ import java.util.stream.Collectors;
 public class DictService implements InitializingBean {
 
     private static final String DICT_SUFFIX = "dict";
+    private static final String ENUM_SUFFIX = "enum";
+
+    @Autowired
+    private ComponentDictProperties componentDictProperties;
 
     @Override
     public void afterPropertiesSet() {
-        init("com.inbyte.dict.dict", "com.inbyte.common.model.dict");
+        init("com.inbyte.commons.model.dict");
+        if (componentDictProperties.getPath() != null) {
+            componentDictProperties.getPath().forEach(e -> init(e));
+        }
     }
 
     @Autowired
@@ -52,15 +58,15 @@ public class DictService implements InitializingBean {
             .expireAfterWrite(10, TimeUnit.MINUTES) // 设置缓存项写入后过期时间
             .build();
 
-    /**
-     * 业务动态字典
-     * 字典缓存
-     * 10分钟过期
-     */
-    private Cache<String, Map<String, String>> TREE_DICT_CACHE = CacheBuilder.newBuilder()
-            .maximumSize(100) // 设置缓存的最大大小
-            .expireAfterWrite(10, TimeUnit.MINUTES) // 设置缓存项写入后过期时间
-            .build();
+//    /**
+//     * 业务动态字典
+//     * 字典缓存
+//     * 10分钟过期
+//     */
+//    private Cache<String, Map<String, String>> TREE_DICT_CACHE = CacheBuilder.newBuilder()
+//            .maximumSize(100) // 设置缓存的最大大小
+//            .expireAfterWrite(10, TimeUnit.MINUTES) // 设置缓存项写入后过期时间
+//            .build();
 
     private static final String CODE = "code";
     private static final String NAME = "name";
@@ -84,23 +90,52 @@ public class DictService implements InitializingBean {
     }
 
     public void load(Enum[] enums) {
-        try {
-            String dictName = "";
-            Map<String, String> dict = new LinkedHashMap<>();
-            for (int i = 0; i < enums.length; i++) {
-                if (i == 0) {
-                    dictName = enums[i].getClass().getSimpleName();
-                }
-                Field code = enums[i].getClass().getField(CODE);
-                Field name = enums[i].getClass().getField(NAME);
-                dict.put(String.valueOf(code.get(enums[i])),
-                        String.valueOf(name.get(enums[i])));
-            }
-            SYSTEM_DICT_CACHE.put(dictName.toLowerCase().replace(DICT_SUFFIX, ""), dict);
-        } catch (Exception e) {
-            log.warn("字典{}命名不规范, 请增加字段code和name, 否则无法加入字典池", enums);
+        String dictName = enums[0].getClass().getSimpleName().toLowerCase();
+        if (dictName.endsWith(DICT_SUFFIX)) {
+            loadDict(enums, dictName);
+        } else if (dictName.endsWith(ENUM_SUFFIX)) {
+            loadEnum(enums, dictName);
         }
     }
+
+    /**
+     * 加载DICT字典
+     *
+     * @param enums
+     * @param dictName
+     */
+    private void loadDict(Enum[] enums, String dictName) {
+        try {
+            Map<String, String> dict = new LinkedHashMap<>();
+            for (int i = 0; i < enums.length; i++) {
+                dict.put(String.valueOf(enums[i].getClass().getField(CODE).get(enums[i])),
+                        String.valueOf(enums[i].getClass().getField(NAME).get(enums[i])));
+            }
+            SYSTEM_DICT_CACHE.put(dictName.replace(DICT_SUFFIX, ""), dict);
+        } catch (Exception e) {
+            log.warn("字典{}命名不规范, 请增加字段code和name, 否则无法加入字典池", dictName);
+        }
+    }
+
+    /**
+     * 加载ENUM字典
+     *
+     * @param enums
+     * @param dictName
+     */
+    private void loadEnum(Enum[] enums, String dictName) {
+        try {
+            Map<String, String> dict = new LinkedHashMap<>();
+            for (int i = 0; i < enums.length; i++) {
+                dict.put(enums[i].name().toUpperCase(), // KEY
+                        String.valueOf(enums[i].getClass().getField(NAME).get(enums[i]))); // VALUE
+            }
+            SYSTEM_DICT_CACHE.put(dictName.toLowerCase().replace(ENUM_SUFFIX, ""), dict);
+        } catch (Exception e) {
+            log.warn("字典{}命名不规范, 请增加字段【name】, 否则无法加入字典池", dictName);
+        }
+    }
+
 
     /**
      * 获取字典信息

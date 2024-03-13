@@ -1,9 +1,9 @@
-package com.inbyte.component.app.aliyun.oss.controller;
+package com.inbyte.component.app.aliyun.oss;
 
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignDto;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignParam;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.aliyun.oss.service.AliyunOssService;
+import com.inbyte.component.app.aliyun.oss.AliyunOssService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
