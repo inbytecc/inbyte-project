@@ -28,7 +28,6 @@
                bucket,
                mct_no,
                file_name,
-               file_path,
                uploaded,
                `size`,
                file_type,
@@ -36,21 +35,22 @@
                upload_source,
                height,
                width,
+               remark,
                create_time,
                creator_id,
                creator_name,
                update_time
           FROM object_storage
-         WHERE objectId = #{object_id, jdbcType=INTEGER}
+         WHERE object_id = #{object_id, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">
         SELECT object_id,
+               url,
                end_point,
                bucket,
                mct_no,
                file_name,
-               file_path,
                uploaded,
                `size`,
                file_type,
@@ -60,10 +60,10 @@
                width,
                remark,
                creator_name,
-               creator_time
+               create_time
           FROM object_storage
          WHERE deleted = 0
-           AND mctNo = #{mctNo}
+           AND mct_no = #{mctNo}
         <if test="query.startDate != null">
            AND create_time &gt; #{query.start_date, jdbcType=TIMESTAMP}
         </if>

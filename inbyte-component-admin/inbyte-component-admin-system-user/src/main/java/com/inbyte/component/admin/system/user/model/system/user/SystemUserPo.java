@@ -89,12 +89,12 @@ public class SystemUserPo {
     /**
      * 创建人ID
      */
-    private Integer updateUserId;
+    private Integer modifierId;
 
     /**
      * 修改人名字
      */
-    private String updateUserName;
+    private String modifierName;
 
     /**
      * 创建时间

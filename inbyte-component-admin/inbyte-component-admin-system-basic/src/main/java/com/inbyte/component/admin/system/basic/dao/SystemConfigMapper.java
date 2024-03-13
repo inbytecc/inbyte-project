@@ -5,6 +5,9 @@ import com.inbyte.component.admin.system.basic.model.SystemConfigPo;
 import com.inbyte.component.admin.system.basic.model.SystemConfigQuery;
 import com.inbyte.component.admin.system.basic.model.SystemConfigBrief;
 import com.inbyte.component.admin.system.basic.model.SystemConfigDetail;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import java.util.List;
 
 /**
@@ -30,4 +33,9 @@ public interface SystemConfigMapper extends BaseMapper<SystemConfigPo> {
      * @return List<SystemConfigBrief>
      **/
     List<SystemConfigBrief> list(SystemConfigQuery query);
+
+    @Select("SELECT `value` " +
+            "  FROM system_config" +
+            " WHERE `key` = #{key}")
+    String getValue(@Param("key") String key);
 }

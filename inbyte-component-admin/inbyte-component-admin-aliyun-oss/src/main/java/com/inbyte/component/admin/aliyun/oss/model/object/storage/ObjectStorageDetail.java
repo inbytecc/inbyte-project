@@ -40,7 +40,7 @@ public class ObjectStorageDetail {
     private Integer size;
 
     /** 文件类型 */
-    private Integer fileType;
+    private String fileType;
 
     /** 文件类型回调 */
     private String mimeType;
@@ -53,6 +53,9 @@ public class ObjectStorageDetail {
 
     /** 宽度 */
     private Integer width;
+
+    /** 备注 */
+    private String remark;
 
     /** 创建时间 */
     private LocalDateTime createTime;

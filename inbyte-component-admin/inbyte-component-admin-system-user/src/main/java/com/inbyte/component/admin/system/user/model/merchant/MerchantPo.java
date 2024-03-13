@@ -36,7 +36,7 @@ public class MerchantPo {
     /**
      * 拼音名字
      */
-    private String pinYinName;
+    private String pinyinName;
 
     /**
      * 文件数
@@ -49,49 +49,9 @@ public class MerchantPo {
     private Integer fileSizeCount;
 
     /**
-     * 首页配置
-     */
-    private JSONArray homePageConfig;
-
-    /**
-     * 加入我们
-     */
-    private JSONArray joinUs;
-
-    /**
      * 黄金广告位
      */
     private JSONArray goldenBanner;
-
-    /**
-     * 公司介绍
-     */
-    private JSONArray companyIntroduce;
-
-    /**
-     * 关于我们
-     */
-    private JSONArray aboutUs;
-
-    /**
-     * 销售合伙人
-     */
-    private JSONArray salesPartner;
-
-    /**
-     * 技术合伙人
-     */
-    private JSONArray itPartner;
-
-    /**
-     * 技术共创
-     */
-    private JSONArray itEntrepreneurship;
-
-    /**
-     * Boss直聊
-     */
-    private JSONArray chatToBoss;
 
     /**
      * 已删除
@@ -109,7 +69,7 @@ public class MerchantPo {
     private Integer creatorId;
 
     /**
-     * 创建人名字
+     * 创建人
      */
     private String creatorName;
 
@@ -117,5 +77,15 @@ public class MerchantPo {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 修改人ID
+     */
+    private Integer modifierId;
+
+    /**
+     * 修改人
+     */
+    private String modifierName;
 
 }

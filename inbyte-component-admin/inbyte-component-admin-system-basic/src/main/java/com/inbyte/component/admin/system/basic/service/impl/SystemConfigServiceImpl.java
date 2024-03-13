@@ -4,15 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
+import com.inbyte.component.admin.system.basic.model.*;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.basic.service.SystemConfigService;
 import com.inbyte.component.admin.system.basic.dao.SystemConfigMapper;
-import com.inbyte.component.admin.system.basic.model.SystemConfigPo;
-import com.inbyte.component.admin.system.basic.model.SystemConfigQuery;
-import com.inbyte.component.admin.system.basic.model.SystemConfigInsert;
-import com.inbyte.component.admin.system.basic.model.SystemConfigUpdate;
-import com.inbyte.component.admin.system.basic.model.SystemConfigBrief;
-import com.inbyte.component.admin.system.basic.model.SystemConfigDetail;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -71,6 +66,22 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     }
 
     @Override
+    public R updateByKey(SystemConfigUpdateByKey update) {
+        SystemConfigPo systemConfigPo = SystemConfigPo.builder()
+                .value(update.getValue())
+                .updateTime(LocalDateTime.now())
+                .modifierId(SessionUtil.getUserId())
+                .modifierName(SessionUtil.getUserName())
+                .build();
+        BeanUtils.copyProperties(update, systemConfigPo);
+
+        LambdaQueryWrapper<SystemConfigPo> query = new LambdaQueryWrapper<SystemConfigPo>()
+                .eq(SystemConfigPo::getKey, update.getKey());
+        systemConfigMapper.update(systemConfigPo, query);
+        return R.ok("修改成功");
+    }
+
+    @Override
     public R<SystemConfigDetail> detail(Integer id) {
         return R.ok(systemConfigMapper.detail(id));
     }
@@ -82,5 +93,10 @@ public class SystemConfigServiceImpl implements SystemConfigService {
         }
         PageUtil.startPage(query);
         return R.page(systemConfigMapper.list(query));
+    }
+
+    @Override
+    public String getValue(String key) {
+        return systemConfigMapper.getValue(key);
     }
 }

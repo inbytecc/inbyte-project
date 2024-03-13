@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.system.user.service;
 
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.user.model.merchant.MerchantDetail;
+import com.inbyte.component.admin.system.user.model.merchant.MerchantPo;
 import com.inbyte.component.admin.system.user.model.merchant.MerchantUpdate;
 
 /**
@@ -25,6 +25,6 @@ public interface MerchantService {
      *
      * @return MerchantDetail
      **/
-    R<MerchantDetail> info();
+    R<MerchantPo> info();
 
 }

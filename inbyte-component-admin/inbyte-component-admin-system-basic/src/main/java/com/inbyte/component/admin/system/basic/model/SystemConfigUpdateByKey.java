@@ -14,22 +14,17 @@ import org.hibernate.validator.constraints.Length;
  **/
 @Getter
 @Setter
-public class SystemConfigUpdate {
-
-    /** 配置id */
-    @NotNull(message = "ID 不能为空")
-    private Integer id;
+public class SystemConfigUpdateByKey {
 
     /** 配置项key */
+    @NotNull
     @Length(max = 64, message = "配置项key长度不能超过64位")
     private String key;
 
     /** 配置值 */
+    @NotNull
     @Length(max = 65535, message = "配置值长度不能超过65535位")
     private String value;
 
-    /** 配置项描述字段 */
-    @Length(max = 512, message = "配置项描述字段长度不能超过512位")
-    private String remark;
 
 }

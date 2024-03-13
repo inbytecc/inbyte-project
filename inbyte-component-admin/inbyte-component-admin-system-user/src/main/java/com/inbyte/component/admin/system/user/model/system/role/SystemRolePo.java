@@ -66,7 +66,7 @@ public class SystemRolePo {
     /**
       * 修改人
       */
-    private Integer updateUserId;
+    private Integer modifierId;
 
     /**
       * 修改时间

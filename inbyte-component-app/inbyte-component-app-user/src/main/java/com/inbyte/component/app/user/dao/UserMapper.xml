@@ -4,13 +4,13 @@
 
     <insert id="insertSelective" parameterType="com.inbyte.component.app.user.model.UserPo" keyProperty="userId" useGeneratedKeys="true">
         INSERT INTO user
-            (tel, userName, nickName, realName, avatarUrl, createTime)
+            (tel, user_name, nick_name, real_name, avatar, create_time)
         SELECT #{tel, jdbcType=VARCHAR},
-               #{userName, jdbcType=VARCHAR},
-               #{nickName, jdbcType=VARCHAR},
-               #{realName, jdbcType=VARCHAR},
-               #{avatarUrl, jdbcType=VARCHAR},
-               #{createTime, jdbcType=TIMESTAMP}
+               #{user_name, jdbcType=VARCHAR},
+               #{nick_name, jdbcType=VARCHAR},
+               #{real_name, jdbcType=VARCHAR},
+               #{avatar, jdbcType=VARCHAR},
+               #{create_time, jdbcType=TIMESTAMP}
           FROM DUAL
          WHERE NOT EXISTS(SELECT 1
                             FROM user
@@ -18,32 +18,32 @@
     </insert>
 
     <select id="queryByTel" resultType="com.inbyte.component.app.user.model.UserBrief">
-        SELECT userId,
+        SELECT user_id,
                tel,
-               nickName,
-               realName,
+               nick_name,
+               real_name,
                pwd,
-               avatarUrl,
-               createTime
+               avatar,
+               create_time
           FROM user
          WHERE tel = #{tel}
     </select>
 
     <insert id="insertLocationSelective">
         INSERT INTO user_location
-            (userId, etp, eid, longitude, latitude, createTime)
-        SELECT #{userId,jdbcType=INTEGER},
+            (user_id, etp, eid, longitude, latitude, create_time)
+        SELECT #{user_id,jdbcType=INTEGER},
                #{etp,jdbcType=INTEGER},
                #{eid,jdbcType=INTEGER},
                #{longitude,jdbcType=DECIMAL},
                #{latitude,jdbcType=DECIMAL},
-               #{createTime,jdbcType=TIMESTAMP}
+               #{create_time,jdbcType=TIMESTAMP}
           FROM DUAL
          WHERE NOT EXISTS(SELECT 1
                             FROM user_location
                            WHERE eid = #{eid,jdbcType=INTEGER}
                              AND etp = #{etp,jdbcType=INTEGER}
-                             AND createTime > DATE_SUB(#{createTime,jdbcType=TIMESTAMP}, INTERVAL 2 HOUR))
+                             AND create_time > DATE_SUB(#{createTime,jdbcType=TIMESTAMP}, INTERVAL 2 HOUR))
     </insert>
 
 </mapper>

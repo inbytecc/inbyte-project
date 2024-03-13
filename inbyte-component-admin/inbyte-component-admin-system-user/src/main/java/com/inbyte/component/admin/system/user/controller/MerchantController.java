@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.system.user.controller;
 
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.user.model.merchant.MerchantDetail;
+import com.inbyte.component.admin.system.user.model.merchant.MerchantPo;
 import com.inbyte.component.admin.system.user.model.merchant.MerchantUpdate;
 import com.inbyte.component.admin.system.user.service.MerchantService;
 import jakarta.validation.Valid;
@@ -38,7 +38,7 @@ public class MerchantController {
      * @return Result<MerchantDetail>
      **/
     @GetMapping("info")
-    public R<MerchantDetail> info() {
+    public R<MerchantPo> info() {
         return merchantService.info();
     }
 

@@ -117,8 +117,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Override
     public R update(SystemUserUpdate update) {
         SystemUserPo systemUserPo = SystemUserPo.builder()
-                .updateUserId(SessionUtil.getUserId())
-                .updateUserName(SessionUtil.getUserName())
+                .modifierId(SessionUtil.getUserId())
+                .modifierName(SessionUtil.getUserName())
                 .updateTime(LocalDateTime.now())
                 .build();
         BeanUtils.copyProperties(update, systemUserPo);
@@ -173,8 +173,8 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
                 .set(SystemUserPo::getPwd, Initial_Password)
                 .set(SystemUserPo::getNeedUpdatePwd, WhetherDict.Yes.code)
-                .set(SystemUserPo::getUpdateUserId, SessionUtil.getUserId())
-                .set(SystemUserPo::getUpdateUserName, SessionUtil.getUserName())
+                .set(SystemUserPo::getModifierId, SessionUtil.getUserId())
+                .set(SystemUserPo::getModifierName, SessionUtil.getUserName())
                 .set(SystemUserPo::getUpdateTime, LocalDateTime.now())
                 ;
         systemUserMapper.update(null, updateWrapper);

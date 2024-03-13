@@ -1,11 +1,7 @@
 package com.inbyte.component.admin.system.basic.service;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.basic.model.SystemConfigQuery;
-import com.inbyte.component.admin.system.basic.model.SystemConfigInsert;
-import com.inbyte.component.admin.system.basic.model.SystemConfigUpdate;
-import com.inbyte.component.admin.system.basic.model.SystemConfigBrief;
-import com.inbyte.component.admin.system.basic.model.SystemConfigDetail;
+import com.inbyte.component.admin.system.basic.model.*;
 
 /**
  * 系统配置服务
@@ -39,6 +35,8 @@ public interface SystemConfigService {
      **/
     R update(SystemConfigUpdate update);
 
+    R updateByKey(SystemConfigUpdateByKey update);
+
     /**
      * 详情
      *
@@ -54,4 +52,6 @@ public interface SystemConfigService {
      * @return R<Page<SystemConfigBrief>>
      **/
     R<Page<SystemConfigBrief>> list(SystemConfigQuery query);
+
+    String getValue(String key);
 }

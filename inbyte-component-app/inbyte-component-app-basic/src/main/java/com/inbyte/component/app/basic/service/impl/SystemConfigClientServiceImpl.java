@@ -1,7 +1,7 @@
 package com.inbyte.component.app.basic.service.impl;
 
+import com.inbyte.component.app.basic.service.SystemConfigClientService;
 import com.inbyte.component.app.basic.dao.SystemConfigMapper;
-import com.inbyte.component.app.basic.service.SystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @date 2024-03-11 11:03:58
  **/
 @Service
-public class SystemConfigServiceImpl implements SystemConfigService {
+public class SystemConfigClientServiceImpl implements SystemConfigClientService {
 
     @Autowired
     private SystemConfigMapper systemConfigMapper;

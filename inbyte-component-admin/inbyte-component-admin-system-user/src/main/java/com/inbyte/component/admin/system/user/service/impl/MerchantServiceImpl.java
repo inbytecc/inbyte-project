@@ -5,7 +5,6 @@ import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.user.dao.MerchantMapper;
 import com.inbyte.component.admin.system.user.service.MerchantService;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.user.model.merchant.MerchantDetail;
 import com.inbyte.component.admin.system.user.model.merchant.MerchantPo;
 import com.inbyte.component.admin.system.user.model.merchant.MerchantUpdate;
 import org.springframework.beans.BeanUtils;
@@ -40,8 +39,8 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public R<MerchantDetail> info() {
-        return R.ok(merchantMapper.detail(SessionUtil.getDefaultMctNo()));
+    public R<MerchantPo> info() {
+        return R.ok(merchantMapper.selectById(SessionUtil.getDefaultMctNo()));
     }
 
 }
