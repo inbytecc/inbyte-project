@@ -44,6 +44,9 @@ public class SystemConfigPo {
       */
     private String remark;
 
+    /** 开放 */
+    private Integer open;
+
     /**
       * 逻辑删除
       */

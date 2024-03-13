@@ -28,6 +28,9 @@ public class SystemConfigUpdate {
     @Length(max = 65535, message = "配置值长度不能超过65535位")
     private String value;
 
+    /** 开放 */
+    private Integer open;
+
     /** 配置项描述字段 */
     @Length(max = 512, message = "配置项描述字段长度不能超过512位")
     private String remark;

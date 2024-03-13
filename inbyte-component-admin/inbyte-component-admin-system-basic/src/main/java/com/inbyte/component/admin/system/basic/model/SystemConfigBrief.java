@@ -23,6 +23,9 @@ public class SystemConfigBrief {
     /** 配置值 */
     private String value;
 
+    /** 开放 */
+    private Integer open;
+
     /** 配置项描述字段 */
     private String remark;
 
