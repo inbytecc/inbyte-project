@@ -23,41 +23,71 @@ import java.time.LocalDateTime;
 @TableName("user")
 public class UserPo {
 
-    /** 用户ID */
+    /**
+     * 用户ID
+     */
     @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
-    /** 手机号 */
+    /**
+     * 手机号
+     */
     private String tel;
 
-    /** 用户名 */
+    /**
+     * 用户名
+     */
     private String userName;
 
-    /** 昵称 */
+    /**
+     * 昵称
+     */
     private String nickName;
 
-    /** 真实姓名 */
+    /**
+     * 真实姓名
+     */
     private String realName;
 
-    /** 性别 */
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 性别
+     */
     private Integer gender;
 
-    /** 密码MD5 */
+    /**
+     * 密码MD5
+     */
     private String pwd;
 
-    /** 头像 */
+    /**
+     * 头像
+     */
     private String avatar;
 
-    /** 创建时间 */
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    /** 更新时间 */
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
 
-    /** 逻辑删除 */
+    /**
+     * 逻辑删除
+     */
     private Integer deleted;
 
-    /** 备注 */
+    /**
+     * 备注
+     */
     private String remark;
+
 
 }

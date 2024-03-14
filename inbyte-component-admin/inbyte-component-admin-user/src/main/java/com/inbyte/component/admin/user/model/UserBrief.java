@@ -17,41 +17,65 @@ import java.time.LocalDateTime;
 @Setter
 public class UserBrief {
 
-    /** 用户ID */
+    /**
+     * 用户ID
+     */
     private Integer userId;
 
-    /** 手机号 */
-    @Sensitive(strategy = SensitiveStrategy.PHONE)
+    /**
+     * 手机号
+     */
     private String tel;
 
-    /** 用户名 */
+    /**
+     * 用户名
+     */
     private String userName;
 
-    /** 昵称 */
+    /**
+     * 昵称
+     */
     private String nickName;
 
-    /** 真实姓名 */
+    /**
+     * 真实姓名
+     */
     private String realName;
 
-    /** 头像 */
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 性别
+     */
+    private Integer gender;
+
+    /**
+     * 头像
+     */
     private String avatar;
 
-    /** 创建时间 */
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    /** 最近登录时间 */
-    private LocalDateTime latestLoginTime;
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
 
-    /** 推荐人ID */
-    private Integer recommendEid;
+    /**
+     * 逻辑删除
+     */
+    private Integer deleted;
 
-    /** 推荐方式 */
-    private Integer recommendWay;
-
-    /** 备注 */
+    /**
+     * 备注
+     */
     private String remark;
 
-    /** 邀请数量 */
-    private Integer inviteCount;
 
 }

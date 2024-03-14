@@ -7,6 +7,7 @@
                tel,
                nick_name,
                real_name,
+               email,
                avatar,
                remark
           FROM user
@@ -18,6 +19,7 @@
                tel,
                nick_name,
                real_name,
+               email,
                avatar,
                remark
           FROM user
@@ -30,6 +32,7 @@
                user_name,
                nick_name,
                real_name,
+               email,
                avatar,
                create_time,
                update_time,
@@ -44,6 +47,7 @@
                user_name,
                nick_name,
                real_name,
+               email,
                gender,
                avatar,
                create_time,
