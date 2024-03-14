@@ -10,13 +10,18 @@
 	</parent>
 	<artifactId>inbyte-component-app-user</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.inbyte</groupId>
+			<artifactId>inbyte-component-common-email</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

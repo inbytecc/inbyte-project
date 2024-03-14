@@ -48,4 +48,8 @@ public interface UserService {
     R<UserLoginDto> register(UserRegisterParam param);
 
     R<UserBrief> info();
+
+    R<UserLoginDto> emailForgetPwd(String email);
+
+    R<UserLoginDto> emailResetPwd(EmailResetPwdParam emailResetPwdParam);
 }

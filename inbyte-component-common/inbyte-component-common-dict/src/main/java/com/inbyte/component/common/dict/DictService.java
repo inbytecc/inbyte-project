@@ -51,11 +51,11 @@ public class DictService implements InitializingBean {
     /**
      * 业务动态字典
      * 字典缓存
-     * 10分钟过期
+     * 5分钟过期
      */
     private Cache<String, Map<String, String>> BUSINESS_DICT_CACHE = CacheBuilder.newBuilder()
             .maximumSize(100) // 设置缓存的最大大小
-            .expireAfterWrite(10, TimeUnit.MINUTES) // 设置缓存项写入后过期时间
+            .expireAfterWrite(5, TimeUnit.MINUTES) // 设置缓存项写入后过期时间
             .build();
 
 //    /**

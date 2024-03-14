@@ -1,6 +1,9 @@
 package com.inbyte.component.app.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.inbyte.commons.api.CacheManager;
+import com.inbyte.commons.util.IdentityGenerator;
 import com.inbyte.commons.util.MD5Util;
 import com.inbyte.component.app.user.ComponentUserProperties;
 import com.inbyte.component.app.user.model.*;
@@ -13,6 +16,7 @@ import com.inbyte.component.app.user.dao.UserMapper;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
 import com.inbyte.component.app.user.service.UserService;
+import com.inbyte.component.common.email.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +50,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private ComponentUserProperties componentUserProperties;
+    @Autowired(required = false)
+    private MailService mailService;
+    @Autowired(required = false)
+    private CacheManager cacheManager;
 
     /**
      * 注册用户
@@ -230,5 +238,36 @@ public class UserServiceImpl implements UserService {
         UserBrief userBrief = new UserBrief();
         BeanUtils.copyProperties(userPo, userBrief);
         return R.ok(userBrief);
+    }
+
+    @Override
+    public R<UserLoginDto> emailForgetPwd(String email) {
+        // 随机生成验证码
+        String verifyCode = IdentityGenerator.generateRandomDigitalCode();
+        cacheManager.put(email + "-" + verifyCode);
+
+        // 发送邮件
+        mailService.sendSimpleMail(email,
+                componentUserProperties.getEmail().getForgetPwdTitle(),
+                String.format(componentUserProperties.getEmail().getForgetPwdContent(), verifyCode));
+        return R.ok("验证码发送成功");
+    }
+
+    @Override
+    public R<UserLoginDto> emailResetPwd(EmailResetPwdParam emailResetPwdParam) {
+        if (!cacheManager.containsKey(emailResetPwdParam.getEmail() + "-" + emailResetPwdParam.getVerifyCode())) {
+            return R.failure("验证码不正确");
+        }
+
+        LambdaUpdateWrapper<UserPo> updateWrapper = new LambdaUpdateWrapper<UserPo>()
+                .set(UserPo::getPwd, MD5Util.md5(emailResetPwdParam.getPwd()))
+                .set(UserPo::getUpdateTime, LocalDateTime.now())
+                .eq(UserPo::getEmail, emailResetPwdParam.getEmail());
+        userMapper.update(null, updateWrapper);
+
+        UserEmailLoginParam userEmailLoginParam = new UserEmailLoginParam();
+        userEmailLoginParam.setEmail(emailResetPwdParam.getEmail());
+        userEmailLoginParam.setPwd(emailResetPwdParam.getPwd());
+        return emailLogin(userEmailLoginParam);
     }
 }

@@ -69,4 +69,23 @@ public class UserController {
     public R<UserBrief> info() {
         return userService.info();
     }
+
+
+    /**
+     * 忘记密码 - 邮箱
+     * <p>
+     * 通过邮箱找回
+     **/
+    @GetMapping("forget-pwd/email/{email}")
+    public R<UserLoginDto> emailForgetPwd(@PathVariable String email) {
+        return userService.emailForgetPwd(email);
+    }
+
+    /**
+     * 设置邮箱密码
+     **/
+    @PostMapping("reset-pwd/email")
+    public R<UserLoginDto> emailResetPwd(@RequestBody @Valid EmailResetPwdParam emailResetPwdParam) {
+        return userService.emailResetPwd(emailResetPwdParam);
+    }
 }
