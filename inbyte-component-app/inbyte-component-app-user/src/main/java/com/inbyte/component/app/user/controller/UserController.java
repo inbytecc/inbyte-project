@@ -32,7 +32,7 @@ public class UserController {
      * <p>
      * 使用JWT无状态Token, 支持多设备登录, 但不支持服务端控制退出等操作
      **/
-    @RateLimit(rate = 30)
+    @RateLimit(rate = 1, unit = TimeUnit.SECONDS)
     @PostMapping("login/email")
     public R<UserLoginDto> emailLogin(@RequestBody @Valid UserEmailLoginParam param) {
         return userService.emailLogin(param);
