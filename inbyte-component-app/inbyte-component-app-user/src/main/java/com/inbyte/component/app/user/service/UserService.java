@@ -52,4 +52,8 @@ public interface UserService {
     R<UserLoginDto> emailForgetPwd(String email);
 
     R<UserLoginDto> emailResetPwd(EmailResetPwdParam emailResetPwdParam);
+
+    R<UserLoginDto> registerWithEmail(UserRegisterWithVerifyCodeParam param);
+
+    R<UserLoginDto> getRegisterEmailVerifyCode(String email);
 }

@@ -14,6 +14,7 @@ import java.util.List;
 public class ComponentUserProperties {
 
     private List<String> avatars;
+    private boolean allowRegisterNotVerified = false;
 
     private EmailForgetPwdProperties email;
 
@@ -31,5 +32,13 @@ public class ComponentUserProperties {
 
     public void setEmail(EmailForgetPwdProperties email) {
         this.email = email;
+    }
+
+    public boolean isAllowRegisterNotVerified() {
+        return allowRegisterNotVerified;
+    }
+
+    public void setAllowRegisterNotVerified(boolean allowRegisterNotVerified) {
+        this.allowRegisterNotVerified = allowRegisterNotVerified;
     }
 }

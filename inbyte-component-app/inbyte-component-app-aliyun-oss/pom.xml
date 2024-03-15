@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-user</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.inbyte</groupId>

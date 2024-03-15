@@ -14,6 +14,15 @@ public class EmailForgetPwdProperties {
      */
     private String forgetPwdContent;
 
+    /**
+     * 注册标题
+     */
+    private String registerTitle;
+    /**
+     * 注册内容
+     */
+    private String registerContent;
+
     public String getForgetPwdTitle() {
         return forgetPwdTitle;
     }
@@ -28,5 +37,21 @@ public class EmailForgetPwdProperties {
 
     public void setForgetPwdContent(String forgetPwdContent) {
         this.forgetPwdContent = forgetPwdContent;
+    }
+
+    public String getRegisterTitle() {
+        return registerTitle;
+    }
+
+    public void setRegisterTitle(String registerTitle) {
+        this.registerTitle = registerTitle;
+    }
+
+    public String getRegisterContent() {
+        return registerContent;
+    }
+
+    public void setRegisterContent(String registerContent) {
+        this.registerContent = registerContent;
     }
 }

@@ -242,20 +242,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R<UserLoginDto> emailForgetPwd(String email) {
-        // 随机生成验证码
-        String verifyCode = IdentityGenerator.generateRandomDigitalCode();
-        cacheManager.put(email + "-" + verifyCode);
-
         // 发送邮件
-        mailService.sendSimpleMail(email,
+        sendEmailVerifyCode(email,
                 componentUserProperties.getEmail().getForgetPwdTitle(),
-                String.format(componentUserProperties.getEmail().getForgetPwdContent(), verifyCode));
+                componentUserProperties.getEmail().getForgetPwdContent());
         return R.ok("验证码发送成功");
     }
 
     @Override
     public R<UserLoginDto> emailResetPwd(EmailResetPwdParam emailResetPwdParam) {
-        if (!cacheManager.containsKey(emailResetPwdParam.getEmail() + "-" + emailResetPwdParam.getVerifyCode())) {
+        if (!verifyCode(emailResetPwdParam.getEmail(), emailResetPwdParam.getVerifyCode())) {
             return R.failure("验证码不正确");
         }
 
@@ -269,5 +265,35 @@ public class UserServiceImpl implements UserService {
         userEmailLoginParam.setEmail(emailResetPwdParam.getEmail());
         userEmailLoginParam.setPwd(emailResetPwdParam.getPwd());
         return emailLogin(userEmailLoginParam);
+    }
+
+    @Override
+    public R<UserLoginDto> registerWithEmail(UserRegisterWithVerifyCodeParam param) {
+        if (!verifyCode(param.getEmail(), param.getVerifyCode())) {
+            return R.failure("验证码不正确");
+        }
+        return register(param);
+    }
+
+    @Override
+    public R<UserLoginDto> getRegisterEmailVerifyCode(String email) {
+        // 发送邮件
+        sendEmailVerifyCode(email,
+                componentUserProperties.getEmail().getRegisterTitle(),
+                componentUserProperties.getEmail().getRegisterContent());
+        return R.ok("验证码发送成功");
+    }
+
+    private void sendEmailVerifyCode( String email, String title, String content) {
+        // 随机生成验证码
+        String verifyCode = IdentityGenerator.generateRandomDigitalCode();
+        cacheManager.put(email + "-" + verifyCode);
+
+        // 发送邮件
+        mailService.sendSimpleMail(email, title, String.format(content, verifyCode));
+    }
+
+    private boolean verifyCode(String email, String verifyCode) {
+        return cacheManager.containsKey(email + "-" + verifyCode);
     }
 }
