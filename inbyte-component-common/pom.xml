@@ -17,6 +17,7 @@
 		<module>inbyte-component-common-district</module>
 		<module>inbyte-component-common-weixin-enterprise</module>
 		<module>inbyte-component-common-weixin-open</module>
+		<module>inbyte-component-common-weixin-robot</module>
 		<module>inbyte-component-common-email</module>
 	</modules>
 
