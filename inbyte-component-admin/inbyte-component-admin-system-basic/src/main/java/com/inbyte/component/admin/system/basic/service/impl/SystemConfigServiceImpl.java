@@ -68,19 +68,20 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
     @Override
     public R updateByKey(SystemConfigUpdateByKey update) {
-        String val;
-        if (update.getValue() instanceof String || update.getValue() instanceof Integer) {
-            val = update.getValue().toString();
-        } else {
-            val = JSON.toJSONString(update.getValue());
-        }
         SystemConfigPo systemConfigPo = SystemConfigPo.builder()
-                .value(val)
                 .updateTime(LocalDateTime.now())
                 .modifierId(SessionUtil.getUserId())
                 .modifierName(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(update, systemConfigPo);
+
+        String val;
+        if (update.getValue() instanceof String || update.getValue() instanceof Number) {
+            val = update.getValue().toString();
+        } else {
+            val = JSON.toJSONString(update.getValue());
+        }
+        systemConfigPo.setValue(val);
 
         LambdaQueryWrapper<SystemConfigPo> query = new LambdaQueryWrapper<SystemConfigPo>()
                 .eq(SystemConfigPo::getKey, update.getKey());
