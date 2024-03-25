@@ -136,7 +136,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .set(UserWeixinMpPo::getLongitude, param.getLongitude())
                 .set(UserWeixinMpPo::getLatitude, param.getLatitude())
                 .set(UserWeixinMpPo::getLatestLoginTime, now)
-                .setSql("loginCount = loginCount + 1");
+                .setSql("login_count = login_count + 1");
         // 新登录微信 unionId 不为空, 而之前 unionId 为空
         // 说明首次注册小程序之后又关注了公众号, 再更新 unionId 信息, 以便账户关联, 发送用户消息等
         if (StringUtil.isEmpty(userWeixin.getUnionId()) && StringUtil.isNotEmpty(credentialDto.getUnionid())) {
