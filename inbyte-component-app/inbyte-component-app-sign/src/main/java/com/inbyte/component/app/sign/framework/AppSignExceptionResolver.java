@@ -3,6 +3,7 @@ package com.inbyte.component.app.sign.framework;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author chenjw
  * @date 2020/8/7
  **/
+@Order(0)
 @ControllerAdvice
 @Component
 public class AppSignExceptionResolver {
