@@ -1,4 +1,4 @@
-package com.inbyte.component.common.weixin.rebot;
+package com.inbyte.component.common.weixin.robot;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
