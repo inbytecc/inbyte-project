@@ -7,10 +7,10 @@
                `name`,
                menu,
                remark,
-               create_user_id,
-               create_user_name,
+               creator_id,
+               creator_name,
                create_time,
-               update_user_id,
+               modifier_id,
                update_time
           FROM system_role
          WHERE role_id = #{roleId, jdbcType=INTEGER}
