@@ -26,7 +26,7 @@ public class QrcodeMerchantUserPo {
     /**
      * 注册号
      */
-    @TableId(value = "qmUserId", type = IdType.AUTO)
+    @TableId(value = "qm_user_id", type = IdType.AUTO)
     private Integer qmUserId;
 
     /**

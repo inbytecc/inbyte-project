@@ -26,7 +26,7 @@ public class CustomerCluePo {
     /**
      * 线索ID
      */
-    @TableId(value = "clueId", type = IdType.AUTO)
+    @TableId(value = "clue_id", type = IdType.AUTO)
     private Integer clueId;
 
     /**

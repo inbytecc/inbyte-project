@@ -3,83 +3,83 @@
 <mapper namespace="com.inbyte.component.admin.marketing.dao.CustomerClueMapper">
 
     <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueBrief">
-        SELECT clueId,
-               userId,
-               nickName,
+        SELECT clue_id,
+               user_id,
+               nick_name,
                eid,
                etp,
                tel,
                dispatched,
-               contactPersonId,
-               contactPersonName,
-               latestContactTime,
-               nextContactTime,
+               contact_person_id,
+               contact_person_name,
+               latest_contact_time,
+               next_contact_time,
                dropped,
-               dropReason,
+               drop_reason,
                converted,
-               updateTime
+               update_time
           FROM customer_clue
-         WHERE clueId = #{clueId, jdbcType=INTEGER}
+         WHERE clue_id = #{clueId, jdbcType=INTEGER}
     </select>
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueDetail">
-        SELECT clueId,
-               userId,
-               nickName,
+        SELECT clue_id,
+               user_id,
+               nick_name,
                eid,
                etp,
                tel,
                dispatched,
-               contactPersonId,
-               contactPersonName,
-               latestContactTime,
-               nextContactTime,
+               contact_person_id,
+               contact_person_name,
+               latest_contact_time,
+               next_contact_time,
                dropped,
-               dropReason,
+               drop_reason,
                converted,
                remark,
-               createTime,
-               creatorId,
-               creatorName,
-               updateTime
+               create_time,
+               creator_id,
+               creator_name,
+               update_time
           FROM customer_clue
-         WHERE clueId = #{clueId, jdbcType=INTEGER}
+         WHERE clue_id = #{clueId, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueBrief">
-        SELECT clueId,
-               userId,
-               nickName,
+        SELECT clue_id,
+               user_id,
+               nick_name,
                tel,
-               subjectName,
-               moduleName,
+               subject_name,
+               module_name,
                dispatched,
-               contactPersonId,
-               contactPersonName,
+               contact_person_id,
+               contact_person_name,
                contacting,
-               contactStage,
-               latestContactTime,
-               nextContactTime,
+               contact_stage,
+               latest_contact_time,
+               next_contact_time,
                converted,
-               recommendEid,
-               recommendUserName,
-               latestContactMsg,
+               recommend_eid,
+               recommend_user_name,
+               latest_contact_msg,
                longitude,
                latitude,
                remark,
-               createTime,
-               updateTime
+               create_time,
+               update_time
           FROM customer_clue
          WHERE deleted = 0
-           AND mctNo = #{mctNo}
+           AND mct_no = #{mctNo}
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="clueStatus != null and clueStatus == 1">
-           AND contactStage IN(0,1,2,3,4,5,6)
+           AND contact_stage IN(0,1,2,3,4,5,6)
         </if>
         <if test="clueStatus != null and clueStatus == 2">
            AND dropped = 1
@@ -88,7 +88,7 @@
            AND converted = 1
         </if>
         <if test="keyword != null and keyword != ''">
-            AND (nickName LIKE CONCAT('%', #{keyword}, '%')
+            AND (nick_name LIKE CONCAT('%', #{keyword}, '%')
             OR tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
 
@@ -97,7 +97,7 @@
                 ORDER BY ${orderColumn} ${ordering}
             </when>
             <otherwise>
-                ORDER BY clueId DESC
+                ORDER BY clue_id DESC
             </otherwise>
         </choose>
     </select>

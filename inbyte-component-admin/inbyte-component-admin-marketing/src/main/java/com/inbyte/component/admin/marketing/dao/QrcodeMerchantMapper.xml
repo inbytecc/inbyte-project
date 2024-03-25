@@ -5,23 +5,23 @@
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.qrcode.QrcodeMerchantDetail">
         SELECT qcid,
                `name`,
-               investCost,
-               onlineAd,
-               adPageCount,
+               invest_cost,
+               online_ad,
+               ad_page_count,
                page,
                scene,
                remark,
-               viewCount,
-               registerCount,
-               clueCount,
-               orderCount,
-               tradeAmount,
+               view_count,
+               register_count,
+               clue_count,
+               order_count,
+               trade_amount,
                longitude,
                latitude,
-               createTime,
-               creatorId,
-               creatorName,
-               updateTime
+               create_time,
+               creator_id,
+               creator_name,
+               update_time
           FROM qrcode_merchant
          WHERE qcid = #{qcid, jdbcType=INTEGER}
     </select>
@@ -29,30 +29,30 @@
     <select id="list" resultType="com.inbyte.component.admin.marketing.model.qrcode.QrcodeMerchantBrief">
         SELECT qcid,
                `name`,
-               investCost,
-               onlineAd,
-               adPageCount,
+               invest_cost,
+               online_ad,
+               ad_page_count,
                page,
                scene,
                remark,
-               viewCount,
-               relationCount,
-               registerCount,
-               clueCount,
-               orderCount,
-               tradeAmount,
+               view_count,
+               relation_count,
+               register_count,
+               clue_count,
+               order_count,
+               trade_amount,
                longitude,
                latitude,
-               createTime,
-               updateTime
+               create_time,
+               update_time
           FROM qrcode_merchant
          WHERE deleted = 0
-           AND mctNo = #{mctNo}
+           AND mct_no = #{mctNo}
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
             AND (name LIKE CONCAT('%', #{keyword}, '%')

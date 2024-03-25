@@ -25,7 +25,7 @@ public class CustomerClueLogPo {
     /**
      * 跟进记录ID
      */
-    @TableId(value = "logId", type = IdType.AUTO)
+    @TableId(value = "log_id", type = IdType.AUTO)
     private Integer logId;
 
     /**

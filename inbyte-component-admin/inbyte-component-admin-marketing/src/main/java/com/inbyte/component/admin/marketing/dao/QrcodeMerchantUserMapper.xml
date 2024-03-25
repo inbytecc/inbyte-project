@@ -3,45 +3,45 @@
 <mapper namespace="com.inbyte.component.admin.marketing.dao.QrcodeMerchantUserMapper">
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserDetail">
-        SELECT qmUserId,
+        SELECT qm_user_id,
                qcid,
                eid,
                etp,
                longitude,
                latitude,
-               createTime
+               create_time
           FROM qrcode_merchant_user
-         WHERE qmUserId = #{qmUserId, jdbcType=INTEGER}
+         WHERE qm_user_id = #{qmUserId, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserBrief">
-        SELECT qmr.qmUserId,
+        SELECT qmr.qm_user_id,
                qmr.qcid,
                qmr.eid,
                qmr.etp,
                qmr.registered,
                qmr.appointed,
-               qmr.madeDeal,
-               qmr.orderCount,
-               qmr.tradeAmount,
-               qmr.createTime,
-               uw.nickName
+               qmr.made_deal,
+               qmr.order_count,
+               qmr.trade_amount,
+               qmr.create_time,
+               uw.nick_name
           FROM qrcode_merchant_user qmr
           LEFT JOIN user_weixin_mp uw
             ON qmr.eid = uw.eid
          WHERE deleted = 0
-           AND uw.mctNo = #{mctNo}
+           AND uw.mct_no = #{mctNo}
            AND qmr.qcid = #{qcid, jdbcType=INTEGER}
         <if test="startDate != null">
-           AND qmr.createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND qmr.create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND qmr.createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND qmr.create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
-            AND uw.nickName LIKE CONCAT('%', #{keyword}, '%')
+            AND uw.nick_name LIKE CONCAT('%', #{keyword}, '%')
         </if>
-         ORDER BY qmr.qmUserId DESC
+         ORDER BY qmr.qm_user_id DESC
     </select>
 
     <select id="userDistribution" resultType="com.inbyte.component.admin.marketing.model.UserLocationBrief">
@@ -55,15 +55,15 @@
     </select>
 
     <select id="userTrend" resultType="com.inbyte.component.admin.marketing.model.UserTrendBrief">
-        SELECT DATE_FORMAT(createTime,'%Y-%m-%d') `date`,
+        SELECT DATE_FORMAT(create_time,'%Y-%m-%d') `date`,
                count(1) `count`
           FROM qrcode_merchant_user
          WHERE qcid = #{qcid}
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
          GROUP BY `date`
          ORDER BY `date` ASC

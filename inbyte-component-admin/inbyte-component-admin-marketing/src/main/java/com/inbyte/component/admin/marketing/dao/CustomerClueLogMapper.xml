@@ -3,58 +3,58 @@
 <mapper namespace="com.inbyte.component.admin.marketing.dao.CustomerClueLogMapper">
 
     <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.log.CustomerClueLogBrief">
-        SELECT logId,
-               clueId,
-               contactWay,
-               contactStage,
-               mctNo,
+        SELECT log_id,
+               clue_id,
+               contact_way,
+               contact_stage,
+               mct_no,
                remark,
-               nextContactTime,
-               updateTime
+               next_contact_time,
+               update_time
           FROM customer_clue_log
-         WHERE logId = #{logId, jdbcType=INTEGER}
+         WHERE log_id = #{logId, jdbcType=INTEGER}
     </select>
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.log.CustomerClueLogDetail">
-        SELECT logId,
-               clueId,
-               contactWay,
-               contactStage,
-               mctNo,
+        SELECT log_id,
+               clue_id,
+               contact_way,
+               contact_stage,
+               mct_no,
                remark,
-               nextContactTime,
-               createTime,
-               creatorId,
-               creatorName,
-               updateTime
+               next_contact_time,
+               create_time,
+               creator_id,
+               creator_name,
+               update_time
           FROM customer_clue_log
-         WHERE logId = #{logId, jdbcType=INTEGER}
+         WHERE log_id = #{logId, jdbcType=INTEGER}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.marketing.model.clue.log.CustomerClueLogBrief">
-        SELECT logId,
-               clueId,
-               contactWay,
-               contactStage,
-               mctNo,
+        SELECT log_id,
+               clue_id,
+               contact_way,
+               contact_stage,
+               mct_no,
                remark,
-               nextContactTime,
-               createTime,
-               updateTime
+               next_contact_time,
+               create_time,
+               update_time
           FROM customer_clue_log
          WHERE deleted = 0
-           AND mctNo = #{mctNo}
-           AND clueId = #{clueId}
+           AND mct_no = #{mctNo}
+           AND clue_id = #{clueId}
         <if test="startDate != null">
-           AND createTime &gt; #{startDate, jdbcType=TIMESTAMP}
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>
         <if test="endDate != null">
-           AND createTime &lt; #{endDate, jdbcType=TIMESTAMP}
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
             AND (remark LIKE CONCAT('%', #{keyword}, '%')
             OR tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
-         ORDER BY logId DESC
+         ORDER BY log_id DESC
     </select>
 </mapper>
