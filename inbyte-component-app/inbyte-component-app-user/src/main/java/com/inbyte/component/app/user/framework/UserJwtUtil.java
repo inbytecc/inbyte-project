@@ -77,7 +77,7 @@ public class UserJwtUtil {
         } catch (JWTVerificationException e) {
             // 这里只做验证, 不抛异常也不做进一步记录
             // 因为日志拦截记录需要, 而使用时不影响业务
-            log.info("JWT Token签名验证异常");
+            log.info("App User JWT Token签名验证异常:{}", e.getMessage());
             return null;
         }
     }

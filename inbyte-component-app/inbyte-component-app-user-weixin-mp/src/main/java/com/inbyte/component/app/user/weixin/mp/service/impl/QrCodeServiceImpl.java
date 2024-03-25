@@ -1,5 +1,6 @@
 package com.inbyte.component.app.user.weixin.mp.service.impl;
 
+import com.inbyte.component.app.sign.framework.AppUtil;
 import com.inbyte.component.app.user.dict.UserSourceTypeDict;
 import com.inbyte.component.app.user.weixin.mp.SceneUtil;
 import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper;
@@ -11,7 +12,6 @@ import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeUserService;
 import com.inbyte.commons.model.dict.AppTypeDict;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.user.framework.AppUtil;
 import com.inbyte.component.app.user.framework.SessionUtil;
 import com.inbyte.commons.model.dto.BasePath;
 import com.inbyte.util.weixin.mp.client.WxMpQrCodeClient;
