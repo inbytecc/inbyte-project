@@ -4,7 +4,7 @@
 
     <insert id="insertSelective" parameterType="com.inbyte.component.app.user.weixin.mp.model.qrcode.merchant.user.QrcodeMerchantUserPo" keyProperty="qmUserId" useGeneratedKeys="true">
         INSERT INTO qrcode_merchant_user
-            (qcid, eid, etp, longitude, latitude, createTime)
+            (qcid, eid, etp, longitude, latitude, create_time)
         SELECT #{qcid, jdbcType=INTEGER},
                #{eid, jdbcType=INTEGER},
                #{etp, jdbcType=INTEGER},

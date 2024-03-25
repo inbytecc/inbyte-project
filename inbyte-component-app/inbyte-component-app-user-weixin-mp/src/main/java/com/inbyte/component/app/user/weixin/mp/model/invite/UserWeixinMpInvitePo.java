@@ -25,7 +25,7 @@ public class UserWeixinMpInvitePo {
     /**
       * 邀请注册ID
       */
-    @TableId(value = "inviteId", type = IdType.AUTO)
+    @TableId(value = "invite_id", type = IdType.AUTO)
     private Integer inviteId;
 
     /**

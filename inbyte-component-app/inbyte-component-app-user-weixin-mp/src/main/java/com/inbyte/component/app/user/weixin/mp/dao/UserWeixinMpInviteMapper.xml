@@ -3,13 +3,13 @@
 <mapper namespace="com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpInviteMapper">
 
     <select id="list" resultType="com.inbyte.component.app.user.weixin.mp.model.UserInviteDto">
-        SELECT uw.nickName,
+        SELECT uw.nick_name,
                wmi.appointed,
-               wmi.createTime
+               wmi.create_time
           FROM user_weixin_mp_invite wmi
          INNER JOIN user_weixin_mp uw
             ON wmi.eid = uw.eid
-         WHERE wmi.recommendEid = #{recommendEid}
-         ORDER BY wmi.createTime DESC
+         WHERE wmi.recommend_eid = #{recommendEid}
+         ORDER BY wmi.create_time DESC
     </select>
 </mapper>
