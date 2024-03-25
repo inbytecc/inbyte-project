@@ -1,5 +1,4 @@
 package com.inbyte.component.admin.system.basic.controller;
-import com.alibaba.fastjson2.JSON;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.admin.system.basic.model.*;
@@ -16,7 +15,7 @@ import jakarta.validation.Valid;
  * @date 2024-03-11 11:03:58
  **/
 @RestController
-@RequestMapping("system/config")
+@RequestMapping("admin/system/config")
 public class SystemConfigController {
 
     @Autowired
