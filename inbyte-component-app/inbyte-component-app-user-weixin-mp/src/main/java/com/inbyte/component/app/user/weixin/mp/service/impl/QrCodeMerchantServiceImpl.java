@@ -85,7 +85,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
         if (i > 0) {
             LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
                     .eq(QrcodeMerchantPo::getQcid, qcid)
-                    .setSql("relationCount = relationCount + 1");
+                    .setSql("relation_count = relation_count + 1");
             qrcodeMerchantMapper.update(null, updateWrapper);
             log.info("关联用户商户二维码关系成功:{}, {}, {}", qcid, eid, etp);
         }
@@ -102,7 +102,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
 
         LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
                 .eq(QrcodeMerchantPo::getQcid, scanEventNotify.getQ())
-                .setSql("viewCount = viewCount + 1");
+                .setSql("view_count = view_count + 1");
         qrcodeMerchantMapper.update(null, updateWrapper);
 
         log.info("用户扫描商家码, 扫码信息:{}, 二维码:{}",
@@ -124,7 +124,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
 
         LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
                 .eq(QrcodeMerchantPo::getQcid, qrRegisterMerchantParam.getQ())
-                .setSql("registerCount = registerCount + 1");
+                .setSql("register_count = register_count + 1");
         qrcodeMerchantMapper.update(null, updateWrapper);
 
         LambdaUpdateWrapper<QrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
@@ -154,15 +154,15 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
                 .eq(QrcodeMerchantUserPo::getQcid, userWeixinMpPo.getQcid())
                 .eq(QrcodeMerchantUserPo::getEid, userWeixinMpPo.getEid())
                 .set(QrcodeMerchantUserPo::getMadeDeal, WhetherDict.Yes.code)
-                .setSql("orderCount = orderCount + 1")
-                .setSql("tradeAmount = tradeAmount + " + purchaseEventNotify.getOrderAmount());
+                .setSql("order_count = order_count + 1")
+                .setSql("trade_amount = trade_amount + " + purchaseEventNotify.getOrderAmount());
 
         int update = qrcodeMerchantUserMapper.update(null, qrcodeMerchantUserUpdate);
         if (update == 1) {
             LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
                     .eq(QrcodeMerchantPo::getQcid, userWeixinMpPo.getQcid())
-                    .setSql("orderCount = orderCount + 1")
-                    .setSql("tradeAmount = tradeAmount + " + purchaseEventNotify.getOrderAmount());
+                    .setSql("order_count = order_count + 1")
+                    .setSql("trade_amount = trade_amount + " + purchaseEventNotify.getOrderAmount());
             qrcodeMerchantMapper.update(null, updateWrapper);
         }
 
@@ -194,7 +194,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
         if (update == 1) {
             LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper();
             updateWrapper.eq(QrcodeMerchantPo::getQcid, userWeixinMpPo.getQcid());
-            updateWrapper.setSql("clueCount = clueCount + 1");
+            updateWrapper.setSql("clue_count = clue_count + 1");
             qrcodeMerchantMapper.update(null, updateWrapper);
         }
 

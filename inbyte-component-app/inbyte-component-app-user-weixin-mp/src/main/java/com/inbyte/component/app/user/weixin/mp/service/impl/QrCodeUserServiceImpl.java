@@ -44,7 +44,7 @@ public class QrCodeUserServiceImpl implements QrCodeUserService {
 
         LambdaUpdateWrapper<UserWeixinMpPo> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(UserWeixinMpPo::getEid, recommendEid);
-        updateWrapper.setSql("inviteCount = inviteCount + 1");
+        updateWrapper.setSql("invite_count = invite_count + 1");
         userWeixinMpMapper.update(null, updateWrapper);
     }
 
