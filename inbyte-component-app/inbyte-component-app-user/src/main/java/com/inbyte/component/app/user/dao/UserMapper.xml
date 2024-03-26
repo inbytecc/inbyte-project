@@ -6,11 +6,11 @@
         INSERT INTO user
             (tel, user_name, nick_name, real_name, avatar, create_time)
         SELECT #{tel, jdbcType=VARCHAR},
-               #{user_name, jdbcType=VARCHAR},
-               #{nick_name, jdbcType=VARCHAR},
-               #{real_name, jdbcType=VARCHAR},
+               #{userName, jdbcType=VARCHAR},
+               #{nickName, jdbcType=VARCHAR},
+               #{realName, jdbcType=VARCHAR},
                #{avatar, jdbcType=VARCHAR},
-               #{create_time, jdbcType=TIMESTAMP}
+               #{createTime, jdbcType=TIMESTAMP}
           FROM DUAL
          WHERE NOT EXISTS(SELECT 1
                             FROM user
@@ -32,12 +32,12 @@
     <insert id="insertLocationSelective">
         INSERT INTO user_location
             (user_id, etp, eid, longitude, latitude, create_time)
-        SELECT #{user_id,jdbcType=INTEGER},
+        SELECT #{userId,jdbcType=INTEGER},
                #{etp,jdbcType=INTEGER},
                #{eid,jdbcType=INTEGER},
                #{longitude,jdbcType=DECIMAL},
                #{latitude,jdbcType=DECIMAL},
-               #{create_time,jdbcType=TIMESTAMP}
+               #{createTime,jdbcType=TIMESTAMP}
           FROM DUAL
          WHERE NOT EXISTS(SELECT 1
                             FROM user_location
