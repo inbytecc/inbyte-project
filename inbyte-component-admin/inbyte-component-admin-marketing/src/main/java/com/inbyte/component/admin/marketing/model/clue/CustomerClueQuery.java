@@ -40,7 +40,7 @@ public class CustomerClueQuery extends BaseQuery {
     /**
      * 排序字段
      **/
-    @Pattern(regexp = "createTime|latestContactTime|nextContactTime|intentionLevel", message = "排序字段不合法")
+    @Pattern(regexp = "create_time|latest_contact_time|next_contact_time|intention_level", message = "排序字段不合法")
     private String orderColumn;
     /**
      * 升降序

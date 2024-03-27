@@ -35,7 +35,7 @@ public class UserAlipayMpQuery extends BasePage {
     /**
      * 排序字段
      **/
-    @Pattern(regexp = "createTime|latestLoginTime|locationUpdateTime", message = "排序字段不合法")
+    @Pattern(regexp = "create_time|latest_login_time|location_update_time", message = "排序字段不合法")
     private String orderColumn;
     /**
      * 升降序

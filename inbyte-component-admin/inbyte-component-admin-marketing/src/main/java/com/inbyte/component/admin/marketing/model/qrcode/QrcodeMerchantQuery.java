@@ -34,7 +34,7 @@ public class QrcodeMerchantQuery extends BaseQuery {
     /**
      * 排序字段
      **/
-    @Pattern(regexp = "investCost|adPageCount|viewCount|registerCount|clueCount|orderCount|tradeAmount|createTime", message = "排序字段不合法")
+    @Pattern(regexp = "invest_cost|ad_page_count|view_count|register_count|clue_count|order_count|trade_amount|create_time", message = "排序字段不合法")
     private String orderColumn;
     /**
      * 升降序

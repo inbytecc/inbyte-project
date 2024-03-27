@@ -35,7 +35,7 @@ public class UserWeixinMpQuery extends BaseQuery {
     /**
      * 排序字段
      **/
-    @Pattern(regexp = "createTime|latestLoginTime|locationUpdateTime|inviteCount|loginCount", message = "排序字段不合法")
+    @Pattern(regexp = "create_time|latest_login_time|location_update_time|invite_count|login_count", message = "排序字段不合法")
     private String orderColumn;
     /**
      * 升降序
