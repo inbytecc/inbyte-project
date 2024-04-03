@@ -5,10 +5,10 @@
     <springProperty name="ENV" scope="context" source="spring.profiles.active"/>
     <if condition='property("os.name").contains("Mac OS X")'>
         <then>
-            <property name="LOG_HOME" value="${user.home}/storage/logs/pyrange/${APP_NAME}"/>
+            <property name="LOG_HOME" value="${user.home}/storage/logs/${APP_NAME}"/>
         </then>
         <else>
-            <property name="LOG_HOME" value="/storage/logs/pyrange/${APP_NAME}"/>
+            <property name="LOG_HOME" value="/storage/logs/${APP_NAME}"/>
         </else>
     </if>
 

@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.aliyun.oss.model.object.storage;
 
-import com.inbyte.commons.util.convert.ReadableByte;
+import com.inbyte.commons.util.serialize.ReadableByte;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;

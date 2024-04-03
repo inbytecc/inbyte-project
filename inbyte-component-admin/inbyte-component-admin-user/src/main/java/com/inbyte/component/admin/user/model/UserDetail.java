@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.user.model;
 
-import com.inbyte.commons.util.convert.Sensitive;
-import com.inbyte.commons.util.convert.SensitiveStrategy;
+import com.inbyte.commons.util.serialize.Sensitive;
+import com.inbyte.commons.util.serialize.SensitiveStrategy;
 import lombok.Getter;
 import lombok.Setter;
 

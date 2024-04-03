@@ -3,6 +3,7 @@ package com.inbyte.component.common.dict;
 import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.util.SpringContextUtil;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -37,14 +38,13 @@ public class DictUtil {
     /**
      * 获取字典名称
      *
-     * @param dictClass
+     * @param dictName
      * @param code
      * @return
      */
-    public static String getName(Class dictClass, Integer code) {
-        return getDict(dictClass).get(code);
+    public static String getName(String dictName, Serializable code) {
+        return getDict(dictName).get(String.valueOf(code));
     }
-
     /**
      * 获取字典名称
      *
@@ -52,8 +52,8 @@ public class DictUtil {
      * @param code
      * @return
      */
-    public static String getName(String dictName, Integer code) {
-        return getDict(dictName).get(code);
+    public static String getName(Class dictName, Serializable code) {
+        return getDict(dictName).get(String.valueOf(code));
     }
 
     /**
