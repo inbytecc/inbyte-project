@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
     <parent>
 		<groupId>com.inbyte</groupId>
-		<artifactId>inbyte-util</artifactId>
+		<artifactId>inbyte-project</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>inbyte-commons</artifactId>

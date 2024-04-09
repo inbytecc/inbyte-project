@@ -15,6 +15,7 @@
     </properties>
 
     <modules>
+        <module>inbyte-commons</module>
         <module>inbyte-component</module>
         <module>inbyte-util</module>
     </modules>
