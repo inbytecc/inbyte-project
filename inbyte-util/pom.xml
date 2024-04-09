@@ -8,13 +8,13 @@
 		<groupId>com.inbyte</groupId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>inbyte-component</artifactId>
+	<artifactId>inbyte-util</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>inbyte-component-admin</module>
-		<module>inbyte-component-app</module>
-		<module>inbyte-component-common</module>
+		<module>inbyte-commons</module>
+		<module>inbyte-util-itext</module>
+		<module>inbyte-util-weixin-mp</module>
 	</modules>
 
 	<build>
