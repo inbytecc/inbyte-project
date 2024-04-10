@@ -11,6 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class BaseQuery extends BasePage {
 
     /**
+     * 用户Id
+     * 服务端参数，前端忽略
+     * @ignore
+     */
+    @JsonIgnore
+    private Integer userId;
+    /**
      * 当前场馆ID
      * 服务端参数，前端忽略
      * @ignore
@@ -39,5 +46,13 @@ public class BaseQuery extends BasePage {
 
     public void setVenueId(Integer venueId) {
         this.venueId = venueId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
