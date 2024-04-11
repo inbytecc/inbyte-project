@@ -6,6 +6,7 @@ import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
 import com.inbyte.commons.exception.InbyteException;
+import com.inbyte.commons.model.dict.UploadSourceEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
@@ -13,11 +14,14 @@ import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.app.aliyun.oss.api.OssMerchant;
 import com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper;
-import com.inbyte.component.app.aliyun.oss.model.*;
+import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignDto;
+import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignParam;
+import com.inbyte.component.app.aliyun.oss.model.AliYunOssUploadFileParam;
+import com.inbyte.component.app.aliyun.oss.model.OssMerchantDto;
 import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStoragePo;
-import com.inbyte.component.common.basic.InbyteMerchantProperties;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
+import com.inbyte.component.common.basic.InbyteMerchantProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -121,7 +125,7 @@ public class AliyunOssService implements InitializingBean {
                     .endPoint(endpoint)
                     .fileName(param.getFileName())
                     .fileType(param.getFileType())
-                    .uploadSource(UploadSourceDict.User.code)
+                    .uploadSource(UploadSourceEnum.User)
                     .bucket(bucketName)
                     .path(param.getPath())
                     .createTime(now)
@@ -386,8 +390,8 @@ public class AliyunOssService implements InitializingBean {
                 .fileName(param.getFileName())
                 .filePath(objectName)
                 .fileType(param.getFileType())
-                .mimeType(FileTypeDict.getByCode(Integer.valueOf(param.getFileType())).name)
-                .uploadSource(UploadSourceDict.User.code)
+//                .mimeType(FileTypeEnum.getByCode(Integer.valueOf(param.getFileType())).name)
+                .uploadSource(UploadSourceEnum.User)
                 .size(param.getFileBytes().length)
                 .bucket(bucketName)
                 .path(param.getPage())

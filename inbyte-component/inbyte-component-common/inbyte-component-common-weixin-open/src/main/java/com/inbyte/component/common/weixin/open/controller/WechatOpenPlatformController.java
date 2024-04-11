@@ -1,5 +1,6 @@
 package com.inbyte.component.common.weixin.open.controller;
 
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.component.common.weixin.open.service.WxOpenPlatformService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -44,7 +45,8 @@ public class WechatOpenPlatformController {
 
         if (!StringUtils.equalsIgnoreCase("aes", encType)
                 || !wxOpenService.getWxOpenComponentService().checkSignature(timestamp, nonce, signature)) {
-            throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
+            log.error("微信开放平台通知，非法请求，可能属于伪造的请求！");
+            throw InbyteException.failure("请求错误");
         }
 
         // aes加密的消息

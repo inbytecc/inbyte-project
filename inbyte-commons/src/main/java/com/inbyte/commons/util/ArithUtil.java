@@ -1,5 +1,7 @@
 package com.inbyte.commons.util;
 
+import com.inbyte.commons.exception.InbyteException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -106,7 +108,7 @@ public class ArithUtil {
     public static double divide(Double divisor, Integer dividend) {
         divisor = divisor == null ? 0 : divisor;
         if (dividend == null || dividend == 0) {
-            throw new IllegalArgumentException("divisor can not be null or zero");
+            throw InbyteException.error("divisor can not be null or zero");
         }
         return BigDecimal.valueOf(divisor)
                 .divide(BigDecimal.valueOf(dividend),
@@ -117,7 +119,7 @@ public class ArithUtil {
     public static BigDecimal divide(Integer divisor, Integer dividend) {
         divisor = divisor == null ? 0 : divisor;
         if (dividend == null || dividend == 0) {
-            throw new IllegalArgumentException("divisor can not be null or zero");
+            throw InbyteException.error("divisor can not be null or zero");
         }
         return BigDecimal.valueOf(divisor)
                 .divide(BigDecimal.valueOf(dividend),
@@ -127,7 +129,7 @@ public class ArithUtil {
     public static BigDecimal divide(Long divisor, Integer dividend) {
         divisor = divisor == null ? 0 : divisor;
         if (dividend == null || dividend == 0) {
-            throw new IllegalArgumentException("divisor can not be null or zero");
+            throw InbyteException.error("divisor can not be null or zero");
         }
         return BigDecimal.valueOf(divisor)
                 .divide(BigDecimal.valueOf(dividend),

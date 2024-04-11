@@ -8,6 +8,8 @@ import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.result.ResultMapException;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -120,6 +122,34 @@ public class CommonExceptionResolver {
             }
         }
         return R.failure("请求参数错误");
+    }
+
+    /**
+     * 参数效验异常处理器
+     *
+     * @param e 参数验证异常
+     * @return ResponseInfo
+     */
+    @ExceptionHandler({IllegalArgumentException.class})
+    @ResponseBody
+    public R illegalArgumentException(IllegalArgumentException e) {
+        return R.failure("参数问题导致系统错误");
+    }
+
+    /**
+     * Mysql 数据库操作异常
+     *
+     * @param e 参数验证异常
+     * @return ResponseInfo
+     */
+    @ExceptionHandler({MyBatisSystemException.class})
+    @ResponseBody
+    public R myBatisSystemException(MyBatisSystemException e) {
+        if (e.getCause() instanceof ResultMapException) {
+            alarm.alert("数据库脏数据错误问题", WebUtil.getRequestInfo(), e);
+            return R.error("数据库脏数据错误问题, 技术人员已介入处理");
+        }
+        return R.failure("数据库异常, 技术人员很快将介入处理");
     }
 
     /**

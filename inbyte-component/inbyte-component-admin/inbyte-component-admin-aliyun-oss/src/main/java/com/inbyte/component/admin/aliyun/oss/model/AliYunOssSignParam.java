@@ -1,6 +1,7 @@
 package com.inbyte.component.admin.aliyun.oss.model;
 
 
+import com.inbyte.commons.model.dict.FileTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,6 @@ public class AliYunOssSignParam {
     /**
      * 文件类型
      */
-    private String fileType;
+    private FileTypeEnum fileType;
 
 }

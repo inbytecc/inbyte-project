@@ -3,9 +3,11 @@ package com.inbyte.component.app.aliyun.oss.model.storage;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.inbyte.commons.model.dict.FileTypeEnum;
+import com.inbyte.commons.model.dict.UploadSourceEnum;
 import lombok.*;
+
 import java.time.LocalDateTime;
-import com.alibaba.fastjson2.JSONArray;
 
 /**
  * 对象存储实体
@@ -81,7 +83,7 @@ public class ObjectStoragePo {
     /**
      * 文件类型
      */
-    private String fileType;
+    private FileTypeEnum fileType;
 
     /**
      * 文件类型回调
@@ -91,7 +93,7 @@ public class ObjectStoragePo {
     /**
      * 上传源
      */
-    private Integer uploadSource;
+    private UploadSourceEnum uploadSource;
 
     /**
      * 高度

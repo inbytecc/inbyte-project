@@ -2,6 +2,7 @@ package com.inbyte.util.weixin.mp.client;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.util.weixin.mp.model.QrCodeGenerateParam;
@@ -50,7 +51,7 @@ public class WxMpQrCodeClient {
     @GetMapping
     public R<byte[]> qrCode(String appId, String scene, String page, int width) {
         if (!wxMaService.switchover(appId)) {
-            throw new IllegalArgumentException(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
+            throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
         }
 
         try {
@@ -92,7 +93,7 @@ public class WxMpQrCodeClient {
                                   String page, int width) {
         if (!wxMaService.switchover(appId)) {
             log.error("未找到对应appId={}的配置，请核实！", appId);
-            throw new IllegalArgumentException(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
+            throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
         }
 
         try {
@@ -124,7 +125,7 @@ public class WxMpQrCodeClient {
     public R<String> qrCodeBase64(String appId,
                                   QrCodeGenerateParam param) {
         if (!wxMaService.switchover(appId)) {
-            throw new IllegalArgumentException(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
+            throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
         }
 
         if (StringUtil.isEmpty(param.getEnvVersion())) {

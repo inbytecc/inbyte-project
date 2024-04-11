@@ -8,7 +8,7 @@ import com.aliyun.oss.model.PolicyConditions;
 import com.inbyte.component.admin.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.admin.aliyun.oss.model.AliYunOssSignDto;
 import com.inbyte.component.admin.aliyun.oss.model.AliYunOssSignParam;
-import com.inbyte.component.admin.aliyun.oss.model.UploadSourceDict;
+import com.inbyte.commons.model.dict.UploadSourceEnum;
 import com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStoragePo;
 import com.inbyte.component.admin.aliyun.oss.service.AliyunOssService;
 import com.inbyte.commons.model.dict.WhetherDict;
@@ -98,7 +98,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
                     .url(host + "/" + dir)
                     .endPoint(endpoint)
                     .fileType(param.getFileType())
-                    .uploadSource(UploadSourceDict.User.code)
+                    .uploadSource(UploadSourceEnum.User)
                     .bucket(bucketName)
                     .path(param.getPath())
 //                    .pathParam(param.getPathParam().toJSONString())

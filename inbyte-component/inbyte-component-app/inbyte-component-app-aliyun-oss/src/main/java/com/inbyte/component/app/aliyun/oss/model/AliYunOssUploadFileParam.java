@@ -1,5 +1,6 @@
 package com.inbyte.component.app.aliyun.oss.model;
 
+import com.inbyte.commons.model.dict.FileTypeEnum;
 import lombok.*;
 
 /**
@@ -38,7 +39,7 @@ public class AliYunOssUploadFileParam {
     /**
      * 文件类型
      */
-    private String fileType;
+    private FileTypeEnum fileType;
 
     /**
      * 文件二进制数据
