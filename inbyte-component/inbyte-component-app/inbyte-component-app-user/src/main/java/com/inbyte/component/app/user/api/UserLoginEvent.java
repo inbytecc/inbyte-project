@@ -16,5 +16,5 @@ package com.inbyte.component.app.user.api;//package com.pyrange.component.user.a
 //     * @param eid
 //     * @param etp
 //     */
-//    void login(Integer eid, Integer etp);
+//    void login(Integer eid, AppTypeEnum etp);
 //}

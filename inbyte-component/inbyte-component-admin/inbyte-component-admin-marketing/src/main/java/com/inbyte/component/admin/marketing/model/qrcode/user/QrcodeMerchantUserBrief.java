@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.marketing.model.qrcode.user;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +35,7 @@ public class QrcodeMerchantUserBrief {
     /**
      * 用户类型
      */
-    private Integer etp;
+    private AppTypeEnum etp;
 
     /**
      * 经度

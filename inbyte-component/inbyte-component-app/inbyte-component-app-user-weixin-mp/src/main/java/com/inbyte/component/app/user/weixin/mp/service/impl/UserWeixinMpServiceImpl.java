@@ -16,7 +16,7 @@ import com.inbyte.component.app.user.weixin.mp.model.qrcode.BuildRelationParam;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
 import com.inbyte.component.app.user.weixin.mp.service.UserWeixinMpService;
 import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.commons.model.dict.AppTypeDict;
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePage;
 import com.inbyte.commons.model.dto.R;
@@ -111,7 +111,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                         .qctp(param.getT())
                         .recommendEid(param.getS())
                         .eid(weixinPo.getEid())
-                        .etp(AppTypeDict.Weixin_MiniProgram.code)
+                        .etp(AppTypeEnum.WXMP)
                         .build();
                 log.info("新用户注册绑定推荐关系:{}", JSON.toJSONString(registerEventNotify));
                 qrCodeService.buildRelation(registerEventNotify);
@@ -119,7 +119,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
             sessionUser = SessionUser.builder()
                     .eid(weixinPo.getEid())
-                    .etp(AppTypeDict.Weixin_MiniProgram.code)
+                    .etp(AppTypeEnum.WXMP)
                     .nickName("游客")
                     .avatar(randomCommonAvatar)
                     .loginTime(now)
@@ -148,7 +148,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         if (userWeixin.getBoundWithUser() == WhetherDict.No.code) {
             sessionUser = SessionUser.builder()
                     .eid(userWeixin.getEid())
-                    .etp(AppTypeDict.Weixin_MiniProgram.code)
+                    .etp(AppTypeEnum.WXMP)
                     .nickName("游客")
                     .avatar(userWeixin.getAvatar())
                     .loginTime(now)
@@ -161,7 +161,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 已绑定手机号用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(userWeixin.getEid())
-                .etp(AppTypeDict.Weixin_MiniProgram.code)
+                .etp(AppTypeEnum.WXMP)
                 .userId(userWeixin.getUserId())
                 .tel(userWeixin.getTel())
                 .nickName(userWeixin.getNickName())
@@ -204,7 +204,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         // 首次注册，记录推荐绑定关系信息
         // 处理推荐分享、二维码分享关系绑定处理
-        qrCodeService.registered(SessionUtil.getEid(), AppTypeDict.Weixin_MiniProgram.code);
+        qrCodeService.registered(SessionUtil.getEid(), AppTypeEnum.WXMP);
 
         return userLoginDtoR;
     }
@@ -248,7 +248,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(sessionUser.getEid())
-                .etp(AppTypeDict.Weixin_MiniProgram.code)
+                .etp(AppTypeEnum.WXMP)
                 .userId(register.getData())
                 .tel(phoneInfo.getPurePhoneNumber())
                 .nickName(nickName)
@@ -292,7 +292,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(sessionUser.getEid())
-                .etp(AppTypeDict.Weixin_MiniProgram.code)
+                .etp(AppTypeEnum.WXMP)
                 .userId(userBrief.getUserId())
                 .tel(phoneInfo.getPurePhoneNumber())
                 .nickName(nickName)
@@ -329,7 +329,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .build();
         userWeixinMpMapper.updateById(userWeixinMpPo);
 
-        qrCodeService.syncLocation(sessionUser.getEid(), AppTypeDict.Weixin_MiniProgram.code,
+        qrCodeService.syncLocation(sessionUser.getEid(), AppTypeEnum.WXMP,
                 locationUpdate.getLongitude(), locationUpdate.getLatitude());
 
         userService.insertLocationSelective(sessionUser.getEid(),

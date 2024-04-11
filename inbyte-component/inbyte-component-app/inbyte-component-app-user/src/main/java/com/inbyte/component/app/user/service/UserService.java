@@ -1,5 +1,6 @@
 package com.inbyte.component.app.user.service;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.user.model.*;
 
@@ -43,7 +44,7 @@ public interface UserService {
 
     String getRandomCommonAvatar();
 
-    void insertLocationSelective(Integer eid, Integer etp, Integer userId, BigDecimal longitude, BigDecimal latitude);
+    void insertLocationSelective(Integer eid, AppTypeEnum etp, Integer userId, BigDecimal longitude, BigDecimal latitude);
 
     R<UserLoginDto> register(UserRegisterParam param);
 

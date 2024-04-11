@@ -1,11 +1,12 @@
 package com.inbyte.component.app.user.weixin.mp.service;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.dto.BasePath;
+import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.BuildRelationParam;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.QrCodePurchaseEventNotify;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ScanEventNotify;
-import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ShareDto;
-import com.inbyte.commons.model.dto.BasePath;
 import org.springframework.scheduling.annotation.Async;
 
 import java.math.BigDecimal;
@@ -55,7 +56,7 @@ public interface QrCodeService {
      *
      * @return
      */
-    void registered(Integer eid, Integer etp);
+    void registered(Integer eid, AppTypeEnum etp);
 
     /**
      * 订单下单事件
@@ -65,15 +66,15 @@ public interface QrCodeService {
      */
     void purchased(QrCodePurchaseEventNotify purchaseEventNotify);
 
-    /**
-     * 已预约
-     *
-     * @param eid
-     */
-    void appointed(Integer eid, Integer etp);
+//    /**
+//     * 已预约
+//     *
+//     * @param eid
+//     */
+//    void appointed(Integer eid, AppTypeEnum etp);
 
     @Async
-    void syncLocation(Integer eid, Integer etp, BigDecimal longitude, BigDecimal latitude);
+    void syncLocation(Integer eid, AppTypeEnum etp, BigDecimal longitude, BigDecimal latitude);
 
     /**
      * 注册推荐描述

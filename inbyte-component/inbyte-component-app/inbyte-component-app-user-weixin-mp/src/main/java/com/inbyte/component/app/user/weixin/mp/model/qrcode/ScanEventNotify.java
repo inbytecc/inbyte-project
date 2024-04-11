@@ -1,5 +1,6 @@
 package com.inbyte.component.app.user.weixin.mp.model.qrcode;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,6 @@ public class ScanEventNotify {
      * 外部用户ID类型
      */
     @NotNull
-    private Integer etp;
+    private AppTypeEnum etp;
 
 }

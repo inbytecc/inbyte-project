@@ -3,6 +3,7 @@ package com.inbyte.component.admin.marketing.model.qrcode.user;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -42,7 +43,7 @@ public class QrcodeMerchantUserPo {
     /**
      * 用户类型
      */
-    private Integer etp;
+    private AppTypeEnum etp;
 
     /**
      * 经度

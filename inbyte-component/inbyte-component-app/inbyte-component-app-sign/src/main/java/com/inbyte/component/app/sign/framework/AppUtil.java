@@ -1,9 +1,9 @@
 package com.inbyte.component.app.sign.framework;
 
-import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;
-import com.inbyte.commons.model.dict.AppTypeDict;
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
+import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -69,19 +69,19 @@ public class AppUtil {
         return getAppInfo().getMctNo();
     }
 
-    public static Integer getAppType() {
-        Integer appType = getAppInfo().getAppType();
+    public static AppTypeEnum getAppType() {
+        AppTypeEnum appType = getAppInfo().getAppType();
         if (appType == null) {
-            appType = AppTypeDict.Weixin_MiniProgram.code;
+            appType = AppTypeEnum.WXMP;
         }
         return appType;
     }
 
     public static boolean isWeixinMp() {
-        return getAppInfo().getAppType() == AppTypeDict.Weixin_MiniProgram.code;
+        return getAppInfo().getAppType() == AppTypeEnum.WXMP;
     }
 
     public static boolean isAlipayMp() {
-        return getAppInfo().getAppType() == AppTypeDict.Alipay_MiniProgram.code;
+        return getAppInfo().getAppType() == AppTypeEnum.ALMP;
     }
 }

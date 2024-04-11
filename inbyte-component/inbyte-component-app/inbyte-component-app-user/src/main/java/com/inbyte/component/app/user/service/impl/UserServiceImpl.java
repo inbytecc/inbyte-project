@@ -3,18 +3,19 @@ package com.inbyte.component.app.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.api.CacheManager;
-import com.inbyte.commons.util.IdentityGenerator;
-import com.inbyte.commons.util.MD5Util;
-import com.inbyte.component.app.user.ComponentUserProperties;
-import com.inbyte.component.app.user.model.*;
-import com.inbyte.component.app.user.model.location.UserLocationPo;
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.util.IdentityGenerator;
+import com.inbyte.commons.util.MD5Util;
 import com.inbyte.commons.util.SpringContextUtil;
+import com.inbyte.component.app.user.ComponentUserProperties;
 import com.inbyte.component.app.user.api.UserRegisterEvent;
 import com.inbyte.component.app.user.dao.UserMapper;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
+import com.inbyte.component.app.user.model.*;
+import com.inbyte.component.app.user.model.location.UserLocationPo;
 import com.inbyte.component.app.user.service.UserService;
 import com.inbyte.component.common.email.MailService;
 import lombok.extern.slf4j.Slf4j;
@@ -155,7 +156,7 @@ public class UserServiceImpl implements UserService {
                 .userId(userPo.getUserId())
                 .tel(userPo.getTel())
                 .eid(1)
-                .etp(0)
+                .etp(AppTypeEnum.WXMP)
                 .nickName(userPo.getNickName())
                 .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())
@@ -220,7 +221,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insertLocationSelective(Integer eid, Integer etp, Integer userId, BigDecimal longitude, BigDecimal latitude) {
+    public void insertLocationSelective(Integer eid, AppTypeEnum etp, Integer userId, BigDecimal longitude, BigDecimal latitude) {
         UserLocationPo locationPo = UserLocationPo.builder()
                 .etp(etp)
                 .eid(eid)

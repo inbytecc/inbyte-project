@@ -1,6 +1,7 @@
 package com.inbyte.component.admin.marketing.model.clue;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +30,7 @@ public class CustomerClueDetail {
     private Integer eid;
 
     /** 外部用户类型 */
-    private Integer etp;
+    private AppTypeEnum etp;
 
     /** 手机号 */
     private String tel;

@@ -1,7 +1,11 @@
 package com.inbyte.component.app.user.weixin.mp.service.impl;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.dto.BasePath;
+import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.sign.framework.AppUtil;
 import com.inbyte.component.app.user.dict.UserSourceTypeDict;
+import com.inbyte.component.app.user.framework.SessionUtil;
 import com.inbyte.component.app.user.weixin.mp.SceneUtil;
 import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper;
 import com.inbyte.component.app.user.weixin.mp.model.UserWeixinDto;
@@ -10,10 +14,6 @@ import com.inbyte.component.app.user.weixin.mp.model.qrcode.*;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeMerchantService;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeUserService;
-import com.inbyte.commons.model.dict.AppTypeDict;
-import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.user.framework.SessionUtil;
-import com.inbyte.commons.model.dto.BasePath;
 import com.inbyte.util.weixin.mp.client.WxMpQrCodeClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +103,7 @@ public class QrCodeServiceImpl implements QrCodeService {
 
     @Async
     @Override
-    public void registered(Integer eid, Integer etp) {
+    public void registered(Integer eid, AppTypeEnum etp) {
         UserWeixinMpPo userWeixinMpPo = userWeixinMpMapper.selectById(eid);
         if (userWeixinMpPo == null || userWeixinMpPo.getRegisterType() == null) {
             return;
@@ -135,15 +135,15 @@ public class QrCodeServiceImpl implements QrCodeService {
         }
     }
 
-    @Async
-    @Override
-    public void appointed(Integer eid, Integer etp) {
-        if (isMerchantShare(etp)) {
-            qrCodeMerchantService.newClue(eid, etp);
-        } else if (isUserShare(etp)) {
-            qrCodeUserService.newClue(eid, etp);
-        }
-    }
+//    @Async
+//    @Override
+//    public void appointed(Integer eid, AppTypeEnum etp) {
+//        if (isMerchantShare(etp)) {
+//            qrCodeMerchantService.newClue(eid, etp);
+//        } else if (isUserShare(etp)) {
+//            qrCodeUserService.newClue(eid, etp);
+//        }
+//    }
 
     @Override
     public void buildRelation(BuildRelationParam buildRelationParam) {
@@ -156,8 +156,8 @@ public class QrCodeServiceImpl implements QrCodeService {
 
     @Async
     @Override
-    public void syncLocation(Integer eid, Integer etp, BigDecimal longitude, BigDecimal latitude) {
-        if (etp == AppTypeDict.Weixin_MiniProgram.code) {
+    public void syncLocation(Integer eid, AppTypeEnum etp, BigDecimal longitude, BigDecimal latitude) {
+        if (etp == AppTypeEnum.WXMP) {
             UserWeixinMpPo userWeixinMpPo = userWeixinMpMapper.selectById(eid);
             if (isMerchantShare(userWeixinMpPo.getRegisterType())) {
                 qrCodeMerchantService.syncLocation(userWeixinMpPo.getQcid(), eid, etp, longitude, latitude);

@@ -1,6 +1,7 @@
 package com.inbyte.component.app.sign.model;
 
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -19,7 +20,7 @@ public class AppSignParam {
     /**
      * AppID 应用ID
      */
-    private Integer appType;
+    private AppTypeEnum appType;
 
     /**
      * 版本号
@@ -42,11 +43,11 @@ public class AppSignParam {
         AppVersion = appVersion;
     }
 
-    public Integer getAppType() {
+    public AppTypeEnum getAppType() {
         return appType;
     }
 
-    public void setAppType(Integer appType) {
+    public void setAppType(AppTypeEnum appType) {
         this.appType = appType;
     }
 }

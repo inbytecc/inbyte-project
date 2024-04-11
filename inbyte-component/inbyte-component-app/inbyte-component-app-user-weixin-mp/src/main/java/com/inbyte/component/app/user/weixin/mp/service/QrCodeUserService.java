@@ -1,8 +1,9 @@
 package com.inbyte.component.app.user.weixin.mp.service;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.component.app.user.weixin.mp.model.UserWeixinMpPo;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.QrCodePurchaseEventNotify;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ScanEventNotify;
-import com.inbyte.component.app.user.weixin.mp.model.UserWeixinMpPo;
 
 /**
  * 二维码事件
@@ -42,5 +43,5 @@ public interface QrCodeUserService {
      */
     void purchased(QrCodePurchaseEventNotify purchaseEventNotify, UserWeixinMpPo userWeixinMpPo);
 
-    void newClue(Integer eid, Integer etp);
+    void newClue(Integer eid, AppTypeEnum etp);
 }

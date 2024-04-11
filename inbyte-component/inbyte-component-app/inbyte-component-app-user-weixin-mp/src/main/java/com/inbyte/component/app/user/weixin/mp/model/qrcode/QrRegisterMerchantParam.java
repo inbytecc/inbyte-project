@@ -1,5 +1,6 @@
 package com.inbyte.component.app.user.weixin.mp.model.qrcode;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import lombok.*;
 
 /**
@@ -26,5 +27,5 @@ public class QrRegisterMerchantParam {
     /**
      * 注册人外部用户类型
      */
-    private Integer etp;
+    private AppTypeEnum etp;
 }

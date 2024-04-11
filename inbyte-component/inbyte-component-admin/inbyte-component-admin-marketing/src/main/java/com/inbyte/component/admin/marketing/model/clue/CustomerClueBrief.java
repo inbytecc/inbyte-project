@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.marketing.model.clue;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,7 +50,7 @@ public class CustomerClueBrief {
     /**
      * 外部用户类型
      */
-    private Integer etp;
+    private AppTypeEnum etp;
 
     /**
      * 手机号

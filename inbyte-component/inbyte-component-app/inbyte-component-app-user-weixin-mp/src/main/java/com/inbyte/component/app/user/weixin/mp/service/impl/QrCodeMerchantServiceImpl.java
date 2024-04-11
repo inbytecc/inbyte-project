@@ -1,5 +1,10 @@
 package com.inbyte.component.app.user.weixin.mp.service.impl;
 
+import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.component.app.user.weixin.mp.dao.QrcodeMerchantMapper;
 import com.inbyte.component.app.user.weixin.mp.dao.QrcodeMerchantUserMapper;
 import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper;
@@ -10,10 +15,6 @@ import com.inbyte.component.app.user.weixin.mp.model.qrcode.QrcodeMerchantPo;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ScanEventNotify;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.merchant.user.QrcodeMerchantUserPo;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeMerchantService;
-import com.alibaba.fastjson2.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.inbyte.commons.model.dict.WhetherDict;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void buildRelation(Integer qcid, Integer eid, Integer etp) {
+    public void buildRelation(Integer qcid, Integer eid, AppTypeEnum etp) {
         log.info("建立用户二维码关系 qcid:{}, eid:{}, etp:{}", qcid, eid, etp);
         QrcodeMerchantPo detail = qrcodeMerchantMapper.selectById(qcid);
         if (detail == null) {
@@ -173,7 +174,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
     }
 
     @Override
-    public void newClue(Integer eid, Integer etp) {
+    public void newClue(Integer eid, AppTypeEnum etp) {
         UserWeixinMpPo userWeixinMpPo = userWeixinMpMapper.selectById(eid);
         log.info("商家二维码推广的用户线索, 参数: {}", JSON.toJSONString(userWeixinMpPo));
         if (userWeixinMpPo.getQcid() == null) {
@@ -204,7 +205,7 @@ public class QrCodeMerchantServiceImpl implements QrCodeMerchantService {
     }
 
     @Override
-    public void syncLocation(Integer qcid, Integer eid, Integer etp, BigDecimal longitude, BigDecimal latitude) {
+    public void syncLocation(Integer qcid, Integer eid, AppTypeEnum etp, BigDecimal longitude, BigDecimal latitude) {
         LambdaQueryWrapper<QrcodeMerchantUserPo> qmQueryWrapper = new LambdaQueryWrapper<QrcodeMerchantUserPo>()
                 .eq(QrcodeMerchantUserPo::getQcid, qcid)
                 .eq(QrcodeMerchantUserPo::getEid, eid)

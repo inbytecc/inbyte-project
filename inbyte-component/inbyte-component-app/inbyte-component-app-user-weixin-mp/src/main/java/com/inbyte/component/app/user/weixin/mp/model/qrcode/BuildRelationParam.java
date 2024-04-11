@@ -1,5 +1,6 @@
 package com.inbyte.component.app.user.weixin.mp.model.qrcode;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -33,7 +34,7 @@ public class BuildRelationParam {
      * 外部用户ID类型
      */
     @NotNull
-    private Integer etp;
+    private AppTypeEnum etp;
     /**
      * 外部用户ID
      */

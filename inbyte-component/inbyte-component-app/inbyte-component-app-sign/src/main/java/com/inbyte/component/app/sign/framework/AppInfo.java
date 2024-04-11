@@ -1,5 +1,6 @@
 package com.inbyte.component.app.sign.framework;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ public class AppInfo {
     /**
      * AppID 应用类型
      */
-    private Integer appType;
+    private AppTypeEnum appType;
 
     /**
      * 版本号
@@ -71,11 +72,11 @@ public class AppInfo {
         this.mctNo = mctNo;
     }
 
-    public Integer getAppType() {
+    public AppTypeEnum getAppType() {
         return appType;
     }
 
-    public void setAppType(Integer appType) {
+    public void setAppType(AppTypeEnum appType) {
         this.appType = appType;
     }
 

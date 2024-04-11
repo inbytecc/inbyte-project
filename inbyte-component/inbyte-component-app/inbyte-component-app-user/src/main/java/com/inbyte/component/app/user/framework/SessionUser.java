@@ -1,5 +1,6 @@
 package com.inbyte.component.app.user.framework;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class SessionUser {
     /**
      * 外部用户类型
      */
-    private Integer etp;
+    private AppTypeEnum etp;
 
     /**
      * 手机号, 不可靠

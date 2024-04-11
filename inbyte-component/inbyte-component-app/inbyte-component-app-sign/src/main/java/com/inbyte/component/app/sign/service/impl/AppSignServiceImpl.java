@@ -29,7 +29,7 @@ public class AppSignServiceImpl implements AppSignService {
     @Override
     public R<AppSignDto> appSign(AppSignParam param) {
         AppInfo appInfo = new AppInfo();
-//        if (param.getAppType() == null || param.getAppType() == AppTypeDict.Weixin_MiniProgram.code) {
+//        if (param.getAppType() == null || param.getAppType() == AppTypeEnum.WEIXIN_MP) {
 //            WeixinMiniProgramConfigBrief brief = weixinConfigMapper.miniProgramBrief(param.getAppId());
 //            if (brief == null) {
 //                return Result.failure("该 AppID 未在系统注册, 请联系商务人员");
@@ -37,7 +37,7 @@ public class AppSignServiceImpl implements AppSignService {
 //
 //            appInfo.setAppId(brief.getAppId());
 //            appInfo.setMctNo(brief.getMctNo());
-//        } else if (param.getAppType() == AppTypeDict.Alipay_MiniProgram.code) {
+//        } else if (param.getAppType() == AppTypeEnum.Alipay_MiniProgram.code) {
 //            appInfo.setAppId(param.getAppId());
 //            appInfo.setMctNo("1");
 //        } else {
