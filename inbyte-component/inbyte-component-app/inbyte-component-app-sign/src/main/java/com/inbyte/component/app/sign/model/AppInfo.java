@@ -1,4 +1,4 @@
-package com.inbyte.component.app.sign.framework;
+package com.inbyte.component.app.sign.model;
 
 import com.inbyte.commons.model.dict.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;

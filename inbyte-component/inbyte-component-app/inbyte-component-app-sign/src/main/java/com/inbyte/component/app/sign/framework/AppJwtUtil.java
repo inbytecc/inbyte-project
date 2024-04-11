@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;
+import com.inbyte.component.app.sign.model.AppInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

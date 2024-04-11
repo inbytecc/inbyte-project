@@ -4,6 +4,7 @@ import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;
+import com.inbyte.component.app.sign.model.AppInfo;
 import lombok.extern.slf4j.Slf4j;
 
 /**
