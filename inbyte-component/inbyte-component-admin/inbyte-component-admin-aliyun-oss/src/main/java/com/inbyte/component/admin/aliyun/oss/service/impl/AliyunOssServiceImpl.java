@@ -59,8 +59,8 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     private String bucketName;
     @Value("${aliyun.oss.host}")
     private String host;
-    @Value("${aliyun.oss.callbackUrl}")
-    private String callbackUrl;
+    @Value("${inbyte.app.server}")
+    private String server;
 
     @Autowired
     private ObjectStorageMapper objectStorageMapper;
@@ -122,7 +122,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             String postSignature = client.calculatePostSignature(postPolicy);
 
             JSONObject jasonCallback = new JSONObject();
-            jasonCallback.put("callbackUrl", callbackUrl);
+            jasonCallback.put("callbackUrl", server + "/api/aliyun/oss/callback");
             jasonCallback.put("callbackBody",
                     "object=${object}&" +
                             "size=${size}&" +

@@ -9,5 +9,4 @@ aliyun:
     accessKeySecret: EVuqYANxxxxxxxxxxxxxxxxxxxxxxxxx
     host: https://xxx.oss-cn-guangzhou.aliyuncs.com
     bucket: xxxx
-    callbackUrl: https://xxx.xxx.com/api/aliyun/oss/callback
 ```
