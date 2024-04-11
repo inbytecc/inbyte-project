@@ -395,8 +395,8 @@ public class AliyunOssService {
 
     public String getMctNo() {
         if (StringUtil.isNotEmpty(inbyteMerchantProperties.getMctNo())) {
-            return AppUtil.getMctNo();
+            return inbyteMerchantProperties.getMctNo();
         }
-        return inbyteMerchantProperties.getMctNo();
+        return AppUtil.getMctNo();
     }
 }
