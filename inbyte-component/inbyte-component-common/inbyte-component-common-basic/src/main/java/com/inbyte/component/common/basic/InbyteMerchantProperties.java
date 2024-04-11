@@ -7,17 +7,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "inbyte.merchant")
 public class InbyteMerchantProperties {
 
-
-    private String mctName;
     private String mctNo;
-
-    public String getMctName() {
-        return mctName;
-    }
-
-    public void setMctName(String mctName) {
-        this.mctName = mctName;
-    }
 
     public String getMctNo() {
         return mctNo;
