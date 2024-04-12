@@ -149,6 +149,7 @@ public class CommonExceptionResolver {
             alarm.alert("数据库脏数据错误问题", WebUtil.getRequestInfo(), e);
             return R.error("数据库脏数据错误问题, 技术人员已介入处理");
         }
+        log.error("数据库异常", e);
         return R.failure("数据库异常, 技术人员很快将介入处理");
     }
 
