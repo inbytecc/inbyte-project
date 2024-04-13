@@ -145,11 +145,11 @@ public class CommonExceptionResolver {
     @ExceptionHandler({MyBatisSystemException.class})
     @ResponseBody
     public R myBatisSystemException(MyBatisSystemException e) {
+        log.error("数据库异常", e);
         if (e.getCause() instanceof ResultMapException) {
             alarm.alert("数据库脏数据错误问题", WebUtil.getRequestInfo(), e);
             return R.error("数据库脏数据错误问题, 技术人员已介入处理");
         }
-        log.error("数据库异常", e);
         return R.failure("数据库异常, 技术人员很快将介入处理");
     }
 
