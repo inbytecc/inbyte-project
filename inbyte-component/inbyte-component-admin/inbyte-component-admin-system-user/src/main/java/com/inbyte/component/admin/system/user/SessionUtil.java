@@ -32,16 +32,6 @@ public class SessionUtil {
     }
 
     /**
-     * 获取当前用户ID Name 概要
-     * 格式: 用户ID|用户名
-     * @return
-     */
-    public static String getUserBrief() {
-        SessionUser sessionUser = getSessionUser();
-        return sessionUser.getUserId() + "|" + sessionUser.getUserName();
-    }
-
-    /**
      * 获取当前用户商户ID
      *
      * @return
