@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.inbyte</groupId>
             <artifactId>inbyte-commons</artifactId>
-            <version>1.0.4-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.inbyte</groupId>
