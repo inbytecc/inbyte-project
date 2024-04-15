@@ -18,7 +18,7 @@ public class AppSignParam {
     private String appId;
 
     /**
-     * AppID 应用ID
+     * 应用类型
      */
     @NotNull(message = "应用 ID 不能为空")
     private AppTypeEnum appType;
