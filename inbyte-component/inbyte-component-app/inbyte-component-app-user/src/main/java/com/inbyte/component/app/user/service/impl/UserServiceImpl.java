@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         }
         LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserPo::getTel, param.getTel())
-                .select(UserPo::getUserId, UserPo::getNickName, UserPo::getAvatar);
+                .select(UserPo::getUserId, UserPo::getNickName, UserPo::getAvatar, UserPo::getTel);
         UserPo userPo = userMapper.selectOne(queryWrapper);
         if (userPo == null) {
             return R.failure("用户不存在哦, 请先注册后登录");
