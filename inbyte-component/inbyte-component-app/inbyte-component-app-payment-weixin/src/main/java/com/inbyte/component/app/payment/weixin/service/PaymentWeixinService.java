@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.google.common.base.Throwables;
 import com.inbyte.commons.api.SystemAlarm;
 import com.inbyte.commons.exception.BizException;
+import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
@@ -12,7 +13,6 @@ import com.inbyte.commons.util.IdentityGenerator;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinRefundMapper;
-import com.inbyte.component.app.payment.weixin.dict.PaymentStatusDict;
 import com.inbyte.component.app.payment.weixin.dict.PaymentTypeDict;
 import com.inbyte.component.app.payment.weixin.model.*;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
@@ -165,7 +165,7 @@ public class PaymentWeixinService {
                 .appId(paymentWeixinPrepayParam.getAppId())
                 .paymentAmount(paymentWeixinPrepayParam.getPaymentAmount())
                 .weixinPaymentMerchantId(paymentWeixinPrepayParam.getWeixinPaymentMerchantId())
-                .paid(PaymentStatusDict.Waiting_For_Payment.code)
+                .paid(Whether.Yes)
                 .prepayId(prepayId)
                 .createTime(LocalDateTime.now())
                 .build();

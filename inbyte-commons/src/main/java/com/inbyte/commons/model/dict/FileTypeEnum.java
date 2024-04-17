@@ -8,12 +8,13 @@ package com.inbyte.commons.model.dict;
  */
 public enum FileTypeEnum {
 
-    OTHER("其它"),
     IMAGE("图片"),
     VIDEO("视频"),
     AUDIO("音频"),
     DOC("文档"),
     PDF("PDF"),
+    RAR("压缩包"),
+    OTHER("其它"),
     ;
 
     public final String name;
