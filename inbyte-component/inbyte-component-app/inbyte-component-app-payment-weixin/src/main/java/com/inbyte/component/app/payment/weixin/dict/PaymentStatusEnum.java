@@ -6,7 +6,7 @@ package com.inbyte.component.app.payment.weixin.dict;
  * @author chenjw
  * @date 2016年08月15日
  */
-public enum PaymentStatusDict {
+public enum PaymentStatusEnum {
 
     WAIT_PAY("未支付"),
     PAID( "已支付"),
@@ -15,7 +15,7 @@ public enum PaymentStatusDict {
 
     public final String name;
 
-    PaymentStatusDict(String name) {
+    PaymentStatusEnum(String name) {
         this.name = name;
     }
 

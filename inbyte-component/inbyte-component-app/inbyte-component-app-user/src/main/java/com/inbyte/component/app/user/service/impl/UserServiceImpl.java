@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
                 .userId(userPo.getUserId())
                 .tel(userPo.getTel())
                 .eid(1)
-                .etp(AppTypeEnum.WXMP)
+                .appType(AppTypeEnum.WXMP)
                 .nickname(userPo.getNickname())
                 .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())

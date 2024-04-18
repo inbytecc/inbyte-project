@@ -119,7 +119,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
             sessionUser = SessionUser.builder()
                     .eid(weixinPo.getEid())
-                    .etp(AppTypeEnum.WXMP)
+                    .appType(AppTypeEnum.WXMP)
                     .nickname("游客")
                     .avatar(randomCommonAvatar)
                     .loginTime(now)
@@ -148,7 +148,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         if (userWeixin.getBoundWithUser() == WhetherDict.No.code) {
             sessionUser = SessionUser.builder()
                     .eid(userWeixin.getEid())
-                    .etp(AppTypeEnum.WXMP)
+                    .appType(AppTypeEnum.WXMP)
                     .nickname("游客")
                     .avatar(userWeixin.getAvatar())
                     .loginTime(now)
@@ -161,7 +161,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 已绑定手机号用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(userWeixin.getEid())
-                .etp(AppTypeEnum.WXMP)
+                .appType(AppTypeEnum.WXMP)
                 .userId(userWeixin.getUserId())
                 .tel(userWeixin.getTel())
                 .nickname(userWeixin.getNickname())
@@ -248,7 +248,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(sessionUser.getEid())
-                .etp(AppTypeEnum.WXMP)
+                .appType(AppTypeEnum.WXMP)
                 .userId(register.getData())
                 .tel(phoneInfo.getPurePhoneNumber())
                 .nickname(nickname)
@@ -292,7 +292,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(sessionUser.getEid())
-                .etp(AppTypeEnum.WXMP)
+                .appType(AppTypeEnum.WXMP)
                 .userId(userBrief.getUserId())
                 .tel(phoneInfo.getPurePhoneNumber())
                 .nickname(nickname)
@@ -333,7 +333,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 locationUpdate.getLongitude(), locationUpdate.getLatitude());
 
         userService.insertLocationSelective(sessionUser.getEid(),
-                sessionUser.getEtp(),
+                sessionUser.getAppType(),
                 sessionUser.getUserId(),
                 locationUpdate.getLongitude(),
                 locationUpdate.getLatitude());

@@ -37,7 +37,7 @@ public class SessionUser {
     /**
      * 外部用户类型
      */
-    private AppTypeEnum etp;
+    private AppTypeEnum appType;
 
     /**
      * 手机号, 不可靠

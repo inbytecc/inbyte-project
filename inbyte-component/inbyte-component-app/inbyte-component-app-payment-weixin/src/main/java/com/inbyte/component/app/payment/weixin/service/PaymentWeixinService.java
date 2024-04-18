@@ -13,7 +13,7 @@ import com.inbyte.commons.util.IdentityGenerator;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinRefundMapper;
-import com.inbyte.component.app.payment.weixin.dict.PaymentTypeDict;
+import com.inbyte.component.app.payment.weixin.dict.PaymentTypeEnum;
 import com.inbyte.component.app.payment.weixin.model.*;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.cipher.Signer;
@@ -48,17 +48,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 @Slf4j
 public class PaymentWeixinService {
-
     /**
      * 支付回调地址
      */
-    @Value("${payment.config.weixin.paymentSuccessNotifyUrl}")
+    @Value("${inbyte.app.server}")
     private String paymentSuccessNotifyUrl;
 
     /**
      * 退款回调地址
      */
-    @Value("${payment.config.weixin.refundSuccessNotifyUrl}")
+    @Value("${inbyte.app.server}")
     private String refundSuccessNotifyUrl;
 
     @Autowired
@@ -259,7 +258,7 @@ public class PaymentWeixinService {
         PaymentSuccessDto dto = PaymentSuccessDto.builder()
                 .paymentMerchantId(brief.getWeixinPaymentMerchantId())
                 .orderNo(orderNo)
-                .paymentTypeDict(PaymentTypeDict.WeiXin_Pay)
+                .paymentTypeEnum(PaymentTypeEnum.WEIXIN_PAY)
                 .paymentAmount(paymentAmount)
                 .paymentUserId(transaction.getPayer().getOpenid())
                 .paymentUserName(transaction.getPayer().getOpenid())
@@ -425,7 +424,7 @@ public class PaymentWeixinService {
                 .orderNo(transaction.getOutTradeNo())
                 .paymentMerchantId(transaction.getMchid())
                 .paymentNo(transaction.getTransactionId())
-                .paymentTypeDict(PaymentTypeDict.WeiXin_Pay)
+                .paymentTypeEnum(PaymentTypeEnum.WEIXIN_PAY)
                 .paymentAmount(paymentAmount)
                 .paymentUserId(transaction.getPayer().getOpenid())
                 .paymentUserName("微信用户")

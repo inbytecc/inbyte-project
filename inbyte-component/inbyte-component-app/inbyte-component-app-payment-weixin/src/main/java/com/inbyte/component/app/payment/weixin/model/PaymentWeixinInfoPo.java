@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.inbyte.commons.model.dict.OrderTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -48,7 +49,7 @@ public class PaymentWeixinInfoPo {
     /**
      * 订单类型
      */
-    private String orderType;
+    private OrderTypeEnum orderType;
 
     /**
      * 订单图片

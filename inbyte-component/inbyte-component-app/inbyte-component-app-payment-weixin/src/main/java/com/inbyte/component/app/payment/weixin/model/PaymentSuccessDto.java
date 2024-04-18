@@ -1,6 +1,6 @@
 package com.inbyte.component.app.payment.weixin.model;
 
-import com.inbyte.component.app.payment.weixin.dict.PaymentTypeDict;
+import com.inbyte.component.app.payment.weixin.dict.PaymentTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -31,7 +31,7 @@ public class PaymentSuccessDto {
     /**
      * 付款平台类型
      */
-    private PaymentTypeDict paymentTypeDict;
+    private PaymentTypeEnum paymentTypeEnum;
     /**
      * 交易金额
      */

@@ -1,5 +1,6 @@
 package com.inbyte.component.app.payment.weixin.model;
 
+import com.inbyte.commons.model.dict.OrderTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -50,7 +51,7 @@ public class PaymentWeixinPrepayParam {
     /**
      * 订单类型
      */
-    private String orderType;
+    private OrderTypeEnum orderType;
 
     /**
      * 订单图片url
