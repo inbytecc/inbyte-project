@@ -144,21 +144,22 @@ public class UserServiceImpl implements UserService {
         if (!"88888888".equals(param.getPwd())) {
             return R.failure("账号或密码错误");
         }
-        LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserPo::getTel, param.getTel())
-                .select(UserPo::getUserId, UserPo::getNickname, UserPo::getAvatar, UserPo::getTel);
-        UserPo userPo = userMapper.selectOne(queryWrapper);
-        if (userPo == null) {
-            return R.failure("用户不存在哦, 请先注册后登录");
-        }
+//        LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(UserPo::getTel, param.getTel())
+//                .select(UserPo::getUserId, UserPo::getNickname, UserPo::getAvatar, UserPo::getTel);
+//        UserPo userPo = userMapper.selectOne(queryWrapper);
+//        if (userPo == null) {
+//            return R.failure("用户不存在哦, 请先注册后登录");
+//        }
 
         SessionUser sessionUser = SessionUser.builder()
-                .userId(userPo.getUserId())
-                .tel(userPo.getTel())
+                .userId(1)
+                .tel("18658835702")
                 .eid(1)
+                .openId("o81Z_6wFvUT11rEstpaVDNrclNTo")
                 .appType(AppTypeEnum.WXMP)
-                .nickname(userPo.getNickname())
-                .avatar(userPo.getAvatar())
+                .nickname("test")
+                .avatar("https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83epA4X3XuP7q94mWyPMts1uR9D1HtnicwqbJIIewtqzMJuhbAGUzXCibweLibqucIxMRYC6v5h6M7icJnw/132")
                 .loginTime(LocalDateTime.now())
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)

@@ -4,8 +4,8 @@
 
     <insert id="insertSelective" parameterType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinInfoPo" keyProperty="weixinPaymentId" useGeneratedKeys="true">
         INSERT INTO payment_weixin_info
-            (userId, orderNo, orderBrief, orderType, mainPhoto, venueId, mctNo, appId, prepayId,
-             paymentAmount, weixinPaymentMerchantId, paid, createTime)
+            (user_id, order_no, order_brief, order_type, main_photo, venue_id, mct_no, app_id, prepay_id,
+             payment_amount, weixin_payment_merchant_id, paid, create_time)
         SELECT #{userId, jdbcType=INTEGER},
                #{orderNo, jdbcType=VARCHAR},
                #{orderBrief, jdbcType=VARCHAR},
@@ -22,71 +22,71 @@
           FROM DUAL
          WHERE NOT EXISTS(SELECT 1
                             FROM payment_weixin_info
-                           WHERE orderNo = #{orderNo})
+                           WHERE order_no = #{orderNo})
     </insert>
 
     <update id="update" parameterType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinInfoPo">
         UPDATE payment_weixin_info
         <set>
             <if test="paymentAmount != null">
-                paymentAmount = #{paymentAmount, jdbcType=DECIMAL},
+                payment_amount = #{paymentAmount, jdbcType=DECIMAL},
             </if>
             <if test="paid != null">
                 paid = #{paid, jdbcType=INTEGER},
             </if>
             <if test="paymentNo != null">
-                paymentNo = #{paymentNo, jdbcType=VARCHAR},
+                payment_no = #{paymentNo, jdbcType=VARCHAR},
             </if>
             <if test="paymentUserId != null">
-                paymentUserId = #{paymentUserId, jdbcType=VARCHAR},
+                payment_user_id = #{paymentUserId, jdbcType=VARCHAR},
             </if>
             <if test="paymentFinishTime != null">
-                paymentFinishTime = #{paymentFinishTime, jdbcType=TIMESTAMP},
+                payment_finish_time = #{paymentFinishTime, jdbcType=TIMESTAMP},
             </if>
             <if test="notifyPaymentAmount != null">
-                notifyPaymentAmount = #{notifyPaymentAmount, jdbcType=DECIMAL},
+                notify_payment_amount = #{notifyPaymentAmount, jdbcType=DECIMAL},
             </if>
             <if test="tradeType != null">
-                tradeType = #{tradeType, jdbcType=VARCHAR},
+                trade_type = #{tradeType, jdbcType=VARCHAR},
             </if>
             <if test="bankType != null">
-                bankType = #{bankType, jdbcType=VARCHAR},
+                bank_type = #{bankType, jdbcType=VARCHAR},
             </if>
             <if test="refundTotalAmount != null">
-                refundTotalAmount = refundTotalAmount + #{refundTotalAmount, jdbcType=DECIMAL},
+                refund_total_amount = refund_total_amount + #{refundTotalAmount, jdbcType=DECIMAL},
             </if>
             <if test="refunded != null">
                 refunded = #{refunded, jdbcType=INTEGER},
             </if>
             <if test="refundApplied != null">
-                refundApplied = #{refundApplied, jdbcType=INTEGER},
+                refund_applied = #{refundApplied, jdbcType=INTEGER},
             </if>
             <if test="cancelTime != null">
-                cancelTime = #{cancelTime, jdbcType=TIMESTAMP},
+                cancel_time = #{cancelTime, jdbcType=TIMESTAMP},
             </if>
             <if test="deleted != null">
                 deleted = #{deleted, jdbcType=INTEGER},
             </if>
         </set>
-        WHERE orderNo = #{orderNo, jdbcType=VARCHAR}
+        WHERE order_no = #{orderNo, jdbcType=VARCHAR}
     </update>
 
     <select id="selectByNo" parameterType="java.lang.String" resultType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinInfoBrief">
-        SELECT weixinPaymentId,
-               userId,
-               orderNo,
-               orderBrief,
-               orderType,
-               mainPhoto,
-               venueId,
-               mctNo,
-               appId,
-               paymentAmount,
-               weixinPaymentMerchantId,
+        SELECT weixin_payment_id,
+               user_id,
+               order_no,
+               order_brief,
+               order_type,
+               main_photo,
+               venue_id,
+               mct_no,
+               app_id,
+               payment_amount,
+               weixin_payment_merchant_id,
                paid,
-               paymentNo
+               payment_no
           FROM payment_weixin_info
-         WHERE orderNo = #{orderNo, jdbcType=VARCHAR}
+         WHERE order_no = #{orderNo, jdbcType=VARCHAR}
     </select>
 
 </mapper>

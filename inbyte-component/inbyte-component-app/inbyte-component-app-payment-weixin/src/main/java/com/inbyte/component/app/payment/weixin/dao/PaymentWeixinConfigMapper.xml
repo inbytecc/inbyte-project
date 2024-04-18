@@ -3,14 +3,14 @@
 <mapper namespace="com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper">
 
     <select id="brief" parameterType="java.lang.String" resultType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinConfigBrief">
-        SELECT weixinPaymentMerchantId,
-               apiV3Key,
-               serialNumber,
-               merchantPrivateKey,
-               serviceChargeRate,
+        SELECT weixin_payment_merchant_id,
+               api_v3_key,
+               serial_number,
+               merchant_private_key,
+               service_charge_rate,
                remark
           FROM payment_weixin_config
-         WHERE weixinPaymentMerchantId = #{weixinPaymentMerchantId, jdbcType=VARCHAR}
+         WHERE weixin_payment_merchant_id = #{weixinPaymentMerchantId, jdbcType=VARCHAR}
     </select>
 
 </mapper>

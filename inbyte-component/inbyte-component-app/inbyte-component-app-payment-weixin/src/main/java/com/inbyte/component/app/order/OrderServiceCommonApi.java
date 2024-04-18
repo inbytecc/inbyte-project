@@ -1,5 +1,6 @@
 package com.inbyte.component.app.order;
 
+import com.inbyte.commons.model.dict.OrderTypeEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.order.model.refund.RefundApplyParam;
 import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
@@ -62,4 +63,6 @@ public interface OrderServiceCommonApi {
 //     * @return
 //     */
 //    R<OrderRefundIndexDto> refundIndex(String orderNo);
+
+    OrderTypeEnum getOrderType();
 }

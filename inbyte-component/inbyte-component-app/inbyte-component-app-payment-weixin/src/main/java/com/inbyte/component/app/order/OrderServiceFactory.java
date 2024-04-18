@@ -28,20 +28,10 @@ public class OrderServiceFactory implements InitializingBean, ApplicationContext
      */
     @Override
     public void afterPropertiesSet() {
-//        ORDER_SERVICES.put(OrderTypeDict.Site_Order, applicationContext.getBean(OrderSiteService.class));
-//        ORDER_SERVICES.put(OrderTypeEnum.Course_Order, applicationContext.getBean(OrderCourseService.class));
-//        ORDER_SERVICES.put(OrderTypeDict.Venue_Ticket_Order, venueTicketOrderService);
-//        ORDER_SERVICES.put(OrderTypeDict.Venue_Course_Order, venueCourseOrderService);
-//        ORDER_SERVICES.put(OrderTypeDict.Venue_Vending_Machine_Order, vendingMachineOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.Venue_QuickPay_Order, quickPayOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.Activity_Order, activityOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.App_Wallet_Recharge_Order, appWalletOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.Card_Balance_Recharge_Order, rechargeCardOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.Match_Order, matchOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.Card_Times_Recharge_Order, timesCardOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.Card_Month_Recharge_Order, monthsCardOrderServiceRPC);
-//        ORDER_SERVICES.put(OrderTypeDict.Coach_Course_Order, coachCourseOrderServiceRpc);
-//        ORDER_SERVICES.put(OrderTypeDict.Venue_Site_Idle_Order, venueIdleOrderServiceRpc);
+        Map<String, OrderServiceCommonApi> beansOfType = applicationContext.getBeansOfType(OrderServiceCommonApi.class);
+        for (Map.Entry<String, OrderServiceCommonApi> entry : beansOfType.entrySet()) {
+            ORDER_SERVICES.put(entry.getValue().getOrderType(), entry.getValue());
+        }
     }
 
     /**

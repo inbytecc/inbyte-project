@@ -82,12 +82,8 @@ public class OrderCenterServiceImpl implements OrderCenterService {
         LambdaUpdateWrapper<OrderCenterPo> updateWrapper = new LambdaUpdateWrapper<OrderCenterPo>()
                 .eq(OrderCenterPo::getOrderNo, orderNo)
                 .eq(OrderCenterPo::getUserId, SessionUtil.getUserId());
-        int update = orderCenterMapper.delete(updateWrapper);
-        if (update > 0) {
-            return R.ok("删除成功");
-        } else {
-            return R.failure("删除订单失败");
-        }
+        orderCenterMapper.delete(updateWrapper);
+        return R.ok("删除成功");
     }
 
 

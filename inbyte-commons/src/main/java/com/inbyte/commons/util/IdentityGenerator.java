@@ -173,7 +173,7 @@ public class IdentityGenerator {
         Collections.shuffle(list);
         StringBuilder sb = new StringBuilder();
         // 前三位订单列表编码
-        sb.append(orderTypeCode);
+        sb.append(orderTypeCode.code);
         list.forEach(sb::append);
         return sb.toString();
     }

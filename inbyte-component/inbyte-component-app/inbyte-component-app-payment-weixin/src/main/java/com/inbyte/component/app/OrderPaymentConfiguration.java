@@ -5,14 +5,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 微信支付
+ * 订单支付
  *
  * @author chenjw
  */
 @ComponentScan
 @Configuration
-@MapperScan(basePackages = {"com.inbyte.component.app.payment.weixin",
-        "com.inbyte.component.app.order.dao"
-})
+@MapperScan(basePackages = {"com.inbyte.component.app.payment.weixin.dao",
+        "com.inbyte.component.app.order.dao"})
 public class OrderPaymentConfiguration {
 }

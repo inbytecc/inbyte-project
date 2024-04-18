@@ -6,10 +6,10 @@
         UPDATE payment_weixin_refund
         <set>
             <if test="notifyRefundAmount != null">
-                notifyRefundAmount = #{notifyRefundAmount, jdbcType=DECIMAL},
+                notify_refund_amount = #{notifyRefundAmount, jdbcType=DECIMAL},
             </if>
             <if test="refundFinishTime != null">
-                refundFinishTime = #{refundFinishTime, jdbcType=TIMESTAMP},
+                refund_finish_time = #{refundFinishTime, jdbcType=TIMESTAMP},
             </if>
             <if test="refunded != null">
                 refunded = #{refunded, jdbcType=INTEGER},
@@ -18,25 +18,25 @@
                 deleted = #{deleted, jdbcType=INTEGER},
             </if>
         </set>
-        WHERE refundNo = #{refundNo, jdbcType=VARCHAR}
+        WHERE refund_no = #{refundNo, jdbcType=VARCHAR}
     </update>
 
     <select id="brief" parameterType="Integer" resultType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinRefundBrief">
-        SELECT weixinRefundId,
-               weixinPaymentId,
-               userId,
-               orderNo,
-               mctNo,
-               paymentNo,
-               refundApplyAmount,
-               refundApplyTime,
-               notifyRefundAmount,
-               refundFinishTime,
+        SELECT weixin_refund_id,
+               weixin_payment_id,
+               user_id,
+               order_no,
+               mct_no,
+               payment_no,
+               refund_apply_amount,
+               refund_apply_time,
+               notify_refund_amount,
+               refund_finish_time,
                refunded,
-               createTime,
+               create_time,
                deleted
           FROM payment_weixin_refund
-         WHERE refundNo = #{refundNo, jdbcType=VARCHAR}
+         WHERE refund_no = #{refundNo, jdbcType=VARCHAR}
     </select>
 
 </mapper>
