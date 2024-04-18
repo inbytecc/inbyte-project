@@ -47,7 +47,7 @@ public class UserAlipayMpPo {
     /**
       * 昵称
       */
-    private String nickName;
+    private String nickname;
 
     /**
       * 性别

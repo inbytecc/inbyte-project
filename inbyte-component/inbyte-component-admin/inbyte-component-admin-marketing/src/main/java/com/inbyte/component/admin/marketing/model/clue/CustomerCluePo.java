@@ -38,7 +38,7 @@ public class CustomerCluePo {
     /**
      * 客户名字
      */
-    private String nickName;
+    private String nickname;
 
     /**
      * 主题名称

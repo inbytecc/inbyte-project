@@ -18,7 +18,7 @@ public class CustomerClueInsert {
     /** 学员名字 */
     @Length(max = 32, message = "客户名字长度不能超过32位")
     @NotNull
-    private String nickName;
+    private String nickname;
 
     /** 手机号 */
     @NotNull(message = "手机号不能为空")

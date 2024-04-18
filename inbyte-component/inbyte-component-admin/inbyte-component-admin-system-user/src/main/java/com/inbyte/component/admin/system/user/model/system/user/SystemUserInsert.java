@@ -23,7 +23,7 @@ public class SystemUserInsert {
 
     /** 昵称 */
     @Length(max = 32, message = "昵称长度不能超过32位")
-    private String nickName;
+    private String nickname;
 
     /** 真实姓名 */
     @Length(max = 32, message = "真实姓名长度不能超过32位")

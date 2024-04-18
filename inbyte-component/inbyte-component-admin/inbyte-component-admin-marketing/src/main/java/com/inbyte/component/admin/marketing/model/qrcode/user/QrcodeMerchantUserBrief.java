@@ -81,6 +81,6 @@ public class QrcodeMerchantUserBrief {
     /**
      * 昵称
      */
-    private String nickName;
+    private String nickname;
 
 }

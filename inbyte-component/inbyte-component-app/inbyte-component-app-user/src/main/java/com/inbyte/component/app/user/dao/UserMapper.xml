@@ -7,7 +7,7 @@
             (tel, user_name, nick_name, real_name, avatar, create_time)
         SELECT #{tel, jdbcType=VARCHAR},
                #{userName, jdbcType=VARCHAR},
-               #{nickName, jdbcType=VARCHAR},
+               #{nickname, jdbcType=VARCHAR},
                #{realName, jdbcType=VARCHAR},
                #{avatar, jdbcType=VARCHAR},
                #{createTime, jdbcType=TIMESTAMP}

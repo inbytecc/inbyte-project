@@ -50,8 +50,8 @@ public class SessionUtil {
      * @return
      */
     public static String getUserName() {
-        String nickName = getSessionUser().getNickName();
-        return StringUtil.isEmpty(nickName) ? "" : nickName;
+        String nickname = getSessionUser().getNickname();
+        return StringUtil.isEmpty(nickname) ? "" : nickname;
     }
 
     /**

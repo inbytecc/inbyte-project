@@ -116,7 +116,7 @@ public class AliyunOssService {
                     .path(param.getPath())
                     .createTime(now)
                     .creatorId(sessionUser.getUserId())
-                    .creatorName(sessionUser.getNickName())
+                    .creatorName(sessionUser.getNickname())
                     .build();
             objectStorageMapper.insert(objectStoragePo);
 

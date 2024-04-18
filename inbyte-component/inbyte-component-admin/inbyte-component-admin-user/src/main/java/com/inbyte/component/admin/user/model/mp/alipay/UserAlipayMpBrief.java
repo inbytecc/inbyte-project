@@ -29,7 +29,7 @@ public class UserAlipayMpBrief {
     private Integer userId;
 
     /** 昵称 */
-    private String nickName;
+    private String nickname;
 
     /** 性别 */
     private Integer gender;

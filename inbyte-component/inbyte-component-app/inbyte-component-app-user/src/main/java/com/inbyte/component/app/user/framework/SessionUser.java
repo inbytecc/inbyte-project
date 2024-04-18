@@ -54,7 +54,7 @@ public class SessionUser {
      * 用户名, 不可靠
      * 仅限日志记录相关使用, 因为用户修改名字后没有做统一更新
      */
-    private String nickName;
+    private String nickname;
 
     /**
      * 头像

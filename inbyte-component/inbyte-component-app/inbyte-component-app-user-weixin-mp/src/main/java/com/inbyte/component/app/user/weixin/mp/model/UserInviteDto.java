@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class UserInviteDto {
 
     /** 昵称 */
-    private String nickName;
+    private String nickname;
 
 
     /** 已预约 */

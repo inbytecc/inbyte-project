@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
         UserPo userPo = UserPo.builder()
                 .email(param.getEmail())
                 .userName(param.getUserName())
-                .nickName(param.getUserName())
+                .nickname(param.getUserName())
                 .tel(param.getTel())
                 .pwd(MD5Util.md5(param.getPwd()))
                 .createTime(LocalDateTime.now())
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         SessionUser sessionUser = SessionUser.builder()
                 .userId(userPo.getUserId())
                 .tel(userPo.getTel())
-                .nickName(param.getUserName())
+                .nickname(param.getUserName())
                 .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())
                 .tokenVersion(SessionUtil.User_Token_Version)
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
         LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<UserPo>()
                 .eq(UserPo::getEmail, param.getEmail())
                 .eq(UserPo::getPwd, MD5Util.md5(param.getPwd()))
-                .select(UserPo::getUserId, UserPo::getTel, UserPo::getNickName, UserPo::getAvatar);
+                .select(UserPo::getUserId, UserPo::getTel, UserPo::getNickname, UserPo::getAvatar);
         UserPo userPo = userMapper.selectOne(queryWrapper);
         if (userPo == null) {
             return R.failure("账号或密码错误");
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
         SessionUser sessionUser = SessionUser.builder()
                 .userId(userPo.getUserId())
                 .tel(userPo.getTel())
-                .nickName(userPo.getNickName())
+                .nickname(userPo.getNickname())
                 .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())
                 .tokenVersion(SessionUtil.User_Token_Version)
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         }
         LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserPo::getTel, param.getTel())
-                .select(UserPo::getUserId, UserPo::getNickName, UserPo::getAvatar, UserPo::getTel);
+                .select(UserPo::getUserId, UserPo::getNickname, UserPo::getAvatar, UserPo::getTel);
         UserPo userPo = userMapper.selectOne(queryWrapper);
         if (userPo == null) {
             return R.failure("用户不存在哦, 请先注册后登录");
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
                 .tel(userPo.getTel())
                 .eid(1)
                 .etp(AppTypeEnum.WXMP)
-                .nickName(userPo.getNickName())
+                .nickname(userPo.getNickname())
                 .avatar(userPo.getAvatar())
                 .loginTime(LocalDateTime.now())
                 .tokenVersion(SessionUtil.User_Token_Version)
@@ -170,17 +170,17 @@ public class UserServiceImpl implements UserService {
      * 注册用户
      *
      * @param tel
-     * @param nickName
+     * @param nickname
      * @return 返回用户ID
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public R<Integer> register(String tel, String nickName, String avatar) {
+    public R<Integer> register(String tel, String nickname, String avatar) {
         // 新注册账号
         UserPo userPo = UserPo.builder()
                 .tel(tel)
-                .userName(nickName)
-                .nickName(nickName)
+                .userName(nickname)
+                .nickname(nickname)
                 .avatar(avatar)
                 .createTime(LocalDateTime.now())
                 .build();

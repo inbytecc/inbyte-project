@@ -20,7 +20,7 @@ public class UserWeixinDto {
     private String tel;
 
     /** 昵称 */
-    private String nickName;
+    private String nickname;
 
     /** 头像 */
     private String avatar;

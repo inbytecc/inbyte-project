@@ -22,7 +22,7 @@ public class CustomerClueUpdate {
 
     /** 客户名字 */
     @Length(min = 1, max = 255, message = "客户名字长度不能超过255位")
-    private String nickName;
+    private String nickname;
 
     /** 手机号 */
     @NotNull(message = "手机号不能为空")

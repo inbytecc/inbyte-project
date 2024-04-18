@@ -20,7 +20,7 @@ public class UserBrief {
     private String tel;
 
     /** 昵称 */
-    private String nickName;
+    private String nickname;
 
     /** 邮箱 */
     private String email;

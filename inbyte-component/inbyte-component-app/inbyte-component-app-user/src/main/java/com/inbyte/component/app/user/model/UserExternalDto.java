@@ -29,7 +29,7 @@ public class UserExternalDto {
 
     /** 昵称 */
     @NotNull
-    private String nickName;
+    private String nickname;
 
     /** 头像 */
     @NotNull
@@ -74,12 +74,12 @@ public class UserExternalDto {
         this.recommendEid = recommendEid;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNickName(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getavatar() {

@@ -25,7 +25,7 @@ public class WechatBasicInfoController {
      * @return
      */
     @RequestMapping("/check-nickname")
-    public Object receiveTicket(@RequestParam("nickName") String nickName) {
+    public Object receiveTicket(@RequestParam("nickname") String nickname) {
 //        wxOpenService.
         return "success";
     }

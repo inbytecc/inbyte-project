@@ -61,11 +61,11 @@ public class UserServiceImpl implements UserService {
             return R.ok("用户已注册", userBrief.getUserId());
         }
 
-        String nickName = "用户" + tel.substring(7);
+        String nickname = "用户" + tel.substring(7);
         UserPo userPo = UserPo.builder()
                 .tel(tel)
-                .nickName(nickName)
-                .userName(nickName)
+                .nickname(nickname)
+                .userName(nickname)
                 .avatar("https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132")
                 .createTime(LocalDateTime.now())
                 .build();

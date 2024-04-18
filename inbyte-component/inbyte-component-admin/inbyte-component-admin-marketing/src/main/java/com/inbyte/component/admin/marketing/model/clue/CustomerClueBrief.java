@@ -30,7 +30,7 @@ public class CustomerClueBrief {
     /**
      * 客户名字
      */
-    private String nickName;
+    private String nickname;
 
     /**
      * 学生ID

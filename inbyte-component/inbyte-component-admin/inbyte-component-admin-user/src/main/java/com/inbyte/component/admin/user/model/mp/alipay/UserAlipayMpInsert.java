@@ -32,7 +32,7 @@ public class UserAlipayMpInsert {
 
     /** 昵称 */
     @Length(max = 16, message = "昵称长度不能超过16位")
-    private String nickName;
+    private String nickname;
 
     /** 性别 */
     @NotNull(message = "性别不能为空")

@@ -177,7 +177,7 @@ public class QrCodeServiceImpl implements QrCodeService {
         } else if (isUserShare(qctp)) {
             UserWeixinDto info = userWeixinMpMapper.info(recommendEid);
             if (info != null) {
-                return info.getNickName();
+                return info.getNickname();
             }
         }
         return null;

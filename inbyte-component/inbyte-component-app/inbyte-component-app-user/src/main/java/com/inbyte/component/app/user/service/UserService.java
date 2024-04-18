@@ -35,10 +35,10 @@ public interface UserService {
      * 注册用户
      *
      * @param tel
-     * @param nickName
+     * @param nickname
      * @return 返回用户ID
      */
-    R<Integer> register(String tel, String nickName, String avatar);
+    R<Integer> register(String tel, String nickname, String avatar);
 
     UserBrief queryByTel(String tel);
 

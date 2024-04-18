@@ -24,7 +24,7 @@ public class CustomerClueDetail {
     private Integer userId;
 
     /** 客户名字 */
-    private String nickName;
+    private String nickname;
 
     /** 外部用户ID */
     private Integer eid;

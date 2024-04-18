@@ -34,7 +34,7 @@ public class UserWeixinMpDetail {
     /**
      * 昵称
      */
-    private String nickName;
+    private String nickname;
 
     /**
      * 真实姓名

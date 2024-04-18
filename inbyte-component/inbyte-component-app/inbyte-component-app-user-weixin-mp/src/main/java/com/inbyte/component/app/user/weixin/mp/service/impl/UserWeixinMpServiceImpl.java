@@ -84,7 +84,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             UserWeixinMpPo weixinPo = UserWeixinMpPo.builder()
                     .openId(credentialDto.getOpenid())
                     .unionId(credentialDto.getUnionid())
-                    .nickName("游客")
+                    .nickname("游客")
                     .avatar(randomCommonAvatar)
                     .sessionKey(credentialDto.getSessionKey())
                     .appId(AppUtil.getAppId())
@@ -120,7 +120,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             sessionUser = SessionUser.builder()
                     .eid(weixinPo.getEid())
                     .etp(AppTypeEnum.WXMP)
-                    .nickName("游客")
+                    .nickname("游客")
                     .avatar(randomCommonAvatar)
                     .loginTime(now)
                     .tokenVersion(SessionUtil.User_Token_Version)
@@ -149,7 +149,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             sessionUser = SessionUser.builder()
                     .eid(userWeixin.getEid())
                     .etp(AppTypeEnum.WXMP)
-                    .nickName("游客")
+                    .nickname("游客")
                     .avatar(userWeixin.getAvatar())
                     .loginTime(now)
                     .tokenVersion(SessionUtil.User_Token_Version)
@@ -164,7 +164,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .etp(AppTypeEnum.WXMP)
                 .userId(userWeixin.getUserId())
                 .tel(userWeixin.getTel())
-                .nickName(userWeixin.getNickName())
+                .nickname(userWeixin.getNickname())
                 .avatar(userWeixin.getAvatar())
                 .loginTime(now)
                 .tokenVersion(SessionUtil.User_Token_Version)
@@ -219,10 +219,10 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     private R<UserLoginDto> registerNewUser(UserWeixinRegisterParam param, WxMaPhoneNumberInfo phoneInfo) {
         LocalDateTime now = LocalDateTime.now();
         SessionUser sessionUser = SessionUtil.getSessionUser();
-        String nickName = "用户" + phoneInfo.getPurePhoneNumber().substring(7);
+        String nickname = "用户" + phoneInfo.getPurePhoneNumber().substring(7);
 
         // 新注册账号
-        R<Integer> register = userService.register(phoneInfo.getPurePhoneNumber(), nickName, sessionUser.getAvatar());
+        R<Integer> register = userService.register(phoneInfo.getPurePhoneNumber(), nickname, sessionUser.getAvatar());
         if (register.failed()) {
             return R.failure("用户注册失败, 请重试一下");
         }
@@ -231,7 +231,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         UserWeixinMpPo userWeixinMpPo = UserWeixinMpPo.builder()
                 .eid(sessionUser.getEid())
                 .userId(register.getData())
-                .nickName("微信" + nickName)
+                .nickname("微信" + nickname)
                 .tel(phoneInfo.getPurePhoneNumber())
                 .countryCode(phoneInfo.getCountryCode())
                 .boundWithUser(WhetherDict.Yes.code)
@@ -251,7 +251,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .etp(AppTypeEnum.WXMP)
                 .userId(register.getData())
                 .tel(phoneInfo.getPurePhoneNumber())
-                .nickName(nickName)
+                .nickname(nickname)
                 .avatar(sessionUser.getAvatar())
                 .loginTime(now)
                 .tokenVersion(SessionUtil.User_Token_Version)
@@ -270,13 +270,13 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     private R<UserLoginDto> registerHalfNewUser(UserWeixinRegisterParam param, WxMaPhoneNumberInfo phoneInfo, UserBrief userBrief) {
         LocalDateTime now = LocalDateTime.now();
         SessionUser sessionUser = SessionUtil.getSessionUser();
-        String nickName = "微信用户" + phoneInfo.getPurePhoneNumber().substring(7);
+        String nickname = "微信用户" + phoneInfo.getPurePhoneNumber().substring(7);
 
         // 更新用户微信表
         UserWeixinMpPo userWeixinPO = UserWeixinMpPo.builder()
                 .eid(sessionUser.getEid())
                 .userId(userBrief.getUserId())
-                .nickName(nickName)
+                .nickname(nickname)
                 .tel(phoneInfo.getPurePhoneNumber())
                 .countryCode(phoneInfo.getCountryCode())
                 .boundWithUser(WhetherDict.Yes.code)
@@ -295,7 +295,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .etp(AppTypeEnum.WXMP)
                 .userId(userBrief.getUserId())
                 .tel(phoneInfo.getPurePhoneNumber())
-                .nickName(nickName)
+                .nickname(nickname)
                 .avatar(sessionUser.getAvatar())
                 .loginTime(now)
                 .tokenVersion(SessionUtil.User_Token_Version)
@@ -358,7 +358,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     public R<String> update(UserWeixinMpUpdate userWeixinMpUpdate) {
         LambdaUpdateWrapper<UserWeixinMpPo> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(UserWeixinMpPo::getEid, SessionUtil.getEid());
-        updateWrapper.set(UserWeixinMpPo::getNickName, userWeixinMpUpdate.getNickName());
+        updateWrapper.set(UserWeixinMpPo::getNickname, userWeixinMpUpdate.getNickname());
         updateWrapper.set(UserWeixinMpPo::getAvatar, userWeixinMpUpdate.getAvatar());
         userWeixinMpMapper.update(null, updateWrapper);
         return R.ok("修改成功");

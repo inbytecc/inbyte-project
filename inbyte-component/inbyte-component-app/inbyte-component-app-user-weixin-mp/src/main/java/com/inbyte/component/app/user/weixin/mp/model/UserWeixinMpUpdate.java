@@ -21,6 +21,6 @@ public class UserWeixinMpUpdate {
     /**
      * 昵称
      */
-    private String nickName;
+    private String nickname;
 
 }
