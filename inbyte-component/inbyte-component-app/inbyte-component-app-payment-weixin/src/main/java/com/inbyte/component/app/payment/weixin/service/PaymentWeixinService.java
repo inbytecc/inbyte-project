@@ -10,6 +10,8 @@ import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
 import com.inbyte.commons.util.IdentityGenerator;
+import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
+import com.inbyte.component.app.payment.common.model.RefundSuccessNotifyParam;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinRefundMapper;
@@ -371,7 +373,7 @@ public class PaymentWeixinService {
      *
      * @ref https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay4_1.shtml
      **/
-    public R<PaymentSuccessDto> paymentSuccessVerify(PaymentWeixinSuccessVerifyParam param) {
+    public R<PaymentSuccessNotifyParam> paymentSuccessVerify(PaymentWeixinSuccessVerifyParam param) {
         log.info("收到微信支付成功通知, 通知参数:{}", JSON.toJSONString(param));
 
         // 构造微信解密参数
@@ -420,11 +422,11 @@ public class PaymentWeixinService {
         int update = paymentWeixinInfoMapper.updateById(paymentWeixinInfoPo);
         log.info("微信支付回调更新参数:{}, 响应结果:{}", JSON.toJSONString(paymentWeixinInfoPo), update);
 
-        PaymentSuccessDto paymentSuccessDto = PaymentSuccessDto.builder()
+        PaymentSuccessNotifyParam paymentSuccessDto = PaymentSuccessNotifyParam.builder()
                 .orderNo(transaction.getOutTradeNo())
                 .paymentMerchantId(transaction.getMchid())
                 .paymentNo(transaction.getTransactionId())
-                .paymentTypeEnum(PaymentTypeEnum.WEIXIN_PAY)
+                .paymentType(PaymentTypeEnum.WEIXIN_PAY)
                 .paymentAmount(paymentAmount)
                 .paymentUserId(transaction.getPayer().getOpenid())
                 .paymentUserName("微信用户")
@@ -434,7 +436,7 @@ public class PaymentWeixinService {
         return R.ok(paymentSuccessDto);
     }
 
-    public R<RefundSuccessDto> refundSuccessVerify(RefundWeixinSuccessVerifyParam param) {
+    public R<RefundSuccessNotifyParam> refundSuccessVerify(RefundWeixinSuccessVerifyParam param) {
         log.info("收到微信退款执行成功通知, 通知参数:{}", JSON.toJSONString(param));
         // 构造 RequestParam
         RequestParam requestParam = new RequestParam.Builder()
@@ -483,7 +485,7 @@ public class PaymentWeixinService {
         log.info("微信支付退款回调明细更新参数:{}, 响应结果:{}", JSON.toJSONString(refundPo), update);
 
         // 微信支付返回的 refundId 抽象成我们 refundNo
-        RefundSuccessDto refundSuccessDto = RefundSuccessDto.builder()
+        RefundSuccessNotifyParam refundSuccessDto = RefundSuccessNotifyParam.builder()
                 .orderNo(refund.getOutTradeNo())
                 .paymentNo(refund.getTransactionId())
                 .refundNo(refund.getOutRefundNo())

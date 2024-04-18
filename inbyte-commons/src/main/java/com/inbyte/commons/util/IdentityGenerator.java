@@ -1,5 +1,7 @@
 package com.inbyte.commons.util;
 
+import com.inbyte.commons.model.dict.OrderTypeEnum;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -143,7 +145,7 @@ public class IdentityGenerator {
      *
      * @return
      */
-    public static String generateOrderNo(String orderTypeCode) {
+    public static String generateOrderNo(OrderTypeEnum orderTypeCode) {
         int serialNo = ORDER_SERIAL_NO.incrementAndGet();
         if (serialNo == 999) {
             ORDER_SERIAL_NO.set(0);
@@ -319,6 +321,6 @@ public class IdentityGenerator {
     }
 
     public static void main(String[] args) {
-        System.out.println(generateOrderNo("1"));
+//        System.out.println(generateOrderNo("1"));
     }
 }

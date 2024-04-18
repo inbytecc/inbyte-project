@@ -19,6 +19,8 @@ public class QrCodePurchaseEventNotify {
 
     /** 用户ID */
     private Integer eid;
+    /** 场馆ID */
+    private Integer venueId;
     /**
      * 订单编号
      */

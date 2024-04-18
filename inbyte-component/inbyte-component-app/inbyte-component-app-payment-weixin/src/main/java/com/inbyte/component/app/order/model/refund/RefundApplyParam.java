@@ -1,7 +1,5 @@
-package com.inbyte.component.app.payment.weixin.model;
+package com.inbyte.component.app.order.model.refund;
 
-
-import com.inbyte.component.app.payment.weixin.dict.PaymentTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -9,21 +7,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 杭州易思网络
+ * 退款申请参数
  *
  * @author chenjw
- * @date 2016年06月29日
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RefundCommonApplyParam implements Serializable {
+public class RefundApplyParam implements Serializable {
 
     /**
      * 订单编号
      */
+    @NotNull(message = "订单编号不能为空")
     private String orderNo;
 
     /**
@@ -33,18 +31,14 @@ public class RefundCommonApplyParam implements Serializable {
     private Integer fullAmountRefund;
 
     /**
-     * 支付方式
-     */
-    private PaymentTypeEnum paymentType;
-
-    /**
      * 退款金额
      */
+//    @NotNull(message = "退款金额不能为空")
     private BigDecimal refundAmount;
 
     /**
      * 退款原因
      */
+//    @NotBlank(message = "退款原因不能为空")
     private String refundReason;
-
 }

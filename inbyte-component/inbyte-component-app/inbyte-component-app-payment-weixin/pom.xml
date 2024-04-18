@@ -24,6 +24,12 @@
 			<artifactId>inbyte-component-common-weixin-enterprise</artifactId>
 			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.inbyte</groupId>
+			<artifactId>inbyte-component-app-user</artifactId>
+			<version>1.0.2-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<!--微信支付SDK-->
 		<dependency>

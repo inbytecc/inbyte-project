@@ -1,4 +1,4 @@
-package com.inbyte.component.app.payment.weixin.model;
+package com.inbyte.component.app.payment.common.model;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 退款成功回调
+ * 退款成功返回参数
  * 杭州易思网络
  *
  * @author chenjw
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RefundSuccessDto implements Serializable {
+public class RefundSuccessNotifyParam implements Serializable {
     /**
      * 商户订单号
      */
