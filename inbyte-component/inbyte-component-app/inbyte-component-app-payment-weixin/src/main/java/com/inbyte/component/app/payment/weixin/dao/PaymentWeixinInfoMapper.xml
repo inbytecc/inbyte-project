@@ -25,52 +25,6 @@
                            WHERE order_no = #{orderNo})
     </insert>
 
-    <update id="update" parameterType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinInfoPo">
-        UPDATE payment_weixin_info
-        <set>
-            <if test="paymentAmount != null">
-                payment_amount = #{paymentAmount, jdbcType=DECIMAL},
-            </if>
-            <if test="paid != null">
-                paid = #{paid, jdbcType=INTEGER},
-            </if>
-            <if test="paymentNo != null">
-                payment_no = #{paymentNo, jdbcType=VARCHAR},
-            </if>
-            <if test="paymentUserId != null">
-                payment_user_id = #{paymentUserId, jdbcType=VARCHAR},
-            </if>
-            <if test="paymentFinishTime != null">
-                payment_finish_time = #{paymentFinishTime, jdbcType=TIMESTAMP},
-            </if>
-            <if test="notifyPaymentAmount != null">
-                notify_payment_amount = #{notifyPaymentAmount, jdbcType=DECIMAL},
-            </if>
-            <if test="tradeType != null">
-                trade_type = #{tradeType, jdbcType=VARCHAR},
-            </if>
-            <if test="bankType != null">
-                bank_type = #{bankType, jdbcType=VARCHAR},
-            </if>
-            <if test="refundTotalAmount != null">
-                refund_total_amount = refund_total_amount + #{refundTotalAmount, jdbcType=DECIMAL},
-            </if>
-            <if test="refunded != null">
-                refunded = #{refunded, jdbcType=INTEGER},
-            </if>
-            <if test="refundApplied != null">
-                refund_applied = #{refundApplied, jdbcType=INTEGER},
-            </if>
-            <if test="cancelTime != null">
-                cancel_time = #{cancelTime, jdbcType=TIMESTAMP},
-            </if>
-            <if test="deleted != null">
-                deleted = #{deleted, jdbcType=INTEGER},
-            </if>
-        </set>
-        WHERE order_no = #{orderNo, jdbcType=VARCHAR}
-    </update>
-
     <select id="selectByNo" parameterType="java.lang.String" resultType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinInfoBrief">
         SELECT weixin_payment_id,
                user_id,
