@@ -2,6 +2,7 @@ package com.inbyte.component.admin.system.user;
 
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.component.admin.system.user.exception.SystemUserSessionUnavailableException;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.util.WebUtil;
@@ -82,6 +83,14 @@ public class SessionUtil {
             return null;
         }
         return JSON.parseObject(decodedJWT.getSubject(), SessionUser.class);
+    }
+
+    public static Integer getVenueId() {
+        String venueId = WebUtil.getHeader("Current-Venue-Id");
+        if (venueId == null) {
+            throw InbyteException.failure("请选择营地");
+        }
+        return Integer.parseInt(venueId);
     }
 
     /**

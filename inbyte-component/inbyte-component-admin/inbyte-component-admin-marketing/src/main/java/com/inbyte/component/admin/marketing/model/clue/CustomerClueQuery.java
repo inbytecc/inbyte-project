@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.marketing.model.clue;
 
-import com.inbyte.commons.model.dto.BaseQuery;
+import com.inbyte.commons.model.dto.BasePage;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class CustomerClueQuery extends BaseQuery {
+public class CustomerClueQuery extends BasePage {
 
     /**
      * 查询关键字

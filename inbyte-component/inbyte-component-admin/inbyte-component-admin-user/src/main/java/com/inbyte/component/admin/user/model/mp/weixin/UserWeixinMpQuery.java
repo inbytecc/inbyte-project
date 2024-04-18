@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.user.model.mp.weixin;
 
+import com.inbyte.commons.model.dto.BasePage;
 import com.inbyte.commons.model.dto.BaseQuery;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class UserWeixinMpQuery extends BaseQuery {
+public class UserWeixinMpQuery extends BasePage {
 
     /**
      * 查询关键字

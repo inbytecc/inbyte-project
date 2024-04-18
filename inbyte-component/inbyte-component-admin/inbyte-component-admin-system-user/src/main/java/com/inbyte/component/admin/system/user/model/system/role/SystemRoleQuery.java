@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.system.user.model.system.role;
 
+import com.inbyte.commons.model.dto.BasePage;
 import com.inbyte.commons.model.dto.BaseQuery;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class SystemRoleQuery extends BaseQuery {
+public class SystemRoleQuery extends BasePage {
 
     /**
      * 查询关键字

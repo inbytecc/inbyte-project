@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.marketing.model.qrcode;
 
-import com.inbyte.commons.model.dto.BaseQuery;
+import com.inbyte.commons.model.dto.BasePage;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class QrcodeMerchantQuery extends BaseQuery {
+public class QrcodeMerchantQuery extends BasePage {
 
     /**
      * 查询关键字

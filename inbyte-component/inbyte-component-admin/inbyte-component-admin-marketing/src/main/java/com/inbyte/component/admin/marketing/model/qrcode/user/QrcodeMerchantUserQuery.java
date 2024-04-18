@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.marketing.model.qrcode.user;
 
-import com.inbyte.commons.model.dto.BaseQuery;
+import com.inbyte.commons.model.dto.BasePage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class QrcodeMerchantUserQuery extends BaseQuery {
+public class QrcodeMerchantUserQuery extends BasePage {
 
     /**
      * 二维码ID

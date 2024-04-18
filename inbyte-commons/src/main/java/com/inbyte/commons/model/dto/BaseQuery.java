@@ -4,11 +4,11 @@ package com.inbyte.commons.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * 分页参数基类
+ * 请求参数基类
  *
  * @author chenjw
  */
-public class BaseQuery extends BasePage {
+public class BaseQuery {
 
     /**
      * 用户Id

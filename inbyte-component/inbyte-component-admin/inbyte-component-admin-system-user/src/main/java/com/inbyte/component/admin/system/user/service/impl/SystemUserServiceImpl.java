@@ -95,8 +95,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         SystemUserPo systemUserPo = SystemUserPo.builder()
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .createTime(LocalDateTime.now())
-                .creatorId(SessionUtil.getUserId())
-                .creatorName(SessionUtil.getUserName())
+                .creator(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(insert, systemUserPo);
         systemUserPo.setPwd(MD5Util.md5(insert.getPwd()));
@@ -117,8 +116,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Override
     public R update(SystemUserUpdate update) {
         SystemUserPo systemUserPo = SystemUserPo.builder()
-                .modifierId(SessionUtil.getUserId())
-                .modifierName(SessionUtil.getUserName())
+                .modifier(SessionUtil.getUserName())
                 .updateTime(LocalDateTime.now())
                 .build();
         BeanUtils.copyProperties(update, systemUserPo);
@@ -157,7 +155,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
                 .set(SystemUserPo::getPwd, MD5Util.md5(update.getPwd()))
                 .set(SystemUserPo::getNeedUpdatePwd, WhetherDict.No.code);
-        systemUserMapper.update(null, updateWrapper);
+        systemUserMapper.update(updateWrapper);
         return R.ok("修改成功");
     }
 
@@ -173,11 +171,9 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
                 .set(SystemUserPo::getPwd, Initial_Password)
                 .set(SystemUserPo::getNeedUpdatePwd, WhetherDict.Yes.code)
-                .set(SystemUserPo::getModifierId, SessionUtil.getUserId())
-                .set(SystemUserPo::getModifierName, SessionUtil.getUserName())
-                .set(SystemUserPo::getUpdateTime, LocalDateTime.now())
-                ;
-        systemUserMapper.update(null, updateWrapper);
+                .set(SystemUserPo::getModifier, SessionUtil.getUserName())
+                .set(SystemUserPo::getUpdateTime, LocalDateTime.now());
+        systemUserMapper.update(updateWrapper);
         return R.ok("修改成功");
     }
 }

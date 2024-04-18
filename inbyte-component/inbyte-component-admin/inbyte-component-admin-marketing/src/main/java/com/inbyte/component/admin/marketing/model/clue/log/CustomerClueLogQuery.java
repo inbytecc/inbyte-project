@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.marketing.model.clue.log;
 
-import com.inbyte.commons.model.dto.BaseQuery;
+import com.inbyte.commons.model.dto.BasePage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +14,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class CustomerClueLogQuery extends BaseQuery {
-
+public class CustomerClueLogQuery extends BasePage {
 
     /**
      * 线索ID

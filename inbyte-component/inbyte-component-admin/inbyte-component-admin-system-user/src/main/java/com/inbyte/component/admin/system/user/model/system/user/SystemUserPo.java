@@ -77,24 +77,14 @@ public class SystemUserPo {
     private LocalDateTime createTime;
 
     /**
-     * 创建人ID
+     * 创建人
      */
-    private Integer creatorId;
+    private String creator;
 
     /**
-     * 创建人名字
+     * 修改人
      */
-    private String creatorName;
-
-    /**
-     * 创建人ID
-     */
-    private Integer modifierId;
-
-    /**
-     * 修改人名字
-     */
-    private String modifierName;
+    private String modifier;
 
     /**
      * 创建时间
