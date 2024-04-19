@@ -4,12 +4,12 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import com.inbyte.component.admin.system.user.SessionUser;
 import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.system.user.dao.SystemUserMapper;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemUserMapper;
 import com.inbyte.component.admin.system.user.model.WxMpRegisterParam;
 import com.inbyte.component.admin.system.user.model.WxMpSilentLoginParam;
 import com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail;
 import com.inbyte.component.admin.system.user.model.system.user.SystemUserLoginDto;
-import com.inbyte.component.admin.system.user.model.system.user.SystemUserPo;
+import com.inbyte.component.admin.system.user.model.system.user.InbyteSystemUserPo;
 import com.inbyte.component.admin.system.user.service.SystemUserWeixinMpService;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService {
 
     @Autowired
-    private SystemUserMapper systemUserMapper;
+    private InbyteSystemUserMapper inbyteSystemUserMapper;
     @Autowired
     private WxMpUserClient wxMpUserClient;
 
@@ -44,7 +44,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
             return R.valueOf(weixinUserCredentialR);
         }
         String openId = weixinUserCredentialR.getData().getOpenid();
-        SystemUserDetail detail = systemUserMapper.queryByOpenId(openId);
+        SystemUserDetail detail = inbyteSystemUserMapper.queryByOpenId(openId);
 
         // 如果微信用户未创建, 新增基本信息, 并且提示注册
         if (detail == null) {
@@ -69,7 +69,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
             return R.valueOf(phoneInfo);
         }
 
-        SystemUserDetail detail = systemUserMapper.queryByTel(phoneInfo.getData().getPurePhoneNumber());
+        SystemUserDetail detail = inbyteSystemUserMapper.queryByTel(phoneInfo.getData().getPurePhoneNumber());
         if (detail == null) {
             return R.failure("未注册账号, 请联系管理员操作");
         }
@@ -79,13 +79,13 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
             return R.failure("请先静默登录获取token后再绑定账号");
         }
 
-        SystemUserPo systemUserPo = SystemUserPo.builder()
+        InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
                 .userId(detail.getUserId())
                 .openId(sessionUser.getOpenId())
                 .loginWay("wx-mp")
                 .latestLoginTime(LocalDateTime.now())
                 .build();
-        systemUserMapper.updateById(systemUserPo);
+        inbyteSystemUserMapper.updateById(inbyteSystemUserPo);
 
         sessionUser.setUserId(detail.getUserId());
         sessionUser.setOpenId(sessionUser.getOpenId());

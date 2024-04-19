@@ -25,7 +25,7 @@
                creator_id,
                creator_name,
                update_time
-          FROM object_storage
+          FROM inbyte_object_storage
          WHERE object_id = #{objectId, jdbcType=INTEGER}
     </select>
 
@@ -50,7 +50,7 @@
                remark,
                create_time,
                update_time
-          FROM object_storage
+          FROM inbyte_object_storage
          WHERE deleted = 0
         <if test="startDate != null">
            AND create_time &gt; #{start_date, jdbcType=TIMESTAMP}

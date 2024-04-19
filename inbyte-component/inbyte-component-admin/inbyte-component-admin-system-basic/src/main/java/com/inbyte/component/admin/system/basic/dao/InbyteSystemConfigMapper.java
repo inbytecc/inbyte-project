@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.system.basic.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.admin.system.basic.model.SystemConfigPo;
+import com.inbyte.component.admin.system.basic.model.InbyteSystemConfigPo;
 import com.inbyte.component.admin.system.basic.model.SystemConfigQuery;
 import com.inbyte.component.admin.system.basic.model.SystemConfigBrief;
 import com.inbyte.component.admin.system.basic.model.SystemConfigDetail;
@@ -13,11 +13,11 @@ import java.util.List;
 /**
  * 系统配置
  *
- * 表名 system_config
+ * 表名 inbyte_system_config
  * @author chenjw
  * @date 2024-03-11 11:07:53
  */
-public interface SystemConfigMapper extends BaseMapper<SystemConfigPo> {
+public interface InbyteSystemConfigMapper extends BaseMapper<InbyteSystemConfigPo> {
 
     /**
      * 详情
@@ -35,7 +35,7 @@ public interface SystemConfigMapper extends BaseMapper<SystemConfigPo> {
     List<SystemConfigBrief> list(SystemConfigQuery query);
 
     @Select("SELECT `value` " +
-            "  FROM system_config" +
+            "  FROM inbyte_system_config" +
             " WHERE `key` = #{key}")
     String getValue(@Param("key") String key);
 }

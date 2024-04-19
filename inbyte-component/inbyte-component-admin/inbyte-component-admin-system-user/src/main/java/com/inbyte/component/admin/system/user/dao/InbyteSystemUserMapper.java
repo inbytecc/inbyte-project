@@ -9,11 +9,11 @@ import java.util.List;
 /**
  * 用户表
  *
- * 表名：  system_user
+ * 表名：  inbyte_system_user
  * @author chenjw
  * @date 2022-12-20 14:58:26
  */
-public interface SystemUserMapper extends BaseMapper<SystemUserPo> {
+public interface InbyteSystemUserMapper extends BaseMapper<InbyteSystemUserPo> {
 
     /**
      * 详情

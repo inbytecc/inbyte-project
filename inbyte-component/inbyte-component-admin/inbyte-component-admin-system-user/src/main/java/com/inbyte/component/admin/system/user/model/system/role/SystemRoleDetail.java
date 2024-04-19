@@ -31,7 +31,7 @@ public class SystemRoleDetail {
     private Integer creatorId;
 
     /** 修改人 */
-    private String creatorName;
+    private String creator;
 
     /** 创建时间 */
     private LocalDateTime createTime;
@@ -39,7 +39,7 @@ public class SystemRoleDetail {
     /** 修改人 */
     private Integer modifierId;
     /** 修改人 */
-    private String modifierName;
+    private String modifier;
 
     /** 修改时间 */
     private LocalDateTime updateTime;

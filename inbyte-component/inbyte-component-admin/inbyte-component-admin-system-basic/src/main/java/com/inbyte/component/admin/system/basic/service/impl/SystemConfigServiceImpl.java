@@ -8,7 +8,7 @@ import com.inbyte.commons.util.PageUtil;
 import com.inbyte.component.admin.system.basic.model.*;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.basic.service.SystemConfigService;
-import com.inbyte.component.admin.system.basic.dao.SystemConfigMapper;
+import com.inbyte.component.admin.system.basic.dao.InbyteSystemConfigMapper;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -26,54 +26,54 @@ import java.time.LocalDateTime;
 public class SystemConfigServiceImpl implements SystemConfigService {
 
     @Autowired
-    private SystemConfigMapper systemConfigMapper;
+    private InbyteSystemConfigMapper inbyteSystemConfigMapper;
 
     @Override
     public R insert(SystemConfigInsert insert) {
-        LambdaQueryWrapper<SystemConfigPo> query = new LambdaQueryWrapper<SystemConfigPo>()
-                .eq(SystemConfigPo::getKey, insert.getKey());
-        Long l = systemConfigMapper.selectCount(query);
+        LambdaQueryWrapper<InbyteSystemConfigPo> query = new LambdaQueryWrapper<InbyteSystemConfigPo>()
+                .eq(InbyteSystemConfigPo::getKey, insert.getKey());
+        Long l = inbyteSystemConfigMapper.selectCount(query);
         if (l > 0) {
             return R.error("配置项key已存在");
         }
 
-        SystemConfigPo systemConfigPo = SystemConfigPo.builder()
+        InbyteSystemConfigPo inbyteSystemConfigPo = InbyteSystemConfigPo.builder()
                 .createTime(LocalDateTime.now())
                 .creatorId(SessionUtil.getUserId())
-                .creatorName(SessionUtil.getUserName())
+                .creator(SessionUtil.getUserName())
                 .build();
-        BeanUtils.copyProperties(insert, systemConfigPo);
-        systemConfigMapper.insert(systemConfigPo);
+        BeanUtils.copyProperties(insert, inbyteSystemConfigPo);
+        inbyteSystemConfigMapper.insert(inbyteSystemConfigPo);
         return R.ok("新增成功");
     }
 
     @Override
     public R delete(Integer id) {
-        systemConfigMapper.deleteById(id);
+        inbyteSystemConfigMapper.deleteById(id);
         return R.ok("删除成功");
     }
 
     @Override
     public R update(SystemConfigUpdate update) {
-        SystemConfigPo systemConfigPo = SystemConfigPo.builder()
+        InbyteSystemConfigPo inbyteSystemConfigPo = InbyteSystemConfigPo.builder()
                 .updateTime(LocalDateTime.now())
                 .modifierId(SessionUtil.getUserId())
-                .modifierName(SessionUtil.getUserName())
+                .modifier(SessionUtil.getUserName())
                 .build();
-        BeanUtils.copyProperties(update, systemConfigPo);
+        BeanUtils.copyProperties(update, inbyteSystemConfigPo);
 
-        systemConfigMapper.updateById(systemConfigPo);
+        inbyteSystemConfigMapper.updateById(inbyteSystemConfigPo);
         return R.ok("修改成功");
     }
 
     @Override
     public R updateByKey(SystemConfigUpdateByKey update) {
-        SystemConfigPo systemConfigPo = SystemConfigPo.builder()
+        InbyteSystemConfigPo inbyteSystemConfigPo = InbyteSystemConfigPo.builder()
                 .updateTime(LocalDateTime.now())
                 .modifierId(SessionUtil.getUserId())
-                .modifierName(SessionUtil.getUserName())
+                .modifier(SessionUtil.getUserName())
                 .build();
-        BeanUtils.copyProperties(update, systemConfigPo);
+        BeanUtils.copyProperties(update, inbyteSystemConfigPo);
 
         String val;
         if (update.getValue() instanceof String || update.getValue() instanceof Number) {
@@ -81,17 +81,17 @@ public class SystemConfigServiceImpl implements SystemConfigService {
         } else {
             val = JSON.toJSONString(update.getValue());
         }
-        systemConfigPo.setValue(val);
+        inbyteSystemConfigPo.setValue(val);
 
-        LambdaQueryWrapper<SystemConfigPo> query = new LambdaQueryWrapper<SystemConfigPo>()
-                .eq(SystemConfigPo::getKey, update.getKey());
-        systemConfigMapper.update(systemConfigPo, query);
+        LambdaQueryWrapper<InbyteSystemConfigPo> query = new LambdaQueryWrapper<InbyteSystemConfigPo>()
+                .eq(InbyteSystemConfigPo::getKey, update.getKey());
+        inbyteSystemConfigMapper.update(inbyteSystemConfigPo, query);
         return R.ok("修改成功");
     }
 
     @Override
     public R<SystemConfigDetail> detail(Integer id) {
-        return R.ok(systemConfigMapper.detail(id));
+        return R.ok(inbyteSystemConfigMapper.detail(id));
     }
 
     @Override
@@ -100,11 +100,11 @@ public class SystemConfigServiceImpl implements SystemConfigService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        return R.page(systemConfigMapper.list(query));
+        return R.page(inbyteSystemConfigMapper.list(query));
     }
 
     @Override
     public String getValue(String key) {
-        return systemConfigMapper.getValue(key);
+        return inbyteSystemConfigMapper.getValue(key);
     }
 }

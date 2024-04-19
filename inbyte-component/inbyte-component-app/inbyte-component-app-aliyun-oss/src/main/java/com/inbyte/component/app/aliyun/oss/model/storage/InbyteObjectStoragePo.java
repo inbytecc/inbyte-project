@@ -1,4 +1,4 @@
-package com.inbyte.component.admin.aliyun.oss.model.object.storage;
+package com.inbyte.component.app.aliyun.oss.model.storage;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * 对象存储实体
  *
  * @author chenjw
- * @date 2023-03-22 15:28:55
+ * @date 2024-03-12 09:40:07
  **/
 @Getter
 @Setter
@@ -21,9 +21,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("object_storage")
-public class ObjectStoragePo {
-
+@TableName("inbyte_object_storage")
+public class InbyteObjectStoragePo {
 
     /**
      * 对象ID
@@ -57,9 +56,19 @@ public class ObjectStoragePo {
     private String fileName;
 
     /**
+     * 文件路径
+     */
+    private String filePath;
+
+    /**
      * 模块路径
      */
     private String path;
+
+    /**
+     * 模块路径参数
+     */
+    private String pathParam;
 
     /**
      * 已上传
@@ -119,7 +128,7 @@ public class ObjectStoragePo {
     /**
      * 创建人
      */
-    private String creatorName;
+    private String creator;
 
     /**
      * 更新时间
@@ -134,6 +143,7 @@ public class ObjectStoragePo {
     /**
      * 更新人
      */
-    private String modifierName;
+    private String modifier;
 
 }
+

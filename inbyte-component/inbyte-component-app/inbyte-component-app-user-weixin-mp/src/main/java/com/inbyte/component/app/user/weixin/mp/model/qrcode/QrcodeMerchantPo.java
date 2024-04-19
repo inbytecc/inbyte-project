@@ -116,7 +116,7 @@ public class QrcodeMerchantPo {
     /**
       * 创建人名字
       */
-    private String creatorName;
+    private String creator;
 
     /**
       * 更新时间

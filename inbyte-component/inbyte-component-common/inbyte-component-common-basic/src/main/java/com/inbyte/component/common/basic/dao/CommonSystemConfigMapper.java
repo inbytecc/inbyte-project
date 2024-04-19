@@ -10,7 +10,7 @@ import org.apache.ibatis.cache.decorators.FifoCache;
 /**
  * 系统配置
  * <p>
- * 表名 system_config
+ * 表名 inbyte_system_config
  *
  * @author chenjw
  * @date 2024-03-11 11:07:53
@@ -24,7 +24,7 @@ import org.apache.ibatis.cache.decorators.FifoCache;
 public interface CommonSystemConfigMapper extends BaseMapper<SystemConfigPo> {
 
     @Select("SELECT `value` " +
-            "  FROM system_config" +
+            "  FROM inbyte_system_config" +
             " WHERE `key` = #{key}")
     String getValue(@Param("key") String key);
 }

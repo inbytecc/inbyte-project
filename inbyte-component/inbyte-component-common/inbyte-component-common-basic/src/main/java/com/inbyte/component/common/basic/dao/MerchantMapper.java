@@ -6,7 +6,7 @@ import com.inbyte.component.common.basic.model.MerchantPo;
 /**
  * 商户
  *
- * 表名 merchant
+ * 表名 inbyte_merchant
  * @author chenjw
  * @date 2024-03-11 17:13:43
  */

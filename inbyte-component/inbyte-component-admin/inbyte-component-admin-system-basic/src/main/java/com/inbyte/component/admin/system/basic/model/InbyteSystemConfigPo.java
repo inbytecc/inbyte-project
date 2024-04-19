@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("system_config")
-public class SystemConfigPo {
+@TableName("inbyte_system_config")
+public class InbyteSystemConfigPo {
 
     /**
       * 配置id
@@ -60,7 +60,7 @@ public class SystemConfigPo {
     /**
       * 创建人姓名
       */
-    private String creatorName;
+    private String creator;
 
     /**
       * 创建时间
@@ -75,7 +75,7 @@ public class SystemConfigPo {
     /**
       * 最近更新人姓名
       */
-    private String modifierName;
+    private String modifier;
 
     /**
       * 最近更新时间

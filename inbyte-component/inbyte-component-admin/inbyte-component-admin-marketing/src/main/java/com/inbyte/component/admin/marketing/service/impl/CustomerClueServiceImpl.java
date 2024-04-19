@@ -6,7 +6,7 @@ import com.inbyte.component.admin.marketing.model.clue.*;
 import com.inbyte.component.admin.marketing.service.CustomerClueService;
 import com.inbyte.component.admin.system.user.SessionUser;
 import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.system.user.dao.SystemUserMapper;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemUserMapper;
 import com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
@@ -29,7 +29,7 @@ public class CustomerClueServiceImpl implements CustomerClueService {
     @Autowired
     private CustomerClueMapper customerclueMapper;
     @Autowired
-    private SystemUserMapper systemUserMapper;
+    private InbyteSystemUserMapper inbyteSystemUserMapper;
 
     @Override
     public R insert(CustomerClueInsert insert) {
@@ -38,11 +38,11 @@ public class CustomerClueServiceImpl implements CustomerClueService {
                 .mctNo(sessionUser.getMctNo())
                 .createTime(LocalDateTime.now())
                 .creatorId(sessionUser.getUserId())
-                .creatorName(sessionUser.getUserName())
+                .creator(sessionUser.getUserName())
                 .build();
         BeanUtils.copyProperties(insert, customercluePo);
         if (insert.getContactPersonId() != null) {
-            SystemUserDetail detail = systemUserMapper.detail(insert.getContactPersonId());
+            SystemUserDetail detail = inbyteSystemUserMapper.detail(insert.getContactPersonId());
             customercluePo.setContactPersonName(detail.getUserName());
         }
         customerclueMapper.insert(customercluePo);

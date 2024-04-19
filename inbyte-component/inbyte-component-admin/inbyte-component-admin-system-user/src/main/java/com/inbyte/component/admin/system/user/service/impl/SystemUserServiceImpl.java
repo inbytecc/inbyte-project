@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.component.admin.system.user.SessionUser;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.user.SystemUserJwtUtil;
-import com.inbyte.component.admin.system.user.dao.SystemRoleMapper;
-import com.inbyte.component.admin.system.user.dao.SystemUserMapper;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRolePo;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemRoleMapper;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemUserMapper;
+import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRolePo;
 import com.inbyte.component.admin.system.user.model.system.user.*;
 import com.inbyte.component.admin.system.user.service.SystemUserService;
 import com.inbyte.commons.model.dict.WhetherDict;
@@ -41,24 +41,24 @@ public class SystemUserServiceImpl implements SystemUserService {
     private static final String Initial_Password = "e10adc3949ba59abbe56e057f20f883e";
 
     @Autowired
-    private SystemUserMapper systemUserMapper;
+    private InbyteSystemUserMapper inbyteSystemUserMapper;
     @Autowired
-    private SystemRoleMapper systemRoleMapper;
+    private InbyteSystemRoleMapper inbyteSystemRoleMapper;
 
     @Override
     public R<SystemUserLoginDto> idPwdLogin(SystemUserLoginParam param) {
         param.setPwd(MD5Util.md5(param.getPwd()));
-        SystemUserDetail detail = systemUserMapper.queryByPwd(param);
+        SystemUserDetail detail = inbyteSystemUserMapper.queryByPwd(param);
         if (detail == null) {
             return R.failure("请联系管理员注册账号");
         }
 
-        SystemUserPo platformPo = SystemUserPo.builder()
+        InbyteSystemUserPo platformPo = InbyteSystemUserPo.builder()
                 .userId(detail.getUserId())
                 .latestLoginTime(LocalDateTime.now())
                 .loginWay("id-pwd")
                 .build();
-        systemUserMapper.updateById(platformPo);
+        inbyteSystemUserMapper.updateById(platformPo);
 
         SessionUser sessionUser = new SessionUser();
         sessionUser.setUserId(detail.getUserId());
@@ -76,7 +76,7 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     @Override
     public R<SystemUserInfo> info() {
-        SystemUserPo detail = systemUserMapper.selectById(SessionUtil.getUserId());
+        InbyteSystemUserPo detail = inbyteSystemUserMapper.selectById(SessionUtil.getUserId());
         SystemUserInfo systemUserInfo = new SystemUserInfo();
         systemUserInfo.setUserName(detail.getUserName());
         systemUserInfo.setAvatar(detail.getAvatar());
@@ -87,56 +87,56 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     @Override
     public R<List<Dict>> dict(String keyword) {
-        return R.ok(systemUserMapper.dict(keyword));
+        return R.ok(inbyteSystemUserMapper.dict(keyword));
     }
 
     @Override
     public R insert(SystemUserInsert insert) {
-        SystemUserPo systemUserPo = SystemUserPo.builder()
+        InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .createTime(LocalDateTime.now())
                 .creator(SessionUtil.getUserName())
                 .build();
-        BeanUtils.copyProperties(insert, systemUserPo);
-        systemUserPo.setPwd(MD5Util.md5(insert.getPwd()));
-        systemUserPo.setNeedUpdatePwd(1);
-        systemUserMapper.insert(systemUserPo);
+        BeanUtils.copyProperties(insert, inbyteSystemUserPo);
+        inbyteSystemUserPo.setPwd(MD5Util.md5(insert.getPwd()));
+        inbyteSystemUserPo.setNeedUpdatePwd(1);
+        inbyteSystemUserMapper.insert(inbyteSystemUserPo);
         return R.ok("新增成功");
     }
 
     @Override
     public R delete(Integer userId) {
-        LambdaQueryWrapper<SystemUserPo> queryWrapper = new LambdaQueryWrapper<SystemUserPo>()
-                .eq(SystemUserPo::getUserId, userId)
-                .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
-        systemUserMapper.delete(queryWrapper);
+        LambdaQueryWrapper<InbyteSystemUserPo> queryWrapper = new LambdaQueryWrapper<InbyteSystemUserPo>()
+                .eq(InbyteSystemUserPo::getUserId, userId)
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
+        inbyteSystemUserMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
 
     @Override
     public R update(SystemUserUpdate update) {
-        SystemUserPo systemUserPo = SystemUserPo.builder()
+        InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
                 .modifier(SessionUtil.getUserName())
                 .updateTime(LocalDateTime.now())
                 .build();
-        BeanUtils.copyProperties(update, systemUserPo);
+        BeanUtils.copyProperties(update, inbyteSystemUserPo);
 
         if (update.getRole() != null && update.getRole().size() > 0) {
-            List<SystemRolePo> systemRolePos = systemRoleMapper.selectBatchIds(update.getRole());
-            String roleDesc = systemRolePos.stream().map(SystemRolePo::getName).collect(Collectors.joining(","));
-            systemUserPo.setRoleDesc(roleDesc);
+            List<InbyteSystemRolePo> inbyteSystemRolePos = inbyteSystemRoleMapper.selectBatchIds(update.getRole());
+            String roleDesc = inbyteSystemRolePos.stream().map(InbyteSystemRolePo::getName).collect(Collectors.joining(","));
+            inbyteSystemUserPo.setRoleDesc(roleDesc);
         }
 
-        LambdaUpdateWrapper<SystemUserPo> queryWrapper = new LambdaUpdateWrapper<SystemUserPo>()
-                .eq(SystemUserPo::getUserId, update.getUserId())
-                .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
-        systemUserMapper.update(systemUserPo, queryWrapper);
+        LambdaUpdateWrapper<InbyteSystemUserPo> queryWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
+                .eq(InbyteSystemUserPo::getUserId, update.getUserId())
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
+        inbyteSystemUserMapper.update(inbyteSystemUserPo, queryWrapper);
         return R.ok("修改成功");
     }
 
     @Override
     public R<SystemUserDetail> detail(Integer userId) {
-        return R.ok(systemUserMapper.detail(userId));
+        return R.ok(inbyteSystemUserMapper.detail(userId));
     }
 
     @Override
@@ -145,35 +145,35 @@ public class SystemUserServiceImpl implements SystemUserService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        return R.page(systemUserMapper.list(query));
+        return R.page(inbyteSystemUserMapper.list(query));
     }
 
     @Override
     public R updatePwd(SystemUserPwdUpdate update) {
-        LambdaUpdateWrapper<SystemUserPo> updateWrapper = new LambdaUpdateWrapper<SystemUserPo>()
-                .eq(SystemUserPo::getUserId, SessionUtil.getUserId())
-                .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
-                .set(SystemUserPo::getPwd, MD5Util.md5(update.getPwd()))
-                .set(SystemUserPo::getNeedUpdatePwd, WhetherDict.No.code);
-        systemUserMapper.update(updateWrapper);
+        LambdaUpdateWrapper<InbyteSystemUserPo> updateWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
+                .eq(InbyteSystemUserPo::getUserId, SessionUtil.getUserId())
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
+                .set(InbyteSystemUserPo::getPwd, MD5Util.md5(update.getPwd()))
+                .set(InbyteSystemUserPo::getNeedUpdatePwd, WhetherDict.No.code);
+        inbyteSystemUserMapper.update(updateWrapper);
         return R.ok("修改成功");
     }
 
     @Override
     public R resetPwd(Integer userId) {
-        SystemUserPo systemUserPo = systemUserMapper.selectById(SessionUtil.getUserId());
-        if (systemUserPo.getAdmin() == WhetherDict.No.code) {
+        InbyteSystemUserPo inbyteSystemUserPo = inbyteSystemUserMapper.selectById(SessionUtil.getUserId());
+        if (inbyteSystemUserPo.getAdmin() == WhetherDict.No.code) {
             return R.failure("只有超管可以重置用户密码");
         }
 
-        LambdaUpdateWrapper<SystemUserPo> updateWrapper = new LambdaUpdateWrapper<SystemUserPo>()
-                .eq(SystemUserPo::getUserId, userId)
-                .eq(SystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
-                .set(SystemUserPo::getPwd, Initial_Password)
-                .set(SystemUserPo::getNeedUpdatePwd, WhetherDict.Yes.code)
-                .set(SystemUserPo::getModifier, SessionUtil.getUserName())
-                .set(SystemUserPo::getUpdateTime, LocalDateTime.now());
-        systemUserMapper.update(updateWrapper);
+        LambdaUpdateWrapper<InbyteSystemUserPo> updateWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
+                .eq(InbyteSystemUserPo::getUserId, userId)
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
+                .set(InbyteSystemUserPo::getPwd, Initial_Password)
+                .set(InbyteSystemUserPo::getNeedUpdatePwd, WhetherDict.Yes.code)
+                .set(InbyteSystemUserPo::getModifier, SessionUtil.getUserName())
+                .set(InbyteSystemUserPo::getUpdateTime, LocalDateTime.now());
+        inbyteSystemUserMapper.update(updateWrapper);
         return R.ok("修改成功");
     }
 }

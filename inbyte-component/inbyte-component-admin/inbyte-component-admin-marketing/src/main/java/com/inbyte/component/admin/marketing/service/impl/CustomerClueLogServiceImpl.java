@@ -46,7 +46,7 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
                 .mctNo(sessionUser.getMctNo())
                 .createTime(LocalDateTime.now())
                 .creatorId(sessionUser.getUserId())
-                .creatorName(sessionUser.getUserName())
+                .creator(sessionUser.getUserName())
                 .build();
         BeanUtils.copyProperties(insert, customerClueLogPo);
         customerClueLogMapper.insert(customerClueLogPo);

@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
+
 import java.time.LocalDateTime;
-import com.alibaba.fastjson2.JSONArray;
 
 /**
  * 商户实体
@@ -19,7 +19,7 @@ import com.alibaba.fastjson2.JSONArray;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("merchant")
+@TableName("inbyte_merchant")
 public class MerchantPo {
 
     /**
@@ -49,9 +49,14 @@ public class MerchantPo {
     private Integer fileSizeCount;
 
     /**
-     * 黄金广告位
+     * 联系人
      */
-    private JSONArray goldenBanner;
+    private String contact;
+
+    /**
+     * 手机号
+     */
+    private String tel;
 
     /**
      * 已删除
@@ -64,14 +69,9 @@ public class MerchantPo {
     private LocalDateTime createTime;
 
     /**
-     * 创建人ID
-     */
-    private Integer creatorId;
-
-    /**
      * 创建人
      */
-    private String creatorName;
+    private String creator;
 
     /**
      * 更新时间
@@ -79,13 +79,9 @@ public class MerchantPo {
     private LocalDateTime updateTime;
 
     /**
-     * 修改人ID
-     */
-    private Integer modifierId;
-
-    /**
      * 修改人
      */
-    private String modifierName;
+    private String modifier;
+
 
 }

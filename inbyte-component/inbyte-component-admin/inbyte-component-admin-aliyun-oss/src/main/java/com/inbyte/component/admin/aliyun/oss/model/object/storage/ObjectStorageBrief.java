@@ -53,7 +53,7 @@ public class ObjectStorageBrief {
     private Integer width;
 
     /** 创建人 */
-    private String creatorName;
+    private String creator;
 
     /** 创建时间 */
     private LocalDateTime createTime;

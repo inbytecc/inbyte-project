@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("system_role")
-public class SystemRolePo {
+@TableName("inbyte_system_role")
+public class InbyteSystemRolePo {
 
     /**
       * 角色ID
@@ -56,7 +56,7 @@ public class SystemRolePo {
     /**
       * 修改人
       */
-    private String creatorName;
+    private String creator;
 
     /**
       * 创建时间

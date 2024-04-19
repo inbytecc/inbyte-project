@@ -42,15 +42,15 @@ public class ObjectStorageServiceImpl implements ObjectStorageService {
 
     @Override
     public R update(ObjectStorageUpdate update) {
-        LambdaQueryWrapper<ObjectStoragePo> wrapper = new QueryWrapper<ObjectStoragePo>().lambda();
-        wrapper.eq(ObjectStoragePo::getObjectId, update.getObjectId())
-                .eq(ObjectStoragePo::getMctNo, SessionUtil.getDefaultMctNo());
+        LambdaQueryWrapper<InbyteObjectStoragePo> wrapper = new QueryWrapper<InbyteObjectStoragePo>().lambda();
+        wrapper.eq(InbyteObjectStoragePo::getObjectId, update.getObjectId())
+                .eq(InbyteObjectStoragePo::getMctNo, SessionUtil.getDefaultMctNo());
 
-        ObjectStoragePo objectstoragePo = ObjectStoragePo.builder()
+        InbyteObjectStoragePo objectstoragePoInbyte = InbyteObjectStoragePo.builder()
                 .remark(update.getRemark())
                 .updateTime(LocalDateTime.now())
                 .build();
-        objectstorageMapper.update(objectstoragePo, wrapper);
+        objectstorageMapper.update(objectstoragePoInbyte, wrapper);
         return R.ok("修改成功");
     }
 

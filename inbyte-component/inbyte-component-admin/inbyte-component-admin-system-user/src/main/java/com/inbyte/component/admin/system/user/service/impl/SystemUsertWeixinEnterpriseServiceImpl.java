@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.system.user.service.impl;
 
-import com.inbyte.component.admin.system.user.dao.SystemUserMapper;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemUserMapper;
 import com.inbyte.component.admin.system.user.model.system.user.SystemUserLoginDto;
 import com.inbyte.component.admin.system.user.service.SystemUsertWeixinEnterpriseService;
 import com.inbyte.commons.model.dto.R;
@@ -24,7 +24,7 @@ public class SystemUsertWeixinEnterpriseServiceImpl implements SystemUsertWeixin
     private static final String Initial_Password = "e10adc3949ba59abbe56e057f20f883e";
 
     @Autowired
-    private SystemUserMapper systemUserMapper;
+    private InbyteSystemUserMapper inbyteSystemUserMapper;
 
     @Override
     public R<SystemUserLoginDto> enterpriseWeixinOAuthLogin(String authCode) {

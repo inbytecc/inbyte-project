@@ -22,8 +22,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("system_user")
-public class SystemUserPo {
+@TableName("inbyte_system_user")
+public class InbyteSystemUserPo {
 
     /**
      * 用户ID

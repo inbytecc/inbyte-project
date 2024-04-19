@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inbyte.component.admin.system.basic.dao.SystemConfigMapper">
+<mapper namespace="com.inbyte.component.admin.system.basic.dao.InbyteSystemConfigMapper">
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.system.basic.model.SystemConfigDetail">
         SELECT id,
@@ -8,13 +8,11 @@
                `value`,
                `open`,
                remark,
-               creator_id,
-               creator_name,
+               creator,
                create_time,
-               modifier_id,
-               modifier_name,
+               modifier,
                update_time
-          FROM system_config
+          FROM inbyte_system_config
          WHERE id = #{id, jdbcType=INTEGER}
     </select>
 
@@ -24,13 +22,11 @@
                `value`,
                `open`,
                remark,
-               creator_id,
-               creator_name,
+               creator,
                create_time,
-               modifier_id,
-               modifier_name,
+               modifier,
                update_time
-          FROM system_config
+          FROM inbyte_system_config
          WHERE deleted = 0
         <if test="startDate != null">
            AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}

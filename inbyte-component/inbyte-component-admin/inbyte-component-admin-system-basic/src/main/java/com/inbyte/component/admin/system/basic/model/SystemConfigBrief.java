@@ -33,7 +33,7 @@ public class SystemConfigBrief {
     private Integer creatorId;
 
     /** 创建人姓名 */
-    private String creatorName;
+    private String creator;
 
     /** 创建时间 */
     private LocalDateTime createTime;
@@ -42,6 +42,6 @@ public class SystemConfigBrief {
     private Integer modifierId;
 
     /** 最近更新人姓名 */
-    private String modifierName;
+    private String modifier;
 
 }

@@ -15,7 +15,7 @@ import com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignDto;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignParam;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssUploadFileParam;
-import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStoragePo;
+import com.inbyte.component.app.aliyun.oss.model.storage.InbyteObjectStoragePo;
 import com.inbyte.component.app.sign.framework.AppUtil;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
@@ -105,7 +105,7 @@ public class AliyunOssService {
         OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         try {
 
-            ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
+            InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .mctNo(getMctNo())
                     .url(host + "/" + direction)
                     .endPoint(endpoint)
@@ -116,9 +116,9 @@ public class AliyunOssService {
                     .path(param.getPath())
                     .createTime(now)
                     .creatorId(sessionUser.getUserId())
-                    .creatorName(sessionUser.getNickname())
+                    .creator(sessionUser.getNickname())
                     .build();
-            objectStorageMapper.insert(objectStoragePo);
+            objectStorageMapper.insert(inbyteObjectStoragePo);
 
             long expireTime = 10;
             long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
@@ -141,7 +141,7 @@ public class AliyunOssService {
                             "mimeType=${mimeType}&" +
                             "height=${imageInfo.height}&" +
                             "width=${imageInfo.width}&" +
-                            "objectId=" + objectStoragePo.getObjectId());
+                            "objectId=" + inbyteObjectStoragePo.getObjectId());
             jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
             String base64CallbackBody = BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
 
@@ -262,7 +262,7 @@ public class AliyunOssService {
             String object = json.getString("object");
 
 
-            ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
+            InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .objectId(json.getInteger("objectId"))
                     .fileName(object.substring(object.lastIndexOf("/") + 1))
                     .filePath(object)
@@ -273,7 +273,7 @@ public class AliyunOssService {
                     .uploaded(WhetherDict.Yes.code)
                     .updateTime(LocalDateTime.now())
                     .build();
-            objectStorageMapper.updateById(objectStoragePo);
+            objectStorageMapper.updateById(inbyteObjectStoragePo);
         }
         if (ret) {
             response(request, response, "{\"Status\":\"OK\"}", HttpServletResponse.SC_OK);
@@ -370,7 +370,7 @@ public class AliyunOssService {
         String url = "https://" + bucketName + "." + endpoint + "/" + objectName;
 
         // 存储数据管理
-        ObjectStoragePo objectStoragePo = ObjectStoragePo.builder()
+        InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                 .url(url)
                 .endPoint(endpoint)
                 .fileName(param.getFileName())
@@ -385,9 +385,9 @@ public class AliyunOssService {
                 .uploaded(WhetherDict.Yes.code)
                 .createTime(now)
                 .creatorId(param.getUserId())
-                .creatorName(param.getUserName())
+                .creator(param.getUserName())
                 .build();
-        objectStorageMapper.insert(objectStoragePo);
+        objectStorageMapper.insert(inbyteObjectStoragePo);
 
         return R.ok("上传成功", url);
     }

@@ -2,24 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.inbyte.component.admin.aliyun.oss.dao.ObjectStorageMapper">
 
-    <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">
-        SELECT object_id,
-               url,
-               end_point,
-               bucket,
-               mct_no,
-               file_name,
-               uploaded,
-               `size`,
-               file_type,
-               mime_type,
-               upload_source,
-               height,
-               width,
-               update_time
-          FROM object_storage
-         WHERE object_id = #{objectId, jdbcType=INTEGER}
-    </select>
+<!--    <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">-->
+<!--        SELECT object_id,-->
+<!--               url,-->
+<!--               end_point,-->
+<!--               bucket,-->
+<!--               mct_no,-->
+<!--               file_name,-->
+<!--               uploaded,-->
+<!--               `size`,-->
+<!--               file_type,-->
+<!--               mime_type,-->
+<!--               upload_source,-->
+<!--               height,-->
+<!--               width,-->
+<!--               update_time-->
+<!--          FROM inbyte_object_storage-->
+<!--         WHERE object_id = #{objectId, jdbcType=INTEGER}-->
+<!--    </select>-->
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageDetail">
         SELECT object_id,
@@ -40,7 +40,7 @@
                creator_id,
                creator_name,
                update_time
-          FROM object_storage
+          FROM inbyte_object_storage
          WHERE object_id = #{object_id, jdbcType=INTEGER}
     </select>
 
@@ -61,7 +61,7 @@
                remark,
                creator_name,
                create_time
-          FROM object_storage
+          FROM inbyte_object_storage
          WHERE deleted = 0
            AND mct_no = #{mctNo}
         <if test="query.startDate != null">

@@ -2,11 +2,11 @@ package com.inbyte.component.admin.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.system.user.dao.SystemRoleMapper;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemRoleMapper;
 import com.inbyte.component.admin.system.user.service.SystemRoleService;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRolePo;
+import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRolePo;
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleQuery;
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleInsert;
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleUpdate;
@@ -30,47 +30,47 @@ import java.time.LocalDateTime;
 public class SystemRoleServiceImpl implements SystemRoleService {
 
     @Autowired
-    private SystemRoleMapper systemRoleMapper;
+    private InbyteSystemRoleMapper inbyteSystemRoleMapper;
 
     @Override
     public R insert(SystemRoleInsert insert) {
-        SystemRolePo systemRolePo = SystemRolePo.builder()
+        InbyteSystemRolePo inbyteSystemRolePo = InbyteSystemRolePo.builder()
                 .createTime(LocalDateTime.now())
                 .creatorId(SessionUtil.getUserId())
-                .creatorName(SessionUtil.getUserName())
+                .creator(SessionUtil.getUserName())
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .build();
-        BeanUtils.copyProperties(insert, systemRolePo);
-        systemRoleMapper.insert(systemRolePo);
+        BeanUtils.copyProperties(insert, inbyteSystemRolePo);
+        inbyteSystemRoleMapper.insert(inbyteSystemRolePo);
         return R.ok("新增成功");
     }
 
     @Override
     public R delete(Integer roleId) {
-        LambdaQueryWrapper<SystemRolePo> queryWrapper = new LambdaQueryWrapper();
-        queryWrapper.eq(SystemRolePo::getRoleId, roleId);
-        queryWrapper.eq(SystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
-        systemRoleMapper.delete(queryWrapper);
+        LambdaQueryWrapper<InbyteSystemRolePo> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(InbyteSystemRolePo::getRoleId, roleId);
+        queryWrapper.eq(InbyteSystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
+        inbyteSystemRoleMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
 
     @Override
     public R update(SystemRoleUpdate update) {
-        SystemRolePo systemRolePo = SystemRolePo.builder()
+        InbyteSystemRolePo inbyteSystemRolePo = InbyteSystemRolePo.builder()
                 .updateTime(LocalDateTime.now())
                 .build();
-        BeanUtils.copyProperties(update, systemRolePo);
+        BeanUtils.copyProperties(update, inbyteSystemRolePo);
 
-        LambdaQueryWrapper<SystemRolePo> queryWrapper = new LambdaQueryWrapper();
-        queryWrapper.eq(SystemRolePo::getRoleId, update.getRoleId());
-        queryWrapper.eq(SystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
-        systemRoleMapper.update(systemRolePo, queryWrapper);
+        LambdaQueryWrapper<InbyteSystemRolePo> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(InbyteSystemRolePo::getRoleId, update.getRoleId());
+        queryWrapper.eq(InbyteSystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
+        inbyteSystemRoleMapper.update(inbyteSystemRolePo, queryWrapper);
         return R.ok("修改成功");
     }
 
     @Override
     public R<SystemRoleDetail> detail(Integer roleId) {
-        return R.ok(systemRoleMapper.detail(roleId));
+        return R.ok(inbyteSystemRoleMapper.detail(roleId));
     }
 
     @Override
@@ -80,6 +80,6 @@ public class SystemRoleServiceImpl implements SystemRoleService {
         }
         PageUtil.startPage(query);
         query.setMctNo(SessionUtil.getDefaultMctNo());
-        return R.page(systemRoleMapper.list(query));
+        return R.page(inbyteSystemRoleMapper.list(query));
     }
 }
