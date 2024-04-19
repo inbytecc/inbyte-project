@@ -22,7 +22,7 @@ public class DictItemTreeBrief {
     private Integer parentId;
 
     /** 字典编码 */
-    private Integer code;
+    private String code;
 
     /** 名字 */
     private String name;
