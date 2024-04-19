@@ -3,7 +3,7 @@
 <mapper namespace="com.inbyte.component.common.dict.dao.InbyteDictMapper">
 
     <select id="dictList" resultType="com.inbyte.commons.model.dto.Dict">
-        SELECT di.code AS codeStr,
+        SELECT di.code,
                di.name
           FROM inbyte_dict d
          INNER JOIN inbyte_dict_item di
