@@ -14,12 +14,25 @@
          ORDER BY ordinal ASC
     </select>
 
-    <select id="list" resultType="com.inbyte.component.common.dict.model.DictItemBrief">
+    <select id="list" resultType="com.inbyte.component.common.dict.model.DictItemTreeBrief">
         SELECT di.item_id,
                di.parent_id,
                di.code,
                di.name,
                di.ordinal
+          FROM inbyte_dict d
+         INNER JOIN inbyte_dict_item di
+            ON d.dict_id = di.dict_id
+           AND di.deleted = 0
+         WHERE d.deleted = 0
+           AND d.name = #{dictName}
+        ORDER BY ordinal ASC
+    </select>
+
+    <select id="getIconDict" resultType="com.inbyte.component.common.dict.model.DictItemBrief">
+        SELECT di.code,
+               di.name,
+               di.icon
           FROM inbyte_dict d
          INNER JOIN inbyte_dict_item di
             ON d.dict_id = di.dict_id

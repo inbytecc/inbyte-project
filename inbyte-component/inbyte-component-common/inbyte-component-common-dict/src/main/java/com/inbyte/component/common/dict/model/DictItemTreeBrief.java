@@ -3,6 +3,8 @@ package com.inbyte.component.common.dict.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 字典项摘要
  *
@@ -11,7 +13,13 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-public class DictItemBrief {
+public class DictItemTreeBrief {
+
+    /** 条目ID */
+    private Integer itemId;
+
+    /** 父节点 */
+    private Integer parentId;
 
     /** 字典编码 */
     private Integer code;
@@ -22,4 +30,8 @@ public class DictItemBrief {
     /** 图标 */
     private String icon;
 
+    /** 排序 */
+    private Integer ordinal;
+
+    private List<DictItemTreeBrief> children;
 }

@@ -1,7 +1,8 @@
 package com.inbyte.component.common.dict.dao;
 
-import com.inbyte.component.common.dict.model.DictItemBrief;
 import com.inbyte.commons.model.dto.Dict;
+import com.inbyte.component.common.dict.model.DictItemBrief;
+import com.inbyte.component.common.dict.model.DictItemTreeBrief;
 
 import java.util.List;
 
@@ -26,5 +27,7 @@ public interface InbyteDictMapper {
      * @param dictName
      * @return List<DictBrief>
      **/
-    List<DictItemBrief> list(String dictName);
+    List<DictItemTreeBrief> list(String dictName);
+
+    List<DictItemBrief> getIconDict(String dictName);
 }

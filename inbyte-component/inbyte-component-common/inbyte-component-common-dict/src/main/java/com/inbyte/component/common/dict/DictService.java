@@ -2,9 +2,10 @@ package com.inbyte.component.common.dict;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.component.common.dict.dao.InbyteDictMapper;
 import com.inbyte.component.common.dict.model.DictItemBrief;
-import com.inbyte.commons.model.dto.Dict;
+import com.inbyte.component.common.dict.model.DictItemTreeBrief;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,9 +156,9 @@ public class DictService implements InitializingBean {
             return dict;
         }
         try {
-            List<DictItemBrief> list = inbyteDictMapper.list(dictName);
+            List<DictItemTreeBrief> list = inbyteDictMapper.list(dictName);
             dict = list.stream()
-                    .sorted(Comparator.comparingInt(DictItemBrief::getOrdinal)) // 根据ordinal升序排序
+                    .sorted(Comparator.comparingInt(DictItemTreeBrief::getOrdinal)) // 根据ordinal升序排序
                     .collect(Collectors.toMap(
                             k -> k.getCode().toString(),   // 获取键的方法
                             v -> v.getName(),   // 获取值的方法
@@ -238,9 +239,9 @@ public class DictService implements InitializingBean {
         return sb.toString();
     }
 
-    public List<DictItemBrief> getDictTree(String dictName) {
-        List<DictItemBrief> list = inbyteDictMapper.list(dictName);
-        Map<Integer, List<DictItemBrief>> map = list.stream().collect(Collectors.groupingBy(DictItemBrief::getParentId));
+    public List<DictItemTreeBrief> getDictTree(String dictName) {
+        List<DictItemTreeBrief> list = inbyteDictMapper.list(dictName);
+        Map<Integer, List<DictItemTreeBrief>> map = list.stream().collect(Collectors.groupingBy(DictItemTreeBrief::getParentId));
         list.forEach(node -> node.setChildren(map.getOrDefault(node.getItemId(), new ArrayList<>())));
         return map.get(0);
     }
@@ -258,12 +259,16 @@ public class DictService implements InitializingBean {
             for (int i = 0; i < enums.length; i++) {
                 Field code = enums[i].getClass().getField(CODE);
                 Field name = enums[i].getClass().getField(NAME);
-                list.add(new Dict((Integer) code.get(enums[i]),
+                list.add(new Dict(String.valueOf(code.get(enums[i])),
                         String.valueOf(name.get(enums[i]))));
             }
         } catch (Exception e) {
             log.error("字典{}命名不规范, 请增加字段code和name, 否则无法加入字典池", clz.getName());
         }
         return list;
+    }
+
+    public List<DictItemBrief> getIconDict(String dictName) {
+        return inbyteDictMapper.getIconDict(dictName);
     }
 }

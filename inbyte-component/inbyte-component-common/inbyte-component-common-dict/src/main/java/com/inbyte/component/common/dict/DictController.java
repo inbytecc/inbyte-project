@@ -1,7 +1,8 @@
 package com.inbyte.component.common.dict;
 
-import com.inbyte.component.common.dict.model.DictItemBrief;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.common.dict.model.DictItemBrief;
+import com.inbyte.component.common.dict.model.DictItemTreeBrief;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,7 +52,18 @@ public class DictController {
      * @return
      */
     @GetMapping("{dictName}/tree")
-    public R<List<DictItemBrief>> tree(@PathVariable String dictName) {
+    public R<List<DictItemTreeBrief>> tree(@PathVariable String dictName) {
         return R.ok(dictService.getDictTree(dictName));
+    }
+
+    /**
+     * 字典ICON
+     *
+     * @param dictName 字典名称
+     * @return
+     */
+    @GetMapping("{dictName}/icon")
+    public R<List<DictItemBrief>> getIconDict(@PathVariable String dictName) {
+        return R.ok(dictService.getIconDict(dictName));
     }
 }
