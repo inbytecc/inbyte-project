@@ -15,7 +15,7 @@
                di.create_user_name,
                di.create_user_id,
                di.update_time
-          FROM dict_item
+          FROM inbyte_dict_item
           LEFT JOIN dict d
            ON di.dict_id = d.dict_id
          WHERE item_id = #{itemId, jdbcType=INTEGER}
@@ -31,7 +31,7 @@
                di.ordinal,
                di.create_time,
                di.update_time
-          FROM dict_item di
+          FROM inbyte_dict_item di
           LEFT JOIN dict d
             ON di.dict_id = d.dict_id
          WHERE di.deleted = 0

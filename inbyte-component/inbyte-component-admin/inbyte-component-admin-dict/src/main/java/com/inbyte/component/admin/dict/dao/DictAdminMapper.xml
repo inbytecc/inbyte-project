@@ -11,7 +11,7 @@
                create_user_id,
                create_user_name,
                update_time
-          FROM dict
+          FROM inbyte_dict
          WHERE dict_id = #{dictId, jdbcType=VARCHAR}
     </select>
 
@@ -22,7 +22,7 @@
                remark,
                create_time,
                update_time
-          FROM dict
+          FROM inbyte_dict
          WHERE deleted = 0
         <if test="keyword != null and keyword != ''">
             AND (name LIKE CONCAT('%', #{keyword}, '%')
