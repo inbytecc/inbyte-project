@@ -32,12 +32,12 @@ public class DictController {
      * 例如运动类型为sportType, 则查询地址为: https://d-app.pyrange.com/api/dict/sportType </br>
      * 订单状态： https://d-app.pyrange.com/api/dict/orderStatus </br>
      * 订单类型： https://d-app.pyrange.com/api/dict/orderType </br>
-     * @param dictName 字典名称
+     * @param dictCode 字典名称
      * @return
      */
-    @GetMapping("{dictName}")
-    public R<Map<String, String>> dict(@PathVariable String dictName) {
-        return R.ok(dictService.getDict(dictName));
+    @GetMapping("{dictCode}")
+    public R<Map<String, String>> dict(@PathVariable String dictCode) {
+        return R.ok(dictService.getDict(dictCode));
     }
 
     /**
@@ -48,22 +48,22 @@ public class DictController {
      * 例如运动类型为sportType, 则查询地址为: https://d-app.pyrange.com/api/dict/sportType </br>
      * 订单状态： https://d-app.pyrange.com/api/dict/orderStatus </br>
      * 订单类型： https://d-app.pyrange.com/api/dict/orderType </br>
-     * @param dictName 字典名称
+     * @param dictCode 字典名称
      * @return
      */
-    @GetMapping("{dictName}/tree")
-    public R<List<DictItemTreeBrief>> tree(@PathVariable String dictName) {
-        return R.ok(dictService.getDictTree(dictName));
+    @GetMapping("{dictCode}/tree")
+    public R<List<DictItemTreeBrief>> tree(@PathVariable String dictCode) {
+        return R.ok(dictService.getDictTree(dictCode));
     }
 
     /**
      * 字典ICON
      *
-     * @param dictName 字典名称
+     * @param dictCode 字典名称
      * @return
      */
-    @GetMapping("{dictName}/icon")
-    public R<List<DictItemBrief>> getIconDict(@PathVariable String dictName) {
-        return R.ok(dictService.getIconDict(dictName));
+    @GetMapping("{dictCode}/icon")
+    public R<List<DictItemBrief>> getIconDict(@PathVariable String dictCode) {
+        return R.ok(dictService.getIconDict(dictCode));
     }
 }
