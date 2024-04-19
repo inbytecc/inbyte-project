@@ -27,6 +27,9 @@ public class DictItemBrief {
     /** 名字 */
     private String name;
 
+    /** 图标 */
+    private String icon;
+
     /** 排序 */
     private Integer ordinal;
 

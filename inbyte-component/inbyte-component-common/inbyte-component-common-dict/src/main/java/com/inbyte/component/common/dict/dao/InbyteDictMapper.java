@@ -12,7 +12,7 @@ import java.util.List;
  * @author chenjw
  * @date 2023-12-17 22:12:01
  */
-public interface DictMapper {
+public interface InbyteDictMapper {
 
     /**
      * 查询列表

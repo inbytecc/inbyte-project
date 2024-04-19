@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inbyte.component.common.dict.dao.DictMapper">
+<mapper namespace="com.inbyte.component.common.dict.dao.InbyteDictMapper">
 
     <select id="dictList" resultType="com.inbyte.commons.model.dto.Dict">
         SELECT di.code AS codeStr,
                di.name
-          FROM dict d
-         INNER JOIN dict_item di
+          FROM inbyte_dict d
+         INNER JOIN inbyte_dict_item di
             ON d.dict_id = di.dict_id
            AND di.deleted = 0
          WHERE d.deleted = 0
@@ -20,8 +20,8 @@
                di.code,
                di.name,
                di.ordinal
-          FROM dict d
-         INNER JOIN dict_item di
+          FROM inbyte_dict d
+         INNER JOIN inbyte_dict_item di
             ON d.dict_id = di.dict_id
            AND di.deleted = 0
          WHERE d.deleted = 0

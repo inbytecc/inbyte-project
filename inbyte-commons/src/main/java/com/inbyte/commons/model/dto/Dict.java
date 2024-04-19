@@ -10,30 +10,18 @@ public class Dict {
     /**
      * 编码 Integer
      */
-    private Integer code;
-    /**
-     * 编码 String
-     */
-    private String codeStr;
+    private String code;
     /**
      * 名称
      */
     private String name;
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getCodeStr() {
-        return codeStr;
-    }
-
-    public void setCodeStr(String codeStr) {
-        this.codeStr = codeStr;
     }
 
     public String getName() {
@@ -47,14 +35,9 @@ public class Dict {
     public Dict() {
     }
 
-    public Dict(Integer code, String name) {
+    public Dict(String code, String name) {
         this.code = code;
         this.name = name;
     }
 
-    public Dict(Integer code, String codeStr, String name) {
-        this.code = code;
-        this.codeStr = codeStr;
-        this.name = name;
-    }
 }

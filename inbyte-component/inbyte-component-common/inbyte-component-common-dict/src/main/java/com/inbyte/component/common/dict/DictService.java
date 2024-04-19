@@ -2,7 +2,7 @@ package com.inbyte.component.common.dict;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.inbyte.component.common.dict.dao.DictMapper;
+import com.inbyte.component.common.dict.dao.InbyteDictMapper;
 import com.inbyte.component.common.dict.model.DictItemBrief;
 import com.inbyte.commons.model.dto.Dict;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class DictService implements InitializingBean {
     }
 
     @Autowired
-    private DictMapper dictMapper;// 创建缓存实例
+    private InbyteDictMapper inbyteDictMapper;// 创建缓存实例
 
     /**
      * 静态字典
@@ -155,7 +155,7 @@ public class DictService implements InitializingBean {
             return dict;
         }
         try {
-            List<DictItemBrief> list = dictMapper.list(dictName);
+            List<DictItemBrief> list = inbyteDictMapper.list(dictName);
             dict = list.stream()
                     .sorted(Comparator.comparingInt(DictItemBrief::getOrdinal)) // 根据ordinal升序排序
                     .collect(Collectors.toMap(
@@ -239,7 +239,7 @@ public class DictService implements InitializingBean {
     }
 
     public List<DictItemBrief> getDictTree(String dictName) {
-        List<DictItemBrief> list = dictMapper.list(dictName);
+        List<DictItemBrief> list = inbyteDictMapper.list(dictName);
         Map<Integer, List<DictItemBrief>> map = list.stream().collect(Collectors.groupingBy(DictItemBrief::getParentId));
         list.forEach(node -> node.setChildren(map.getOrDefault(node.getItemId(), new ArrayList<>())));
         return map.get(0);
