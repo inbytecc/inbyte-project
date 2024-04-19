@@ -24,7 +24,6 @@
                remark,
                next_contact_time,
                create_time,
-               creator_id,
                creator_name,
                update_time
           FROM customer_clue_log

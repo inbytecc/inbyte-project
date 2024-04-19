@@ -22,7 +22,6 @@
                width,
                remark,
                create_time,
-               creator_id,
                creator_name,
                update_time
           FROM inbyte_object_storage

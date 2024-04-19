@@ -108,10 +108,6 @@ public class QrcodeMerchantPo {
       */
     private LocalDateTime createTime;
 
-    /**
-      * 创建人ID
-      */
-    private String creatorId;
 
     /**
       * 创建人名字

@@ -60,7 +60,6 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         QrcodeMerchantPo qrcodeMerchantPo = QrcodeMerchantPo.builder()
                 .mctNo(sessionUser.getMctNo())
                 .createTime(LocalDateTime.now())
-                .creatorId(SessionUtil.getUserId())
                 .creator(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(insert, qrcodeMerchantPo);

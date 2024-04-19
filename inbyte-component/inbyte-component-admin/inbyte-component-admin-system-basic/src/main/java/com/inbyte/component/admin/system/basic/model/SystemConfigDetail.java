@@ -29,9 +29,6 @@ public class SystemConfigDetail {
     /** 配置项描述字段 */
     private String remark;
 
-    /** 创建人id */
-    private Integer creatorId;
-
     /** 创建人姓名 */
     private String creator;
 

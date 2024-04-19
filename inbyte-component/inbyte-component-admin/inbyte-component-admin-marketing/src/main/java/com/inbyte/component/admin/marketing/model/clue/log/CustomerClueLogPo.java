@@ -69,11 +69,6 @@ public class CustomerClueLogPo {
     private LocalDateTime createTime;
 
     /**
-     * 创建人ID
-     */
-    private Integer creatorId;
-
-    /**
      * 创建人名字
      */
     private String creator;

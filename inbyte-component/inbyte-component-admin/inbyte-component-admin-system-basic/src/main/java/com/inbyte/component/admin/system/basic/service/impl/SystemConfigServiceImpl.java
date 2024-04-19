@@ -39,7 +39,6 @@ public class SystemConfigServiceImpl implements SystemConfigService {
 
         InbyteSystemConfigPo inbyteSystemConfigPo = InbyteSystemConfigPo.builder()
                 .createTime(LocalDateTime.now())
-                .creatorId(SessionUtil.getUserId())
                 .creator(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(insert, inbyteSystemConfigPo);

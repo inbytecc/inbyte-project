@@ -104,7 +104,6 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 //                    .pathParam(param.getPathParam().toJSONString())
                     .mctNo(sessionUser.getMctNo())
                     .createTime(now)
-                    .creatorId(sessionUser.getUserId())
                     .creator(sessionUser.getUserName())
                     .build();
             objectStorageMapper.insert(inbyteObjectStoragePo);
@@ -371,7 +370,6 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 //                .pathParam(param.getScene())
 //                .uploaded(WhetherDict.Yes.code)
 //                .createTime(now)
-//                .creatorId(param.getUserId())
 //                .creator(param.getUserName())
 //                .build();
 //        objectStorageMapper.insert(objectStoragePo);

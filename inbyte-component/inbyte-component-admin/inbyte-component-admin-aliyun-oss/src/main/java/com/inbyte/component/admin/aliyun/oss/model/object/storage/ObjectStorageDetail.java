@@ -60,9 +60,6 @@ public class ObjectStorageDetail {
     /** 创建时间 */
     private LocalDateTime createTime;
 
-    /** 创建人ID */
-    private Integer creatorId;
-
     /** 创建人名字 */
     private String creator;
 

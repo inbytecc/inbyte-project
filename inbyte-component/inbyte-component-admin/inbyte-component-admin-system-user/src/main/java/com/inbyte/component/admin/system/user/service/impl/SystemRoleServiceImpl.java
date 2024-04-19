@@ -36,7 +36,6 @@ public class SystemRoleServiceImpl implements SystemRoleService {
     public R insert(SystemRoleInsert insert) {
         InbyteSystemRolePo inbyteSystemRolePo = InbyteSystemRolePo.builder()
                 .createTime(LocalDateTime.now())
-                .creatorId(SessionUtil.getUserId())
                 .creator(SessionUtil.getUserName())
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .build();

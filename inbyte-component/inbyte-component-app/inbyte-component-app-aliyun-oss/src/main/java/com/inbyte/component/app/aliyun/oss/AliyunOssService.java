@@ -115,7 +115,6 @@ public class AliyunOssService {
                     .bucket(bucketName)
                     .path(param.getPath())
                     .createTime(now)
-                    .creatorId(sessionUser.getUserId())
                     .creator(sessionUser.getNickname())
                     .build();
             objectStorageMapper.insert(inbyteObjectStoragePo);
@@ -384,7 +383,6 @@ public class AliyunOssService {
                 .pathParam(param.getScene())
                 .uploaded(WhetherDict.Yes.code)
                 .createTime(now)
-                .creatorId(param.getUserId())
                 .creator(param.getUserName())
                 .build();
         objectStorageMapper.insert(inbyteObjectStoragePo);

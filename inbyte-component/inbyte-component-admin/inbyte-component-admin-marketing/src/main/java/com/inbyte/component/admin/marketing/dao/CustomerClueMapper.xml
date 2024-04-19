@@ -39,7 +39,6 @@
                converted,
                remark,
                create_time,
-               creator_id,
                creator_name,
                update_time
           FROM customer_clue

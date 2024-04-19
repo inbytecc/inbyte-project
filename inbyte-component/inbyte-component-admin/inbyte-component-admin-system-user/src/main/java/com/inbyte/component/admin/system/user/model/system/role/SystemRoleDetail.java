@@ -27,9 +27,6 @@ public class SystemRoleDetail {
     /** 备注 */
     private String remark;
 
-    /** 创建人 */
-    private Integer creatorId;
-
     /** 修改人 */
     private String creator;
 

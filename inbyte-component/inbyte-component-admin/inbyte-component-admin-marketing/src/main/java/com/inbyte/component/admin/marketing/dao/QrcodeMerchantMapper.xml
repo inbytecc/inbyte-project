@@ -19,7 +19,6 @@
                longitude,
                latitude,
                create_time,
-               creator_id,
                creator_name,
                update_time
           FROM qrcode_merchant

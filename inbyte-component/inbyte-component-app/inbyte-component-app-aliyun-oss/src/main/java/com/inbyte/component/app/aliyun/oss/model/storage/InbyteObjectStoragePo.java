@@ -120,10 +120,6 @@ public class InbyteObjectStoragePo {
      */
     private LocalDateTime createTime;
 
-    /**
-     * 创建人ID
-     */
-    private Integer creatorId;
 
     /**
      * 创建人
