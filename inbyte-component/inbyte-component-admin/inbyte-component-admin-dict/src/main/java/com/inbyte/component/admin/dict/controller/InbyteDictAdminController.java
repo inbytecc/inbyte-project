@@ -17,7 +17,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("dict/admin")
-public class DictAdminController {
+public class InbyteDictAdminController {
 
     @Autowired
     private DictAdminService dictAdminService;

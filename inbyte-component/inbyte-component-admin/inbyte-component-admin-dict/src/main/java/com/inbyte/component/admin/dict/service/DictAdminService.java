@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.dict.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.inbyte.component.admin.dict.dao.DictAdminMapper;
+import com.inbyte.component.admin.dict.dao.InbyteDictAdminMapper;
 import com.inbyte.component.admin.dict.model.*;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.commons.model.dto.R;
@@ -24,19 +24,18 @@ import java.util.List;
 public class DictAdminService {
 
     @Autowired
-    private DictAdminMapper dictAdminMapper;
+    private InbyteDictAdminMapper inbyteDictAdminMapper;
 
     public R insert(DictInsert insert) {
         SessionUtil.assertAdmin();
 
         DictPo dictPo = DictPo.builder()
                 .createTime(LocalDateTime.now())
-                .creatorId(SessionUtil.getUserId())
-                .creatorName(SessionUtil.getUserName())
+                .creator(SessionUtil.getUserName())
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .build();
         BeanUtils.copyProperties(insert, dictPo);
-        dictAdminMapper.insert(dictPo);
+        inbyteDictAdminMapper.insert(dictPo);
         return R.ok("新增成功");
     }
 
@@ -46,7 +45,7 @@ public class DictAdminService {
         LambdaQueryWrapper<DictPo> queryWrapper = new LambdaQueryWrapper<DictPo>()
                 .eq(DictPo::getDictId, dictId)
                 .eq(DictPo::getMctNo, SessionUtil.getDefaultMctNo());
-        dictAdminMapper.delete(queryWrapper);
+        inbyteDictAdminMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
 
@@ -61,16 +60,16 @@ public class DictAdminService {
         LambdaQueryWrapper<DictPo> queryWrapper = new LambdaQueryWrapper<DictPo>()
                 .eq(DictPo::getDictId, update.getDictId())
                 .eq(DictPo::getMctNo, SessionUtil.getDefaultMctNo());
-        dictAdminMapper.update(dictPo, queryWrapper);
+        inbyteDictAdminMapper.update(dictPo, queryWrapper);
         return R.ok("修改成功");
     }
 
     public R<DictDetail> detail(String dictId) {
-        return R.ok(dictAdminMapper.detail(dictId));
+        return R.ok(inbyteDictAdminMapper.detail(dictId));
     }
 
     public R<List<DictBrief>> list(DictQuery query) {
-        return R.ok(dictAdminMapper.list(query));
+        return R.ok(inbyteDictAdminMapper.list(query));
     }
 
 }

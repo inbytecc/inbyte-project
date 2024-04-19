@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
  **/
 @RestController
 @RequestMapping("dict/item")
-public class DictItemController {
+public class DictItemAdminController {
 
     @Autowired
     private DictItemService dictItemService;

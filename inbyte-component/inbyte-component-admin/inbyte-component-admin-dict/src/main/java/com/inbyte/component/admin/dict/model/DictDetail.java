@@ -2,6 +2,7 @@ package com.inbyte.component.admin.dict.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 /**
@@ -14,31 +15,54 @@ import java.time.LocalDateTime;
 @Setter
 public class DictDetail {
 
-    /** ID */
+    /**
+     * ID
+     */
     private Integer dictId;
 
-    /** 字典名字 */
-    private String dictName;
+    /**
+     * 字典编码
+     */
+    private String code;
 
-    /** 名字 */
+    /**
+     * 英文名
+     */
     private String name;
 
-    /** 标签名 */
-    private String label;
-
-    /** 备注 */
+    /**
+     * 备注
+     */
     private String remark;
 
-    /** 创建时间 */
+    /**
+     * 已删除
+     */
+    private Integer deleted;
+
+    /**
+     * 系统字典
+     */
+    private Integer system;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    /** 创建人ID */
-    private Integer creatorId;
+    /**
+     * 创建人
+     */
+    private String creator;
 
-    /** 创建人名字 */
-    private String creatorName;
-
-    /** 更新时间 */
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
+
+    /**
+     * 更新人
+     */
+    private String modifier;
 
 }

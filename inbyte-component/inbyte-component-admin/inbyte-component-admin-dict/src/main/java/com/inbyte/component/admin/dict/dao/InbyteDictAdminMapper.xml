@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inbyte.component.admin.dict.dao.DictAdminMapper">
+<mapper namespace="com.inbyte.component.admin.dict.dao.InbyteDictAdminMapper">
 
     <select id="detail" parameterType="String" resultType="com.inbyte.component.admin.dict.model.DictDetail">
         SELECT dict_id,
+               code,
                `name`,
-               label,
                remark,
                create_time,
-               create_user_id,
-               create_user_name,
-               update_time
+               creator,
+               update_time,
+               modifier
           FROM inbyte_dict
          WHERE dict_id = #{dictId, jdbcType=VARCHAR}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.dict.model.DictBrief">
         SELECT dict_id,
+               code,
                `name`,
-               label,
                remark,
                create_time,
-               update_time
+               creator,
+               update_time,
+               modifier
           FROM inbyte_dict
          WHERE deleted = 0
         <if test="keyword != null and keyword != ''">
             AND (name LIKE CONCAT('%', #{keyword}, '%')
-            OR label LIKE CONCAT('%', #{keyword}, '%'))
+            OR remark LIKE CONCAT('%', #{keyword}, '%'))
         </if>
-         ORDER BY dict_id DESC
+         ORDER BY dict_id ASC
     </select>
 
 </mapper>

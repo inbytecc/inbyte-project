@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -19,18 +20,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("dict_item")
+@TableName("inbyte_dict_item")
 public class DictItemPo {
 
     /**
-      * 条目ID
-      */
+     * 条目ID
+     */
     @TableId(value = "item_id", type = IdType.AUTO)
     private Integer itemId;
 
     /**
-      * 字典ID
-      */
+     * 字典ID
+     */
     private Integer dictId;
 
     /**
@@ -39,49 +40,54 @@ public class DictItemPo {
     private Integer parentId;
 
     /**
-      * 字典编码
-      */
-    private Integer code;
+     * 字典编码
+     */
+    private String code;
 
     /**
-      * 名字
-      */
+     * 名字
+     */
     private String name;
 
     /**
-      * 备注
-      */
+     * ICON
+     */
+    private String icon;
+
+    /**
+     * 备注
+     */
     private String remark;
-
-    /**
-      * 删除
-      */
-    private Integer deleted;
-
-    /**
-      * 日期
-      */
-    private LocalDateTime createTime;
-
-    /**
-      * 创建人名称
-      */
-    private String creatorName;
-
-    /**
-      * 创建人ID
-      */
-    private Integer creatorId;
-
-    /**
-      * 更新日期
-      */
-    private LocalDateTime updateTime;
 
     /**
      * 排序
      */
     private BigDecimal ordinal;
+
+    /**
+     * 删除
+     */
+    private Integer deleted;
+
+    /**
+     * 日期
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 创建人
+     */
+    private String creator;
+
+    /**
+     * 更新日期
+     */
+    private LocalDateTime updateTime;
+
+    /**
+     * 修改人
+     */
+    private String modifier;
 
     /**
      * 商户号

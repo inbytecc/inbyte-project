@@ -18,24 +18,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("dict")
+@TableName("inbyte_dict")
 public class DictPo {
 
     /**
-      * ID
-      */
-    @TableId(value = "dictId", type = IdType.AUTO)
+     * ID
+     */
+    @TableId(value = "dict_id", type = IdType.AUTO)
     private Integer dictId;
 
     /**
-     * 名字
+     * 字典编码
      */
-    private String name;
+    private String code;
 
     /**
-     * 标签
+     * 英文名
      */
-    private String label;
+    private String name;
 
     /**
      * 备注
@@ -43,29 +43,34 @@ public class DictPo {
     private String remark;
 
     /**
-      * 已删除
-      */
+     * 已删除
+     */
     private Integer deleted;
 
     /**
-      * 创建时间
-      */
+     * 系统字典
+     */
+    private Integer system;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
     /**
-      * 创建人ID
-      */
-    private Integer creatorId;
+     * 创建人
+     */
+    private String creator;
 
     /**
-      * 创建人名字
-      */
-    private String creatorName;
-
-    /**
-      * 更新时间
-      */
+     * 更新时间
+     */
     private LocalDateTime updateTime;
+
+    /**
+     * 更新人
+     */
+    private String modifier;
 
     /**
      * 商户号

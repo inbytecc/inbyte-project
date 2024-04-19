@@ -15,7 +15,7 @@ import java.util.List;
  * @author chenjw
  * @date 2023-12-17 22:12:01
  */
-public interface DictAdminMapper extends BaseMapper<DictPo> {
+public interface InbyteDictAdminMapper extends BaseMapper<DictPo> {
 
     /**
      * 详情

@@ -1,12 +1,11 @@
 package com.inbyte.component.admin.dict.model.dict.item;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import org.hibernate.validator.constraints.Length;
-import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -29,8 +28,8 @@ public class DictItemUpdate {
     /** 父节点ID */
     private Integer parentId;
 
-//    /** 字典编码 */
-//    private Integer code;
+    /** 字典编码 */
+    private String code;
 
     /** 名字 */
     @Length(max = 255, message = "名字长度不能超过255位")

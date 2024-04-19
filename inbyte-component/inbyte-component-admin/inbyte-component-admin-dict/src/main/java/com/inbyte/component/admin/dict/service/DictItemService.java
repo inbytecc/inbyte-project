@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.dict.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.inbyte.component.admin.dict.dao.DictItemMapper;
+import com.inbyte.component.admin.dict.dao.InbyteDictItemMapper;
 import com.inbyte.component.admin.dict.model.dict.item.*;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.commons.model.dto.Page;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 public class DictItemService {
 
     @Autowired
-    private DictItemMapper dictItemMapper;
+    private InbyteDictItemMapper inbyteDictItemMapper;
 
     public R insert(DictItemInsert insert) {
         SessionUtil.assertAdmin();
@@ -32,19 +32,17 @@ public class DictItemService {
         LambdaQueryWrapper<DictItemPo> queryWrapper = new LambdaQueryWrapper<DictItemPo>()
                 .eq(DictItemPo::getDictId, insert.getDictId())
                 .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
-        Integer count = Math.toIntExact(dictItemMapper.selectCount(queryWrapper));
+        Long count = inbyteDictItemMapper.selectCount(queryWrapper);
 
         DictItemPo dictItemPo = DictItemPo.builder()
                 .createTime(LocalDateTime.now())
-                .creatorId(SessionUtil.getUserId())
-                .creatorName(SessionUtil.getUserName())
+                .creator(SessionUtil.getUserName())
                 .mctNo(SessionUtil.getDefaultMctNo())
                 .build();
         BeanUtils.copyProperties(insert, dictItemPo);
 
-        dictItemPo.setCode(count);
         dictItemPo.setOrdinal(BigDecimal.valueOf(count));
-        dictItemMapper.insert(dictItemPo);
+        inbyteDictItemMapper.insert(dictItemPo);
         return R.ok("新增成功");
     }
 
@@ -54,7 +52,7 @@ public class DictItemService {
         LambdaQueryWrapper<DictItemPo> queryWrapper = new LambdaQueryWrapper<DictItemPo>()
                 .eq(DictItemPo::getItemId, itemId)
                 .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
-        dictItemMapper.delete(queryWrapper);
+        inbyteDictItemMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
 
@@ -69,16 +67,16 @@ public class DictItemService {
         LambdaQueryWrapper<DictItemPo> queryWrapper = new LambdaQueryWrapper<DictItemPo>()
                 .eq(DictItemPo::getItemId, update.getItemId())
                 .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
-        dictItemMapper.update(dictItemPo, queryWrapper);
+        inbyteDictItemMapper.update(dictItemPo, queryWrapper);
         return R.ok("修改成功");
     }
 
     public R<DictItemDetail> detail(Integer itemId) {
-        return R.ok(dictItemMapper.detail(itemId));
+        return R.ok(inbyteDictItemMapper.detail(itemId));
     }
 
     public R<Page<DictItemBrief>> list(DictItemQuery query) {
         PageUtil.startPage(query);
-        return R.page(dictItemMapper.list(query));
+        return R.page(inbyteDictItemMapper.list(query));
     }
 }

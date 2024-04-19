@@ -14,7 +14,7 @@ import java.util.List;
  * @author chenjw
  * @date 2023-12-17 22:36:34
  */
-public interface DictItemMapper extends BaseMapper<DictItemPo> {
+public interface InbyteDictItemMapper extends BaseMapper<DictItemPo> {
 
     /**
      * 详情

@@ -1,11 +1,9 @@
 package com.inbyte.component.admin.dict.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
-
 import org.hibernate.validator.constraints.Length;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * 字典创建
@@ -17,14 +15,18 @@ import jakarta.validation.constraints.NotNull;
 @Setter
 public class DictInsert {
 
-    /** 英文名字 */
-    @NotNull(message = "名字不能为空")
-    @Length(max = 32, message = "名字长度不能超过32位")
-    private String name;
 
-    /** 标签名 */
-    @Length(max = 16, message = "标签名长度不能超过16位")
-    private String label;
+    /**
+     * 字典编码
+     */
+    @NotNull(message = "字典编码不能为空")
+    @Length(max = 32, message = "字典编码长度不能超过32位")
+    private String code;
+
+    /** 字典名 */
+    @NotNull(message = "字典名不能为空")
+    @Length(max = 32, message = "字典名长度不能超过32位")
+    private String name;
 
     /** 备注 */
     @Length(max = 16, message = "备注长度不能超过16位")

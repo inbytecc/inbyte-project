@@ -2,7 +2,7 @@ package com.inbyte.component.admin.dict.model.dict.item;
 
 import lombok.Getter;
 import lombok.Setter;
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 /**
@@ -25,10 +25,13 @@ public class DictItemBrief {
     private String dictName;
 
     /** 字典编码 */
-    private Integer code;
+    private String code;
 
     /** 名字 */
     private String name;
+
+    /** ICON */
+    private String icon;
 
     /** 备注 */
     private String remark;

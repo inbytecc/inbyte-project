@@ -2,7 +2,7 @@ package com.inbyte.component.admin.dict.model.dict.item;
 
 import lombok.Getter;
 import lombok.Setter;
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 /**
@@ -22,7 +22,7 @@ public class DictItemDetail {
     private Integer dictId;
 
     /** 字典编码 */
-    private Integer code;
+    private String code;
 
     /** 名字 */
     private String name;
@@ -33,13 +33,13 @@ public class DictItemDetail {
     /** 日期 */
     private LocalDateTime createTime;
 
-    /** 创建人名称 */
-    private String creatorName;
-
-    /** 创建人ID */
-    private Integer creatorId;
+    /** 创建人 */
+    private String creator;
 
     /** 更新日期 */
     private LocalDateTime updateTime;
+
+    /** 修改人 */
+    private String modifier;
 
 }
