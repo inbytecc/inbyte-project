@@ -6,7 +6,7 @@
         SELECT user_id,
                user_name,
                user_name,
-               nick_name,
+               nickname,
                real_name,
                tel,
                avatar,
@@ -81,7 +81,7 @@
     <select id="list" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserBrief">
         SELECT user_id,
                user_name,
-               nick_name,
+               nickname,
                real_name,
                tel,
                avatar,

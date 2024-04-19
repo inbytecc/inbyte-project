@@ -4,7 +4,7 @@
 
     <insert id="insertSelective" parameterType="com.inbyte.component.app.user.model.UserPo" keyProperty="userId" useGeneratedKeys="true">
         INSERT INTO user
-            (tel, user_name, nick_name, real_name, avatar, create_time)
+            (tel, user_name, nickname, real_name, avatar, create_time)
         SELECT #{tel, jdbcType=VARCHAR},
                #{userName, jdbcType=VARCHAR},
                #{nickname, jdbcType=VARCHAR},
@@ -20,7 +20,7 @@
     <select id="queryByTel" resultType="com.inbyte.component.app.user.model.UserBrief">
         SELECT user_id,
                tel,
-               nick_name,
+               nickname,
                real_name,
                pwd,
                avatar,

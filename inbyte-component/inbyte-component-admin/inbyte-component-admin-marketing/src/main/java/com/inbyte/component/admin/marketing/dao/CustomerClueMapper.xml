@@ -5,7 +5,7 @@
     <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueBrief">
         SELECT clue_id,
                user_id,
-               nick_name,
+               nickname,
                eid,
                etp,
                tel,
@@ -25,7 +25,7 @@
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueDetail">
         SELECT clue_id,
                user_id,
-               nick_name,
+               nickname,
                eid,
                etp,
                tel,
@@ -49,7 +49,7 @@
     <select id="list" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueBrief">
         SELECT clue_id,
                user_id,
-               nick_name,
+               nickname,
                tel,
                subject_name,
                module_name,
@@ -88,7 +88,7 @@
            AND converted = 1
         </if>
         <if test="keyword != null and keyword != ''">
-            AND (nick_name LIKE CONCAT('%', #{keyword}, '%')
+            AND (nickname LIKE CONCAT('%', #{keyword}, '%')
             OR tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
 

@@ -25,7 +25,7 @@
                qmr.order_count,
                qmr.trade_amount,
                qmr.create_time,
-               uw.nick_name
+               uw.nickname
           FROM qrcode_merchant_user qmr
           LEFT JOIN user_weixin_mp uw
             ON qmr.eid = uw.eid
@@ -39,7 +39,7 @@
            AND qmr.create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
-            AND uw.nick_name LIKE CONCAT('%', #{keyword}, '%')
+            AND uw.nickname LIKE CONCAT('%', #{keyword}, '%')
         </if>
          ORDER BY qmr.qm_user_id DESC
     </select>

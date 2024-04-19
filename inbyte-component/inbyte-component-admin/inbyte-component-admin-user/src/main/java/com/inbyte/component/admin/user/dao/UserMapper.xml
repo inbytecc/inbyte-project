@@ -5,7 +5,7 @@
     <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.user.model.UserBrief">
         SELECT user_id,
                tel,
-               nick_name,
+               nickname,
                real_name,
                email,
                avatar,
@@ -17,7 +17,7 @@
     <select id="briefByTel" resultType="com.inbyte.component.admin.user.model.UserBrief">
         SELECT user_id,
                tel,
-               nick_name,
+               nickname,
                real_name,
                email,
                avatar,
@@ -30,7 +30,7 @@
         SELECT user_id,
                tel,
                user_name,
-               nick_name,
+               nickname,
                real_name,
                email,
                avatar,
@@ -45,7 +45,7 @@
         SELECT user_id,
                tel,
                user_name,
-               nick_name,
+               nickname,
                real_name,
                email,
                gender,
@@ -70,7 +70,7 @@
     <select id="dict" resultType="com.inbyte.component.admin.user.model.UserDictBrief">
         SELECT user_id,
                tel,
-               nick_name,
+               nickname,
                avatar,
                create_time
           FROM user
@@ -82,7 +82,7 @@
            AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="keyword != null and keyword != ''">
-           AND (nick_name LIKE CONCAT('%', #{keyword}, '%')
+           AND (nickname LIKE CONCAT('%', #{keyword}, '%')
            OR tel LIKE CONCAT('%', #{keyword}, '%'))
         </if>
         ORDER BY user_id DESC

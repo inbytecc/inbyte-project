@@ -6,7 +6,7 @@
         SELECT eid,
                open_id,
                user_id,
-               nick_name,
+               nickname,
                real_name,
                gender,
                union_id,
@@ -39,7 +39,7 @@
         SELECT eid,
                open_id,
                user_id,
-               nick_name,
+               nickname,
                real_name,
                gender,
                union_id,
@@ -71,7 +71,7 @@
         SELECT eid,
                open_id,
                user_id,
-               nick_name,
+               nickname,
                real_name,
                gender,
                union_id,
@@ -110,7 +110,7 @@
            AND recommend_eid = #{recommendEid}
         </if>
         <if test="keyword != null and keyword != ''">
-            AND (nick_name LIKE CONCAT('%', #{keyword}, '%') OR
+            AND (nickname LIKE CONCAT('%', #{keyword}, '%') OR
                  real_name LIKE CONCAT('%', #{keyword}, '%') OR
                  tel LIKE CONCAT('%', #{keyword}, '%') OR
                  remark LIKE CONCAT('%', #{keyword}, '%') OR

@@ -3,7 +3,7 @@
 <mapper namespace="com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpInviteMapper">
 
     <select id="list" resultType="com.inbyte.component.app.user.weixin.mp.model.UserInviteDto">
-        SELECT uw.nick_name,
+        SELECT uw.nickname,
                wmi.appointed,
                wmi.create_time
           FROM user_weixin_mp_invite wmi

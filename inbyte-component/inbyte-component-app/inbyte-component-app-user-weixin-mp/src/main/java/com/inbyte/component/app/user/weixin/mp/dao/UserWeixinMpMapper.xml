@@ -10,7 +10,7 @@
                app_id,
                user_id,
                tel,
-               nick_name,
+               nickname,
                avatar,
                location_update_time,
                create_time
@@ -22,7 +22,7 @@
         SELECT eid,
                user_id,
                tel,
-               nick_name,
+               nickname,
                real_name,
                avatar
           FROM user_weixin_mp
