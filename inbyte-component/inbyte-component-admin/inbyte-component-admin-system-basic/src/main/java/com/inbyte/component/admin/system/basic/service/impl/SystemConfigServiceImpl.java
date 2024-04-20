@@ -56,7 +56,6 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     public R update(SystemConfigUpdate update) {
         InbyteSystemConfigPo inbyteSystemConfigPo = InbyteSystemConfigPo.builder()
                 .updateTime(LocalDateTime.now())
-                .modifierId(SessionUtil.getUserId())
                 .modifier(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(update, inbyteSystemConfigPo);
@@ -69,7 +68,6 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     public R updateByKey(SystemConfigUpdateByKey update) {
         InbyteSystemConfigPo inbyteSystemConfigPo = InbyteSystemConfigPo.builder()
                 .updateTime(LocalDateTime.now())
-                .modifierId(SessionUtil.getUserId())
                 .modifier(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(update, inbyteSystemConfigPo);

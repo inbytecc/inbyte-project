@@ -1,6 +1,7 @@
 package com.inbyte.component.app.order.model;
 
 import com.inbyte.commons.model.dto.BasePage;
+import com.inbyte.component.app.order.dict.OrderStatusTypeEnum;
 
 /**
  * 订单查询参数
@@ -12,13 +13,13 @@ public class OrderQuery extends BasePage {
     /**
      * 订单状态类别0：全部、 1：待支付；2：已支付；3：退款
      */
-    private Integer orderStatusType;
+    private OrderStatusTypeEnum orderStatusType;
 
-    public Integer getOrderStatusType() {
+    public OrderStatusTypeEnum getOrderStatusType() {
         return orderStatusType;
     }
 
-    public void setOrderStatusType(Integer orderStatusType) {
+    public void setOrderStatusType(OrderStatusTypeEnum orderStatusType) {
         this.orderStatusType = orderStatusType;
     }
 

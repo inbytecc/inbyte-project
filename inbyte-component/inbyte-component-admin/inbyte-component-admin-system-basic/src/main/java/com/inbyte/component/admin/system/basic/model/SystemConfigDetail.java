@@ -35,9 +35,6 @@ public class SystemConfigDetail {
     /** 创建时间 */
     private LocalDateTime createTime;
 
-    /** 最近更新人id */
-    private Integer modifierId;
-
     /** 最近更新人姓名 */
     private String modifier;
 

@@ -59,11 +59,6 @@ public class InbyteSystemRolePo {
     private LocalDateTime createTime;
 
     /**
-      * 修改人
-      */
-    private Integer modifierId;
-
-    /**
       * 修改时间
       */
     private LocalDateTime updateTime;

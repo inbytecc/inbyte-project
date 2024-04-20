@@ -132,11 +132,6 @@ public class InbyteObjectStoragePo {
     private LocalDateTime updateTime;
 
     /**
-     * 更新人ID
-     */
-    private Integer modifierId;
-
-    /**
      * 更新人
      */
     private String modifier;

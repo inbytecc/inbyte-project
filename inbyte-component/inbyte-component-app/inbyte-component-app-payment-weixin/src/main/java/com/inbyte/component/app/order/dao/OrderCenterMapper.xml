@@ -3,8 +3,7 @@
 <mapper namespace="com.inbyte.component.app.order.dao.OrderCenterMapper">
 
     <select id="list" resultType="com.inbyte.component.app.order.model.OrderCenterBrief">
-        SELECT order_id,
-               order_no,
+        SELECT order_no,
                order_title,
                order_brief,
                order_status,
@@ -12,8 +11,10 @@
                extent,
                order_amount,
                payable_amount,
+               venue_id,
+               venue_name,
                main_photo
-          FROM order_center
+        FROM order_center
          WHERE deleted = 0
            AND user_id = #{userId}
          <if test="orderStatusType != null and orderStatusType == 'WAIT_PAY'">
