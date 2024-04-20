@@ -199,7 +199,7 @@ public class CommonExceptionResolver {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
     public R parameterBodyMissingExceptionHandler(HttpMessageNotReadableException e) {
-        log.warn("请求体数据无法读取异常:{}", e.getMessage());
+        log.warn("请求体数据无法读取异常:{}", e);
         return R.failure("请求体数据不可读异常, 技术人员已经介入, 马上处理");
     }
 
