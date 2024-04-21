@@ -8,7 +8,7 @@ package com.inbyte.commons.model.dict;
  */
 public enum OrderTypeEnum {
 
-    CAMP_SITE("CMP", "场地订单", "15m"),
+    CAMP_SITE("CMP", "营地订单", "15m"),
     TICKET("TKT", "门票订单", "15m"),
 
     CARD_BALANCE("CDB", "储值卡充值", "15m"),

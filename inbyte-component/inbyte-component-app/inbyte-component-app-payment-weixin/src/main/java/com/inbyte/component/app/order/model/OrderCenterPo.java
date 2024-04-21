@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dict.OrderTypeEnum;
-import com.inbyte.component.app.order.dict.OrderStatusEnum;
+import com.inbyte.commons.model.dict.OrderStatusEnum;
 import lombok.*;
 
 import java.math.BigDecimal;

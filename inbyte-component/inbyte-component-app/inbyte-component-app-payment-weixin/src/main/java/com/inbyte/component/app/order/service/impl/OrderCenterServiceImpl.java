@@ -7,7 +7,7 @@ import com.inbyte.commons.model.dict.OrderTypeEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
 import com.inbyte.component.app.order.dao.OrderCenterMapper;
-import com.inbyte.component.app.order.dict.OrderStatusEnum;
+import com.inbyte.commons.model.dict.OrderStatusEnum;
 import com.inbyte.component.app.order.model.OrderCenterBrief;
 import com.inbyte.component.app.order.model.OrderCenterPo;
 import com.inbyte.component.app.order.model.OrderQuery;

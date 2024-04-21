@@ -1,7 +1,7 @@
 package com.inbyte.component.app.order.model;
 
 import com.inbyte.commons.model.dto.BasePage;
-import com.inbyte.component.app.order.dict.OrderStatusTypeEnum;
+import com.inbyte.commons.model.dict.OrderStatusTypeEnum;
 
 /**
  * 订单查询参数

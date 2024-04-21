@@ -6,7 +6,7 @@ import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.order.model.OrderQuery;
 import com.inbyte.component.app.order.model.OrderCenterBrief;
-import com.inbyte.component.app.order.dict.OrderStatusEnum;
+import com.inbyte.commons.model.dict.OrderStatusEnum;
 import com.inbyte.commons.model.dict.OrderTypeEnum;
 
 import java.math.BigDecimal;

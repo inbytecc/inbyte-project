@@ -2,7 +2,7 @@ package com.inbyte.component.app.order.model;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.inbyte.commons.model.dict.OrderTypeEnum;
-import com.inbyte.component.app.order.dict.OrderStatusEnum;
+import com.inbyte.commons.model.dict.OrderStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 

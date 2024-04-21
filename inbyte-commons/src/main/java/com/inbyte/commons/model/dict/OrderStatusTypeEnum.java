@@ -1,4 +1,4 @@
-package com.inbyte.component.app.order.dict;
+package com.inbyte.commons.model.dict;
 
 /**
  * 订单状态
