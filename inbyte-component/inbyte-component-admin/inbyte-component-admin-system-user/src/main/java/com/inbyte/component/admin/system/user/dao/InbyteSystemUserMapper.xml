@@ -25,19 +25,19 @@
     </select>
 
     <select id="queryByPwd" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
-        SELECT um.user_id,
-               um.user_name,
-               um.tel,
-               um.avatar,
-               um.email,
-               um.create_time,
-               um.latest_login_time,
-               um.deleted,
-               um.remark,
-               um.need_update_pwd,
-               um.mct_no,
-               um.admin
-          FROM inbyte_system_user um
+        SELECT user_id,
+               user_name,
+               tel,
+               avatar,
+               email,
+               create_time,
+               latest_login_time,
+               deleted,
+               remark,
+               need_update_pwd,
+               mct_no,
+               admin
+          FROM inbyte_system_user
          WHERE (tel = #{id, jdbcType=VARCHAR} OR user_name = #{id, jdbcType=VARCHAR})
            AND pwd = #{pwd, jdbcType=VARCHAR}
     </select>
