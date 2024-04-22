@@ -65,10 +65,7 @@ public class SystemUserDetail {
 
     /** 默认商户ID */
     private String mctNo;
-    /** 商户名 */
-    private String mctName;
-    /** 商户名拼音 */
-    private String pinYinName;
+
     /** 超管 */
     private Integer admin;
 

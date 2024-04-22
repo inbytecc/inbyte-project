@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class InbyteMerchantProperties {
 
     private String mctNo;
+    private String mctPinyinName;
 
     public String getMctNo() {
         return mctNo;
@@ -15,5 +16,13 @@ public class InbyteMerchantProperties {
 
     public void setMctNo(String mctNo) {
         this.mctNo = mctNo;
+    }
+
+    public String getMctPinyinName() {
+        return mctPinyinName;
+    }
+
+    public void setMctPinyinName(String mctPinyinName) {
+        this.mctPinyinName = mctPinyinName;
     }
 }

@@ -92,7 +92,7 @@ public class AliyunOssService {
          */
         String direction = new StringBuilder()
                 .append("mct-space/")
-                .append(getMctNo()).append("/")
+                .append(getMctPinyinName()).append("/")
                 .append(param.getPath()).append("/")
                 .append(now.getYear()).append("/")
                 .append(now.getMonthValue()).append("/")
@@ -106,7 +106,7 @@ public class AliyunOssService {
         try {
 
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
-                    .mctNo(getMctNo())
+                    .mctNo(getMctPinyinName())
                     .url(host + "/" + direction)
                     .endPoint(endpoint)
                     .fileName(param.getFileName())
@@ -391,10 +391,14 @@ public class AliyunOssService {
     }
 
 
-    public String getMctNo() {
+    /**
+     * 获取商户拼音名字，做目录用
+     * @return
+     */
+    public String getMctPinyinName() {
         if (StringUtil.isNotEmpty(inbyteMerchantProperties.getMctNo())) {
-            return inbyteMerchantProperties.getMctNo();
+            return inbyteMerchantProperties.getMctPinyinName();
         }
-        return AppUtil.getMctNo();
+        return AppUtil.getAppInfo().getMctPinyinName();
     }
 }

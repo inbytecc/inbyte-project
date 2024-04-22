@@ -2,6 +2,12 @@ package com.inbyte.component.admin.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.inbyte.commons.model.dict.WhetherDict;
+import com.inbyte.commons.model.dto.Dict;
+import com.inbyte.commons.model.dto.Page;
+import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.util.MD5Util;
+import com.inbyte.commons.util.PageUtil;
 import com.inbyte.component.admin.system.user.SessionUser;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.user.SystemUserJwtUtil;
@@ -10,12 +16,8 @@ import com.inbyte.component.admin.system.user.dao.InbyteSystemUserMapper;
 import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRolePo;
 import com.inbyte.component.admin.system.user.model.system.user.*;
 import com.inbyte.component.admin.system.user.service.SystemUserService;
-import com.inbyte.commons.model.dict.WhetherDict;
-import com.inbyte.commons.model.dto.Dict;
-import com.inbyte.commons.model.dto.Page;
-import com.inbyte.commons.model.dto.R;
-import com.inbyte.commons.util.MD5Util;
-import com.inbyte.commons.util.PageUtil;
+import com.inbyte.component.common.basic.dao.InbyteMerchantMapper;
+import com.inbyte.component.common.basic.model.MerchantPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     private InbyteSystemUserMapper inbyteSystemUserMapper;
     @Autowired
     private InbyteSystemRoleMapper inbyteSystemRoleMapper;
+    @Autowired
+    private InbyteMerchantMapper inbyteMerchantMapper;
 
     @Override
     public R<SystemUserLoginDto> idPwdLogin(SystemUserLoginParam param) {
@@ -60,13 +64,18 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .build();
         inbyteSystemUserMapper.updateById(platformPo);
 
+        MerchantPo merchantPo = inbyteMerchantMapper.selectById(detail.getMctNo());
+        if (merchantPo == null) {
+            return R.failure("商户信息错误，请联系技术客服处理");
+        }
+
         SessionUser sessionUser = new SessionUser();
         sessionUser.setUserId(detail.getUserId());
         sessionUser.setUserName(detail.getUserName());
         sessionUser.setTel(detail.getTel());
         sessionUser.setMctNo(detail.getMctNo());
-        sessionUser.setMctName(detail.getMctName());
-        sessionUser.setMctPinYinName(detail.getPinYinName());
+        sessionUser.setMctName(merchantPo.getMctName());
+        sessionUser.setMctPinYinName(merchantPo.getPinyinName());
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
         sessionUser.setAdmin(detail.getAdmin());

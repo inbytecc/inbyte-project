@@ -10,6 +10,6 @@ import com.inbyte.component.common.basic.model.MerchantPo;
  * @author chenjw
  * @date 2024-03-11 17:13:43
  */
-public interface MerchantMapper extends BaseMapper<MerchantPo> {
+public interface InbyteMerchantMapper extends BaseMapper<MerchantPo> {
 
 }

@@ -36,12 +36,8 @@
                um.remark,
                um.need_update_pwd,
                um.mct_no,
-               um.admin,
-               m.mct_name,
-               m.pinyin_name
+               um.admin
           FROM inbyte_system_user um
-         INNER JOIN merchant m
-            ON um.mct_no = m.mct_no
          WHERE (tel = #{id, jdbcType=VARCHAR} OR user_name = #{id, jdbcType=VARCHAR})
            AND pwd = #{pwd, jdbcType=VARCHAR}
     </select>
