@@ -87,7 +87,7 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
     public R delete(Integer logId) {
         LambdaQueryWrapper<CustomerClueLogPo> deleteWrapper = new LambdaQueryWrapper();
         deleteWrapper.eq(CustomerClueLogPo::getLogId, logId);
-        deleteWrapper.eq(CustomerClueLogPo::getMctNo, SessionUtil.getDefaultMctNo());
+        deleteWrapper.eq(CustomerClueLogPo::getMctNo, SessionUtil.getMctNo());
         customerClueLogMapper.delete(deleteWrapper);
         return R.ok("删除成功");
     }
@@ -113,7 +113,7 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        query.setMctNo(SessionUtil.getDefaultMctNo());
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(customerClueLogMapper.list(query));
     }
 }

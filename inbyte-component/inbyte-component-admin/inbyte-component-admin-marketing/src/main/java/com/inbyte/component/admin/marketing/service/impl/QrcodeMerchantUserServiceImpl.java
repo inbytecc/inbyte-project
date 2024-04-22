@@ -35,7 +35,7 @@ public class QrcodeMerchantUserServiceImpl implements QrcodeMerchantUserService 
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        query.setMctNo(SessionUtil.getDefaultMctNo());
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(qrcodeMerchantUserMapper.list(query));
     }
 }

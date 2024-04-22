@@ -102,7 +102,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Override
     public R insert(SystemUserInsert insert) {
         InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
-                .mctNo(SessionUtil.getDefaultMctNo())
+                .mctNo(SessionUtil.getMctNo())
                 .createTime(LocalDateTime.now())
                 .creator(SessionUtil.getUserName())
                 .build();
@@ -117,7 +117,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     public R delete(Integer userId) {
         LambdaQueryWrapper<InbyteSystemUserPo> queryWrapper = new LambdaQueryWrapper<InbyteSystemUserPo>()
                 .eq(InbyteSystemUserPo::getUserId, userId)
-                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getMctNo());
         inbyteSystemUserMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
@@ -138,7 +138,7 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         LambdaUpdateWrapper<InbyteSystemUserPo> queryWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
                 .eq(InbyteSystemUserPo::getUserId, update.getUserId())
-                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getMctNo());
         inbyteSystemUserMapper.update(inbyteSystemUserPo, queryWrapper);
         return R.ok("修改成功");
     }
@@ -161,7 +161,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     public R updatePwd(SystemUserPwdUpdate update) {
         LambdaUpdateWrapper<InbyteSystemUserPo> updateWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
                 .eq(InbyteSystemUserPo::getUserId, SessionUtil.getUserId())
-                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getMctNo())
                 .set(InbyteSystemUserPo::getPwd, MD5Util.md5(update.getPwd()))
                 .set(InbyteSystemUserPo::getNeedUpdatePwd, WhetherDict.No.code);
         inbyteSystemUserMapper.update(updateWrapper);
@@ -177,7 +177,7 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         LambdaUpdateWrapper<InbyteSystemUserPo> updateWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
                 .eq(InbyteSystemUserPo::getUserId, userId)
-                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getDefaultMctNo())
+                .eq(InbyteSystemUserPo::getMctNo, SessionUtil.getMctNo())
                 .set(InbyteSystemUserPo::getPwd, Initial_Password)
                 .set(InbyteSystemUserPo::getNeedUpdatePwd, WhetherDict.Yes.code)
                 .set(InbyteSystemUserPo::getModifier, SessionUtil.getUserName())

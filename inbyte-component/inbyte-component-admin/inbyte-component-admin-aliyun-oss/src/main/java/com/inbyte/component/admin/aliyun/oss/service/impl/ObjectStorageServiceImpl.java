@@ -37,14 +37,14 @@ public class ObjectStorageServiceImpl implements ObjectStorageService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        return R.page(objectstorageMapper.list(SessionUtil.getDefaultMctNo(), query));
+        return R.page(objectstorageMapper.list(SessionUtil.getMctNo(), query));
     }
 
     @Override
     public R update(ObjectStorageUpdate update) {
         LambdaQueryWrapper<InbyteObjectStoragePo> wrapper = new QueryWrapper<InbyteObjectStoragePo>().lambda();
         wrapper.eq(InbyteObjectStoragePo::getObjectId, update.getObjectId())
-                .eq(InbyteObjectStoragePo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(InbyteObjectStoragePo::getMctNo, SessionUtil.getMctNo());
 
         InbyteObjectStoragePo objectstoragePoInbyte = InbyteObjectStoragePo.builder()
                 .remark(update.getRemark())

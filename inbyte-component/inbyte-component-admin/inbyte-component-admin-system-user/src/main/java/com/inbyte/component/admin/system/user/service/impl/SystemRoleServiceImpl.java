@@ -37,7 +37,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
         InbyteSystemRolePo inbyteSystemRolePo = InbyteSystemRolePo.builder()
                 .createTime(LocalDateTime.now())
                 .creator(SessionUtil.getUserName())
-                .mctNo(SessionUtil.getDefaultMctNo())
+                .mctNo(SessionUtil.getMctNo())
                 .build();
         BeanUtils.copyProperties(insert, inbyteSystemRolePo);
         inbyteSystemRoleMapper.insert(inbyteSystemRolePo);
@@ -48,7 +48,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
     public R delete(Integer roleId) {
         LambdaQueryWrapper<InbyteSystemRolePo> queryWrapper = new LambdaQueryWrapper();
         queryWrapper.eq(InbyteSystemRolePo::getRoleId, roleId);
-        queryWrapper.eq(InbyteSystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
+        queryWrapper.eq(InbyteSystemRolePo::getMctNo, SessionUtil.getMctNo());
         inbyteSystemRoleMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
@@ -62,7 +62,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
 
         LambdaQueryWrapper<InbyteSystemRolePo> queryWrapper = new LambdaQueryWrapper();
         queryWrapper.eq(InbyteSystemRolePo::getRoleId, update.getRoleId());
-        queryWrapper.eq(InbyteSystemRolePo::getMctNo, SessionUtil.getDefaultMctNo());
+        queryWrapper.eq(InbyteSystemRolePo::getMctNo, SessionUtil.getMctNo());
         inbyteSystemRoleMapper.update(inbyteSystemRolePo, queryWrapper);
         return R.ok("修改成功");
     }
@@ -78,7 +78,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        query.setMctNo(SessionUtil.getDefaultMctNo());
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(inbyteSystemRoleMapper.list(query));
     }
 }

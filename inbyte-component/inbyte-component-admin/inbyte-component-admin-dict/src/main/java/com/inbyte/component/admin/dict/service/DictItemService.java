@@ -31,13 +31,13 @@ public class DictItemService {
 
         LambdaQueryWrapper<DictItemPo> queryWrapper = new LambdaQueryWrapper<DictItemPo>()
                 .eq(DictItemPo::getDictId, insert.getDictId())
-                .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(DictItemPo::getMctNo, SessionUtil.getMctNo());
         Long count = inbyteDictItemMapper.selectCount(queryWrapper);
 
         DictItemPo dictItemPo = DictItemPo.builder()
                 .createTime(LocalDateTime.now())
                 .creator(SessionUtil.getUserName())
-                .mctNo(SessionUtil.getDefaultMctNo())
+                .mctNo(SessionUtil.getMctNo())
                 .build();
         BeanUtils.copyProperties(insert, dictItemPo);
 
@@ -51,7 +51,7 @@ public class DictItemService {
 
         LambdaQueryWrapper<DictItemPo> queryWrapper = new LambdaQueryWrapper<DictItemPo>()
                 .eq(DictItemPo::getItemId, itemId)
-                .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(DictItemPo::getMctNo, SessionUtil.getMctNo());
         inbyteDictItemMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
@@ -66,7 +66,7 @@ public class DictItemService {
 
         LambdaQueryWrapper<DictItemPo> queryWrapper = new LambdaQueryWrapper<DictItemPo>()
                 .eq(DictItemPo::getItemId, update.getItemId())
-                .eq(DictItemPo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(DictItemPo::getMctNo, SessionUtil.getMctNo());
         inbyteDictItemMapper.update(dictItemPo, queryWrapper);
         return R.ok("修改成功");
     }

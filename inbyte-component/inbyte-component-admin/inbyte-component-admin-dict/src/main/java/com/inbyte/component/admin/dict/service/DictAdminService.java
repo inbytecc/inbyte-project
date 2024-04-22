@@ -32,7 +32,7 @@ public class DictAdminService {
         DictPo dictPo = DictPo.builder()
                 .createTime(LocalDateTime.now())
                 .creator(SessionUtil.getUserName())
-                .mctNo(SessionUtil.getDefaultMctNo())
+                .mctNo(SessionUtil.getMctNo())
                 .build();
         BeanUtils.copyProperties(insert, dictPo);
         inbyteDictAdminMapper.insert(dictPo);
@@ -44,7 +44,7 @@ public class DictAdminService {
 
         LambdaQueryWrapper<DictPo> queryWrapper = new LambdaQueryWrapper<DictPo>()
                 .eq(DictPo::getDictId, dictId)
-                .eq(DictPo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(DictPo::getMctNo, SessionUtil.getMctNo());
         inbyteDictAdminMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
@@ -59,7 +59,7 @@ public class DictAdminService {
 
         LambdaQueryWrapper<DictPo> queryWrapper = new LambdaQueryWrapper<DictPo>()
                 .eq(DictPo::getDictId, update.getDictId())
-                .eq(DictPo::getMctNo, SessionUtil.getDefaultMctNo());
+                .eq(DictPo::getMctNo, SessionUtil.getMctNo());
         inbyteDictAdminMapper.update(dictPo, queryWrapper);
         return R.ok("修改成功");
     }

@@ -37,7 +37,7 @@ public class SessionUtil {
      *
      * @return
      */
-    public static String getDefaultMctNo() {
+    public static String getMctNo() {
         String defaultMctNo = getSessionUser().getMctNo();
         if (defaultMctNo == null) {
             throw new SystemUserSessionUnavailableException();

@@ -85,7 +85,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     public R delete(Integer qcid) {
         LambdaQueryWrapper<QrcodeMerchantPo> queryWrapper = new QueryWrapper<QrcodeMerchantPo>().lambda();
         queryWrapper.eq(QrcodeMerchantPo::getQcid, qcid);
-        queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getDefaultMctNo());
+        queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
         qrcodeMerchantMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
@@ -99,7 +99,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
         LambdaQueryWrapper<QrcodeMerchantPo> queryWrapper = new LambdaQueryWrapper<QrcodeMerchantPo>();
         queryWrapper.eq(QrcodeMerchantPo::getQcid, update.getQcid());
-        queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getDefaultMctNo());
+        queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
         qrcodeMerchantMapper.update(qrcodeMerchantPo, queryWrapper);
         return R.ok("修改成功");
     }
@@ -115,7 +115,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        query.setMctNo(SessionUtil.getDefaultMctNo());
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(qrcodeMerchantMapper.list(query));
     }
 

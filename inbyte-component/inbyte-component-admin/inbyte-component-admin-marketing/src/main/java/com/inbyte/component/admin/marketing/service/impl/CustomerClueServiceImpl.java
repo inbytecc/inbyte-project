@@ -57,7 +57,7 @@ public class CustomerClueServiceImpl implements CustomerClueService {
 
         LambdaUpdateWrapper<CustomerCluePo> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(CustomerCluePo::getClueId, update.getClueId());
-        updateWrapper.eq(CustomerCluePo::getMctNo, SessionUtil.getDefaultMctNo());
+        updateWrapper.eq(CustomerCluePo::getMctNo, SessionUtil.getMctNo());
         customerclueMapper.update(customercluePo, updateWrapper);
         return R.ok("修改成功");
     }
@@ -73,7 +73,7 @@ public class CustomerClueServiceImpl implements CustomerClueService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        query.setMctNo(SessionUtil.getDefaultMctNo());
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(customerclueMapper.list(query));
     }
 }

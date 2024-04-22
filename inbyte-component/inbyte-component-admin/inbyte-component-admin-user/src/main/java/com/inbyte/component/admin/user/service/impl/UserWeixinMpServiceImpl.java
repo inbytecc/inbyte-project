@@ -27,7 +27,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     public R update(UserWeixinMpUpdate update) {
         LambdaUpdateWrapper<UserWeixinMpPo> updateWrapper = new LambdaUpdateWrapper();
         updateWrapper.eq(UserWeixinMpPo::getEid, update.getEid());
-        updateWrapper.eq(UserWeixinMpPo::getMctNo, SessionUtil.getDefaultMctNo());
+        updateWrapper.eq(UserWeixinMpPo::getMctNo, SessionUtil.getMctNo());
         updateWrapper.set(UserWeixinMpPo::getRemark, update.getRemark());
         userWeixinMpMapper.update(null, updateWrapper);
         return R.ok("修改成功");
@@ -35,7 +35,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
     @Override
     public R<UserWeixinMpDetail> detail(Integer eid) {
-        return R.ok(userWeixinMpMapper.detail(eid, SessionUtil.getDefaultMctNo()));
+        return R.ok(userWeixinMpMapper.detail(eid, SessionUtil.getMctNo()));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
-        query.setMctNo(SessionUtil.getDefaultMctNo());
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(userWeixinMpMapper.list(query));
     }
 }
