@@ -50,17 +50,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 @Slf4j
 public class PaymentWeixinService {
-    /**
-     * 支付回调地址
-     */
-    @Value("${inbyte.app.server}")
-    private String paymentSuccessNotifyUrl;
 
     /**
-     * 退款回调地址
+     * 服务器地址地址
      */
     @Value("${inbyte.app.server}")
-    private String refundSuccessNotifyUrl;
+    private String appServer;
 
     @Autowired
     private PaymentWeixinInfoMapper paymentWeixinInfoMapper;
@@ -126,7 +121,7 @@ public class PaymentWeixinService {
         request.setAppid(prepaidOrderParam.getAppId());
         request.setMchid(prepaidOrderParam.getWeixinPaymentMerchantId());
         request.setDescription(orderDesc);
-        request.setNotifyUrl(String.format(paymentSuccessNotifyUrl, prepaidOrderParam.getWeixinPaymentMerchantId()));
+        request.setNotifyUrl(String.format(appServer + "/api/payment/weixin/%s/notify/payment-success", prepaidOrderParam.getWeixinPaymentMerchantId()));
         request.setOutTradeNo(prepaidOrderParam.getOrderNo());
         Payer payer = new Payer();
         payer.setOpenid(prepaidOrderParam.getOpenId());
@@ -295,7 +290,7 @@ public class PaymentWeixinService {
         amountReq.setCurrency("CNY");
         amountReq.setTotal(refundAmount);
         request.setAmount(amountReq);
-        request.setNotifyUrl(String.format(refundSuccessNotifyUrl, paymentInfoBrief.getWeixinPaymentMerchantId()));
+        request.setNotifyUrl(String.format(appServer + "/api/payment/weixin/%s/notify/refund-success", paymentInfoBrief.getWeixinPaymentMerchantId()));
         request.setOutTradeNo(param.getOrderNo());
         request.setOutRefundNo(refundNo);
         request.setReason(param.getRefundReason());
