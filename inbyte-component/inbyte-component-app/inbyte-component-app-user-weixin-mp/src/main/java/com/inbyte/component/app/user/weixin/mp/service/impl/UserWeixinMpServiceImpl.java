@@ -162,6 +162,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 已绑定手机号用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(userWeixin.getEid())
+                .openId(userWeixin.getOpenId())
                 .appType(AppTypeEnum.WXMP)
                 .userId(userWeixin.getUserId())
                 .tel(userWeixin.getTel())
