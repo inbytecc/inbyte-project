@@ -148,6 +148,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         if (userWeixin.getBoundWithUser() == WhetherDict.No.code) {
             sessionUser = SessionUser.builder()
                     .eid(userWeixin.getEid())
+                    .openId(userWeixin.getOpenId())
                     .appType(AppTypeEnum.WXMP)
                     .nickname("游客")
                     .avatar(userWeixin.getAvatar())
