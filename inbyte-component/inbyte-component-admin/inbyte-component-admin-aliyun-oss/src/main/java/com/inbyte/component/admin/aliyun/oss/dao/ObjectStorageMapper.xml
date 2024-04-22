@@ -37,7 +37,7 @@
                width,
                remark,
                create_time,
-               creator_name,
+               creator,
                update_time
           FROM inbyte_object_storage
          WHERE object_id = #{object_id, jdbcType=INTEGER}
@@ -58,7 +58,7 @@
                height,
                width,
                remark,
-               creator_name,
+               creator,
                create_time
           FROM inbyte_object_storage
          WHERE deleted = 0

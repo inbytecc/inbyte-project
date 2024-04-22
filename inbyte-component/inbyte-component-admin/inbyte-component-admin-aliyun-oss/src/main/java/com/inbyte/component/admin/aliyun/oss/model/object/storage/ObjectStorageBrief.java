@@ -44,7 +44,7 @@ public class ObjectStorageBrief {
     private String mimeType;
 
     /** 上传源 */
-    private Integer uploadSource;
+    private String uploadSource;
 
     /** 高度 */
     private Integer height;

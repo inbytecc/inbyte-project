@@ -39,7 +39,7 @@
                converted,
                remark,
                create_time,
-               creator_name,
+               creator,
                update_time
           FROM customer_clue
          WHERE clue_id = #{clueId, jdbcType=INTEGER}

@@ -7,9 +7,9 @@
                `name`,
                menu,
                remark,
-               creator_name,
+               creator,
                create_time,
-               modifier_id,
+               modifier,
                update_time
           FROM inbyte_system_role
          WHERE role_id = #{roleId, jdbcType=INTEGER}

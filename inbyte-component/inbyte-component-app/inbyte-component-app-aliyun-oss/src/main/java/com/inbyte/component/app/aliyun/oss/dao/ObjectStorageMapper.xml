@@ -22,7 +22,7 @@
                width,
                remark,
                create_time,
-               creator_name,
+               creator,
                update_time
           FROM inbyte_object_storage
          WHERE object_id = #{objectId, jdbcType=INTEGER}
