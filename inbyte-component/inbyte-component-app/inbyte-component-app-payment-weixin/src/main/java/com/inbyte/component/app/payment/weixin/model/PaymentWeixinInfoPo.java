@@ -28,7 +28,7 @@ public class PaymentWeixinInfoPo {
     /**
      * 微信支付ID
      */
-    @TableId(value = "weixinPaymentId", type = IdType.AUTO)
+    @TableId(value = "weixin_payment_id", type = IdType.AUTO)
     private Integer weixinPaymentId;
 
     /**
