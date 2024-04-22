@@ -37,7 +37,7 @@ public enum OrderStatusEnum {
      * @param status
      * @return
      */
-    public static boolean trade(OrderStatusEnum status) {
+    public static boolean paid(OrderStatusEnum status) {
         return status == PAID ||
                 status == WAIT_CONSUME ||
                 status == WAIT_EVALUATE;

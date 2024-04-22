@@ -1,8 +1,8 @@
 package com.inbyte.component.app.payment.common.service;
 
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
 import com.inbyte.component.app.payment.weixin.dict.PaymentTypeEnum;
-import com.inbyte.component.app.payment.weixin.model.PaymentSuccessDto;
 import com.inbyte.component.app.payment.weixin.model.RefundCommonApplyParam;
 import com.inbyte.component.app.payment.weixin.service.PaymentWeixinService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +32,8 @@ public class PaymentCommonService {
      * @param paymentType
      * @return
      */
-    public R<PaymentSuccessDto> queryPaymentStatus(@PathVariable("orderNo") String orderNo,
-                                                   @PathVariable("paymentType") PaymentTypeEnum paymentType) {
+    public R<PaymentSuccessNotifyParam> queryPaymentStatus(@PathVariable("orderNo") String orderNo,
+                                                           @PathVariable("paymentType") PaymentTypeEnum paymentType) {
         if (PaymentTypeEnum.ALI_PAY == paymentType) {
 //            return paymentALI_PAYService.queryPaymentStatus(orderNo);
         } else if (PaymentTypeEnum.WEIXIN_PAY == paymentType) {

@@ -223,7 +223,7 @@ public class PaymentWeixinService {
      * @param orderNo
      * @return
      */
-    public R<PaymentSuccessDto> queryPaymentStatus(String orderNo) {
+    public R<PaymentSuccessNotifyParam> queryPaymentStatus(String orderNo) {
         PaymentWeixinInfoBrief brief = paymentWeixinInfoMapper.selectByNo(orderNo);
         if (brief == null) {
             return R.failure("该订单未支付");
@@ -252,10 +252,10 @@ public class PaymentWeixinService {
             paymentWeixinInfoMapper.updateById(update);
         }
 
-        PaymentSuccessDto dto = PaymentSuccessDto.builder()
+        PaymentSuccessNotifyParam dto = PaymentSuccessNotifyParam.builder()
                 .paymentMerchantId(brief.getWeixinPaymentMerchantId())
                 .orderNo(orderNo)
-                .paymentTypeEnum(PaymentTypeEnum.WEIXIN_PAY)
+                .paymentType(PaymentTypeEnum.WEIXIN_PAY)
                 .paymentAmount(paymentAmount)
                 .paymentUserId(transaction.getPayer().getOpenid())
                 .paymentUserName(transaction.getPayer().getOpenid())
