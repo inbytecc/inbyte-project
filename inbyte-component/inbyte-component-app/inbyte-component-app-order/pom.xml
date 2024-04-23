@@ -31,8 +31,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.inbyte</groupId>
-			<artifactId>inbyte-component-app-payment-weixin</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<artifactId>inbyte-component-app-payment</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.aliyun.oss</groupId>
