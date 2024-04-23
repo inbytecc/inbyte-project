@@ -54,7 +54,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         param.setPwd(MD5Util.md5(param.getPwd()));
         SystemUserDetail detail = inbyteSystemUserMapper.queryByPwd(param);
         if (detail == null) {
-            return R.failure("请联系管理员注册账号");
+            return R.failure("账号或密码错误");
         }
 
         InbyteSystemUserPo platformPo = InbyteSystemUserPo.builder()
