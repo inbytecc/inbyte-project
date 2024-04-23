@@ -61,8 +61,6 @@ public class AliyunOssService {
     private String accessKeySecret;
     @Value("${aliyun.oss.bucket}")
     private String bucketName;
-    @Value("${aliyun.oss.host}")
-    private String host;
     @Value("${inbyte.app.server}")
     private String server;
 
@@ -102,12 +100,14 @@ public class AliyunOssService {
                 .toString()
                 .replace("//", "/");
 
+        String host = "https://" + bucketName + "." + endpoint + "/" + direction;
+
         OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         try {
 
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .mctNo(getMctPinyinName())
-                    .url(host + "/" + direction)
+                    .url(host)
                     .endPoint(endpoint)
                     .fileName(param.getFileName())
                     .fileType(param.getFileType())

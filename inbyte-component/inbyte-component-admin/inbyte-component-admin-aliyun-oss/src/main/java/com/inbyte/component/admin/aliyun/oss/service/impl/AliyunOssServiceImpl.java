@@ -57,8 +57,6 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     private String accessKeySecret;
     @Value("${aliyun.oss.bucket}")
     private String bucketName;
-    @Value("${aliyun.oss.host}")
-    private String host;
     @Value("${inbyte.app.server}")
     private String server;
 
@@ -90,6 +88,9 @@ public class AliyunOssServiceImpl implements AliyunOssService {
                 .append(StringUtil.defaultIfEmpty(param.getFileName(), ""))
                 .toString()
                 .replace("//", "/");
+
+        // 资源访问路径
+        String host = "https://" + bucketName + "." + endpoint + "/" + dir;
 
         OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         try {
