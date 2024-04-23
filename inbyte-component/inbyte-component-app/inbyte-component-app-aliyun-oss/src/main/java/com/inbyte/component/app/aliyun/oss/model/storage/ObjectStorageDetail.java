@@ -30,7 +30,7 @@ public class ObjectStorageDetail {
     private String mctNo;
 
     /** 场馆ID */
-    private Integer venueId;
+    private String venueId;
 
     /** 文件名 */
     private String fileName;

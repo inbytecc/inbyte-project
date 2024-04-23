@@ -40,7 +40,7 @@ public class OrderCreateEvent extends ApplicationEvent {
     /**
      * 场馆ID
      */
-    private Integer venueId;
+    private String venueId;
 
     /**
      * 订单编号

@@ -30,7 +30,7 @@ public interface OrderCenterService {
     R create(Integer userId, String nickname, String avatar, String tel, String mainPhoto,
              String orderNo, String orderTitle, String orderBrief, OrderTypeEnum orderType, JSONObject extent,
              BigDecimal orderAmount, BigDecimal payableAmount,
-             Integer venueId, String venueName, String mctNo, String appId, AppTypeEnum appType);
+             String venueId, String venueName, String mctNo, String appId, AppTypeEnum appType);
 
     /**
      * 订单列表

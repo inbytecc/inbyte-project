@@ -102,7 +102,7 @@ public class PaymentWeixinRefundPo {
     /**
      * 场馆ID
      */
-    private Integer venueId;
+    private String venueId;
 
     /**
      * 商户号

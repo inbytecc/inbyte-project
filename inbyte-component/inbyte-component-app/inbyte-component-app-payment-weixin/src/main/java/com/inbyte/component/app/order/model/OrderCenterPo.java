@@ -92,7 +92,7 @@ public class OrderCenterPo {
     /**
       * 场馆ID
       */
-    private Integer venueId;
+    private String venueId;
 
     /**
       * 场馆名称

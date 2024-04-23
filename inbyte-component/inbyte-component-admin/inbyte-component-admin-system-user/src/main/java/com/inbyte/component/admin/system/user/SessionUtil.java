@@ -85,12 +85,12 @@ public class SessionUtil {
         return JSON.parseObject(decodedJWT.getSubject(), SessionUser.class);
     }
 
-    public static Integer getVenueId() {
+    public static String getVenueId() {
         String venueId = WebUtil.getHeader("Current-Venue-Id");
         if (venueId == null) {
             throw InbyteException.failure("请选择营地");
         }
-        return Integer.parseInt(venueId);
+        return venueId;
     }
 
     /**

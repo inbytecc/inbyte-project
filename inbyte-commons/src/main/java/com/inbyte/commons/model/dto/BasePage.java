@@ -41,7 +41,7 @@ public class BasePage {
      * @ignore
      */
     @JsonIgnore
-    private Integer venueId;
+    private String venueId;
     /**
      * 当前场馆ID
      * 服务端参数，前端忽略
@@ -58,11 +58,11 @@ public class BasePage {
         this.mctNo = mctNo;
     }
 
-    public Integer getVenueId() {
+    public String getVenueId() {
         return venueId;
     }
 
-    public void setVenueId(Integer venueId) {
+    public void setVenueId(String venueId) {
         this.venueId = venueId;
     }
 
