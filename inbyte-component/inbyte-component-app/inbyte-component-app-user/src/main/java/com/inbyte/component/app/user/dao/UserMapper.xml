@@ -31,7 +31,7 @@
 
     <insert id="insertLocationSelective">
         INSERT INTO user_location
-            (user_id, appType, eid, longitude, latitude, create_time)
+            (user_id, app_type, eid, longitude, latitude, create_time)
         SELECT #{userId,jdbcType=INTEGER},
                #{appType,jdbcType=VARCHAR},
                #{eid,jdbcType=INTEGER},
@@ -42,7 +42,7 @@
          WHERE NOT EXISTS(SELECT 1
                             FROM user_location
                            WHERE eid = #{eid,jdbcType=INTEGER}
-                             AND appType = #{appType,jdbcType=VARCHAR}
+                             AND app_type = #{appType,jdbcType=VARCHAR}
                              AND create_time > DATE_SUB(#{createTime,jdbcType=TIMESTAMP}, INTERVAL 2 HOUR))
     </insert>
 
