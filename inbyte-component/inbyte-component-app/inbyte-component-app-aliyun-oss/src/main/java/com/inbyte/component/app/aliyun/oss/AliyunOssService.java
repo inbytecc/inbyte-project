@@ -149,7 +149,7 @@ public class AliyunOssService {
                     .policy(encodedPolicy)
                     .signature(postSignature)
                     .dir(direction)
-                    .host(host)
+                    .host("https://" + bucketName + "." + endpoint)
                     .expire(expireEndTime / 1000)
                     .callback(base64CallbackBody)
                     .build();
