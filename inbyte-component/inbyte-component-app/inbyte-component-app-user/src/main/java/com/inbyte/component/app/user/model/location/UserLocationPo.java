@@ -38,7 +38,7 @@ public class UserLocationPo {
     /**
       * 外部用户类型
       */
-    private AppTypeEnum etp;
+    private AppTypeEnum appType;
 
     /**
       * 外部用户ID

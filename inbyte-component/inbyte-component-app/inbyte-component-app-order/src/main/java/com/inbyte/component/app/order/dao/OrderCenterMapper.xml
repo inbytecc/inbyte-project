@@ -14,18 +14,19 @@
                venue_id,
                venue_name,
                main_photo
-        FROM order_center
+          FROM order_center
          WHERE deleted = 0
            AND user_id = #{userId}
-         <if test="orderStatusType != null and orderStatusType == 'WAIT_PAY'">
-           AND order_status = 'WAIT_PAY'
-         </if>
-         <if test="orderStatusType != null and orderStatusType == 2">
-           AND order_status IN (1, 2, 5, 6)
-         </if>
-         <if test="orderStatusType != null and orderStatusType == 3">
-           AND order_status IN (10, 11, 12)
-         </if>
+         ORDER BY create_time DESC
+<!--         <if test="orderStatusType != null and orderStatusType == 'WAIT_PAY'">-->
+<!--           AND order_status = 'WAIT_PAY'-->
+<!--         </if>-->
+<!--         <if test="orderStatusType != null and orderStatusType == 2">-->
+<!--           AND order_status IN (1, 2, 5, 6)-->
+<!--         </if>-->
+<!--         <if test="orderStatusType != null and orderStatusType == 3">-->
+<!--           AND order_status IN (10, 11, 12)-->
+<!--         </if>-->
     </select>
 
 </mapper>

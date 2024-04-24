@@ -222,9 +222,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insertLocationSelective(Integer eid, AppTypeEnum etp, Integer userId, BigDecimal longitude, BigDecimal latitude) {
+    public void insertLocationSelective(Integer eid, AppTypeEnum appType, Integer userId, BigDecimal longitude, BigDecimal latitude) {
         UserLocationPo locationPo = UserLocationPo.builder()
-                .etp(etp)
+                .appType(appType)
                 .eid(eid)
                 .userId(userId)
                 .longitude(longitude)
