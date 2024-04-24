@@ -34,7 +34,7 @@ public enum OrderTypeEnum {
      * @return
      */
     public static OrderTypeEnum getByOrderNo(String orderNo) {
-        return getByCode(orderNo.substring(0, 2));
+        return getByCode(orderNo.substring(0, 3));
     }
 
 //    /**

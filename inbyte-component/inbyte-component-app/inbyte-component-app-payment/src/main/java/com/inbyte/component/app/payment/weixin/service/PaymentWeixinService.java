@@ -418,8 +418,9 @@ public class PaymentWeixinService {
         log.info("微信支付回调更新参数:{}, 响应结果:{}", JSON.toJSONString(paymentWeixinInfoPo), update);
 
         PaymentSuccessNotifyParam paymentSuccessDto = PaymentSuccessNotifyParam.builder()
+                .appId(brief.getAppId())
                 .orderNo(transaction.getOutTradeNo())
-                .paymentMerchantId(transaction.getMchid())
+                .paymentMerchantId(brief.getWeixinPaymentMerchantId())
                 .paymentNo(transaction.getTransactionId())
                 .paymentType(PaymentTypeEnum.WEIXIN_PAY)
                 .paymentAmount(paymentAmount)

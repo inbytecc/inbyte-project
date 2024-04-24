@@ -75,9 +75,9 @@ public class PaymentWeixinController implements InitializingBean {
         if (paymentSuccessDtoR.failed()) {
             return weixinFailureResult;
         }
-        PaymentSuccessNotifyParam paymentSuccessDto = paymentSuccessDtoR.getData();
+        PaymentSuccessNotifyParam paymentSuccessNotifyParam = paymentSuccessDtoR.getData();
         try {
-            R r = orderServiceFactory.getServiceByOrderNo(paymentSuccessDto.getOrderNo()).paymentSuccessNotify(paymentSuccessDto);
+            R r = orderServiceFactory.getServiceByOrderNo(paymentSuccessNotifyParam.getOrderNo()).paymentSuccessNotify(paymentSuccessNotifyParam);
             if (r.failed()) {
                 return weixinFailureResult;
             }
