@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.common.dict.DictUtil;
 
 import java.io.IOException;
@@ -17,11 +18,11 @@ import java.io.Serializable;
  */
 public class DictSerializer extends JsonSerializer<Serializable> implements ContextualSerializer {
 
-    private Class dictClass;
+    private String dictName;
 
     @Override
     public void serialize(Serializable key, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeString(DictUtil.getName(dictClass, key));
+        gen.writeString(DictUtil.getName(dictName, key));
     }
 
     /**
@@ -30,7 +31,13 @@ public class DictSerializer extends JsonSerializer<Serializable> implements Cont
     @Override
     public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) throws JsonMappingException {
         DictSerialize annotation = property.getAnnotation(DictSerialize.class);
-        this.dictClass = annotation.value();
+
+        String name = annotation.name();
+        if (StringUtil.isEmpty(name)) {
+            this.dictName = annotation.value().getSimpleName();
+        } else {
+            this.dictName = name;
+        }
         return this;
     }
 

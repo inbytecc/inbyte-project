@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 public class DictService implements InitializingBean {
 
+    private static final String SUFFIX = "dict|enum";
     private static final String DICT_SUFFIX = "dict";
     private static final String ENUM_SUFFIX = "enum";
 
@@ -145,14 +146,14 @@ public class DictService implements InitializingBean {
      * @return
      */
     public Map<String, String> getDict(String dictName) {
-        dictName = dictName.toLowerCase();
+        dictName = dictName.toLowerCase().replaceAll(SUFFIX, "");
         Map<String, String> dict = SYSTEM_DICT_CACHE.get(dictName);
         if (dict != null) {
             return dict;
         }
 
         dict = BUSINESS_DICT_CACHE.getIfPresent(dictName);
-        if (dict != null) {
+        if (dict != null && dict.size() > 0) {
             return dict;
         }
         try {
