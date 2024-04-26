@@ -71,6 +71,11 @@ public class QrcodeMerchantUserPo {
     private BigDecimal latitude;
 
     /**
+     * 商户号
+     */
+    private String mctNo;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

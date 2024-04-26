@@ -23,11 +23,24 @@ public class UserRegisterEvent extends ApplicationEvent {
     private AppTypeEnum appType;
     private LocalDateTime registerTime;
 
-    public UserRegisterEvent(Object source, Integer userId, Integer eid, AppTypeEnum appType, LocalDateTime registerTime) {
+    /**
+     * appId
+     */
+    private String appId;
+
+    /**
+     * 商户号
+     */
+    private String mctNo;
+
+    public UserRegisterEvent(Object source, Integer userId, Integer eid, AppTypeEnum appType, LocalDateTime registerTime,
+                             String appId, String mctNo) {
         super(source);
         this.userId = userId;
         this.eid = eid;
         this.appType = appType;
         this.registerTime = registerTime;
+        this.appId = appId;
+        this.mctNo = mctNo;
     }
 }

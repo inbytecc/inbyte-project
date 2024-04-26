@@ -44,12 +44,25 @@ public class OrderPurchaseEvent extends ApplicationEvent {
      */
     private BigDecimal orderAmount;
 
-    public OrderPurchaseEvent(Object source, Integer userId, Integer eid, String venueId, String orderNo, BigDecimal orderAmount) {
+    /**
+     * appId
+     */
+    private String appId;
+
+    /**
+     * 商户号
+     */
+    private String mctNo;
+
+    public OrderPurchaseEvent(Object source, Integer userId, Integer eid, String venueId, String orderNo, BigDecimal orderAmount,
+                              String appId, String mctNo) {
         super(source);
         this.userId = userId;
         this.eid = eid;
         this.venueId = venueId;
         this.orderNo = orderNo;
         this.orderAmount = orderAmount;
+        this.appId = appId;
+        this.mctNo = mctNo;
     }
 }

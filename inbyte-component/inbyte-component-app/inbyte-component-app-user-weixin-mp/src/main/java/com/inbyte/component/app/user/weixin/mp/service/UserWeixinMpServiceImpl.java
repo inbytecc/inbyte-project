@@ -104,7 +104,8 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             if (param.getT() != null) {
                 // 处理推荐分享、二维码分享关系绑定处理
                 UserFirstTimeLoginEvent firstTimeLoginEvent = new UserFirstTimeLoginEvent(this,
-                        param.getQ(), param.getT(), weixinPo.getEid(), AppTypeEnum.WXMP, param.getS(), now);
+                        param.getQ(), param.getT(), weixinPo.getEid(), AppTypeEnum.WXMP, param.getS(), now,
+                        param.getLongitude(), param.getLatitude(), AppUtil.getAppId(), AppUtil.getMctNo());
                 log.info("微信新用户首次登录, 且存在推荐关系, 发布事件:{}", JSON.toJSONString(firstTimeLoginEvent));
                 SpringContextUtil.getContext().publishEvent(firstTimeLoginEvent);
             }
@@ -237,7 +238,8 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         // 发布用户注册事件
         UserRegisterEvent userRegisterEvent = new UserRegisterEvent(this,
-                register.getData(), sessionUser.getEid(), sessionUser.getAppType(), now);
+                register.getData(), sessionUser.getEid(), sessionUser.getAppType(), now,
+                AppUtil.getAppId(), AppUtil.getMctNo());
         SpringContextUtil.getContext().publishEvent(userRegisterEvent);
 
         // 用户 Session 信息
@@ -299,7 +301,8 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         // 发布用户注册事件
         UserRegisterEvent userRegisterEvent = new UserRegisterEvent(this,
-                userBrief.getUserId(), sessionUser.getEid(), sessionUser.getAppType(), now);
+                userBrief.getUserId(), sessionUser.getEid(), sessionUser.getAppType(), now,
+                AppUtil.getAppId(), AppUtil.getMctNo());
         SpringContextUtil.getContext().publishEvent(userRegisterEvent);
 
         return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));

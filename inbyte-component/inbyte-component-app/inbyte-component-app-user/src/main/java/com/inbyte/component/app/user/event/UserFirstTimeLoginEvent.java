@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.context.ApplicationEvent;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -28,34 +29,53 @@ public class UserFirstTimeLoginEvent extends ApplicationEvent {
      */
     @NotNull
     private Integer qctp;
+
     /**
-     * 外部用户ID
+     * 介绍人外部用户ID
      */
-    @NotNull
-    private Integer eid;
+    private Integer introducerEid;
+
+    /**
+     * 被推荐人
+     */
+    private Integer referredEid;
     /**
      * 外部用户ID类型
      */
     @NotNull
-    private AppTypeEnum etp;
-    /**
-     * 外部用户ID
-     */
-    @NotNull
-    private Integer recommendEid;
+    private AppTypeEnum appType;
     /**
      * 登录时间
      */
     private LocalDateTime loginTime;
 
-    public UserFirstTimeLoginEvent(Object source, Integer qcid, Integer qctp, Integer eid, AppTypeEnum appType, Integer recommendEid, LocalDateTime loginTime) {
+    /**
+     * appId
+     */
+    private String appId;
+
+    /**
+     * 商户号
+     */
+    private String mctNo;
+
+    private BigDecimal longitude;
+    private BigDecimal latitude;
+
+    public UserFirstTimeLoginEvent(Object source, Integer qcid, Integer qctp,
+                                   Integer introducerEid, AppTypeEnum appType, Integer referredEid, LocalDateTime loginTime,
+                                   BigDecimal longitude, BigDecimal latitude, String appId, String mctNo) {
         super(source);
         this.qcid = qcid;
         this.qctp = qctp;
-        this.eid = eid;
-        this.etp = appType;
-        this.recommendEid = recommendEid;
+        this.introducerEid = introducerEid;
+        this.appType = appType;
+        this.referredEid = referredEid;
         this.loginTime = loginTime;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.appId = appId;
+        this.mctNo = mctNo;
     }
 
 }

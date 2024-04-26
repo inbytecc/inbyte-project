@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan(basePackages = "com.inbyte.component.app.user.weixin.mp.dao")
+@MapperScan(basePackages = "com.inbyte.component.app.marketing.ambassador.dao")
 public class AmbassadorConfiguration {
 }
