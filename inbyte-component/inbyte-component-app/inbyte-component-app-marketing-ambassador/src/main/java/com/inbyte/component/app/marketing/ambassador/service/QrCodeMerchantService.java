@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dict.WhetherDict;
-import com.inbyte.component.app.marketing.ambassador.dao.QrcodeMerchantMapper;
-import com.inbyte.component.app.marketing.ambassador.dao.QrcodeMerchantUserMapper;
-import com.inbyte.component.app.marketing.ambassador.model.qrcode.QrcodeMerchantPo;
-import com.inbyte.component.app.marketing.ambassador.model.qrcode.merchant.user.QrcodeMerchantUserPo;
+import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantMapper;
+import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantUserMapper;
+import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantPo;
+import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantUserPo;
 import com.inbyte.component.app.order.event.OrderPurchaseEvent;
 import com.inbyte.component.app.user.dict.UserSourceTypeDict;
 import com.inbyte.component.app.user.event.UserFirstTimeLoginEvent;
@@ -34,15 +34,15 @@ import java.time.LocalDateTime;
 public class QrCodeMerchantService {
 
     @Autowired
-    private QrcodeMerchantMapper qrcodeMerchantMapper;
+    private MarketingQrcodeMerchantMapper marketingQrcodeMerchantMapper;
     @Autowired
-    private QrcodeMerchantUserMapper qrcodeMerchantUserMapper;
+    private MarketingQrcodeMerchantUserMapper marketingQrcodeMerchantUserMapper;
 
-    public QrcodeMerchantPo detail(Integer qcid) {
+    public MarketingQrcodeMerchantPo detail(Integer qcid) {
         if (qcid == null) {
             return null;
         }
-        return qrcodeMerchantMapper.selectById(qcid);
+        return marketingQrcodeMerchantMapper.selectById(qcid);
     }
 
 
@@ -61,13 +61,13 @@ public class QrCodeMerchantService {
         }
 
         log.info("监听用户首次登录事件, 建立用户二维码关系, event：{}", event);
-        QrcodeMerchantPo detail = qrcodeMerchantMapper.selectById(event.getQcid());
+        MarketingQrcodeMerchantPo detail = marketingQrcodeMerchantMapper.selectById(event.getQcid());
         if (detail == null) {
             log.warn("扫码的二维码不存在, 建立关系失败");
             return;
         }
 
-        QrcodeMerchantUserPo qrcodeMerchantUserPo = QrcodeMerchantUserPo.builder()
+        MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = MarketingQrcodeMerchantUserPo.builder()
                 .qcid(event.getQcid())
                 .eid(event.getReferredEid())
                 .etp(event.getAppType())
@@ -75,12 +75,12 @@ public class QrCodeMerchantService {
                 .latitude(event.getLatitude())
                 .createTime(LocalDateTime.now())
                 .build();
-        int i = qrcodeMerchantUserMapper.insertSelective(qrcodeMerchantUserPo);
+        int i = marketingQrcodeMerchantUserMapper.insertSelective(marketingQrcodeMerchantUserPo);
         if (i > 0) {
-            LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
-                    .eq(QrcodeMerchantPo::getQcid, event.getQcid())
+            LambdaUpdateWrapper<MarketingQrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantPo>()
+                    .eq(MarketingQrcodeMerchantPo::getQcid, event.getQcid())
                     .setSql("relation_count = relation_count + 1");
-            qrcodeMerchantMapper.update(null, updateWrapper);
+            marketingQrcodeMerchantMapper.update(null, updateWrapper);
             log.info("关联用户商户二维码关系成功:{}, ", event);
         }
     }
@@ -97,35 +97,35 @@ public class QrCodeMerchantService {
     @EventListener
     public void onUserRegisterEvent(UserRegisterEvent event) {
         log.info("监听用户注册事件,event：{}", event);
-        LambdaQueryWrapper<QrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<QrcodeMerchantUserPo>()
-                .eq(QrcodeMerchantUserPo::getEid, event.getEid())
-                .eq(QrcodeMerchantUserPo::getEtp, event.getAppType())
-                .eq(QrcodeMerchantUserPo::getMctNo, event.getMctNo());
-        QrcodeMerchantUserPo qrcodeMerchantUserPo = qrcodeMerchantUserMapper.selectOne(queryWrapper);
-        if (qrcodeMerchantUserPo == null) {
+        LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
+                .eq(MarketingQrcodeMerchantUserPo::getEid, event.getEid())
+                .eq(MarketingQrcodeMerchantUserPo::getEtp, event.getAppType())
+                .eq(MarketingQrcodeMerchantUserPo::getMctNo, event.getMctNo());
+        MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = marketingQrcodeMerchantUserMapper.selectOne(queryWrapper);
+        if (marketingQrcodeMerchantUserPo == null) {
             return;
         }
 
-        QrcodeMerchantPo detail = qrcodeMerchantMapper.selectById(qrcodeMerchantUserPo.getQcid());
+        MarketingQrcodeMerchantPo detail = marketingQrcodeMerchantMapper.selectById(marketingQrcodeMerchantUserPo.getQcid());
         if (detail == null) {
             log.warn("扫码的二维码不存在");
             return;
         }
 
-        LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
-                .eq(QrcodeMerchantPo::getQcid, qrcodeMerchantUserPo.getQcid())
+        LambdaUpdateWrapper<MarketingQrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantPo>()
+                .eq(MarketingQrcodeMerchantPo::getQcid, marketingQrcodeMerchantUserPo.getQcid())
                 .setSql("register_count = register_count + 1");
-        qrcodeMerchantMapper.update(null, updateWrapper);
+        marketingQrcodeMerchantMapper.update(null, updateWrapper);
 
-        LambdaUpdateWrapper<QrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
-                .eq(QrcodeMerchantUserPo::getQmUserId, qrcodeMerchantUserPo.getQmUserId())
-                .set(QrcodeMerchantUserPo::getRegistered, Whether.Yes);
-        qrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
+        LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
+                .eq(MarketingQrcodeMerchantUserPo::getQmUserId, marketingQrcodeMerchantUserPo.getQmUserId())
+                .set(MarketingQrcodeMerchantUserPo::getRegistered, Whether.Yes);
+        marketingQrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
 
         log.info("商家码用户注册事件处理完成:{}, 二维码:{}, 用户与码关系:{}",
                 JSON.toJSONString(event),
                 JSON.toJSONString(detail),
-                JSON.toJSONString(qrcodeMerchantUserPo));
+                JSON.toJSONString(marketingQrcodeMerchantUserPo));
     }
 
     /**
@@ -138,37 +138,37 @@ public class QrCodeMerchantService {
     @EventListener
     public void onOrderPurchaseEvent(OrderPurchaseEvent event) {
         log.info("监听用户订单付款事件,event：{}", event);
-        LambdaQueryWrapper<QrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<QrcodeMerchantUserPo>()
-                .eq(QrcodeMerchantUserPo::getEid, event.getEid())
-                .eq(QrcodeMerchantUserPo::getEtp, event.getAppType());
-        QrcodeMerchantUserPo qrcodeMerchantUserPo = qrcodeMerchantUserMapper.selectOne(queryWrapper);
-        if (qrcodeMerchantUserPo == null) {
+        LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
+                .eq(MarketingQrcodeMerchantUserPo::getEid, event.getEid())
+                .eq(MarketingQrcodeMerchantUserPo::getEtp, event.getAppType());
+        MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = marketingQrcodeMerchantUserMapper.selectOne(queryWrapper);
+        if (marketingQrcodeMerchantUserPo == null) {
             return;
         }
-        QrcodeMerchantPo detail = qrcodeMerchantMapper.selectById(qrcodeMerchantUserPo.getQcid());
+        MarketingQrcodeMerchantPo detail = marketingQrcodeMerchantMapper.selectById(marketingQrcodeMerchantUserPo.getQcid());
         if (detail == null) {
             log.warn("扫码的二维码不存在");
             return;
         }
-        LambdaUpdateWrapper<QrcodeMerchantUserPo> qrcodeMerchantUserUpdate = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
-                .eq(QrcodeMerchantUserPo::getQcid, qrcodeMerchantUserPo.getQcid())
-                .eq(QrcodeMerchantUserPo::getEid, qrcodeMerchantUserPo.getEid())
-                .set(QrcodeMerchantUserPo::getMadeDeal, WhetherDict.Yes.code)
+        LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qrcodeMerchantUserUpdate = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
+                .eq(MarketingQrcodeMerchantUserPo::getQcid, marketingQrcodeMerchantUserPo.getQcid())
+                .eq(MarketingQrcodeMerchantUserPo::getEid, marketingQrcodeMerchantUserPo.getEid())
+                .set(MarketingQrcodeMerchantUserPo::getMadeDeal, WhetherDict.Yes.code)
                 .setSql("order_count = order_count + 1")
                 .setSql("trade_amount = trade_amount + " + event.getOrderAmount());
-        int update = qrcodeMerchantUserMapper.update(null, qrcodeMerchantUserUpdate);
+        int update = marketingQrcodeMerchantUserMapper.update(null, qrcodeMerchantUserUpdate);
         if (update == 1) {
-            LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
-                    .eq(QrcodeMerchantPo::getQcid, qrcodeMerchantUserPo.getQcid())
+            LambdaUpdateWrapper<MarketingQrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantPo>()
+                    .eq(MarketingQrcodeMerchantPo::getQcid, marketingQrcodeMerchantUserPo.getQcid())
                     .setSql("order_count = order_count + 1")
                     .setSql("trade_amount = trade_amount + " + event.getOrderAmount());
-            qrcodeMerchantMapper.update(null, updateWrapper);
+            marketingQrcodeMerchantMapper.update(null, updateWrapper);
         }
 
         log.info("商家码用户购买事件:{}, 二维码:{}, 用户:{}",
                 JSON.toJSONString(event),
                 JSON.toJSONString(detail),
-                JSON.toJSONString(qrcodeMerchantUserPo));
+                JSON.toJSONString(marketingQrcodeMerchantUserPo));
     }
 
 //    @Transactional(rollbackFor = Exception.class)
@@ -225,19 +225,19 @@ public class QrCodeMerchantService {
 //    }
 
     public void syncLocation(Integer qcid, Integer eid, AppTypeEnum etp, BigDecimal longitude, BigDecimal latitude) {
-        LambdaQueryWrapper<QrcodeMerchantUserPo> qmQueryWrapper = new LambdaQueryWrapper<QrcodeMerchantUserPo>()
-                .eq(QrcodeMerchantUserPo::getQcid, qcid)
-                .eq(QrcodeMerchantUserPo::getEid, eid)
-                .eq(QrcodeMerchantUserPo::getEtp, etp);
-        QrcodeMerchantUserPo qrcodeMerchantUserPo = qrcodeMerchantUserMapper.selectOne(qmQueryWrapper);
+        LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> qmQueryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
+                .eq(MarketingQrcodeMerchantUserPo::getQcid, qcid)
+                .eq(MarketingQrcodeMerchantUserPo::getEid, eid)
+                .eq(MarketingQrcodeMerchantUserPo::getEtp, etp);
+        MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = marketingQrcodeMerchantUserMapper.selectOne(qmQueryWrapper);
 
-        if (qrcodeMerchantUserPo != null && qrcodeMerchantUserPo.getLongitude() == null) {
-            LambdaUpdateWrapper<QrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<QrcodeMerchantUserPo>()
-                    .eq(QrcodeMerchantUserPo::getQmUserId, qrcodeMerchantUserPo.getQmUserId())
-                    .set(QrcodeMerchantUserPo::getLongitude, longitude)
-                    .set(QrcodeMerchantUserPo::getLatitude, latitude);
-            qrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
-            log.info("补齐商户码用户定位信息, 关联信息:{}, 位置:{}, {}", JSON.toJSONString(qrcodeMerchantUserPo), longitude, latitude);
+        if (marketingQrcodeMerchantUserPo != null && marketingQrcodeMerchantUserPo.getLongitude() == null) {
+            LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
+                    .eq(MarketingQrcodeMerchantUserPo::getQmUserId, marketingQrcodeMerchantUserPo.getQmUserId())
+                    .set(MarketingQrcodeMerchantUserPo::getLongitude, longitude)
+                    .set(MarketingQrcodeMerchantUserPo::getLatitude, latitude);
+            marketingQrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
+            log.info("补齐商户码用户定位信息, 关联信息:{}, 位置:{}, {}", JSON.toJSONString(marketingQrcodeMerchantUserPo), longitude, latitude);
         }
     }
 }

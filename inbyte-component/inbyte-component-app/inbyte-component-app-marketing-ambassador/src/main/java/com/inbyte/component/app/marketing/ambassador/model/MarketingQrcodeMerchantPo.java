@@ -1,4 +1,4 @@
-package com.inbyte.component.app.marketing.ambassador.model.qrcode;
+package com.inbyte.component.app.marketing.ambassador.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("qrcode_merchant")
-public class QrcodeMerchantPo {
+@TableName("marketing_qrcode_merchant")
+public class MarketingQrcodeMerchantPo {
 
     /**
       * 宣传码ID

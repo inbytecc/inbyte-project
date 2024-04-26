@@ -1,7 +1,7 @@
 package com.inbyte.component.app.marketing.ambassador.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.marketing.ambassador.model.qrcode.QrcodeMerchantPo;
+import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantPo;
 
 /**
  * 商户二维码
@@ -10,6 +10,6 @@ import com.inbyte.component.app.marketing.ambassador.model.qrcode.QrcodeMerchant
  * @author chenjw
  * @date 2023-03-16 17:07:11
  */
-public interface QrcodeMerchantMapper extends BaseMapper<QrcodeMerchantPo> {
+public interface MarketingQrcodeMerchantMapper extends BaseMapper<MarketingQrcodeMerchantPo> {
 
 }

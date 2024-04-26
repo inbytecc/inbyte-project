@@ -1,7 +1,7 @@
 package com.inbyte.component.app.marketing.ambassador.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.marketing.ambassador.model.qrcode.MarketingUserRefererPo;
+import com.inbyte.component.app.marketing.ambassador.model.MarketingUserRefererPo;
 
 /**
  * 用户二维码

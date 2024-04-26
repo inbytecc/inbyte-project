@@ -3,7 +3,7 @@ package com.inbyte.component.app.marketing.ambassador.service;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingUserRefererMapper;
-import com.inbyte.component.app.marketing.ambassador.model.qrcode.MarketingUserRefererPo;
+import com.inbyte.component.app.marketing.ambassador.model.MarketingUserRefererPo;
 import com.inbyte.component.app.order.event.OrderPurchaseEvent;
 import com.inbyte.component.app.user.dict.UserSourceTypeDict;
 import com.inbyte.component.app.user.event.UserFirstTimeLoginEvent;
