@@ -1,4 +1,4 @@
-package com.inbyte.component.app;
+package com.inbyte.component.app.payment;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan(basePackages = {"com.inbyte.component.app.payment.weixin.dao",
-        "com.inbyte.component.app.aliyun.order.dao"})
+@MapperScan(basePackages = "com.inbyte.component.app.payment.weixin.dao")
 public class PaymentConfiguration {
 }

@@ -70,6 +70,11 @@ public class PaymentWeixinPrepayParam {
     private String venueId;
 
     /**
+     * 场馆ID
+     */
+    private String venueName;
+
+    /**
      * 商户ID
      */
     private String mctNo;
