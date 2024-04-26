@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.weixin.mp.service.impl;
+package com.inbyte.component.app.user.weixin.mp.service;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
@@ -6,25 +6,26 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.pagehelper.PageHelper;
-import com.inbyte.component.app.sign.framework.AppUtil;
-import com.inbyte.component.app.user.model.LocationUpdate;
-import com.inbyte.component.app.user.model.UserBrief;
-import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpInviteMapper;
-import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper;
-import com.inbyte.component.app.user.weixin.mp.model.*;
-import com.inbyte.component.app.user.weixin.mp.model.qrcode.BuildRelationParam;
-import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
-import com.inbyte.component.app.user.weixin.mp.service.UserWeixinMpService;
 import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePage;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
+import com.inbyte.commons.util.SpringContextUtil;
 import com.inbyte.commons.util.StringUtil;
+import com.inbyte.component.app.sign.framework.AppUtil;
+import com.inbyte.component.app.user.event.UserFirstTimeLoginEvent;
+import com.inbyte.component.app.user.event.UserLocationUpdateEvent;
+import com.inbyte.component.app.user.event.UserRegisterEvent;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
+import com.inbyte.component.app.user.model.LocationUpdate;
+import com.inbyte.component.app.user.model.UserBrief;
 import com.inbyte.component.app.user.service.UserService;
+import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpInviteMapper;
+import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper;
+import com.inbyte.component.app.user.weixin.mp.model.*;
 import com.inbyte.util.weixin.mp.client.WxMpUserClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,6 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     private UserWeixinMpInviteMapper inviteMapper;
     @Autowired
     private UserService userService;
-    @Autowired
-    private QrCodeService qrCodeService;
     @Autowired
     private WxMpUserClient wxMpUserClient;
 
@@ -79,7 +78,6 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         UserWeixinDetail userWeixin = userWeixinMpMapper.detail(credentialDto.getOpenid());
         // 如果微信用户未创建, 新增基本信息, 并且提示注册
         if (userWeixin == null) {
-            String registerRemark = qrCodeService.getRegisterRemark(param.getT(), param.getQ(), param.getS());
             String randomCommonAvatar = userService.getRandomCommonAvatar();
             UserWeixinMpPo weixinPo = UserWeixinMpPo.builder()
                     .openId(credentialDto.getOpenid())
@@ -93,7 +91,6 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .recommendEid(param.getS())
                     .qcid(param.getQ())
                     .registerType(param.getT())
-                    .registerRemark(registerRemark)
                     .latestLoginTime(now)
                     .registerLongitude(param.getLongitude())
                     .registerLatitude(param.getLatitude())
@@ -106,15 +103,10 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             // 因为是首次注册，记录推荐绑定关系信息
             if (param.getT() != null) {
                 // 处理推荐分享、二维码分享关系绑定处理
-                BuildRelationParam registerEventNotify = BuildRelationParam.builder()
-                        .qcid(param.getQ())
-                        .qctp(param.getT())
-                        .recommendEid(param.getS())
-                        .eid(weixinPo.getEid())
-                        .etp(AppTypeEnum.WXMP)
-                        .build();
-                log.info("新用户注册绑定推荐关系:{}", JSON.toJSONString(registerEventNotify));
-                qrCodeService.buildRelation(registerEventNotify);
+                UserFirstTimeLoginEvent firstTimeLoginEvent = new UserFirstTimeLoginEvent(this,
+                        param.getQ(), param.getT(), weixinPo.getEid(), AppTypeEnum.WXMP, param.getS(), now);
+                log.info("微信新用户首次登录, 且存在推荐关系, 发布事件:{}", JSON.toJSONString(firstTimeLoginEvent));
+                SpringContextUtil.getContext().publishEvent(firstTimeLoginEvent);
             }
 
             sessionUser = SessionUser.builder()
@@ -204,10 +196,6 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             userLoginDtoR = registerHalfNewUser(param, phoneInfo, userBrief);
         }
 
-        // 首次注册，记录推荐绑定关系信息
-        // 处理推荐分享、二维码分享关系绑定处理
-        qrCodeService.registered(SessionUtil.getEid(), AppTypeEnum.WXMP);
-
         return userLoginDtoR;
     }
 
@@ -246,6 +234,11 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         if (update == 0) {
             throw InbyteException.failure("注册账号异常, 请重试看看");
         }
+
+        // 发布用户注册事件
+        UserRegisterEvent userRegisterEvent = new UserRegisterEvent(this,
+                register.getData(), sessionUser.getEid(), sessionUser.getAppType(), now);
+        SpringContextUtil.getContext().publishEvent(userRegisterEvent);
 
         // 用户 Session 信息
         sessionUser = SessionUser.builder()
@@ -303,6 +296,12 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
                 .build();
+
+        // 发布用户注册事件
+        UserRegisterEvent userRegisterEvent = new UserRegisterEvent(this,
+                userBrief.getUserId(), sessionUser.getEid(), sessionUser.getAppType(), now);
+        SpringContextUtil.getContext().publishEvent(userRegisterEvent);
+
         return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
     }
 
@@ -331,14 +330,12 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .build();
         userWeixinMpMapper.updateById(userWeixinMpPo);
 
-        qrCodeService.syncLocation(sessionUser.getEid(), AppTypeEnum.WXMP,
-                locationUpdate.getLongitude(), locationUpdate.getLatitude());
+        // 发布定位更新事件
+        UserLocationUpdateEvent locationUpdateEvent = new UserLocationUpdateEvent(this,
+                sessionUser.getUserId(), sessionUser.getEid(), sessionUser.getAppType(),
+                locationUpdate.getLongitude(), locationUpdate.getLatitude(), now);
+        SpringContextUtil.getContext().publishEvent(locationUpdateEvent);
 
-        userService.insertLocationSelective(sessionUser.getEid(),
-                sessionUser.getAppType(),
-                sessionUser.getUserId(),
-                locationUpdate.getLongitude(),
-                locationUpdate.getLatitude());
         return R.ok();
     }
 

@@ -2,8 +2,6 @@ package com.inbyte.component.app.user.weixin.mp.controller;
 
 import com.inbyte.commons.model.dto.BasePath;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.sign.framework.AppUtil;
-import com.inbyte.component.app.user.framework.SessionUtil;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ScanEventNotify;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ShareDto;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
@@ -70,8 +68,6 @@ public class WeixinMpQrCodeController {
      **/
     @PostMapping("qr-code/weixin/mini-program/scan-notify")
     public R scanCodeEventNotify(@RequestBody ScanEventNotify scanEventNotify) {
-        scanEventNotify.setEid(SessionUtil.getEid());
-        scanEventNotify.setEtp(AppUtil.getAppType());
         qrCodeService.viewed(scanEventNotify);
         return R.ok();
     }

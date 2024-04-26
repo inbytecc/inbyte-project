@@ -1,8 +1,7 @@
-package com.inbyte.component.app.user.weixin.mp.service.impl;
+package com.inbyte.component.app.user.weixin.mp.service;
 
 import com.inbyte.component.app.sign.framework.AppUtil;
 import com.inbyte.component.app.user.weixin.mp.SceneUtil;
-import com.inbyte.component.app.user.weixin.mp.service.WeixinMpLinkService;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePath;
 import com.inbyte.commons.model.dto.R;
