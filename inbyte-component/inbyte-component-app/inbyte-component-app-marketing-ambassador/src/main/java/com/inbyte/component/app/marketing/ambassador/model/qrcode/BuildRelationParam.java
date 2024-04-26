@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.weixin.mp.model.qrcode;
+package com.inbyte.component.app.marketing.ambassador.model.qrcode;
 
 import com.inbyte.commons.model.dict.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;

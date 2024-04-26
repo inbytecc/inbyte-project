@@ -1,7 +1,7 @@
-package com.inbyte.component.app.user.weixin.mp.dao;
+package com.inbyte.component.app.marketing.ambassador.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.user.weixin.mp.model.qrcode.QrcodeMerchantPo;
+import com.inbyte.component.app.marketing.ambassador.model.qrcode.QrcodeMerchantPo;
 
 /**
  * 商户二维码

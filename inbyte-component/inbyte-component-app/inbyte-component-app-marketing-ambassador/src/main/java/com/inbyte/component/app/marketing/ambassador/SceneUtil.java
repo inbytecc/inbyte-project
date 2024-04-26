@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.weixin.mp;
+package com.inbyte.component.app.marketing.ambassador;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.inbyte.commons.util.StringUtil;

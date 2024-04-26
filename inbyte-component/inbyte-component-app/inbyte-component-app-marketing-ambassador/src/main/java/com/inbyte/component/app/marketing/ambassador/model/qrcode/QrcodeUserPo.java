@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.weixin.mp.model.qrcode;
+package com.inbyte.component.app.marketing.ambassador.model.qrcode;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

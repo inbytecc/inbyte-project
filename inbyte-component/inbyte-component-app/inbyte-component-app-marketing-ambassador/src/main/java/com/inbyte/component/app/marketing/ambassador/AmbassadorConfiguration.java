@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.weixin.mp;
+package com.inbyte.component.app.marketing.ambassador;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,5 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 @Configuration
 @MapperScan(basePackages = "com.inbyte.component.app.user.weixin.mp.dao")
-public class ComponentUserWeixinMpConfiguration {
+public class AmbassadorConfiguration {
 }

@@ -16,6 +16,7 @@
         <module>inbyte-component-app-aliyun-oss</module>
         <module>inbyte-component-app-user</module>
         <module>inbyte-component-app-sign</module>
+        <module>inbyte-component-app-marketing-ambassador</module>
         <module>inbyte-component-app-user-wallet</module>
         <module>inbyte-component-app-user-weixin-mp</module>
         <module>inbyte-component-app-order</module>
