@@ -9,7 +9,7 @@ package com.inbyte.commons.model.dict;
 public enum AppTypeEnum {
 
     /**
-     * 为什么这个命令有点不规范呢
+     * 为什么这个命名有点不规范呢
      * 别急
      * 微信小程序scene参数不能超过32个字符，为避免参数超长，分享基础参数尽量简短
      * 参考文档
@@ -17,10 +17,10 @@ public enum AppTypeEnum {
      */
 
     WXMP("微信小程序"),
-    ALMP("支付宝小程序"),
+    ALIMP("支付宝小程序"),
     DYMP("抖音小程序"),
     XHSMP("小红书小程序"),
-    AZ("安卓App"),
+    ANDROID("安卓App"),
     IOS("IOS App"),
     H5("H5"),
     ;

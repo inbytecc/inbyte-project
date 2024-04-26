@@ -83,6 +83,6 @@ public class AppUtil {
     }
 
     public static boolean isAlipayMp() {
-        return getAppInfo().getAppType() == AppTypeEnum.ALMP;
+        return getAppInfo().getAppType() == AppTypeEnum.ALIMP;
     }
 }
