@@ -1,10 +1,7 @@
 package com.inbyte.component.app.user.service;
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.user.model.*;
-
-import java.math.BigDecimal;
 
 
 /**
@@ -43,8 +40,6 @@ public interface UserService {
     UserBrief queryByTel(String tel);
 
     String getRandomCommonAvatar();
-
-    void insertLocationSelective(Integer eid, AppTypeEnum etp, Integer userId, BigDecimal longitude, BigDecimal latitude);
 
     R<UserLoginDto> register(UserRegisterParam param);
 

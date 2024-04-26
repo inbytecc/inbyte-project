@@ -8,9 +8,8 @@ import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.IdentityGenerator;
 import com.inbyte.commons.util.MD5Util;
-import com.inbyte.commons.util.SpringContextUtil;
 import com.inbyte.component.app.user.ComponentUserProperties;
-import com.inbyte.component.app.user.api.UserRegisterEvent;
+import com.inbyte.component.app.user.event.UserLocationUpdateEvent;
 import com.inbyte.component.app.user.dao.UserMapper;
 import com.inbyte.component.app.user.framework.SessionUser;
 import com.inbyte.component.app.user.framework.SessionUtil;
@@ -21,13 +20,12 @@ import com.inbyte.component.common.email.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -190,22 +188,7 @@ public class UserServiceImpl implements UserService {
             return R.failure("用户注册失败, 请重试一下");
         }
 
-        registerEventInvoke(userPo.getUserId());
-
         return R.ok("注册成功", userPo.getUserId());
-    }
-
-    /**
-     * 用户登录事件回调
-     *
-     * @param userId
-     */
-    private void registerEventInvoke(Integer userId) {
-        Map<String, UserRegisterEvent> userRegisterEventMap = SpringContextUtil.getContext().getBeansOfType(UserRegisterEvent.class);
-        Iterator<UserRegisterEvent> iterator = userRegisterEventMap.values().iterator();
-        while (iterator.hasNext()) {
-            iterator.next().register(userId);
-        }
     }
 
     @Override
@@ -219,19 +202,6 @@ public class UserServiceImpl implements UserService {
             return componentUserProperties.getAvatars().get(new Random().nextInt(componentUserProperties.getAvatars().size()));
         }
         return defaultAvatar;
-    }
-
-    @Override
-    public void insertLocationSelective(Integer eid, AppTypeEnum appType, Integer userId, BigDecimal longitude, BigDecimal latitude) {
-        UserLocationPo locationPo = UserLocationPo.builder()
-                .appType(appType)
-                .eid(eid)
-                .userId(userId)
-                .longitude(longitude)
-                .latitude(latitude)
-                .createTime(LocalDateTime.now())
-                .build();
-        userMapper.insertLocationSelective(locationPo);
     }
 
     @Override
@@ -286,7 +256,7 @@ public class UserServiceImpl implements UserService {
         return R.ok("验证码发送成功");
     }
 
-    private void sendEmailVerifyCode( String email, String title, String content) {
+    private void sendEmailVerifyCode(String email, String title, String content) {
         // 随机生成验证码
         String verifyCode = IdentityGenerator.generateRandomDigitalCode();
         cacheManager.put(email + "-" + verifyCode);
@@ -297,5 +267,25 @@ public class UserServiceImpl implements UserService {
 
     private boolean verifyCode(String email, String verifyCode) {
         return cacheManager.containsKey(email + "-" + verifyCode);
+    }
+
+    /**
+     * 监听用户定位更新事件
+     *
+     * @param event
+     */
+    @Async
+    @EventListener
+    public void onUserLocationUpdateEvent(UserLocationUpdateEvent event) {
+        log.info("用户服务监听到定位更新事件,event：{}", event);
+        UserLocationPo locationPo = UserLocationPo.builder()
+                .appType(event.getAppType())
+                .eid(event.getEid())
+                .userId(event.getUserId())
+                .longitude(event.getLongitude())
+                .latitude(event.getLatitude())
+                .createTime(event.getUpdateTime())
+                .build();
+        userMapper.insertLocationSelective(locationPo);
     }
 }
