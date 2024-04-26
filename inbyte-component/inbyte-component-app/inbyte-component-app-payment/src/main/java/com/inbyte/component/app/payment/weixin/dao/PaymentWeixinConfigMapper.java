@@ -1,20 +1,15 @@
 package com.inbyte.component.app.payment.weixin.dao;
 
-import com.inbyte.component.app.payment.weixin.model.PaymentWeixinConfigBrief;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.inbyte.component.app.payment.weixin.model.PaymentWeixinConfigPo;
 
 /**
- * 微信支付
+ * 微信支付配置
  *
  * @author chenjw
  * @date 2022-11-21 14:19:14
  */
-public interface PaymentWeixinConfigMapper {
-
-    /**
-     * 查询支付配置信息
-     *
-     * @param weixinPaymentMerchantId
-     **/
-    PaymentWeixinConfigBrief brief(String weixinPaymentMerchantId);
+public interface PaymentWeixinConfigMapper extends BaseMapper<PaymentWeixinConfigPo> {
 
 }

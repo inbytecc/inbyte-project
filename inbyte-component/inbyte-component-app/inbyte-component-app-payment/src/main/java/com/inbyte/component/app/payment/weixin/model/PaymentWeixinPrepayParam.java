@@ -1,5 +1,6 @@
 package com.inbyte.component.app.payment.weixin.model;
 
+import com.inbyte.commons.model.dict.AppTypeEnum;
 import com.inbyte.commons.model.dict.OrderTypeEnum;
 import lombok.*;
 
@@ -22,6 +23,11 @@ public class PaymentWeixinPrepayParam {
      * 小程序ID
      */
     private String appId;
+
+    /**
+     * 应用类型
+     */
+    private AppTypeEnum appType;
 
     /**
      * 微信支付商户ID
