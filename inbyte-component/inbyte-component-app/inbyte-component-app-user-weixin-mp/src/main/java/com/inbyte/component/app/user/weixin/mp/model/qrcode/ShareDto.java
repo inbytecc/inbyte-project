@@ -1,4 +1,4 @@
-package com.inbyte.component.app.marketing.ambassador.model.qrcode;
+package com.inbyte.component.app.user.weixin.mp.model.qrcode;
 
 import lombok.Getter;
 import lombok.Setter;
