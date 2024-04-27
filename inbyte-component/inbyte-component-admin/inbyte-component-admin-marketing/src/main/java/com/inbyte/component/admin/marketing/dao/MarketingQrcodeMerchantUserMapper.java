@@ -19,7 +19,7 @@ import java.util.List;
  * @author chenjw
  * @date 2023-04-04 16:39:21
  */
-public interface QrcodeMerchantUserMapper extends BaseMapper<QrcodeMerchantUserPo> {
+public interface MarketingQrcodeMerchantUserMapper extends BaseMapper<QrcodeMerchantUserPo> {
 
     /**
      * 详情

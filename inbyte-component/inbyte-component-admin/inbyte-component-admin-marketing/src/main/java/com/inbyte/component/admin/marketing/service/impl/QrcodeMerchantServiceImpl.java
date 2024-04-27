@@ -3,8 +3,8 @@ package com.inbyte.component.admin.marketing.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.inbyte.component.admin.marketing.dao.QrcodeMerchantMapper;
-import com.inbyte.component.admin.marketing.dao.QrcodeMerchantUserMapper;
+import com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantMapper;
+import com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantUserMapper;
 import com.inbyte.component.admin.marketing.model.UserLocationBrief;
 import com.inbyte.component.admin.marketing.model.UserTrendBrief;
 import com.inbyte.component.admin.marketing.model.qrcode.*;
@@ -40,9 +40,9 @@ import java.util.List;
 public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
     @Autowired
-    private QrcodeMerchantMapper qrcodeMerchantMapper;
+    private MarketingQrcodeMerchantMapper marketingQrcodeMerchantMapper;
     @Autowired
-    private QrcodeMerchantUserMapper qrcodeMerchantUserMapper;
+    private MarketingQrcodeMerchantUserMapper marketingQrcodeMerchantUserMapper;
     @Autowired
     private WxMpQrCodeClient wxMpQrCodeClient;
     @Autowired
@@ -63,7 +63,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
                 .creator(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(insert, qrcodeMerchantPo);
-        qrcodeMerchantMapper.insert(qrcodeMerchantPo);
+        marketingQrcodeMerchantMapper.insert(qrcodeMerchantPo);
 
         String scene = "q=" + qrcodeMerchantPo.getQcid() +
                 "&t=" + UserSourceTypeDict.Merchant_Share.code +
@@ -76,7 +76,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(QrcodeMerchantPo::getQcid, qrcodeMerchantPo.getQcid());
         updateWrapper.set(QrcodeMerchantPo::getScene, scene);
-        qrcodeMerchantMapper.update(null, updateWrapper);
+        marketingQrcodeMerchantMapper.update(null, updateWrapper);
 
         return R.ok("新增成功");
     }
@@ -86,7 +86,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         LambdaQueryWrapper<QrcodeMerchantPo> queryWrapper = new QueryWrapper<QrcodeMerchantPo>().lambda();
         queryWrapper.eq(QrcodeMerchantPo::getQcid, qcid);
         queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
-        qrcodeMerchantMapper.delete(queryWrapper);
+        marketingQrcodeMerchantMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
 
@@ -100,13 +100,13 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         LambdaQueryWrapper<QrcodeMerchantPo> queryWrapper = new LambdaQueryWrapper<QrcodeMerchantPo>();
         queryWrapper.eq(QrcodeMerchantPo::getQcid, update.getQcid());
         queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
-        qrcodeMerchantMapper.update(qrcodeMerchantPo, queryWrapper);
+        marketingQrcodeMerchantMapper.update(qrcodeMerchantPo, queryWrapper);
         return R.ok("修改成功");
     }
 
     @Override
     public R<QrcodeMerchantDetail> detail(Integer qcid) {
-        return R.ok(qrcodeMerchantMapper.detail(qcid));
+        return R.ok(marketingQrcodeMerchantMapper.detail(qcid));
     }
 
     @Override
@@ -116,22 +116,22 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         }
         PageUtil.startPage(query);
         query.setMctNo(SessionUtil.getMctNo());
-        return R.page(qrcodeMerchantMapper.list(query));
+        return R.page(marketingQrcodeMerchantMapper.list(query));
     }
 
     @Override
     public R<List<UserLocationBrief>> userDistribution(Integer qcid) {
-        return R.ok(qrcodeMerchantUserMapper.userDistribution(qcid));
+        return R.ok(marketingQrcodeMerchantUserMapper.userDistribution(qcid));
     }
 
     @Override
     public R<List<UserTrendBrief>> userTrend(QrcodeMerchantUserTrendQuery query) {
-        return R.ok(qrcodeMerchantUserMapper.userTrend(query));
+        return R.ok(marketingQrcodeMerchantUserMapper.userTrend(query));
     }
 
     @Override
     public R<String> downloadQrCode(QrCodeDownloadParam param) {
-        QrcodeMerchantDetail detail = qrcodeMerchantMapper.detail(param.getQcid());
+        QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(param.getQcid());
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
@@ -144,7 +144,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
     @Override
     public R<String> getScheme(Integer qcid) {
-        QrcodeMerchantDetail detail = qrcodeMerchantMapper.detail(qcid);
+        QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(qcid);
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
@@ -153,7 +153,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
     @Override
     public R<String> getUrlLink(Integer qcid) {
-        QrcodeMerchantDetail detail = qrcodeMerchantMapper.detail(qcid);
+        QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(qcid);
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
@@ -162,7 +162,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
     @Override
     public R<String> getShortLink(Integer qcid) {
-        QrcodeMerchantDetail detail = qrcodeMerchantMapper.detail(qcid);
+        QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(qcid);
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }

@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.marketing.service.impl;
 
-import com.inbyte.component.admin.marketing.dao.QrcodeMerchantUserMapper;
+import com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantUserMapper;
 import com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserBrief;
 import com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserDetail;
 import com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserQuery;
@@ -22,11 +22,11 @@ import org.springframework.stereotype.Service;
 public class QrcodeMerchantUserServiceImpl implements QrcodeMerchantUserService {
 
     @Autowired
-    private QrcodeMerchantUserMapper qrcodeMerchantUserMapper;
+    private MarketingQrcodeMerchantUserMapper marketingQrcodeMerchantUserMapper;
 
     @Override
     public R<QrcodeMerchantUserDetail> detail(Integer qmUserId) {
-        return R.ok(qrcodeMerchantUserMapper.detail(qmUserId));
+        return R.ok(marketingQrcodeMerchantUserMapper.detail(qmUserId));
     }
 
     @Override
@@ -36,6 +36,6 @@ public class QrcodeMerchantUserServiceImpl implements QrcodeMerchantUserService 
         }
         PageUtil.startPage(query);
         query.setMctNo(SessionUtil.getMctNo());
-        return R.page(qrcodeMerchantUserMapper.list(query));
+        return R.page(marketingQrcodeMerchantUserMapper.list(query));
     }
 }

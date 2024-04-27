@@ -129,7 +129,7 @@
 
     <select id="userTrend" resultType="com.inbyte.component.admin.user.model.mp.UserTrendBrief">
         SELECT DATE_FORMAT(create_time,'%Y-%m-%d') `date`,
-               count(openId) `count`
+               count(open_id) `count`
           FROM user_weixin_mp
          WHERE deleted = 0
         <if test="startDate != null">

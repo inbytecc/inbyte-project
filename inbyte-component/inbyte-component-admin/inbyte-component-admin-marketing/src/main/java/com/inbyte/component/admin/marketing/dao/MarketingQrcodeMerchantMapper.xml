@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inbyte.component.admin.marketing.dao.QrcodeMerchantMapper">
+<mapper namespace="com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantMapper">
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.qrcode.QrcodeMerchantDetail">
         SELECT qcid,
@@ -21,7 +21,7 @@
                create_time,
                creator,
                update_time
-          FROM qrcode_merchant
+          FROM marketing_qrcode_merchant
          WHERE qcid = #{qcid, jdbcType=INTEGER}
     </select>
 
@@ -44,7 +44,7 @@
                latitude,
                create_time,
                update_time
-          FROM qrcode_merchant
+          FROM marketing_qrcode_merchant
          WHERE deleted = 0
            AND mct_no = #{mctNo}
         <if test="startDate != null">

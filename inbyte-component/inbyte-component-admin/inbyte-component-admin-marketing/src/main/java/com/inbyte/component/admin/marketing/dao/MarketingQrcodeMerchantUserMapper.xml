@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inbyte.component.admin.marketing.dao.QrcodeMerchantUserMapper">
+<mapper namespace="com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantUserMapper">
 
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.qrcode.user.QrcodeMerchantUserDetail">
         SELECT qm_user_id,
@@ -10,7 +10,7 @@
                longitude,
                latitude,
                create_time
-          FROM qrcode_merchant_user
+          FROM marketing_qrcode_merchant_user
          WHERE qm_user_id = #{qmUserId, jdbcType=INTEGER}
     </select>
 
@@ -26,7 +26,7 @@
                qmr.trade_amount,
                qmr.create_time,
                uw.nickname
-          FROM qrcode_merchant_user qmr
+          FROM marketing_qrcode_merchant_user qmr
           LEFT JOIN user_weixin_mp uw
             ON qmr.eid = uw.eid
          WHERE deleted = 0
@@ -48,7 +48,7 @@
         SELECT longitude,
                latitude,
                count(1) AS `count`
-          FROM qrcode_merchant_user
+          FROM marketing_qrcode_merchant_user
          WHERE qcid = #{qcid}
          GROUP BY longitude,
                   latitude
@@ -57,7 +57,7 @@
     <select id="userTrend" resultType="com.inbyte.component.admin.marketing.model.UserTrendBrief">
         SELECT DATE_FORMAT(create_time,'%Y-%m-%d') `date`,
                count(1) `count`
-          FROM qrcode_merchant_user
+          FROM marketing_qrcode_merchant_user
          WHERE qcid = #{qcid}
         <if test="startDate != null">
            AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
