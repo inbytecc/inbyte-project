@@ -1,9 +1,8 @@
 package com.inbyte.component.admin.system.user.aspect;
 
-import com.inbyte.commons.model.dto.R;
-import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.admin.system.user.SessionUtil;
+import com.inbyte.component.admin.system.user.exception.SystemUserSessionUnavailableException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -45,7 +44,7 @@ public class SystemUserSessionCheckAspect {
     @Around("controllerMethod()")
     public Object around(ProceedingJoinPoint jointPoint) throws Throwable {
         if (!ignore() && !SessionUtil.logged()) {
-            return R.set(ResultStatus.Unauthorized);
+            throw new SystemUserSessionUnavailableException();
         }
         return jointPoint.proceed();
     }

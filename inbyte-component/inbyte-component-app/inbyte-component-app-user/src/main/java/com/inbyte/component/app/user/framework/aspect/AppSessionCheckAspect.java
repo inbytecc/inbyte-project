@@ -1,9 +1,8 @@
 package com.inbyte.component.app.user.framework.aspect;
 
 import com.alibaba.fastjson2.JSON;
-import com.inbyte.commons.model.dto.R;
-import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.component.app.user.framework.SessionUtil;
+import com.inbyte.component.app.user.framework.exception.AppUserSessionUnavailableException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,7 +32,7 @@ public class AppSessionCheckAspect {
     public Object around(ProceedingJoinPoint jointPoint) throws Throwable {
         if (!SessionUtil.logged()) {
             log.info("未注册登录用户拦截:{}", JSON.toJSONString(SessionUtil.getSessionUser()));
-            return R.set(ResultStatus.Unregistered);
+            throw new AppUserSessionUnavailableException();
         }
         return jointPoint.proceed();
     }
