@@ -47,4 +47,9 @@ public class RefundCommonApplyParam implements Serializable {
      */
     private String refundReason;
 
+    /**
+     * 应用服务地址
+     */
+    private String appServer;
+
 }

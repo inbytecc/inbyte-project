@@ -10,6 +10,7 @@ import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
 import com.inbyte.commons.util.IdentityGenerator;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
 import com.inbyte.component.app.payment.common.model.RefundSuccessNotifyParam;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper;
@@ -106,37 +107,44 @@ public class PaymentWeixinMerchantService {
      * <p>
      * 微信预付单接口文档：https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_1.shtml
      *
-     * @param prepaidOrderParam
+     * @param prepayParam
      * @return
      */
-    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepaidOrderParam) {
-        JsapiService service = getJsApiService(prepaidOrderParam.getWeixinPaymentMerchantId());
+    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepayParam) {
+        JsapiService service = getJsApiService(prepayParam.getWeixinPaymentMerchantId());
+
+        String notifyUrl;
+        if (StringUtil.isEmpty(prepayParam.getAppServer())) {
+            notifyUrl = String.format(appServer + "/api/payment/weixin/%s/notify/payment-success", prepayParam.getWeixinPaymentMerchantId());
+        } else {
+            notifyUrl = String.format(prepayParam.getAppServer() + "/api/payment/weixin/%s/notify/payment-success", prepayParam.getWeixinPaymentMerchantId());
+        }
 
         // 订单描述
-        String orderDesc = prepaidOrderParam.getOrderBrief().length() >= 32 ? prepaidOrderParam.getOrderBrief().substring(0, 32) : prepaidOrderParam.getOrderBrief();
+        String orderDesc = prepayParam.getOrderBrief().length() >= 32 ? prepayParam.getOrderBrief().substring(0, 32) : prepayParam.getOrderBrief();
         PrepayRequest request = new PrepayRequest();
         Amount amount = new Amount();
-        amount.setTotal(prepaidOrderParam.getPaymentAmount().multiply(BigDecimal.valueOf(100)).intValue());
+        amount.setTotal(prepayParam.getPaymentAmount().multiply(BigDecimal.valueOf(100)).intValue());
         request.setAmount(amount);
-        request.setAppid(prepaidOrderParam.getAppId());
-        request.setMchid(prepaidOrderParam.getWeixinPaymentMerchantId());
+        request.setAppid(prepayParam.getAppId());
+        request.setMchid(prepayParam.getWeixinPaymentMerchantId());
         request.setDescription(orderDesc);
-        request.setNotifyUrl(String.format(appServer + "/api/payment/weixin/%s/notify/payment-success", prepaidOrderParam.getWeixinPaymentMerchantId()));
-        request.setOutTradeNo(prepaidOrderParam.getOrderNo());
+        request.setNotifyUrl(notifyUrl);
+        request.setOutTradeNo(prepayParam.getOrderNo());
         Payer payer = new Payer();
-        payer.setOpenid(prepaidOrderParam.getOpenId());
+        payer.setOpenid(prepayParam.getOpenId());
         request.setPayer(payer);
         // 获取微信预支付ID
         try {
             PrepayResponse response = service.prepay(request);
-            return requestPayment(prepaidOrderParam, response.getPrepayId());
+            return requestPayment(prepayParam, response.getPrepayId());
         } catch (ServiceException e) {
             if ("ORDERPAID".equals(e.getErrorCode())) {
                 return R.failure("该订单已支付, 请稍等片刻订单状态将恢复正常");
             }
 
-            log.warn("生成微信支付异常, 支付拉起参数{}, 异常信息:{}", JSON.toJSONString(prepaidOrderParam), e);
-            alarmSystemClient.alert("支付服务异常", JSON.toJSONString(prepaidOrderParam)
+            log.warn("生成微信支付异常, 支付拉起参数{}, 异常信息:{}", JSON.toJSONString(prepayParam), e);
+            alarmSystemClient.alert("支付服务异常", JSON.toJSONString(prepayParam)
                     + "异常信息:" + Throwables.getStackTraceAsString(e));
             if ("APPID_MCHID_NOT_MATCH".equals(e.getErrorCode())) {
                 return R.failure("服务器支付服务维护中, 请稍后 1 分钟重试");
@@ -282,6 +290,13 @@ public class PaymentWeixinMerchantService {
             return R.failure("退款申请金额不能大于支付金额");
         }
 
+        String notifyUrl;
+        if (StringUtil.isEmpty(param.getAppServer())) {
+            notifyUrl = String.format(appServer + "/api/payment/weixin/%s/notify/refund-success", paymentInfoBrief.getWeixinPaymentMerchantId());
+        } else {
+            notifyUrl = String.format(param.getAppServer() + "/api/payment/weixin/%s/notify/refund-success", paymentInfoBrief.getWeixinPaymentMerchantId());
+        }
+
         String refundNo = IdentityGenerator.generateRefundNo();
         long refundAmount = param.getRefundAmount().multiply(new BigDecimal(100)).longValue();
         CreateRequest request = new CreateRequest();
@@ -290,7 +305,7 @@ public class PaymentWeixinMerchantService {
         amountReq.setCurrency("CNY");
         amountReq.setTotal(refundAmount);
         request.setAmount(amountReq);
-        request.setNotifyUrl(String.format(appServer + "/api/payment/weixin/%s/notify/refund-success", paymentInfoBrief.getWeixinPaymentMerchantId()));
+        request.setNotifyUrl(notifyUrl);
         request.setOutTradeNo(param.getOrderNo());
         request.setOutRefundNo(refundNo);
         request.setReason(param.getRefundReason());

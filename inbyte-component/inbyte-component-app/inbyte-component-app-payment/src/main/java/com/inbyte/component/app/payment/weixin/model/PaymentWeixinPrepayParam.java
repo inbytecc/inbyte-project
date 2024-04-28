@@ -30,6 +30,11 @@ public class PaymentWeixinPrepayParam {
     private AppTypeEnum appType;
 
     /**
+     * 应用服务地址
+     */
+    private String appServer;
+
+    /**
      * 微信支付商户ID
      */
     private String weixinPaymentMerchantId;
