@@ -2,10 +2,14 @@ package com.inbyte.component.app.order.controller;
 
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.order.model.PaymentAlipayPrepayDto;
+import com.inbyte.component.app.order.model.refund.RefundApplyParam;
 import com.inbyte.component.app.payment.weixin.model.PaymentWeixinPrepayDto;
 import com.inbyte.component.app.user.framework.aspect.Logged;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface OrderControllerCommonApi {
 
@@ -47,5 +51,14 @@ public interface OrderControllerCommonApi {
     @Logged
     @GetMapping("{orderNo}/payment/alipay/prepay")
     R<PaymentAlipayPrepayDto> alipayPrepay(@PathVariable("orderNo") String orderNo);
+
+    /**
+     * 申请退款
+     *
+     * @param refundApplyParam
+     * @return
+     */
+    @PostMapping("refund-apply")
+    R refundApply(@RequestBody @Valid RefundApplyParam refundApplyParam);
 
 }

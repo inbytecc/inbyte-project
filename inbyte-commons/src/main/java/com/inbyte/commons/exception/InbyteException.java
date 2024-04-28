@@ -56,4 +56,8 @@ public class InbyteException extends RuntimeException {
     public static InbyteException error(String msg) {
         return new InbyteException(R.error(msg));
     }
+
+    public static InbyteException valueOf(R r) {
+        return new InbyteException(r);
+    }
 }

@@ -33,12 +33,10 @@ public class RefundApplyParam implements Serializable {
     /**
      * 退款金额
      */
-//    @NotNull(message = "退款金额不能为空")
     private BigDecimal refundAmount;
 
     /**
      * 退款原因
      */
-//    @NotBlank(message = "退款原因不能为空")
     private String refundReason;
 }
