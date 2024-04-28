@@ -68,6 +68,7 @@ public class OrderCenterServiceImpl implements OrderCenterService {
         return orderCenterMapper.list(orderQuery);
     }
 
+    @Override
     public R orderStatusSync(Integer userId, String orderNo, OrderStatusEnum orderStatus) {
         LambdaUpdateWrapper<OrderCenterPo> updateWrapper = new LambdaUpdateWrapper<OrderCenterPo>()
                 .eq(OrderCenterPo::getOrderNo, orderNo)
