@@ -1,14 +1,13 @@
 package com.inbyte.component.app.order.service.impl;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.inbyte.commons.model.dict.AppTypeEnum;
-import com.inbyte.commons.model.dict.OrderTypeEnum;
+import com.inbyte.commons.model.dict.OrderStatusEnum;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.util.Assert;
 import com.inbyte.commons.util.PageUtil;
 import com.inbyte.component.app.order.dao.OrderCenterMapper;
-import com.inbyte.commons.model.dict.OrderStatusEnum;
 import com.inbyte.component.app.order.model.OrderCenterBrief;
+import com.inbyte.component.app.order.model.OrderCenterCreate;
 import com.inbyte.component.app.order.model.OrderCenterPo;
 import com.inbyte.component.app.order.model.OrderQuery;
 import com.inbyte.component.app.order.service.OrderCenterService;
@@ -17,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,32 +27,31 @@ public class OrderCenterServiceImpl implements OrderCenterService {
     private OrderCenterMapper orderCenterMapper;
 
     @Override
-    public R create(Integer userId, String nickname, String avatar, String tel, String mainPhoto,
-                    String orderNo, String orderTitle, String orderBrief, OrderTypeEnum orderType, JSONObject extent,
-                    BigDecimal orderAmount, BigDecimal payableAmount,
-                    String venueId, String venueName, String mctNo, String appId, AppTypeEnum appType) {
+    public R create(OrderCenterCreate orderCenterCreate) {
+        Assert.ok(orderCenterCreate);
+
         OrderCenterPo order = OrderCenterPo.builder()
-                .userId(userId)
-                .nickname(nickname)
-                .avatar(avatar)
-                .tel(tel)
-                .mainPhoto(mainPhoto)
+                .userId(orderCenterCreate.getUserId())
+                .nickname(orderCenterCreate.getNickname())
+                .avatar(orderCenterCreate.getAvatar())
+                .tel(orderCenterCreate.getTel())
+                .mainPhoto(orderCenterCreate.getMainPhoto())
 
-                .orderNo(orderNo)
-                .orderTitle(orderTitle)
-                .orderBrief(orderBrief)
-                .orderType(orderType)
+                .orderNo(orderCenterCreate.getOrderNo())
+                .orderTitle(orderCenterCreate.getOrderTitle())
+                .orderBrief(orderCenterCreate.getOrderBrief())
+                .orderType(orderCenterCreate.getOrderType())
                 .orderStatus(OrderStatusEnum.WAIT_PAY)
-                .extent(extent)
+                .extent(orderCenterCreate.getExtent())
 
-                .orderAmount(orderAmount)
-                .payableAmount(payableAmount)
+                .orderAmount(orderCenterCreate.getOrderAmount())
+                .payableAmount(orderCenterCreate.getPayableAmount())
 
-                .venueId(venueId)
-                .venueName(venueName)
-                .mctNo(mctNo)
-                .appId(appId)
-                .appType(appType)
+                .venueId(orderCenterCreate.getVenueId())
+                .venueName(orderCenterCreate.getVenueName())
+                .mctNo(orderCenterCreate.getMctNo())
+                .appId(orderCenterCreate.getAppId())
+                .appType(orderCenterCreate.getAppType())
                 .createTime(LocalDateTime.now())
                 .build();
         orderCenterMapper.insert(order);

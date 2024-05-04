@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 @TableName("order_center")
 public class OrderCenterPo {
 
-
     /**
       * 订单编号
       */

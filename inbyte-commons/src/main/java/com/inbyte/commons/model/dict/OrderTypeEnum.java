@@ -13,9 +13,9 @@ public enum OrderTypeEnum {
 
     CARD_BALANCE("CDB", "储值卡充值", "15m"),
     CARD_TIMES("CDT", "次卡充值", "15m"),
-    CARD_PERIOD("CDP", "长包卡充值", "15m"),
+    CARD_PERIOD("CDP", "期间卡", "15m"),
 
-    GOODS("", "商品订单", "15m")
+    GOODS("GDS", "商品订单", "15m")
     ;
 
     public final String code;
