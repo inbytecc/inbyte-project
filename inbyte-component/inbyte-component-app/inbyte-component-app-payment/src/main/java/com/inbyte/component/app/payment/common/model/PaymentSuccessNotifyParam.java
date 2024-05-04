@@ -42,7 +42,7 @@ public class PaymentSuccessNotifyParam {
      */
     private PaymentTypeEnum paymentType;
     /**
-     * 交易金额
+     * 支付金额
      */
     private BigDecimal paymentAmount;
     /**

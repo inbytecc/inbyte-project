@@ -34,12 +34,11 @@ public enum OrderStatusEnum {
     /**
      * 订单状态已成交
      *
-     * @param status
      * @return
      */
-    public static boolean paid(OrderStatusEnum status) {
-        return status == PAID ||
-                status == WAIT_CONSUME ||
-                status == WAIT_EVALUATE;
+    public boolean paid() {
+        return this == PAID ||
+                this == WAIT_CONSUME ||
+                this == WAIT_EVALUATE;
     }
 }
