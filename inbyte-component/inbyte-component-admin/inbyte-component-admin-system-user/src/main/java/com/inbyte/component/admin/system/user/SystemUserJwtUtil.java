@@ -24,7 +24,7 @@ public class SystemUserJwtUtil {
     private static final Logger log = LoggerFactory.getLogger(SystemUserJwtUtil.class);
 
     private static final String JWT_SECRET = "f0108f4a377615f3e2d7437cc5b17f58";
-    private static final String Default_Issuer = "pyrange-merchant";
+    private static final String Default_Issuer = "inbyte-merchant";
     private static final String Audience = "audience";
     private static final String Bearer = "Bearer ";
 
@@ -76,7 +76,7 @@ public class SystemUserJwtUtil {
         } catch (JWTVerificationException e) {
             // 这里只做验证, 不抛异常也不做进一步记录
             // 因为日志拦截记录需要, 而使用时不影响业务
-            log.warn("MS JWT Token签名验证异常", e);
+            log.warn("MS JWT Token签名验证异常");
             return null;
         }
     }
