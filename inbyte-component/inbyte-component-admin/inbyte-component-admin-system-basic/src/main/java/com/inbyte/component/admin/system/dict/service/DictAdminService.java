@@ -35,6 +35,7 @@ public class DictAdminService {
                 .mctNo(SessionUtil.getMctNo())
                 .build();
         BeanUtils.copyProperties(insert, dictPo);
+        dictPo.setCode(insert.getCode().toUpperCase());
         inbyteDictAdminMapper.insert(dictPo);
         return R.ok("新增成功");
     }
@@ -69,6 +70,7 @@ public class DictAdminService {
     }
 
     public R<List<DictBrief>> list(DictQuery query) {
+        query.setKeyword(query.getKeyword().toUpperCase());
         return R.ok(inbyteDictAdminMapper.list(query));
     }
 

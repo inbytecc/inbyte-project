@@ -61,8 +61,10 @@ public class DictItemService {
 
         DictItemPo dictItemPo = DictItemPo.builder()
                 .updateTime(LocalDateTime.now())
+                .modifier(SessionUtil.getUserName())
                 .build();
         BeanUtils.copyProperties(update, dictItemPo);
+        dictItemPo.setCode(update.getCode().toUpperCase());
 
         LambdaQueryWrapper<DictItemPo> queryWrapper = new LambdaQueryWrapper<DictItemPo>()
                 .eq(DictItemPo::getItemId, update.getItemId())

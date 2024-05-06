@@ -31,6 +31,9 @@ public class DictItemUpdate {
     /** 字典编码 */
     private String code;
 
+    /** 图标 */
+    private String icon;
+
     /** 名字 */
     @Length(max = 255, message = "名字长度不能超过255位")
     private String name;

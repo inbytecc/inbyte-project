@@ -27,7 +27,8 @@
           FROM inbyte_dict
          WHERE deleted = 0
         <if test="keyword != null and keyword != ''">
-            AND (name LIKE CONCAT('%', #{keyword}, '%')
+            AND (code LIKE CONCAT('%', #{keyword}, '%')
+            or name LIKE CONCAT('%', #{keyword}, '%')
             OR remark LIKE CONCAT('%', #{keyword}, '%'))
         </if>
          ORDER BY dict_id ASC
