@@ -104,6 +104,12 @@ public class ArithUtil {
         return BigDecimal.valueOf(multiplier).multiply(BigDecimal.valueOf(multiplicand))
                 .setScale(2, BigDecimal.ROUND_HALF_UP);
     }
+    public static BigDecimal multiply(Number multiplier, Number multiplicand) {
+        multiplier = multiplier == null ? 0 : multiplier;
+        multiplicand = multiplicand == null ? 0 : multiplicand;
+        return new BigDecimal(multiplier.toString()).multiply(new BigDecimal(multiplicand.toString()))
+                .setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
 
     public static double divide(Double divisor, Integer dividend) {
         divisor = divisor == null ? 0 : divisor;

@@ -65,4 +65,6 @@ public interface OrderServiceCommonApi {
 //    R<OrderRefundIndexDto> refundIndex(String orderNo);
 
     OrderTypeEnum getOrderType();
+
+    R queryPaymentStatus(String orderNo);
 }
