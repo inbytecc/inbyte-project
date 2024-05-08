@@ -15,7 +15,9 @@ public enum OrderTypeEnum {
     CARD_TIMES("CDT", "次卡充值", "15m"),
     CARD_PERIOD("CDP", "期间卡", "15m"),
 
-    GOODS("GDS", "商品订单", "15m")
+    GOODS("GDS", "商品订单", "15m"),
+
+    COUPON("CPN", "优惠券订单", "15m"),
     ;
 
     public final String code;
