@@ -22,6 +22,11 @@ public class ArithUtil {
      * @param summand
      * @return
      */
+    public static Integer add(Integer addend, Integer summand) {
+        addend = addend == null ? 0 : addend;
+        summand = summand == null ? 0 : summand;
+        return addend + summand;
+    }
     public static BigDecimal add(BigDecimal addend, BigDecimal summand) {
         addend = addend == null ? BigDecimal.ZERO : addend;
         summand = summand == null ? BigDecimal.ZERO : summand;
@@ -104,12 +109,6 @@ public class ArithUtil {
         return BigDecimal.valueOf(multiplier).multiply(BigDecimal.valueOf(multiplicand))
                 .setScale(2, BigDecimal.ROUND_HALF_UP);
     }
-    public static BigDecimal multiply(Number multiplier, Number multiplicand) {
-        multiplier = multiplier == null ? 0 : multiplier;
-        multiplicand = multiplicand == null ? 0 : multiplicand;
-        return new BigDecimal(multiplier.toString()).multiply(new BigDecimal(multiplicand.toString()))
-                .setScale(2, BigDecimal.ROUND_HALF_UP);
-    }
 
     public static double divide(Double divisor, Integer dividend) {
         divisor = divisor == null ? 0 : divisor;
@@ -139,6 +138,52 @@ public class ArithUtil {
         }
         return BigDecimal.valueOf(divisor)
                 .divide(BigDecimal.valueOf(dividend),
+                        2,
+                        BigDecimal.ROUND_HALF_UP);
+    }
+
+
+
+
+
+
+
+    public static BigDecimal add(Number addend, Number summand) {
+        addend = addend == null ? 0 : addend;
+        summand = summand == null ? 0 : summand;
+        return new BigDecimal(addend.toString()).add(new BigDecimal(summand.toString()))
+                .setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public static BigDecimal subtract(Number subtrahend, Number minuend) {
+        subtrahend = subtrahend == null ? 0 : subtrahend;
+        minuend = minuend == null ? 0 : minuend;
+        return new BigDecimal(subtrahend.toString()).subtract(new BigDecimal(minuend.toString()))
+                .setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public static BigDecimal multiply(Number multiplier, Number multiplicand) {
+        multiplier = multiplier == null ? 0 : multiplier;
+        multiplicand = multiplicand == null ? 0 : multiplicand;
+        return new BigDecimal(multiplier.toString()).multiply(new BigDecimal(multiplicand.toString()))
+                .setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    /**
+     * 除法运算
+     * 四舍五入，保留2位小数
+     *
+     * @param divisor
+     * @param dividend
+     * @return
+     */
+    public static BigDecimal divide(Number divisor, Number dividend) {
+        divisor = divisor == null ? 0 : divisor;
+        if (dividend == null) {
+            throw InbyteException.error("divisor can not be null or zero");
+        }
+        return new BigDecimal(divisor.toString())
+                .divide(new BigDecimal(dividend.toString()),
                         2,
                         BigDecimal.ROUND_HALF_UP);
     }
