@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingUserRefererMapper;
 import com.inbyte.component.app.marketing.ambassador.model.MarketingUserRefererPo;
-import com.inbyte.component.app.order.event.OrderPurchaseEvent;
+import com.inbyte.component.app.order.event.OrderPaidEvent;
 import com.inbyte.component.app.user.dict.UserSourceTypeDict;
 import com.inbyte.component.app.user.event.UserFirstTimeLoginEvent;
 import com.inbyte.component.app.user.event.UserRegisterEvent;
@@ -86,10 +86,10 @@ public class QrCodeUserService {
      */
     @Async
     @EventListener
-    public void onOrderPurchaseEvent(OrderPurchaseEvent event) {
+    public void onOrderPurchaseEvent(OrderPaidEvent event) {
         log.info("监听用户订单付款事件,event：{}", event);
         LambdaUpdateWrapper<MarketingUserRefererPo> update = new LambdaUpdateWrapper<MarketingUserRefererPo>()
-                .eq(MarketingUserRefererPo::getReferredEid, event.getEid())
+                .eq(MarketingUserRefererPo::getReferredUserId, event.getUserId())
                 .eq(MarketingUserRefererPo::getMctNo, event.getMctNo())
                 .eq(MarketingUserRefererPo::getAppType, event.getAppType())
                 .setSql("order_count = order_count + 1")

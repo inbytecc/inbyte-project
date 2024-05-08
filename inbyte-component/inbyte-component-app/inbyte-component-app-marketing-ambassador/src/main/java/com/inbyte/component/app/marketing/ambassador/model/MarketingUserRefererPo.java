@@ -41,7 +41,12 @@ public class MarketingUserRefererPo {
     private Integer introducerEid;
 
     /**
-     * 被推荐人
+     * 被推荐人ID
+     */
+    private Integer referredUserId;
+
+    /**
+     * 被推荐人外部ID
      */
     private Integer referredEid;
 

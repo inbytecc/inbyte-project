@@ -10,7 +10,7 @@ import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchant
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantUserMapper;
 import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantPo;
 import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantUserPo;
-import com.inbyte.component.app.order.event.OrderPurchaseEvent;
+import com.inbyte.component.app.order.event.OrderPaidEvent;
 import com.inbyte.component.app.user.dict.UserSourceTypeDict;
 import com.inbyte.component.app.user.event.UserFirstTimeLoginEvent;
 import com.inbyte.component.app.user.event.UserRegisterEvent;
@@ -136,10 +136,11 @@ public class QrCodeMerchantService {
      */
     @Async
     @EventListener
-    public void onOrderPurchaseEvent(OrderPurchaseEvent event) {
+    public void onOrderPurchaseEvent(OrderPaidEvent event) {
         log.info("监听用户订单付款事件,event：{}", event);
+        // TODO 有BUG以后处理 chenjw
         LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
-                .eq(MarketingQrcodeMerchantUserPo::getEid, event.getEid())
+                .eq(MarketingQrcodeMerchantUserPo::getQmUserId, event.getUserId())
                 .eq(MarketingQrcodeMerchantUserPo::getEtp, event.getAppType());
         MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = marketingQrcodeMerchantUserMapper.selectOne(queryWrapper);
         if (marketingQrcodeMerchantUserPo == null) {
