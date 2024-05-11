@@ -11,9 +11,9 @@ public enum OrderTypeEnum {
     CAMP_SITE("CMP", "营地订单", "15m"),
     TICKET("TKT", "门票订单", "15m"),
 
-    CARD_BALANCE("CDB", "储值卡充值", "15m"),
-    CARD_TIMES("CDT", "次卡充值", "15m"),
-    CARD_PERIOD("CDP", "期间卡", "15m"),
+    CARD_VALUE("CDV", "储值卡订单", "15m"),
+    CARD_TIMES("CDT", "计次卡订单", "15m"),
+    CARD_PERIOD("CDP", "期间卡订单", "15m"),
 
     GOODS("GDS", "商品订单", "15m"),
 
