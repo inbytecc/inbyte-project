@@ -22,7 +22,6 @@ public class BaseQuery {
      * 服务端参数，前端忽略
      * @ignore
      */
-    @JsonIgnore
     private String venueId;
     /**
      * 当前场馆ID
