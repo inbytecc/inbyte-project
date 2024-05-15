@@ -67,4 +67,5 @@ public interface OrderServiceCommonApi {
     OrderTypeEnum getOrderType();
 
     R queryPaymentStatus(String orderNo);
+
 }
