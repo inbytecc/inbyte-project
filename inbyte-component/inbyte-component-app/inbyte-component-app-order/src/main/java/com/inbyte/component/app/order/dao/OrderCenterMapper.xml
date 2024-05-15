@@ -13,7 +13,8 @@
                payable_amount,
                venue_id,
                venue_name,
-               main_photo
+               main_photo,
+               create_time
           FROM order_center
          WHERE deleted = 0
            AND user_id = #{userId}
