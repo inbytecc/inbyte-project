@@ -12,7 +12,8 @@ public enum PaymentTypeEnum {
     CASH_PAY("现金"),
     WEIXIN_PAY("微信支付"),
     ALI_PAY("支付宝"),
-    OTHER_PAY("其它");
+    OTHER_PAY("其它"),
+    NO_PAYMENT_REQUIRED("无需付款");
 
 
     public final String name;
