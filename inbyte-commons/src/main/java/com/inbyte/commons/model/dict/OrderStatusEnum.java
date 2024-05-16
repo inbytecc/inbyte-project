@@ -11,7 +11,7 @@ public enum OrderStatusEnum {
 
     WAIT_PAY("待付款"),
     PAID("已支付"),
-    WAIT_CONSUME("待使用"),
+    WAIT_USE("待使用"),
     WAIT_EVALUATE("待评价"),
     // 订单流程结束
     COMPLETE("订单完成"),
@@ -38,7 +38,7 @@ public enum OrderStatusEnum {
      */
     public boolean paid() {
         return this == PAID ||
-                this == WAIT_CONSUME ||
+                this == WAIT_USE ||
                 this == WAIT_EVALUATE;
     }
 }
