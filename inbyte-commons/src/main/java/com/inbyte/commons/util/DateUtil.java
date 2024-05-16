@@ -1,4 +1,4 @@
-package com.inbyte.commons.util.date;
+package com.inbyte.commons.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
