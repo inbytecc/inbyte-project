@@ -73,7 +73,9 @@ public class R<E> implements Serializable {
      * 请求结果失败
      */
     public boolean failed() {
-        return status != ResultStatus.Success.code;
+        return status != ResultStatus.Success.code &&
+                status != ResultStatus.Created.code &&
+                status != ResultStatus.Accepted.code;
     }
 
     /**
@@ -183,9 +185,11 @@ public class R<E> implements Serializable {
     public static <T> R<T> set(Integer status) {
         return new R(status, null, null);
     }
+
     public static <T> R<T> set(Integer status, String msg) {
         return new R(status, msg, null);
     }
+
     public static <T> R<T> set(Integer status, String msg, T data) {
         return new R(status, msg, data);
     }
