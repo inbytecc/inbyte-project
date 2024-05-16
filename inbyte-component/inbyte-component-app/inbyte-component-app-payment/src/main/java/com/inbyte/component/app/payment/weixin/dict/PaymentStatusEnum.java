@@ -11,7 +11,9 @@ public enum PaymentStatusEnum {
     WAIT_PAY("未支付"),
     PAID( "已支付"),
     REFUNDING( "退款处理中"),
-    REFUNDED("已退款");
+    REFUNDED("已退款"),
+    NO_PAYMENT_REQUIRED("无需付款")
+    ;
 
     public final String name;
 
