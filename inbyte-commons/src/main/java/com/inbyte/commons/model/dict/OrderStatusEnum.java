@@ -14,7 +14,7 @@ public enum OrderStatusEnum {
     WAIT_USE("待使用"),
     WAIT_EVALUATE("待评价"),
     // 订单流程结束
-    COMPLETE("订单完成"),
+    DONE("订单完成"),
     // 用户申请退款
     REFUND_APPLYING("申请退款中"),
     REFUND_REFUSED("商家拒绝退款"),
@@ -39,6 +39,7 @@ public enum OrderStatusEnum {
     public boolean paid() {
         return this == PAID ||
                 this == WAIT_USE ||
-                this == WAIT_EVALUATE;
+                this == WAIT_EVALUATE ||
+                this == DONE;
     }
 }
