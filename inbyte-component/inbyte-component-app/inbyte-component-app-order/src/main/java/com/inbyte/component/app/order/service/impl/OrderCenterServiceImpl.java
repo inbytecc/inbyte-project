@@ -1,6 +1,7 @@
 package com.inbyte.component.app.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.OrderStatusEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.Assert;
@@ -71,7 +72,10 @@ public class OrderCenterServiceImpl implements OrderCenterService {
                 .eq(OrderCenterPo::getOrderNo, orderNo)
                 .eq(OrderCenterPo::getUserId, userId)
                 .set(OrderCenterPo::getOrderStatus, orderStatus);
-        orderCenterMapper.update(updateWrapper);
+        int update = orderCenterMapper.update(updateWrapper);
+        if (update == 0) {
+            throw InbyteException.error("同步订单状态异常");
+        }
         return R.ok();
     }
 
