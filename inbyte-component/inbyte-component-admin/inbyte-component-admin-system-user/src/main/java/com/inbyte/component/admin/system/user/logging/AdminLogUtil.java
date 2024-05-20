@@ -1,18 +1,19 @@
 package com.inbyte.component.admin.system.user.logging;
 
 import com.alibaba.fastjson2.JSON;
+import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.IpUtil;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.admin.system.user.SessionUser;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -128,7 +129,12 @@ public class AdminLogUtil {
      * @param returnValue
      */
     public static void AfterReturning(Object returnValue) {
-        String jsonString = JSON.toJSONString(returnValue);
+        String jsonString;
+        if (returnValue instanceof R) {
+            jsonString = returnValue.toString();
+        } else {
+            jsonString = JSON.toJSONString(returnValue);
+        }
         if (jsonString.length() > 512) {
             jsonString = jsonString.substring(0, 512);
         }
