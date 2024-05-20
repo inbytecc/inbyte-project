@@ -35,11 +35,6 @@ public class PaymentWeixinPrepayParam {
     private String appServer;
 
     /**
-     * 微信支付商户ID
-     */
-    private String weixinPaymentMerchantId;
-
-    /**
      * 订单用户ID
      */
     private Integer userId;

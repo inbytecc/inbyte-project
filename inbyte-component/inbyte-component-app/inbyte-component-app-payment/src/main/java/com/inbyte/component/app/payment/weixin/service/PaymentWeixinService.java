@@ -1,9 +1,13 @@
 package com.inbyte.component.app.payment.weixin.service;
 
+import com.inbyte.commons.exception.InbyteException;
+import com.inbyte.commons.model.dict.OrderTypeEnum;
 import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
 import com.inbyte.component.app.payment.common.model.RefundSuccessNotifyParam;
+import com.inbyte.component.app.payment.weixin.dao.PaymentVenueMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.model.*;
@@ -11,6 +15,8 @@ import com.wechat.pay.java.service.refund.model.Refund;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 微信支付服务
@@ -32,6 +38,10 @@ public class PaymentWeixinService {
     @Autowired
     private PaymentWeixinPartnerService paymentWeixinPartnerService;
 
+    @Autowired
+    private PaymentVenueMapper paymentVenueMapper;
+
+
     /**
      * 发起预付单
      * <p>
@@ -41,17 +51,18 @@ public class PaymentWeixinService {
      * @return
      */
     public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepaidOrderParam) {
-        PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(prepaidOrderParam.getWeixinPaymentMerchantId());
+        String weixinPaymentId = getWeixinPaymentId(prepaidOrderParam.getVenueId(), prepaidOrderParam.getOrderType());
+        PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(weixinPaymentId);
         if (paymentWeixinConfigPo == null) {
             return R.failure("商户未配置收款信息, 暂不支持在线支付");
         }
 
         // 服务商支付模式
         if (paymentWeixinConfigPo.getPartnerPay() == Whether.Yes) {
-            return paymentWeixinPartnerService.prepayOrder(prepaidOrderParam);
+            return paymentWeixinPartnerService.prepayOrder(prepaidOrderParam, weixinPaymentId);
         }
         // 商户支付模式
-        return paymentWeixinMerchantService.prepayOrder(prepaidOrderParam);
+        return paymentWeixinMerchantService.prepayOrder(prepaidOrderParam, weixinPaymentId);
     }
 
     public R close(String orderNo) {
@@ -140,4 +151,31 @@ public class PaymentWeixinService {
         return paymentWeixinMerchantService.refundSuccessVerify(param);
     }
 
+    /**
+     * 获取微信支付配置信息
+     *
+     * @param venueId
+     * @param orderType
+     * @return
+     */
+    private String getWeixinPaymentId(String venueId, OrderTypeEnum orderType) {
+        PaymentVenuePo paymentVenuePo = paymentVenueMapper.selectById(venueId);
+        if (paymentVenuePo == null) {
+            throw InbyteException.error("该商户未配置微信支付");
+        }
+
+        String paymentMctId = paymentVenuePo.getWeixinPaymentId();
+        Optional<PaymentConfigItem> paymentConfigItem = paymentVenuePo.getAliOrderPaymentConfig().stream()
+                .filter(paymentConfig -> paymentConfig.getOrderType().equals(orderType))
+                .findFirst();
+        if (paymentConfigItem.isPresent()) {
+            paymentMctId = paymentConfigItem.get().getPaymentMctId();
+        }
+
+        if (StringUtil.isEmpty(paymentMctId)) {
+            throw InbyteException.error("该商户未配置微信支付");
+        }
+
+        return paymentMctId;
+    }
 }

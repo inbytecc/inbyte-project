@@ -110,14 +110,14 @@ public class PaymentWeixinMerchantService {
      * @param prepayParam
      * @return
      */
-    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepayParam) {
-        JsapiService service = getJsApiService(prepayParam.getWeixinPaymentMerchantId());
+    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepayParam, String weixinPaymentId) {
+        JsapiService service = getJsApiService(weixinPaymentId);
 
         String notifyUrl;
         if (StringUtil.isEmpty(prepayParam.getAppServer())) {
-            notifyUrl = String.format(appServer + "/api/payment/weixin/%s/notify/payment-success", prepayParam.getWeixinPaymentMerchantId());
+            notifyUrl = String.format(appServer + "/api/payment/weixin/%s/notify/payment-success", weixinPaymentId);
         } else {
-            notifyUrl = String.format(prepayParam.getAppServer() + "/api/payment/weixin/%s/notify/payment-success", prepayParam.getWeixinPaymentMerchantId());
+            notifyUrl = String.format(prepayParam.getAppServer() + "/api/payment/weixin/%s/notify/payment-success", weixinPaymentId);
         }
 
         // 订单描述
@@ -127,7 +127,7 @@ public class PaymentWeixinMerchantService {
         amount.setTotal(prepayParam.getPaymentAmount().multiply(BigDecimal.valueOf(100)).intValue());
         request.setAmount(amount);
         request.setAppid(prepayParam.getAppId());
-        request.setMchid(prepayParam.getWeixinPaymentMerchantId());
+        request.setMchid(weixinPaymentId);
         request.setDescription(orderDesc);
         request.setNotifyUrl(notifyUrl);
         request.setOutTradeNo(prepayParam.getOrderNo());
@@ -137,7 +137,7 @@ public class PaymentWeixinMerchantService {
         // 获取微信预支付ID
         try {
             PrepayResponse response = service.prepay(request);
-            return requestPayment(prepayParam, response.getPrepayId());
+            return requestPayment(prepayParam, response.getPrepayId(), weixinPaymentId);
         } catch (ServiceException e) {
             if ("ORDERPAID".equals(e.getErrorCode())) {
                 return R.failure("该订单已支付, 请稍等片刻订单状态将恢复正常");
@@ -156,7 +156,7 @@ public class PaymentWeixinMerchantService {
     /**
      * 获取小程序调起微信支付的参数, 返回给前端调起微信支付
      */
-    private R<PaymentWeixinPrepayDto> requestPayment(PaymentWeixinPrepayParam paymentWeixinPrepayParam, String prepayId) {
+    private R<PaymentWeixinPrepayDto> requestPayment(PaymentWeixinPrepayParam paymentWeixinPrepayParam, String prepayId, String weixinPaymentId) {
         // 创建微信支付周期起始数据
         PaymentWeixinInfoPo paymentWeixinInfoPo = PaymentWeixinInfoPo.builder()
                 .userId(paymentWeixinPrepayParam.getUserId())
@@ -168,7 +168,7 @@ public class PaymentWeixinMerchantService {
                 .mctNo(paymentWeixinPrepayParam.getMctNo())
                 .appId(paymentWeixinPrepayParam.getAppId())
                 .paymentAmount(paymentWeixinPrepayParam.getPaymentAmount())
-                .weixinPaymentMerchantId(paymentWeixinPrepayParam.getWeixinPaymentMerchantId())
+                .weixinPaymentMerchantId(weixinPaymentId)
                 .paid(Whether.Yes)
                 .prepayId(prepayId)
                 .createTime(LocalDateTime.now())
@@ -176,7 +176,7 @@ public class PaymentWeixinMerchantService {
         int insert = paymentWeixinInfoMapper.insertSelective(paymentWeixinInfoPo);
         log.info("微信支付数据创建参数:{}, 响应结果:{}", JSON.toJSONString(paymentWeixinInfoPo), insert);
 
-        Signer signer = getConfig(paymentWeixinPrepayParam.getWeixinPaymentMerchantId()).createSigner();
+        Signer signer = getConfig(weixinPaymentId).createSigner();
         long timestamp = Instant.now().getEpochSecond();
         String nonceStr = NonceUtil.createNonce(32);
         String packageVal = "prepay_id=" + prepayId;

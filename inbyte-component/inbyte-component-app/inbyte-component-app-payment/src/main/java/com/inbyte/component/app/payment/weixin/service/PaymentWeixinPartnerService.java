@@ -94,7 +94,7 @@ public class PaymentWeixinPartnerService {
      * @param prepaidOrderParam
      * @return
      */
-    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepaidOrderParam) {
+    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepaidOrderParam, String weixinPaymentId) {
 //        JsapiService service = getJsApiService(prepaidOrderParam.getWeixinPaymentMerchantId());
 //
 //        // 订单描述
