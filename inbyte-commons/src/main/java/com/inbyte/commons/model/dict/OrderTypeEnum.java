@@ -8,26 +8,24 @@ package com.inbyte.commons.model.dict;
  */
 public enum OrderTypeEnum {
 
-    CAMP_SITE("CMP", "营地订单", "15m"),
-    TICKET("TKT", "门票订单", "15m"),
+    CAMP_SITE("CMP", "营地订单"),
+    TICKET("TKT", "门票订单"),
 
-    CARD_VALUE("CDV", "储值卡订单", "15m"),
-    CARD_TIMES("CDT", "计次卡订单", "15m"),
-    CARD_PERIOD("CDP", "期间卡订单", "15m"),
+    CARD_VALUE("CDV", "储值卡订单"),
+    CARD_TIMES("CDT", "计次卡订单"),
+    CARD_PERIOD("CDP", "期间卡订单"),
 
-    GOODS("GDS", "商品订单", "15m"),
+    GOODS("GDS", "商品订单"),
 
-    COUPON("CPN", "优惠券订单", "15m"),
+    COUPON("CPN", "优惠券订单"),
     ;
 
     public final String code;
     public final String name;
-    public final String timeoutExpress;
 
-    OrderTypeEnum(String code, String name, String timeoutExpress) {
+    OrderTypeEnum(String code, String name) {
         this.code = code;
         this.name = name;
-        this.timeoutExpress = timeoutExpress;
     }
 
     /**
