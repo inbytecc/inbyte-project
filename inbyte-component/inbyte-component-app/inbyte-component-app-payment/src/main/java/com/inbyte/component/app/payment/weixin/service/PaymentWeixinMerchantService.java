@@ -260,13 +260,14 @@ public class PaymentWeixinMerchantService {
             paymentWeixinInfoMapper.updateById(update);
         }
 
+        String paymentUser = transaction.getPayer() == null ? null : transaction.getPayer().getOpenid();
         PaymentSuccessNotifyParam dto = PaymentSuccessNotifyParam.builder()
                 .paymentMerchantId(brief.getWeixinPaymentMerchantId())
                 .orderNo(orderNo)
                 .paymentType(PaymentTypeEnum.WEIXIN_PAY)
                 .paymentAmount(paymentAmount)
-                .paymentUserId(transaction.getPayer().getOpenid())
-                .paymentUserName(transaction.getPayer().getOpenid())
+                .paymentUserId(paymentUser)
+                .paymentUserName(paymentUser)
                 .paymentNo(transaction.getTransactionId())
                 .paymentTime(LocalDateTime.now())
                 .build();
