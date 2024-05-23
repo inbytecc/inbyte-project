@@ -6,7 +6,7 @@ package com.inbyte.commons.model.dict;
  * @author chenjw
  * @date 2023/03/14
  */
-public enum UploadSourceEnum {
+public enum UploadByEnum {
 
     Merchant("商户"),
     User("用户"),
@@ -14,7 +14,7 @@ public enum UploadSourceEnum {
 
     public final String name;
 
-    UploadSourceEnum(String name) {
+    UploadByEnum(String name) {
         this.name = name;
     }
 }

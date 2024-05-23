@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.inbyte.commons.model.dict.FileTypeEnum;
-import com.inbyte.commons.model.dict.UploadSourceEnum;
+import com.inbyte.commons.model.dict.UploadByEnum;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -93,7 +93,7 @@ public class InbyteObjectStoragePo {
     /**
      * 上传源
      */
-    private UploadSourceEnum uploadSource;
+    private UploadByEnum uploadSource;
 
     /**
      * 高度
