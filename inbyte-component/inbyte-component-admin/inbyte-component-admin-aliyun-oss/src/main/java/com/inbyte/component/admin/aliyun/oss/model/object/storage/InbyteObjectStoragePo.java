@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 @TableName("inbyte_object_storage")
 public class InbyteObjectStoragePo {
 
-
     /**
      * 对象ID
      */
@@ -54,7 +53,7 @@ public class InbyteObjectStoragePo {
     /**
      * 文件名
      */
-    private String fileName;
+    private String name;
 
     /**
      * 模块路径

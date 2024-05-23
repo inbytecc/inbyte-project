@@ -94,15 +94,14 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 
         OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         try {
-
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .url(host + "/" + dir)
                     .endPoint(endpoint)
                     .fileType(param.getFileType())
-                    .uploadSource(UploadSourceEnum.User)
+                    .uploadSource(UploadSourceEnum.Merchant)
                     .bucket(bucketName)
+                    .name(param.getFileName())
                     .path(param.getPath())
-//                    .pathParam(param.getPathParam().toJSONString())
                     .mctNo(sessionUser.getMctNo())
                     .createTime(now)
                     .creator(sessionUser.getUserName())
@@ -252,7 +251,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
 
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .objectId(json.getInteger("objectId"))
-                    .fileName(object.substring(object.lastIndexOf("/") + 1))
+                    .name(object.substring(object.lastIndexOf("/") + 1))
                     .mimeType(json.getString("mimeType"))
                     .height(json.getInteger("height"))
                     .width(json.getInteger("width"))
