@@ -14,6 +14,6 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface InbyteNoticeEnterpriseWeixinMapper extends BaseMapper<InbyteNoticeEnterpriseWeixinPo> {
 
-    @Select("SELECT default_robot_id FROM ")
+    @Select("SELECT default_robot_id FROM inbyte_notice_enterprise_weixin WHERE venueId = #{venueId}")
     String getRobot(@Param("venueId") String venueId);
 }
