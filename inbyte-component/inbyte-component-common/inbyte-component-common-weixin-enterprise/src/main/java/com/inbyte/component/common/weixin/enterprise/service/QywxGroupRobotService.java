@@ -6,6 +6,7 @@ import com.inbyte.component.common.weixin.enterprise.model.WxCpTextMessageParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -65,15 +66,14 @@ public class QywxGroupRobotService {
      * @param text
      * @return
      */
-    public R sendMarkDown(String venueId, String text) {
+    @Async
+    public void sendMarkDown(String venueId, String text) {
         try {
             wxCpGroupRobotFactory.getGroupRobot(venueId).sendText(
                     text, null, null);
         } catch (WxErrorException e) {
             log.error("企微消息发送失败", e);
-            return R.failure("企微消息发送失败");
         }
-        return R.ok("发送成功");
     }
 
     public void sendTextDefault(String content) {
