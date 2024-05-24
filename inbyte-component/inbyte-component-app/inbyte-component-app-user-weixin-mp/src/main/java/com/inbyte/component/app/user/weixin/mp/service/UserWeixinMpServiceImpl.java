@@ -112,6 +112,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
             sessionUser = SessionUser.builder()
                     .eid(weixinPo.getEid())
+                    .openId(weixinPo.getOpenId())
                     .appType(AppTypeEnum.WXMP)
                     .nickname("游客")
                     .avatar(randomCommonAvatar)
@@ -245,6 +246,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(sessionUser.getEid())
+                .openId(sessionUser.getOpenId())
                 .appType(AppTypeEnum.WXMP)
                 .userId(register.getData())
                 .tel(phoneInfo.getPurePhoneNumber())
@@ -289,6 +291,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 用户 Session 信息
         sessionUser = SessionUser.builder()
                 .eid(sessionUser.getEid())
+                .openId(sessionUser.getOpenId())
                 .appType(AppTypeEnum.WXMP)
                 .userId(userBrief.getUserId())
                 .tel(phoneInfo.getPurePhoneNumber())
