@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class QywxGroupRobotService {
 
+    private static final int MAX_LENGTH = 4000;
     private final WxCpGroupRobotFactory wxCpGroupRobotFactory;
 
     /**
@@ -40,16 +41,16 @@ public class QywxGroupRobotService {
      * 消息发送
      *
      * @param venueId
-     * @param text
+     * @param content
      * @return
      */
-    public R sendText(String venueId, String text) {
-        if (text.length() > 3500){
-            text = text.substring(0, 3500);
+    public R sendText(String venueId, String content) {
+        if (content.length() > MAX_LENGTH){
+            content = content.substring(0, MAX_LENGTH);
         }
         try {
             wxCpGroupRobotFactory.getGroupRobot(venueId).sendText(
-                    text, null, null);
+                    content, null, null);
         } catch (WxErrorException e) {
             log.error("企微消息发送失败", e);
             return R.failure("企微消息发送失败");
@@ -76,8 +77,12 @@ public class QywxGroupRobotService {
     }
 
     public void sendTextDefault(String content) {
+        if (content.length() > MAX_LENGTH){
+            content = content.substring(0, MAX_LENGTH);
+        }
         try {
-            wxCpGroupRobotFactory.getDefaultGroupRobot().sendMarkdown(content);
+            wxCpGroupRobotFactory.getDefaultGroupRobot().sendText(
+                    content, null, null);
         } catch (WxErrorException e) {
             log.error("企微消息发送失败", e);
         }
