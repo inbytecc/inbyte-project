@@ -69,8 +69,7 @@ public class QywxGroupRobotService {
     @Async
     public void sendMarkDown(String venueId, String text) {
         try {
-            wxCpGroupRobotFactory.getGroupRobot(venueId).sendText(
-                    text, null, null);
+            wxCpGroupRobotFactory.getGroupRobot(venueId).sendMarkdown(text);
         } catch (WxErrorException e) {
             log.error("企微消息发送失败", e);
         }
