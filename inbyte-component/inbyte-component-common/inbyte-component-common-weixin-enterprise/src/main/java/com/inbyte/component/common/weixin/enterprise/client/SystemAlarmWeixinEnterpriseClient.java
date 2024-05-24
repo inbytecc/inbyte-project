@@ -3,6 +3,7 @@ package com.inbyte.component.common.weixin.enterprise.client;
 import com.google.common.base.Throwables;
 import com.inbyte.commons.api.SystemAlarm;
 import com.inbyte.commons.util.SpringContextUtil;
+import com.inbyte.component.common.weixin.enterprise.service.QywxGroupRobotService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,16 +20,12 @@ import java.time.LocalDateTime;
 public class SystemAlarmWeixinEnterpriseClient implements SystemAlarm {
 
     @Autowired
-    private WxCpGroupRobotClient wxCpGroupRobotClient;
+    private QywxGroupRobotService qywxGroupRobotService;
 
     /**
      * 微信消息内容最大长度
      */
     private static final int WeixinMessageMaxLength = 3000;
-    /**
-     * 故障报警群
-     */
-    public static final String Weixin_Error_Group_Bot_Key = "a0453b15-3278-4bc6-b3de-8890b760ccf0";
 
     /**
      * 发送文本消息
@@ -63,7 +60,7 @@ public class SystemAlarmWeixinEnterpriseClient implements SystemAlarm {
 
         content.append("\n报警时间: ").append(LocalDateTime.now()).append("\n\n");
 
-        wxCpGroupRobotClient.sendText(Weixin_Error_Group_Bot_Key, content.toString());
+        qywxGroupRobotService.sendTextDefault(content.toString());
     }
 
 

@@ -1,5 +1,6 @@
 package com.inbyte.component.common.weixin.enterprise;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,5 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
+@MapperScan("com.inbyte.component.common.weixin.enterprise.dao")
 public class ComponentWeixinEnterpriseConfiguration {
 }

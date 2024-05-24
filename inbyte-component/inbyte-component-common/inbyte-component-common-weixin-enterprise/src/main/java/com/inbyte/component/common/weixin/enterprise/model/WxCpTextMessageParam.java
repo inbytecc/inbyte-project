@@ -14,7 +14,7 @@ public class WxCpTextMessageParam {
     /**
      * 企业微信群机器人
      */
-    private String groupRobotWebHookKey;
+    private String venueId;
     /**
      * 文本内容，最长不超过2048个字节，必须是utf8编码
      */

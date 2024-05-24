@@ -1,5 +1,6 @@
 package com.inbyte.component.app.payment.weixin.service;
 
+import com.alibaba.fastjson2.JSON;
 import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.OrderTypeEnum;
 import com.inbyte.commons.model.dict.Whether;
@@ -51,6 +52,7 @@ public class PaymentWeixinService {
      * @return
      */
     public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepaidOrderParam) {
+        log.info("微信支付签名:{}", JSON.toJSONString(prepaidOrderParam));
         String weixinPaymentId = getWeixinPaymentId(prepaidOrderParam.getVenueId(), prepaidOrderParam.getOrderType());
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(weixinPaymentId);
         if (paymentWeixinConfigPo == null) {
