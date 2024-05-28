@@ -250,7 +250,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .appType(AppTypeEnum.WXMP)
                 .userId(register.getData())
                 .tel(phoneInfo.getPurePhoneNumber())
-                .nickname(nickname)
+                .nickname("微信" + nickname)
                 .avatar(sessionUser.getAvatar())
                 .loginTime(now)
                 .tokenVersion(SessionUtil.User_Token_Version)
