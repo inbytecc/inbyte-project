@@ -1,4 +1,4 @@
-package com.inbyte.component.app.payment.weixin.dict;
+package com.inbyte.commons.model.dict;
 
 /**
  * 支付状态

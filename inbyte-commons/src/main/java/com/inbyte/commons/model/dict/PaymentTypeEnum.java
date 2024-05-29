@@ -1,4 +1,4 @@
-package com.inbyte.component.app.payment.weixin.dict;
+package com.inbyte.commons.model.dict;
 
 /**
  * 付款平台类型

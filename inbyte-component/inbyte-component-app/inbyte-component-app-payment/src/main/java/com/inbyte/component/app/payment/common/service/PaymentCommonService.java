@@ -2,7 +2,7 @@ package com.inbyte.component.app.payment.common.service;
 
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
-import com.inbyte.component.app.payment.weixin.dict.PaymentTypeEnum;
+import com.inbyte.commons.model.dict.PaymentTypeEnum;
 import com.inbyte.component.app.payment.weixin.model.RefundCommonApplyParam;
 import com.inbyte.component.app.payment.weixin.service.PaymentWeixinService;
 import lombok.extern.slf4j.Slf4j;

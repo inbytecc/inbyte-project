@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.inbyte.commons.model.dict.OrderTypeEnum;
-import com.inbyte.component.app.payment.weixin.dict.PaymentTypeEnum;
+import com.inbyte.commons.model.dict.PaymentTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
