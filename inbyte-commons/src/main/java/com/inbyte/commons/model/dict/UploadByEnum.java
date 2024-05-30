@@ -8,8 +8,8 @@ package com.inbyte.commons.model.dict;
  */
 public enum UploadByEnum {
 
-    Merchant("商户"),
-    User("用户"),
+    MERCHANT("商户"),
+    USER("用户"),
     ;
 
     public final String name;

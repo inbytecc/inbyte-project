@@ -1,5 +1,6 @@
 package com.inbyte.component.app.aliyun.oss.model.storage;
 
+import com.inbyte.commons.model.dict.UploadByEnum;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -57,7 +58,7 @@ public class ObjectStorageDetail {
     private String mimeType;
 
     /** 上传源 */
-    private Integer uploadSource;
+    private UploadByEnum uploadBy;
 
     /** 高度 */
     private Integer height;

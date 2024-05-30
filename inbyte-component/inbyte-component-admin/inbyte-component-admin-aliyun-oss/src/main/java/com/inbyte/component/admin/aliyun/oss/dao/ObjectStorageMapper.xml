@@ -2,37 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.inbyte.component.admin.aliyun.oss.dao.ObjectStorageMapper">
 
-<!--    <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageBrief">-->
-<!--        SELECT object_id,-->
-<!--               url,-->
-<!--               end_point,-->
-<!--               bucket,-->
-<!--               mct_no,-->
-<!--               file_name,-->
-<!--               uploaded,-->
-<!--               `size`,-->
-<!--               file_type,-->
-<!--               mime_type,-->
-<!--               upload_source,-->
-<!--               height,-->
-<!--               width,-->
-<!--               update_time-->
-<!--          FROM inbyte_object_storage-->
-<!--         WHERE object_id = #{objectId, jdbcType=INTEGER}-->
-<!--    </select>-->
-
     <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.aliyun.oss.model.object.storage.ObjectStorageDetail">
         SELECT object_id,
                end_point,
                url,
                bucket,
                mct_no,
-               file_name,
+               name,
                uploaded,
                `size`,
                file_type,
                mime_type,
-               upload_source,
+               upload_by,
                height,
                width,
                remark,
@@ -49,12 +30,12 @@
                end_point,
                bucket,
                mct_no,
-               file_name,
+               name,
                uploaded,
                `size`,
                file_type,
                mime_type,
-               upload_source,
+               upload_by,
                height,
                width,
                remark,
@@ -70,7 +51,7 @@
            AND create_time &lt; #{query.endDate, jdbcType=TIMESTAMP}
         </if>
         <if test="query.keyword != null and query.keyword != ''">
-            AND file_name LIKE CONCAT('%', #{query.keyword}, '%')
+            AND name LIKE CONCAT('%', #{query.keyword}, '%')
         </if>
          ORDER BY object_id DESC
     </select>

@@ -25,6 +25,12 @@
 			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>com.inbyte</groupId>
+			<artifactId>inbyte-component-common-dict</artifactId>
+			<scope>compile</scope>
+			<version>1.0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.aliyun.oss</groupId>
 			<artifactId>aliyun-sdk-oss</artifactId>
 			<version>3.10.2</version>

@@ -18,14 +18,6 @@ import java.util.List;
  */
 public interface ObjectStorageMapper extends BaseMapper<InbyteObjectStoragePo> {
 
-//    /**
-//     * 概要
-//     *
-//     * @param objectId
-//     * @return ObjectStorageBrief
-//     **/
-//    ObjectStorageBrief brief(Integer objectId);
-
     /**
      * 详情
      *

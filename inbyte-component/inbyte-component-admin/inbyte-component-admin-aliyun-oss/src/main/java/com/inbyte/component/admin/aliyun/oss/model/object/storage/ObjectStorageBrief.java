@@ -1,6 +1,9 @@
 package com.inbyte.component.admin.aliyun.oss.model.object.storage;
 
+import com.inbyte.commons.model.dict.FileTypeEnum;
+import com.inbyte.commons.model.dict.UploadByEnum;
 import com.inbyte.commons.util.serialize.ReadableByte;
+import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -18,6 +21,9 @@ public class ObjectStorageBrief {
     /** 对象ID */
     private Integer objectId;
 
+    /** 地址 */
+    private String url;
+
     /** 访问域名 */
     private String endPoint;
 
@@ -25,12 +31,13 @@ public class ObjectStorageBrief {
     private String bucket;
 
     /** 文件名 */
-    private String fileName;
+    private String name;
 
     /** 文件路径 */
-    private String filePath;
+    private String path;
 
     /** 已上传 */
+    @DictSerialize
     private Integer uploaded;
 
     /** 文件大小(单位：字节) */
@@ -38,13 +45,15 @@ public class ObjectStorageBrief {
     private Integer size;
 
     /** 文件类型 */
-    private String fileType;
+    @DictSerialize(FileTypeEnum.class)
+    private FileTypeEnum fileType;
 
     /** 文件类型回调 */
     private String mimeType;
 
     /** 上传源 */
-    private String uploadSource;
+    @DictSerialize(UploadByEnum.class)
+    private UploadByEnum uploadBy;
 
     /** 高度 */
     private Integer height;

@@ -14,177 +14,99 @@ import java.math.RoundingMode;
  */
 public class ArithUtil {
 
+    private static final int SCALE = 2;
+    private static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
+
     /**
-     * 加法运算
-     * 四舍五入，保留2位小数
+     * 将 null 转换为默认值
      *
-     * @param addend
-     * @param summand
+     * @param value
      * @return
      */
+    private static BigDecimal nullToZero(BigDecimal value) {
+        return value == null ? BigDecimal.ZERO : value;
+    }
+
+    private static BigDecimal nullToZero(Number value) {
+        return value == null ? BigDecimal.ZERO : new BigDecimal(value.toString());
+    }
+
     public static Integer add(Integer addend, Integer summand) {
-        addend = addend == null ? 0 : addend;
-        summand = summand == null ? 0 : summand;
-        return addend + summand;
+        return nullToZero(addend).intValue() + nullToZero(summand).intValue();
     }
+
     public static BigDecimal add(BigDecimal addend, BigDecimal summand) {
-        addend = addend == null ? BigDecimal.ZERO : addend;
-        summand = summand == null ? BigDecimal.ZERO : summand;
-        return addend.add(summand).setScale(2, RoundingMode.HALF_UP);
+        return nullToZero(addend).add(nullToZero(summand)).setScale(SCALE, ROUNDING_MODE);
     }
 
-    /**
-     * 减法运算
-     * 四舍五入，保留2位小数
-     *
-     * @param addend
-     * @param summand
-     * @return
-     */
-    public static BigDecimal subtract(BigDecimal addend, BigDecimal summand) {
-        addend = addend == null ? BigDecimal.ZERO : addend;
-        summand = summand == null ? BigDecimal.ZERO : summand;
-        return addend.subtract(summand).setScale(2, RoundingMode.HALF_UP);
+    public static BigDecimal subtract(BigDecimal minuend, BigDecimal subtrahend) {
+        return nullToZero(minuend).subtract(nullToZero(subtrahend)).setScale(SCALE, ROUNDING_MODE);
     }
 
-
-    /**
-     * 乘法运算
-     * 四舍五入，保留2位小数
-     *
-     * @param addend
-     * @param summand
-     * @return
-     */
-    public static BigDecimal multiply(BigDecimal addend, BigDecimal summand) {
-        addend = addend == null ? BigDecimal.ZERO : addend;
-        summand = summand == null ? BigDecimal.ZERO : summand;
-        return addend.multiply(summand).setScale(2, RoundingMode.HALF_UP);
+    public static BigDecimal multiply(BigDecimal multiplicand, BigDecimal multiplier) {
+        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE);
     }
 
-
-    /**
-     * 除法运算
-     * 四舍五入，保留2位小数
-     *
-     * @param addend
-     * @param summand
-     * @return
-     */
-    public static BigDecimal divide(BigDecimal addend, BigDecimal summand) {
-        addend = addend == null ? BigDecimal.ZERO : addend;
-        summand = summand == null ? BigDecimal.ZERO : summand;
-        return addend.divide(summand).setScale(2, RoundingMode.HALF_UP);
+    public static BigDecimal divide(BigDecimal dividend, BigDecimal divisor) {
+        if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
+            throw InbyteException.error("divisor can not be null or zero");
+        }
+        return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE);
     }
-
 
     public static double add(Double addend, Double summand) {
-        addend = addend == null ? 0 : addend;
-        summand = summand == null ? 0 : summand;
-        return BigDecimal.valueOf(addend).add(BigDecimal.valueOf(summand))
-                .setScale(2, BigDecimal.ROUND_HALF_UP)
-                .doubleValue();
+        return nullToZero(addend).add(nullToZero(summand)).setScale(SCALE, ROUNDING_MODE).doubleValue();
     }
 
-    public static double subtract(Double subtrahend, Double minuend) {
-        subtrahend = subtrahend == null ? 0 : subtrahend;
-        minuend = minuend == null ? 0 : minuend;
-        return BigDecimal.valueOf(subtrahend).subtract(BigDecimal.valueOf(minuend))
-                .setScale(2, BigDecimal.ROUND_HALF_UP)
-                .doubleValue();
+    public static double subtract(Double minuend, Double subtrahend) {
+        return nullToZero(minuend).subtract(nullToZero(subtrahend)).setScale(SCALE, ROUNDING_MODE).doubleValue();
     }
 
-
-
-    public static double multiply(Double multiplier, Integer multiplicand) {
-        multiplier = multiplier == null ? 0 : multiplier;
-        multiplicand = multiplicand == null ? 0 : multiplicand;
-        return BigDecimal.valueOf(multiplier).multiply(BigDecimal.valueOf(multiplicand))
-                .setScale(2, BigDecimal.ROUND_HALF_UP)
-                .doubleValue();
-    }
-    public static BigDecimal multiply(Integer multiplier, Integer multiplicand) {
-        multiplier = multiplier == null ? 0 : multiplier;
-        multiplicand = multiplicand == null ? 0 : multiplicand;
-        return BigDecimal.valueOf(multiplier).multiply(BigDecimal.valueOf(multiplicand))
-                .setScale(2, BigDecimal.ROUND_HALF_UP);
+    public static double multiply(Double multiplicand, Integer multiplier) {
+        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE).doubleValue();
     }
 
-    public static double divide(Double divisor, Integer dividend) {
-        divisor = divisor == null ? 0 : divisor;
-        if (dividend == null || dividend == 0) {
+    public static BigDecimal multiply(Integer multiplicand, Integer multiplier) {
+        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE);
+    }
+
+    public static double divide(Double dividend, Integer divisor) {
+        if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
             throw InbyteException.error("divisor can not be null or zero");
         }
-        return BigDecimal.valueOf(divisor)
-                .divide(BigDecimal.valueOf(dividend),
-                        2,
-                        BigDecimal.ROUND_HALF_UP)
-                .doubleValue();
+        return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE).doubleValue();
     }
-    public static BigDecimal divide(Integer divisor, Integer dividend) {
-        divisor = divisor == null ? 0 : divisor;
-        if (dividend == null || dividend == 0) {
+
+    public static BigDecimal divide(Integer dividend, Integer divisor) {
+        if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
             throw InbyteException.error("divisor can not be null or zero");
         }
-        return BigDecimal.valueOf(divisor)
-                .divide(BigDecimal.valueOf(dividend),
-                        2,
-                        BigDecimal.ROUND_HALF_UP);
+        return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE);
     }
-    public static BigDecimal divide(Long divisor, Integer dividend) {
-        divisor = divisor == null ? 0 : divisor;
-        if (dividend == null || dividend == 0) {
+
+    public static BigDecimal divide(Long dividend, Integer divisor) {
+        if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
             throw InbyteException.error("divisor can not be null or zero");
         }
-        return BigDecimal.valueOf(divisor)
-                .divide(BigDecimal.valueOf(dividend),
-                        2,
-                        BigDecimal.ROUND_HALF_UP);
+        return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE);
     }
-
-
-
-
-
-
 
     public static BigDecimal add(Number addend, Number summand) {
-        addend = addend == null ? 0 : addend;
-        summand = summand == null ? 0 : summand;
-        return new BigDecimal(addend.toString()).add(new BigDecimal(summand.toString()))
-                .setScale(2, BigDecimal.ROUND_HALF_UP);
+        return nullToZero(addend).add(nullToZero(summand)).setScale(SCALE, ROUNDING_MODE);
     }
 
-    public static BigDecimal subtract(Number subtrahend, Number minuend) {
-        subtrahend = subtrahend == null ? 0 : subtrahend;
-        minuend = minuend == null ? 0 : minuend;
-        return new BigDecimal(subtrahend.toString()).subtract(new BigDecimal(minuend.toString()))
-                .setScale(2, BigDecimal.ROUND_HALF_UP);
+    public static BigDecimal subtract(Number minuend, Number subtrahend) {
+        return nullToZero(minuend).subtract(nullToZero(subtrahend)).setScale(SCALE, ROUNDING_MODE);
     }
 
-    public static BigDecimal multiply(Number multiplier, Number multiplicand) {
-        multiplier = multiplier == null ? 0 : multiplier;
-        multiplicand = multiplicand == null ? 0 : multiplicand;
-        return new BigDecimal(multiplier.toString()).multiply(new BigDecimal(multiplicand.toString()))
-                .setScale(2, BigDecimal.ROUND_HALF_UP);
+    public static BigDecimal multiply(Number multiplicand, Number multiplier) {
+        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE);
     }
 
-    /**
-     * 除法运算
-     * 四舍五入，保留2位小数
-     *
-     * @param divisor
-     * @param dividend
-     * @return
-     */
-    public static BigDecimal divide(Number divisor, Number dividend) {
-        divisor = divisor == null ? 0 : divisor;
-        if (dividend == null) {
+    public static BigDecimal divide(Number dividend, Number divisor) {
+        if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
             throw InbyteException.error("divisor can not be null or zero");
         }
-        return new BigDecimal(divisor.toString())
-                .divide(new BigDecimal(dividend.toString()),
-                        2,
-                        BigDecimal.ROUND_HALF_UP);
+        return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE);
     }
 }

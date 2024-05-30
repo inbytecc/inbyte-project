@@ -93,7 +93,7 @@ public class InbyteObjectStoragePo {
     /**
      * 上传源
      */
-    private UploadByEnum uploadSource;
+    private UploadByEnum uploadBy;
 
     /**
      * 高度
