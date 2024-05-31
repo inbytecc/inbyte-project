@@ -2,6 +2,7 @@ package com.inbyte.component.admin.user.service;
 
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.admin.user.model.data.UserStatsDTO;
 import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpBrief;
 import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail;
 import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpQuery;
@@ -38,4 +39,6 @@ public interface UserWeixinMpService {
      * @return Result<Page<List<UserWeixinMpBrief>>>
      **/
     R<Page<UserWeixinMpBrief>> list(UserWeixinMpQuery query);
+
+    UserStatsDTO getUserStats();
 }

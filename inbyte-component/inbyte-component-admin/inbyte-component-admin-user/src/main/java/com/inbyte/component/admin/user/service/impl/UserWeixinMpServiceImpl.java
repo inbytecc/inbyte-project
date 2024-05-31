@@ -1,13 +1,14 @@
 package com.inbyte.component.admin.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.user.dao.UserWeixinMpMapper;
-import com.inbyte.component.admin.user.model.mp.weixin.*;
-import com.inbyte.component.admin.user.service.UserWeixinMpService;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
+import com.inbyte.component.admin.system.user.SessionUtil;
+import com.inbyte.component.admin.user.dao.UserWeixinMpMapper;
+import com.inbyte.component.admin.user.model.data.UserStatsDTO;
+import com.inbyte.component.admin.user.model.mp.weixin.*;
+import com.inbyte.component.admin.user.service.UserWeixinMpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +47,40 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         PageUtil.startPage(query);
         query.setMctNo(SessionUtil.getMctNo());
         return R.page(userWeixinMpMapper.list(query));
+    }
+
+    @Override
+    public UserStatsDTO getUserStats() {
+        UserStatsDTO userStats = new UserStatsDTO();
+        String mctNo = SessionUtil.getMctNo();
+        // Calculate daily growth percentage
+        int totalUsersStartOfDay = userWeixinMpMapper.getTotalUsersStartOfDay(mctNo);
+        int totalUsersEndOfDay = userWeixinMpMapper.getTotalUsersEndOfDay(mctNo);
+        double dailyGrowth = calculateGrowthPercentage(totalUsersStartOfDay, totalUsersEndOfDay);
+
+        // Calculate weekly growth percentage
+        int totalUsersStartOfWeek = userWeixinMpMapper.getTotalUsersStartOfWeek(mctNo);
+        int totalUsersEndOfWeek = userWeixinMpMapper.getTotalUsersEndOfWeek(mctNo);
+        double weeklyGrowth = calculateGrowthPercentage(totalUsersStartOfWeek, totalUsersEndOfWeek);
+
+        // Calculate monthly growth percentage
+        int totalUsersStartOfMonth = userWeixinMpMapper.getTotalUsersStartOfMonth(mctNo);
+        int totalUsersEndOfMonth = userWeixinMpMapper.getTotalUsersEndOfMonth();
+        double monthlyGrowth = calculateGrowthPercentage(totalUsersStartOfMonth, totalUsersEndOfMonth);
+
+        // Assuming we want the current total users
+        userStats.setTotalUsers(totalUsersEndOfDay);
+        userStats.setDailyGrowth(dailyGrowth);
+        userStats.setWeeklyGrowth(weeklyGrowth);
+        userStats.setMonthlyGrowth(monthlyGrowth);
+
+        return userStats;
+    }
+
+    private double calculateGrowthPercentage(int startValue, int endValue) {
+        if (startValue == 0) {
+            return 100.0; // Handle division by zero
+        }
+        return ((double) (endValue - startValue) / startValue) * 100;
     }
 }
