@@ -2,7 +2,7 @@ package com.inbyte.component.admin.user.controller;
 
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.user.model.data.UserStatsDTO;
+import com.inbyte.component.admin.user.model.data.UserWeixinStat;
 import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpBrief;
 import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail;
 import com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpQuery;
@@ -51,15 +51,20 @@ public class UserWeixinMpController {
      * 列表
      *
      * @param query
-     * @return Result<Page<List<UserWeixinMpBrief>>>
+     * @return Result<Page < List < UserWeixinMpBrief>>>
      **/
     @GetMapping
     public R<Page<UserWeixinMpBrief>> list(@ModelAttribute @Valid UserWeixinMpQuery query) {
         return userWeixinMpService.list(query);
     }
 
-    @GetMapping("/stat")
-    public R<UserStatsDTO> getUserStats() {
+    /**
+     * 微信用户数据统计
+     *
+     * @return
+     */
+    @GetMapping("stat")
+    public R<UserWeixinStat> getUserStats() {
         return R.ok(userWeixinMpService.getUserStats());
     }
 }

@@ -6,7 +6,7 @@ import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.user.dao.UserWeixinMpMapper;
-import com.inbyte.component.admin.user.model.data.UserStatsDTO;
+import com.inbyte.component.admin.user.model.data.UserWeixinStat;
 import com.inbyte.component.admin.user.model.mp.weixin.*;
 import com.inbyte.component.admin.user.service.UserWeixinMpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +50,8 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     }
 
     @Override
-    public UserStatsDTO getUserStats() {
-        UserStatsDTO userStats = new UserStatsDTO();
+    public UserWeixinStat getUserStats() {
+        UserWeixinStat userStats = new UserWeixinStat();
         String mctNo = SessionUtil.getMctNo();
         // Calculate daily growth percentage
         int totalUsersStartOfDay = userWeixinMpMapper.getTotalUsersStartOfDay(mctNo);

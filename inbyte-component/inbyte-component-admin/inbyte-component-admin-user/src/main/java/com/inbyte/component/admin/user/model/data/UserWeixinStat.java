@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserStatsDTO {
+public class UserWeixinStat {
     private int totalUsers;
     private double dailyGrowth;
     private double weeklyGrowth;
