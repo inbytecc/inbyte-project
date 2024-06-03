@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.user.service.impl;
 
+import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.user.model.data.UserLocationBrief;
 import com.inbyte.component.admin.user.model.data.UserLocationQuery;
 import com.inbyte.component.admin.user.model.data.UserTrendQuery;
@@ -37,6 +38,7 @@ public class DataCenterUserDataServiceImpl implements UserDataService {
 
     @Override
     public R<List<UserTrendBrief>> userTrend(UserTrendQuery query) {
+        query.setMctNo(SessionUtil.getMctNo());
         return R.ok(userWeixinMpMapper.userTrend(query));
     }
 }

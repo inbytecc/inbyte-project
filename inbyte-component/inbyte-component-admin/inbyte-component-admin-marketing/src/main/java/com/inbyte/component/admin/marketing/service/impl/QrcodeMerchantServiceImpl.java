@@ -126,6 +126,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
     @Override
     public R<List<UserTrendBrief>> userTrend(QrcodeMerchantUserTrendQuery query) {
+        query.setMctNo(SessionUtil.getMctNo());
         return R.ok(marketingQrcodeMerchantUserMapper.userTrend(query));
     }
 

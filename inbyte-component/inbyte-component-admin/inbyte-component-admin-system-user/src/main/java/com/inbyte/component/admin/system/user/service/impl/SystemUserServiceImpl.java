@@ -154,6 +154,7 @@ public class SystemUserServiceImpl implements SystemUserService {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
         PageUtil.startPage(query);
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(inbyteSystemUserMapper.list(query));
     }
 

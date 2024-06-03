@@ -132,6 +132,7 @@
                count(open_id) `count`
           FROM user_weixin_mp
          WHERE deleted = 0
+           AND mct_no = #{mctNo}
         <if test="startDate != null">
            AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>

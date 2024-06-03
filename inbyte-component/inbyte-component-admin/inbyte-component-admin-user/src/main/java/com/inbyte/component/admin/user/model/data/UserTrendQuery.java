@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.user.model.data;
 
+import com.inbyte.commons.model.dto.BaseQuery;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class UserTrendQuery {
+public class UserTrendQuery extends BaseQuery {
 
     /**
     * 活跃开始日期
@@ -24,4 +25,5 @@ public class UserTrendQuery {
     * 活跃截止日期
     */
     private LocalDate endDate;
+
 }

@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.marketing.model.qrcode;
 
+import com.inbyte.commons.model.dto.BaseQuery;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import java.time.LocalDate;
  **/
 @Getter
 @Setter
-public class QrcodeMerchantUserTrendQuery {
+public class QrcodeMerchantUserTrendQuery extends BaseQuery {
 
 
     /**

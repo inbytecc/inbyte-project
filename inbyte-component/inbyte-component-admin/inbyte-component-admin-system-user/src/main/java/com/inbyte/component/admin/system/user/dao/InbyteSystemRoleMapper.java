@@ -5,6 +5,8 @@ import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRole
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleQuery;
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleBrief;
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleDetail;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -22,7 +24,8 @@ public interface InbyteSystemRoleMapper extends BaseMapper<InbyteSystemRolePo> {
      * @param roleId
      * @return SystemRoleDetail
      **/
-    SystemRoleDetail detail(Integer roleId);
+    SystemRoleDetail detail(@Param("roleId") Integer roleId,
+                            @Param("mctNo") String mctNo);
 
     /**
      * 查询列表

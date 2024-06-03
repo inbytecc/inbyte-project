@@ -93,6 +93,8 @@
                mct_no
           FROM inbyte_system_user
          WHERE deleted = 0
+           AND mct_no = #{mctNo, jdbcType=VARCHAR}
+           AND venue_id = #{venueId, jdbcType=VARCHAR}
         <if test="keyword != null and keyword != ''">
             AND (user_name LIKE CONCAT('%', #{keyword}, '%') OR
                  real_name LIKE CONCAT('%', #{keyword}, '%') OR

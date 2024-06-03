@@ -69,7 +69,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
 
     @Override
     public R<SystemRoleDetail> detail(Integer roleId) {
-        return R.ok(inbyteSystemRoleMapper.detail(roleId));
+        return R.ok(inbyteSystemRoleMapper.detail(roleId, SessionUtil.getMctNo()));
     }
 
     @Override
