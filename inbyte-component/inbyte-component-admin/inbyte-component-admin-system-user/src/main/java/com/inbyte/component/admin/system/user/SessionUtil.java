@@ -2,11 +2,10 @@ package com.inbyte.component.admin.system.user;
 
 import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.component.admin.system.user.exception.SystemUserSessionUnavailableException;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.admin.system.user.exception.AdminUnavailableException;
+import com.inbyte.component.admin.system.user.exception.SystemUserSessionUnavailableException;
 
 /**
  * Session工具
@@ -85,13 +84,13 @@ public class SessionUtil {
         return JSON.parseObject(decodedJWT.getSubject(), SessionUser.class);
     }
 
-    public static String getVenueId() {
-        String venueId = WebUtil.getHeader("Current-Venue-Id");
-        if (venueId == null) {
-            throw InbyteException.failure("请选择营地");
-        }
-        return venueId;
-    }
+//    public static String getVenueId() {
+//        String venueId = WebUtil.getHeader("Current-Venue-Id");
+//        if (venueId == null) {
+//            throw InbyteException.failure("请选择营地");
+//        }
+//        return venueId;
+//    }
 
     /**
      * 使用SessionUser转换jwt token
