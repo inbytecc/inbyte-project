@@ -58,24 +58,24 @@ public class ArithUtil {
         return nullToZero(addend).add(nullToZero(summand)).setScale(SCALE, ROUNDING_MODE).doubleValue();
     }
 
-    public static double subtract(Double minuend, Double subtrahend) {
-        return nullToZero(minuend).subtract(nullToZero(subtrahend)).setScale(SCALE, ROUNDING_MODE).doubleValue();
-    }
+//    public static double subtract(Double minuend, Double subtrahend) {
+//        return nullToZero(minuend).subtract(nullToZero(subtrahend)).setScale(SCALE, ROUNDING_MODE).doubleValue();
+//    }
+//
+//    public static double multiply(Double multiplicand, Integer multiplier) {
+//        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE).doubleValue();
+//    }
+//
+//    public static BigDecimal multiply(Integer multiplicand, Integer multiplier) {
+//        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE);
+//    }
 
-    public static double multiply(Double multiplicand, Integer multiplier) {
-        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE).doubleValue();
-    }
-
-    public static BigDecimal multiply(Integer multiplicand, Integer multiplier) {
-        return nullToZero(multiplicand).multiply(nullToZero(multiplier)).setScale(SCALE, ROUNDING_MODE);
-    }
-
-    public static double divide(Double dividend, Integer divisor) {
-        if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
-            throw InbyteException.error("divisor can not be null or zero");
-        }
-        return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE).doubleValue();
-    }
+//    public static double divide(Double dividend, Integer divisor) {
+//        if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
+//            throw InbyteException.error("divisor can not be null or zero");
+//        }
+//        return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE).doubleValue();
+//    }
 
     public static BigDecimal divide(Integer dividend, Integer divisor) {
         if (nullToZero(divisor).equals(BigDecimal.ZERO)) {
