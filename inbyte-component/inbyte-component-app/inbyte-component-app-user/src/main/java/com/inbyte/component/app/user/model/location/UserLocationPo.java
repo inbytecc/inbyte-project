@@ -41,9 +41,14 @@ public class UserLocationPo {
     private AppTypeEnum appType;
 
     /**
-      * 外部用户ID
-      */
+     * 外部用户ID
+     */
     private Integer eid;
+
+    /**
+     * 商户号
+     */
+    private String mctNo;
 
     /**
       * 经度

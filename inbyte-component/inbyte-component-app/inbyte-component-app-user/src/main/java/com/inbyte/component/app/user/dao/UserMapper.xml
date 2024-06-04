@@ -31,10 +31,11 @@
 
     <insert id="insertLocationSelective">
         INSERT INTO user_location
-            (user_id, app_type, eid, longitude, latitude, create_time)
+            (user_id, app_type, eid, mct_no, longitude, latitude, create_time)
         SELECT #{userId,jdbcType=INTEGER},
                #{appType,jdbcType=VARCHAR},
                #{eid,jdbcType=INTEGER},
+               #{mctNo,jdbcType=VARCHAR},
                #{longitude,jdbcType=DECIMAL},
                #{latitude,jdbcType=DECIMAL},
                #{createTime,jdbcType=TIMESTAMP}

@@ -338,7 +338,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         // 发布定位更新事件
         UserLocationUpdateEvent locationUpdateEvent = new UserLocationUpdateEvent(this,
-                sessionUser.getUserId(), sessionUser.getEid(), sessionUser.getAppType(),
+                sessionUser.getUserId(), sessionUser.getEid(), AppUtil.getMctNo(), sessionUser.getAppType(),
                 locationUpdate.getLongitude(), locationUpdate.getLatitude(), now);
         SpringContextUtil.getContext().publishEvent(locationUpdateEvent);
 

@@ -20,6 +20,10 @@ public class UserLocationQuery {
      * 查询关键字
      **/
     private String keyword;
+    /**
+     * 商户号
+     **/
+    private String mctNo;
 
     /**
     * 活跃开始日期

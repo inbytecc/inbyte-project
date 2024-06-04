@@ -7,7 +7,7 @@
                latitude,
                count(1) AS `count`
           FROM user_location
-         WHERE 1 = 1
+         WHERE mct_no = #{mctNo, jdbcType=VARCHAR}
         <if test="startDate != null">
            AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
         </if>

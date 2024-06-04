@@ -20,15 +20,18 @@ import java.time.LocalDateTime;
 public class UserLocationUpdateEvent extends ApplicationEvent {
     private Integer userId;
     private Integer eid;
+    private String mctNo;
     private AppTypeEnum appType;
     private BigDecimal longitude;
     private BigDecimal latitude;
     private LocalDateTime updateTime;
 
-    public UserLocationUpdateEvent(Object source, Integer userId, Integer eid, AppTypeEnum appType, BigDecimal longitude, BigDecimal latitude, LocalDateTime updateTime) {
+    public UserLocationUpdateEvent(Object source, Integer userId, Integer eid, String mctNo,
+                                   AppTypeEnum appType, BigDecimal longitude, BigDecimal latitude, LocalDateTime updateTime) {
         super(source);
         this.userId = userId;
         this.eid = eid;
+        this.mctNo = mctNo;
         this.appType = appType;
         this.longitude = longitude;
         this.latitude = latitude;

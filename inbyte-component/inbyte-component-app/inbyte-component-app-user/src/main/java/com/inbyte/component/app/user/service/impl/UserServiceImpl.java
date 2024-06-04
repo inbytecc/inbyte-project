@@ -281,6 +281,7 @@ public class UserServiceImpl implements UserService {
         UserLocationPo locationPo = UserLocationPo.builder()
                 .appType(event.getAppType())
                 .eid(event.getEid())
+                .mctNo(event.getMctNo())
                 .userId(event.getUserId())
                 .longitude(event.getLongitude())
                 .latitude(event.getLatitude())
