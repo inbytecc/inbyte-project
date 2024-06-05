@@ -12,6 +12,7 @@ import com.inbyte.component.app.order.model.OrderCenterCreate;
 import com.inbyte.component.app.order.model.OrderCenterPo;
 import com.inbyte.component.app.order.model.OrderQuery;
 import com.inbyte.component.app.order.service.OrderCenterService;
+import com.inbyte.component.app.sign.framework.AppUtil;
 import com.inbyte.component.app.user.framework.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ public class OrderCenterServiceImpl implements OrderCenterService {
     public List<OrderCenterBrief> list(OrderQuery orderQuery) {
         PageUtil.startPage(orderQuery);
         orderQuery.setUserId(SessionUtil.getUserId());
+        orderQuery.setMctNo(AppUtil.getMctNo());
         return orderCenterMapper.list(orderQuery);
     }
 

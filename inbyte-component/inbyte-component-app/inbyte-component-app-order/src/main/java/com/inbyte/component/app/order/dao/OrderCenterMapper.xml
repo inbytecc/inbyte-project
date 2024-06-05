@@ -18,6 +18,7 @@
           FROM order_center
          WHERE deleted = 0
            AND user_id = #{userId}
+           AND mct_no = #{mctNo}
          ORDER BY create_time DESC
 <!--         <if test="orderStatusType != null and orderStatusType == 'WAIT_PAY'">-->
 <!--           AND order_status = 'WAIT_PAY'-->
