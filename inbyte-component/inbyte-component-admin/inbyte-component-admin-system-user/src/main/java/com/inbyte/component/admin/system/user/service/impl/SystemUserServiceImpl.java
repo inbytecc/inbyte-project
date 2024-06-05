@@ -17,7 +17,7 @@ import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRole
 import com.inbyte.component.admin.system.user.model.system.user.*;
 import com.inbyte.component.admin.system.user.service.SystemUserService;
 import com.inbyte.component.common.basic.dao.InbyteMerchantMapper;
-import com.inbyte.component.common.basic.model.MerchantPo;
+import com.inbyte.component.common.basic.model.InbyteMerchantPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +64,8 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .build();
         inbyteSystemUserMapper.updateById(platformPo);
 
-        MerchantPo merchantPo = inbyteMerchantMapper.selectById(detail.getMctNo());
-        if (merchantPo == null) {
+        InbyteMerchantPo inbyteMerchantPo = inbyteMerchantMapper.selectById(detail.getMctNo());
+        if (inbyteMerchantPo == null) {
             return R.failure("商户信息错误，请联系技术客服处理");
         }
 
@@ -74,8 +74,8 @@ public class SystemUserServiceImpl implements SystemUserService {
         sessionUser.setUserName(detail.getUserName());
         sessionUser.setTel(detail.getTel());
         sessionUser.setMctNo(detail.getMctNo());
-        sessionUser.setMctName(merchantPo.getMctName());
-        sessionUser.setMctPinYinName(merchantPo.getPinyinName());
+        sessionUser.setMctName(inbyteMerchantPo.getMctName());
+        sessionUser.setMctPinYinName(inbyteMerchantPo.getPinyinName());
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
         sessionUser.setAdmin(detail.getAdmin());

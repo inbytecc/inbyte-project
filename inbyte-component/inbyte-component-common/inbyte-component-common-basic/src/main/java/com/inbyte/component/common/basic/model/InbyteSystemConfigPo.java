@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 @TableName("inbyte_system_config")
-public class SystemConfigPo {
+public class InbyteSystemConfigPo {
 
     /**
       * 配置id

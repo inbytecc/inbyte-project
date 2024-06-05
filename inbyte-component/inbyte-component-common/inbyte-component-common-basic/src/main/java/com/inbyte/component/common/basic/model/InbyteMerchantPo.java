@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 @TableName("inbyte_merchant")
-public class MerchantPo {
+public class InbyteMerchantPo {
 
     /**
      * 商户号
@@ -57,6 +57,11 @@ public class MerchantPo {
      * 手机号
      */
     private String tel;
+
+    /**
+     * Logo
+     */
+    private String logo;
 
     /**
      * 已删除
