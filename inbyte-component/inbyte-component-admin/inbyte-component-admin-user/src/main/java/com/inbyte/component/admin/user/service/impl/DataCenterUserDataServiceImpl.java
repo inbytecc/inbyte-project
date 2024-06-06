@@ -33,6 +33,7 @@ public class DataCenterUserDataServiceImpl implements UserDataService {
         if (query.getEndDate() != null) {
             query.setEndDate(query.getEndDate().plusDays(1));
         }
+        query.setMctNo(SessionUtil.getMctNo());
         return R.ok(userLocationMapper.list(query));
     }
 
