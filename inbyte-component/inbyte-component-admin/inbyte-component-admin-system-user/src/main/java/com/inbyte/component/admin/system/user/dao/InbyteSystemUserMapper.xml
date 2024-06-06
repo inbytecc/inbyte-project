@@ -55,7 +55,7 @@
                need_update_pwd,
                mct_no
           FROM inbyte_system_user
-         WHERE openId = #{openId}
+         WHERE open_id = #{openId}
     </select>
 
     <select id="queryByTel" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">

@@ -39,7 +39,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
     public R<SystemUserLoginDto> weiXinLogin(WxMpSilentLoginParam param) {
         SessionUser sessionUser = new SessionUser();
         R<WxMaJscode2SessionResult> weixinUserCredentialR = wxMpUserClient.code2session(
-                "wxed6f47229731b642", param.getOpenIdJsCode());
+                "wxc257a1d131f3b26e", param.getOpenIdJsCode());
         if (weixinUserCredentialR.failed()) {
             return R.valueOf(weixinUserCredentialR);
         }
@@ -64,7 +64,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
 
     @Override
     public R<SystemUserLoginDto> weixinRegister(WxMpRegisterParam param) {
-        R<WxMaPhoneNumberInfo> phoneInfo = wxMpUserClient.getPhoneInfo("wxed6f47229731b642", param.getPhoneNumberJsCode());
+        R<WxMaPhoneNumberInfo> phoneInfo = wxMpUserClient.getPhoneInfo("wxc257a1d131f3b26e", param.getPhoneNumberJsCode());
         if (phoneInfo.failed()) {
             return R.valueOf(phoneInfo);
         }

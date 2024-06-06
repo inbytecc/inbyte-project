@@ -46,7 +46,7 @@ public class SystemUserWeixinMpController {
      *
      * 微信接口文档：https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/user-info/phone-number/getPhoneNumber.html
      **/
-    @PostMapping("bind")
+    @PostMapping("register")
     public R<SystemUserLoginDto> weixinRegister(@RequestBody @Valid WxMpRegisterParam param) {
         return systemUserWeixinMpService.weixinRegister(param);
     }

@@ -29,6 +29,7 @@ public class SystemUserSessionCheckAspect {
             "/health",
             "/error",
             "/aliyun/oss/callback",
+            "/api/user/merchant/weixin/mp/login",
             "/api/system/user/login/id-pwd",
             "/api/user/merchant/login/id-pwd",
             "/api/common/district/province",
