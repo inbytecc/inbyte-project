@@ -24,6 +24,13 @@ public interface OrderServiceCommonApi {
      * @return
      */
     R cancel(String orderNo);
+    /**
+     * 取消订单
+     *
+     * @param orderNo
+     * @return
+     */
+    R cancel(String orderNo, Integer userId);
 
     /**
      * 微信预支付
