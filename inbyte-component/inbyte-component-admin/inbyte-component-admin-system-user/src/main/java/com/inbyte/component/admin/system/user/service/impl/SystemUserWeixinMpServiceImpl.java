@@ -69,14 +69,15 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
             return R.valueOf(phoneInfo);
         }
 
-        SystemUserDetail detail = inbyteSystemUserMapper.queryByTel(phoneInfo.getData().getPurePhoneNumber());
-        if (detail == null) {
-            return R.failure("未注册账号, 请联系管理员操作");
-        }
-
         SessionUser sessionUser = SessionUtil.getSessionUserUnchecked();
         if (sessionUser == null) {
             return R.failure("请先静默登录获取token后再绑定账号");
+        }
+
+        String tel = phoneInfo.getData().getPurePhoneNumber();
+        SystemUserDetail detail = inbyteSystemUserMapper.queryByTel(tel);
+        if (detail == null) {
+            return register(tel, sessionUser);
         }
 
         InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
@@ -92,6 +93,29 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
         sessionUser.setUserName(detail.getUserName());
         sessionUser.setTel(detail.getTel());
         sessionUser.setMctNo(detail.getMctNo());
+        sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
+        sessionUser.setLoginTime(LocalDateTime.now());
+        return R.ok(new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
+    }
+
+    /**
+     * 注册账号
+     */
+    public R<SystemUserLoginDto> register(String tel, SessionUser sessionUser) {
+        InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
+                .userName(tel)
+                .nickname(tel)
+                .tel(tel)
+                .openId(sessionUser.getOpenId())
+                .loginWay("wx-mp")
+                .latestLoginTime(LocalDateTime.now())
+                .build();
+        inbyteSystemUserMapper.insert(inbyteSystemUserPo);
+        sessionUser.setUserId(inbyteSystemUserPo.getUserId());
+        sessionUser.setOpenId(sessionUser.getOpenId());
+        sessionUser.setUserName(inbyteSystemUserPo.getUserName());
+        sessionUser.setTel(inbyteSystemUserPo.getTel());
+        sessionUser.setMctNo(inbyteSystemUserPo.getMctNo());
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
         return R.ok(new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
