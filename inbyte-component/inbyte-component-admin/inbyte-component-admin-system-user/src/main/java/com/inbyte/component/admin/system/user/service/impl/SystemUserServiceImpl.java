@@ -8,6 +8,7 @@ import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.MD5Util;
 import com.inbyte.commons.util.PageUtil;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.admin.system.user.SessionUser;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.user.SystemUserJwtUtil;
@@ -69,6 +70,14 @@ public class SystemUserServiceImpl implements SystemUserService {
             return R.failure("商户信息错误，请联系技术客服处理");
         }
 
+        // 如果微信小程序登录场景，则更新当前用户openID
+        SessionUser currentSession = SessionUtil.getSessionUser();
+        if (currentSession != null && StringUtil.isNotEmpty(currentSession.getOpenId())) {
+            LambdaUpdateWrapper<InbyteSystemUserPo> updateWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
+                    .eq(InbyteSystemUserPo::getUserId, detail.getUserId())
+                    .set(InbyteSystemUserPo::getOpenId, currentSession.getOpenId());
+            inbyteSystemUserMapper.update(updateWrapper);
+        }
         SessionUser sessionUser = new SessionUser();
         sessionUser.setUserId(detail.getUserId());
         sessionUser.setUserName(detail.getUserName());
