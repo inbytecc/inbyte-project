@@ -71,7 +71,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         }
 
         // 如果微信小程序登录场景，则更新当前用户openID
-        SessionUser currentSession = SessionUtil.getSessionUser();
+        SessionUser currentSession = SessionUtil.getSessionUserUnchecked();
         if (currentSession != null && StringUtil.isNotEmpty(currentSession.getOpenId())) {
             LambdaUpdateWrapper<InbyteSystemUserPo> updateWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
                     .eq(InbyteSystemUserPo::getUserId, detail.getUserId())
