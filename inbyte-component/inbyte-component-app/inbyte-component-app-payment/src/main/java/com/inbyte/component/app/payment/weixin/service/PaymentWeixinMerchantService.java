@@ -346,17 +346,17 @@ public class PaymentWeixinMerchantService {
             log.warn("微信支付退款申请失败请求参数:{}, 异常参数:{}", JSON.toJSONString(param), e);
             if (e.getHttpStatusCode() == HttpStatus.BAD_REQUEST.value()) {
                 alarmSystemClient.alert("微信支付退款申请",
-                        "账户余额不足, 无法申请退款, 但业务按照成功处理, 需要人工在支付平台手动处理 请求参数:" + JSON.toJSONString(param));
+                        "账户余额不足, 无法申请退款, 但业务按照成功处理, 需要人工在支付平台手动处理 请求参数:" + JSON.toJSONString(param), e);
                 // 请求参数错误, 一般是开发期间异常
                 return R.failure("退款申请失败, 请稍后再试, 或联系管理员操作(400)");
             } else if (e.getHttpStatusCode() == HttpStatus.FORBIDDEN.value()) {
                 // 账户余额不足, 无法申请退款
                 alarmSystemClient.alert("微信支付退款申请",
-                        "账户余额不足, 无法申请退款, 但业务按照成功处理, 需要人工在支付平台手动处理 请求参数:" + JSON.toJSONString(param));
-                return R.ok("退款申请成功, 预计 1 至 3 个工作处理完成, 请留意通知与账户余额");
+                        "账户余额不足, 无法申请退款, 但业务按照成功处理, 需要人工在支付平台手动处理 请求参数:" + JSON.toJSONString(param), e);
+                return R.failure("退款操作失败, 或联系管理员操作, 客服也会介入处理, 请稍后");
             } else {
                 alarmSystemClient.alert("微信支付退款申请",
-                        "退款申请异常,状态码:" + e.getHttpStatusCode() + ", 请求参数:" + JSON.toJSONString(param));
+                        "退款申请异常,状态码:" + e.getHttpStatusCode() + ", 请求参数:" + JSON.toJSONString(param), e);
                 throw BizException.error("退款申请失败, 请稍后再试, 或联系管理员操作(" + e.getHttpStatusCode() + ")");
             }
         } catch (Exception e) {
