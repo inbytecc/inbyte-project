@@ -299,12 +299,11 @@ public class PaymentWeixinMerchantService {
         }
 
         String refundNo = IdentityGenerator.generateRefundNo();
-        long refundAmount = param.getRefundAmount().multiply(new BigDecimal(100)).longValue();
         CreateRequest request = new CreateRequest();
         AmountReq amountReq = new AmountReq();
-        amountReq.setRefund(refundAmount);
+        amountReq.setRefund(ArithUtil.multiply(param.getRefundAmount(), new BigDecimal(100)).longValue());
         amountReq.setCurrency("CNY");
-        amountReq.setTotal(refundAmount);
+        amountReq.setTotal(ArithUtil.multiply(paymentInfoBrief.getPaymentAmount(), new BigDecimal(100)).longValue());
         request.setAmount(amountReq);
         request.setNotifyUrl(notifyUrl);
         request.setOutTradeNo(param.getOrderNo());
