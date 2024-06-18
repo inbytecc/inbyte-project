@@ -107,13 +107,13 @@
 
     <distributionManagement>
         <repository>
-            <id>pyrange-maven-releases</id>
-            <name>pyrange-maven-releases</name>
+            <id>inbyte-maven-releases</id>
+            <name>inbyte-maven-releases</name>
             <url>https://nexus.inbyte.cc/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>pyrange-maven-snapshots</id>
-            <name>pyrange-maven-snapshots</name>
+            <id>inbyte-maven-snapshots</id>
+            <name>inbyte-maven-snapshots</name>
             <url>https://nexus.inbyte.cc/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
