@@ -13,7 +13,7 @@ public enum RefundStatusEnum {
     COMPLETED("已完成"),
     REJECTED("已拒绝");
 
-    private final String name;
+    public final String name;
 
     RefundStatusEnum(String name) {
         this.name = name;
