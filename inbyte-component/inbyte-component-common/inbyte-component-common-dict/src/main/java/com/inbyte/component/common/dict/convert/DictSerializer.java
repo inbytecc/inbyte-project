@@ -11,6 +11,7 @@ import com.inbyte.component.common.dict.DictUtil;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * 序列化注解自定义实现
@@ -22,7 +23,16 @@ public class DictSerializer extends JsonSerializer<Serializable> implements Cont
 
     @Override
     public void serialize(Serializable key, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        gen.writeString(DictUtil.getName(dictName, key));
+        // 判断Key是否列表类型
+        if (key instanceof Collection) {
+            StringBuilder sb = new StringBuilder();
+            for (Object item : (Collection) key) {
+                sb.append(DictUtil.getName(dictName, item.toString())).append(",");
+            }
+            gen.writeString(sb.deleteCharAt(sb.length()-1).toString());
+        } else {
+            gen.writeString(DictUtil.getName(dictName, key));
+        }
     }
 
     /**
