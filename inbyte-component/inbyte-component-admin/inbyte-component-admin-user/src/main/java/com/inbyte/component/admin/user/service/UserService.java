@@ -48,6 +48,6 @@ public interface UserService {
      * @param tel
      * @return Result
      **/
-    R<Integer> register(String tel);
+    Integer register(String tel);
 
 }

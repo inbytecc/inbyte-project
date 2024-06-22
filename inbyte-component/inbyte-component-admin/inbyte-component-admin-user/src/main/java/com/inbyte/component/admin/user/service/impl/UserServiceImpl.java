@@ -55,10 +55,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public R<Integer> register(String tel) {
+    public Integer register(String tel) {
         UserBrief userBrief = userMapper.briefByTel(tel);
         if (userBrief != null) {
-            return R.ok("用户已注册", userBrief.getUserId());
+            return userBrief.getUserId();
         }
 
         String nickname = "用户" + tel.substring(7);
@@ -70,6 +70,6 @@ public class UserServiceImpl implements UserService {
                 .createTime(LocalDateTime.now())
                 .build();
         userMapper.insert(userPo);
-        return R.ok("注册成功", userPo.getUserId());
+        return userPo.getUserId();
     }
 }
