@@ -1,5 +1,7 @@
 package com.inbyte.component.admin.user.service.impl;
 
+import com.inbyte.commons.exception.InbyteException;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.admin.user.dao.UserMapper;
 import com.inbyte.component.admin.user.model.*;
 import com.inbyte.component.admin.user.service.UserService;
@@ -56,6 +58,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer register(String tel) {
+        if (StringUtil.isEmpty(tel)) {
+            throw InbyteException.failure("请输入手机号");
+        }
+        if (tel.length() != 11) {
+            throw InbyteException.failure("手机号长度不正确");
+        }
         UserBrief userBrief = userMapper.briefByTel(tel);
         if (userBrief != null) {
             return userBrief.getUserId();
