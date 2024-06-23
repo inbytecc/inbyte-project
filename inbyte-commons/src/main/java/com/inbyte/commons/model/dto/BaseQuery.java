@@ -31,6 +31,12 @@ public class BaseQuery {
     @JsonIgnore
     private String mctNo;
 
+    /**
+     * 查询关键字
+     **/
+    @JsonIgnore
+    private String keyword;
+
     public String getMctNo() {
         return mctNo;
     }
@@ -53,5 +59,11 @@ public class BaseQuery {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+    public String getKeyword() {
+        return keyword;
+    }
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }

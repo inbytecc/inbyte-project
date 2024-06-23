@@ -50,6 +50,12 @@ public class BasePage {
     @JsonIgnore
     private String mctNo;
 
+    /**
+     * 查询关键字
+     **/
+    @JsonIgnore
+    private String keyword;
+
     public String getMctNo() {
         return mctNo;
     }
@@ -88,5 +94,12 @@ public class BasePage {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }
