@@ -43,11 +43,12 @@ public interface UserService {
     R<Page<UserDictBrief>> dict(UserQuery query);
 
     /**
-     * 手机号注册账号
+     * 使用手机号获取用户ID
+     * 手机号不存在，自动注册账号
      *
      * @param tel
      * @return Result
      **/
-    Integer register(String tel);
+    Integer getUserId(String tel);
 
 }

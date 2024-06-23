@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer register(String tel) {
+    public Integer getUserId(String tel) {
         if (StringUtil.isEmpty(tel)) {
             throw InbyteException.failure("请输入手机号");
         }
