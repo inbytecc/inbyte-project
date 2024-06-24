@@ -46,29 +46,14 @@ public class InbyteObjectStoragePo {
     private String bucket;
 
     /**
-     * 商户号
-     */
-    private String mctNo;
-
-    /**
      * 文件名
      */
-    private String fileName;
-
-    /**
-     * 文件路径
-     */
-    private String filePath;
+    private String name;
 
     /**
      * 模块路径
      */
     private String path;
-
-    /**
-     * 模块路径参数
-     */
-    private String pathParam;
 
     /**
      * 已上传
@@ -116,10 +101,14 @@ public class InbyteObjectStoragePo {
     private Integer deleted;
 
     /**
+     * 商户号
+     */
+    private String mctNo;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;
-
 
     /**
      * 创建人
