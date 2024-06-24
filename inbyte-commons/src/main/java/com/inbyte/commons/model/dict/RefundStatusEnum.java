@@ -10,8 +10,8 @@ public enum RefundStatusEnum {
 
     PENDING("待处理"),
     APPROVED("已批准"),
-    COMPLETED("已完成"),
-    REJECTED("已拒绝");
+    REJECTED("已拒绝"),
+    COMPLETED("已完成");
 
     public final String name;
 

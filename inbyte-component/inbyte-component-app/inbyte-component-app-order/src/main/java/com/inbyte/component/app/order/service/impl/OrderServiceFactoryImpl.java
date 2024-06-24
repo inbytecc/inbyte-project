@@ -1,5 +1,6 @@
 package com.inbyte.component.app.order.service.impl;
 
+import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.OrderTypeEnum;
 import com.inbyte.component.app.order.service.OrderServiceCommonApi;
 import com.inbyte.component.app.order.service.OrderServiceFactory;
@@ -37,7 +38,7 @@ public class OrderServiceFactoryImpl implements OrderServiceFactory, Initializin
     }
 
     /**
-     * 使用订单编号前2位规则获取订单通用服务
+     * 使用订单编号前3位规则获取订单通用服务
      *
      * @param orderNo
      * @return
@@ -45,8 +46,7 @@ public class OrderServiceFactoryImpl implements OrderServiceFactory, Initializin
     public OrderServiceCommonApi getServiceByOrderNo(String orderNo) {
         OrderServiceCommonApi genericOrderService = ORDER_SERVICES.get(OrderTypeEnum.getByOrderNo(orderNo));
         if (genericOrderService == null) {
-            throw new IllegalArgumentException(
-                    "请在" + OrderServiceFactoryImpl.class.getSimpleName() +"的init方法中注册对应订单服务");
+            throw InbyteException.error("没有对应的订单服务, 请联系技术客服处理");
         } else {
             return genericOrderService;
         }
