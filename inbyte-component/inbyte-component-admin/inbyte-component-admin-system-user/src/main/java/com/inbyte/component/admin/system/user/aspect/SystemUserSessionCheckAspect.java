@@ -55,6 +55,9 @@ public class SystemUserSessionCheckAspect {
         if (requestURI.matches(".*?/dict/.*")) {
             return true;
         }
+        if (requestURI.matches(".*?/payment/weixin/.*")) {
+            return true;
+        }
         return Ignore_Api.contains(requestURI);
     }
 
