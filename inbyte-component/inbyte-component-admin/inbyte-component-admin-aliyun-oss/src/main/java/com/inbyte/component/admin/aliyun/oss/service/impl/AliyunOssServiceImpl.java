@@ -73,6 +73,9 @@ public class AliyunOssServiceImpl implements AliyunOssService {
     public R<AliYunOssSignDto> getCredential(AliYunOssSignParam param) {
         LocalDateTime now = LocalDateTime.now();
         SessionUser sessionUser = SessionUtil.getSessionUser();
+
+
+        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
         /**
          * 文件格式
          * 商户空间/商户名/模块路径/年/月/日/模块参数/防重复随机数
@@ -85,7 +88,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
                 .append(new Random().nextInt(100000)).append("-")
-                .append(StringUtil.defaultIfEmpty(param.getFileName(), ""))
+                .append(StringUtil.defaultIfEmpty(fileName, ""))
                 .toString()
                 .replace("//", "/");
 
@@ -100,7 +103,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
                     .fileType(param.getFileType())
                     .uploadBy(UploadByEnum.MERCHANT)
                     .bucket(bucketName)
-                    .name(param.getFileName())
+                    .name(fileName)
                     .path(param.getPath())
                     .mctNo(sessionUser.getMctNo())
                     .createTime(now)

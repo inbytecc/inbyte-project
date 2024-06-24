@@ -84,6 +84,7 @@ public class AliyunOssService {
             return R.set(ResultStatus.Unauthorized);
         }
 
+        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
         /**
          * 文件格式
          * 商户空间/商户名/模块路径/年/月/日/模块参数/防重复随机数
@@ -96,7 +97,7 @@ public class AliyunOssService {
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
                 .append(new Random().nextInt(1000000)).append("-")
-                .append(param.getFileName())
+                .append(fileName)
                 .toString()
                 .replace("//", "/");
 
@@ -109,7 +110,7 @@ public class AliyunOssService {
                     .mctNo(getMctNo())
                     .url(host)
                     .endPoint(endpoint)
-                    .fileName(param.getFileName())
+                    .name(fileName)
                     .fileType(param.getFileType())
                     .uploadBy(UploadByEnum.USER)
                     .bucket(bucketName)
@@ -263,8 +264,8 @@ public class AliyunOssService {
 
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .objectId(json.getInteger("objectId"))
-                    .fileName(object.substring(object.lastIndexOf("/") + 1))
-                    .filePath(object)
+                    .name(object.substring(object.lastIndexOf("/") + 1))
+                    .path(object)
                     .mimeType(json.getString("mimeType"))
                     .height(json.getInteger("height"))
                     .width(json.getInteger("width"))
@@ -334,6 +335,8 @@ public class AliyunOssService {
         String randomNum = param.getCoverable() != null && param.getCoverable() != WhetherDict.No.code
                 ? String.valueOf(new Random().nextInt(1000000))
                 : "";
+
+        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
         /**
          * 文件格式
          * 商户空间/商户名/模块路径/年/月/日/模块参数/防重复随机数
@@ -344,7 +347,7 @@ public class AliyunOssService {
                 .append(param.getPage()).append("/")
                 .append(now.getYear()).append(now.getMonthValue()).append(now.getDayOfMonth())
                 .append(randomNum).append("-")
-                .append(param.getFileName())
+                .append(fileName)
                 .toString()
                 .replace("//", "/");
 
@@ -372,15 +375,13 @@ public class AliyunOssService {
         InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                 .url(url)
                 .endPoint(endpoint)
-                .fileName(param.getFileName())
-                .filePath(objectName)
+                .name(fileName)
+                .path(objectName)
                 .fileType(param.getFileType())
 //                .mimeType(FileTypeEnum.getByCode(Integer.valueOf(param.getFileType())).name)
                 .uploadBy(UploadByEnum.USER)
                 .size(param.getFileBytes().length)
                 .bucket(bucketName)
-                .path(param.getPage())
-                .pathParam(param.getScene())
                 .uploaded(WhetherDict.Yes.code)
                 .createTime(now)
                 .creator(param.getUserName())
@@ -389,7 +390,6 @@ public class AliyunOssService {
 
         return R.ok("上传成功", url);
     }
-
 
     /**
      * 获取商户号
