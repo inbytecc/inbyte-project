@@ -27,6 +27,11 @@ public class RefundCommonApplyParam implements Serializable {
     private String orderNo;
 
     /**
+     * 退款编号
+     */
+    private String refundNo;
+
+    /**
      * 是否全额退款
      */
     @NotNull(message = "是否全额退款不能为空")

@@ -210,6 +210,7 @@ public class IdentityGenerator {
 
         Collections.shuffle(list);
         StringBuilder sb = new StringBuilder();
+        sb.append("RFD");
         // 前二位订单列表编码
 //        sb.append(orderTypeCode);
         list.forEach(sb::append);

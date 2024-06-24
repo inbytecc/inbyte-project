@@ -298,7 +298,11 @@ public class PaymentWeixinMerchantService {
             notifyUrl = String.format(param.getAppServer() + "/api/payment/weixin/%s/notify/refund-success", paymentInfoBrief.getWeixinPaymentMerchantId());
         }
 
-        String refundNo = IdentityGenerator.generateRefundNo();
+        String refundNo = param.getRefundNo();
+        if (StringUtil.isEmpty(refundNo)) {
+            refundNo = IdentityGenerator.generateRefundNo();
+        }
+
         CreateRequest request = new CreateRequest();
         AmountReq amountReq = new AmountReq();
         amountReq.setRefund(ArithUtil.multiply(param.getRefundAmount(), new BigDecimal(100)).longValue());
