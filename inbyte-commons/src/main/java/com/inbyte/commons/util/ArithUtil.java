@@ -109,4 +109,60 @@ public class ArithUtil {
         }
         return nullToZero(dividend).divide(nullToZero(divisor), SCALE, ROUNDING_MODE);
     }
+
+
+    /**
+     * 判断第一个BigDecimal是否大于第二个BigDecimal。
+     *
+     * @param num1 要比较的第一个BigDecimal
+     * @param num2 要比较的第二个BigDecimal
+     * @return 如果num1大于num2，则返回true，否则返回false
+     */
+    public static boolean isGreaterThan(BigDecimal num1, BigDecimal num2) {
+        return num1.compareTo(num2) > 0;
+    }
+
+    /**
+     * 判断第一个BigDecimal是否小于第二个BigDecimal。
+     *
+     * @param num1 要比较的第一个BigDecimal
+     * @param num2 要比较的第二个BigDecimal
+     * @return 如果num1小于num2，则返回true，否则返回false
+     */
+    public static boolean isLessThan(BigDecimal num1, BigDecimal num2) {
+        return num1.compareTo(num2) < 0;
+    }
+
+    /**
+     * 判断两个BigDecimal是否相等。
+     *
+     * @param num1 要比较的第一个BigDecimal
+     * @param num2 要比较的第二个BigDecimal
+     * @return 如果num1等于num2，则返回true，否则返回false
+     */
+    public static boolean isEqual(BigDecimal num1, BigDecimal num2) {
+        return num1.compareTo(num2) == 0;
+    }
+
+    /**
+     * 判断第一个BigDecimal是否大于或等于第二个BigDecimal。
+     *
+     * @param num1 要比较的第一个BigDecimal
+     * @param num2 要比较的第二个BigDecimal
+     * @return 如果num1大于或等于num2，则返回true，否则返回false
+     */
+    public static boolean isGreaterThanOrEqualTo(BigDecimal num1, BigDecimal num2) {
+        return num1.compareTo(num2) >= 0;
+    }
+
+    /**
+     * 判断第一个BigDecimal是否小于或等于第二个BigDecimal。
+     *
+     * @param num1 要比较的第一个BigDecimal
+     * @param num2 要比较的第二个BigDecimal
+     * @return 如果num1小于或等于num2，则返回true，否则返回false
+     */
+    public static boolean isLessThanOrEqualTo(BigDecimal num1, BigDecimal num2) {
+        return num1.compareTo(num2) <= 0;
+    }
 }
