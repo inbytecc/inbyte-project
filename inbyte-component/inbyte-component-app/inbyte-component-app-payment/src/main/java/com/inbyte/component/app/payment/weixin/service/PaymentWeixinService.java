@@ -105,6 +105,9 @@ public class PaymentWeixinService {
      */
     public R<Refund> refundApply(RefundCommonApplyParam param) {
         PaymentWeixinInfoBrief paymentWeixinInfoBrief = paymentWeixinInfoMapper.selectByNo(param.getOrderNo());
+        if (paymentWeixinInfoBrief == null) {
+            return R.failure("查不到该【" + param.getOrderNo() + "】订单的支付记录");
+        }
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(paymentWeixinInfoBrief.getWeixinPaymentMerchantId());
         // 服务商支付模式
         if (paymentWeixinConfigPo.getPartnerPay() == Whether.Yes) {
