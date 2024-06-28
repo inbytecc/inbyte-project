@@ -24,6 +24,10 @@ public enum OrderStatusEnum {
     NOT_PAID_EXPIRE("已关闭"),
     // 用户取消订单
     CANCELED("已取消"),
+    // 订单延期
+    POSTPONE("订单延期"),
+    // 订单过期
+    EXPIRED("订单过期"),
     ;
 
     public final String name;
