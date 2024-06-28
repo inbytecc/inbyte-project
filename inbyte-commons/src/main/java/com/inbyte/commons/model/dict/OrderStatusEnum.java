@@ -17,7 +17,7 @@ public enum OrderStatusEnum {
     DONE("订单完成"),
     // 用户申请退款
     REFUND_APPLYING("申请退款中"),
-    REFUND_REFUSED("商家拒绝退款"),
+    REFUND_REJECT("退款申请被驳回"),
     REFUNDING("退款处理中"),
     REFUND_SUCCESS("退款成功"),
     // 未付款过期自动关闭
