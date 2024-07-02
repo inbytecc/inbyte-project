@@ -59,6 +59,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
         sessionUser.setMctNo(detail.getMctNo());
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
+        sessionUser.setLoginWay("wx-mp");
         return R.ok(new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
     }
 

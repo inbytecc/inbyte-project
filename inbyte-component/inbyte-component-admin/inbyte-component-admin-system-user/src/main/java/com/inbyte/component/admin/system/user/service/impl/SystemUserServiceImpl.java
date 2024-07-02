@@ -88,18 +88,27 @@ public class SystemUserServiceImpl implements SystemUserService {
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
         sessionUser.setAdmin(detail.getAdmin());
+        sessionUser.setLoginWay("id-pwd");
         String jwt = SystemUserJwtUtil.createJwt(sessionUser);
         return R.ok(new SystemUserLoginDto(jwt));
     }
 
     @Override
     public R<SystemUserInfo> info() {
-        InbyteSystemUserPo detail = inbyteSystemUserMapper.selectById(SessionUtil.getUserId());
+        SessionUser sessionUser = SessionUtil.getSessionUser();
+        InbyteSystemUserPo detail = inbyteSystemUserMapper.selectById(sessionUser.getUserId());
         SystemUserInfo systemUserInfo = new SystemUserInfo();
         systemUserInfo.setUserName(detail.getUserName());
         systemUserInfo.setAvatar(detail.getAvatar());
         systemUserInfo.setRole(detail.getRole());
         systemUserInfo.setNeedUpdatePwd(detail.getNeedUpdatePwd());
+
+        InbyteSystemUserPo platformPo = InbyteSystemUserPo.builder()
+                .userId(detail.getUserId())
+                .latestLoginTime(LocalDateTime.now())
+                .loginWay(sessionUser.getLoginWay())
+                .build();
+        inbyteSystemUserMapper.updateById(platformPo);
         return R.ok(systemUserInfo);
     }
 

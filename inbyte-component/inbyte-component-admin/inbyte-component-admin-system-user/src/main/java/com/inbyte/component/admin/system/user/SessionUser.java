@@ -60,6 +60,11 @@ public class SessionUser {
      */
     private Integer admin;
 
+    /**
+     * 登录方式
+     */
+    private String loginWay;
+
     public Integer getUserId() {
         return userId;
     }
@@ -151,5 +156,13 @@ public class SessionUser {
 
     public void setAdmin(Integer admin) {
         this.admin = admin;
+    }
+
+    public String getLoginWay() {
+        return loginWay;
+    }
+
+    public void setLoginWay(String loginWay) {
+        this.loginWay = loginWay;
     }
 }
