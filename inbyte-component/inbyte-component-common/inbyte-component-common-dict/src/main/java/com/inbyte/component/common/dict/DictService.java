@@ -36,7 +36,7 @@ public class DictService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        init("com.inbyte.commons.model.dict");
+        init("com.inbyte.commons.model.dict", "com.inbyte.commons.model.enums");
         if (componentDictProperties.getPath() != null) {
             componentDictProperties.getPath().forEach(e -> init(e));
         }
