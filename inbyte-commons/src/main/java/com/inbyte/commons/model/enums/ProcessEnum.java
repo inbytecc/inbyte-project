@@ -8,7 +8,7 @@ package com.inbyte.commons.model.enums;
  */
 public enum ProcessEnum {
 
-    PENDING("未支付"),
+    PENDING("待处理"),
     IN_PROGRESS( "处理中"),
     DONE( "已完成"),
     ;
