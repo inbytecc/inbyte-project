@@ -1,7 +1,7 @@
 package com.inbyte.commons.model.enums;
 
 /**
- * 通用状态字典
+ * 通用范围字典
  * 形容：
  * 完成状态，全部、部分、无
  * 包含状态，全部、部分、无
@@ -11,7 +11,7 @@ package com.inbyte.commons.model.enums;
  * @author chenjw
  * @date 2016年08月15日
  */
-public enum StatusEnum {
+public enum ScopeEnum {
 
     NONE("无"),
     ALL("全部"),
@@ -20,7 +20,7 @@ public enum StatusEnum {
 
     public final String name;
 
-    StatusEnum(String name) {
+    ScopeEnum(String name) {
         this.name = name;
     }
 
