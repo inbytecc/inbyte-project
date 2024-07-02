@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.aliyun.oss.model.object.storage;
 
-import com.inbyte.commons.model.dict.FileTypeEnum;
-import com.inbyte.commons.model.dict.UploadByEnum;
+import com.inbyte.commons.model.enums.FileTypeEnum;
+import com.inbyte.commons.model.enums.UploadByEnum;
 import com.inbyte.commons.util.serialize.ReadableByte;
 import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;

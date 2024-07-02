@@ -1,7 +1,7 @@
 package com.inbyte.component.app.order.service;
 
 
-import com.inbyte.commons.model.dict.OrderStatusEnum;
+import com.inbyte.commons.model.enums.OrderStatusEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.order.model.OrderCenterBrief;
 import com.inbyte.component.app.order.model.OrderCenterCreate;

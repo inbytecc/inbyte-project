@@ -1,7 +1,7 @@
 package com.inbyte.component.app.sign.model;
 
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;
 
 /**

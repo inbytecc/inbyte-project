@@ -1,7 +1,7 @@
 package com.inbyte.component.app.payment.weixin.model;
 
 
-import com.inbyte.commons.model.dict.PaymentTypeEnum;
+import com.inbyte.commons.model.enums.PaymentTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 

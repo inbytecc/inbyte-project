@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.marketing.model.qrcode.user;
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
 package com.inbyte.component.app.aliyun.oss.model;
 
 
-import com.inbyte.commons.model.dict.FileTypeEnum;
+import com.inbyte.commons.model.enums.FileTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

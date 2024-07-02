@@ -3,7 +3,7 @@ package com.inbyte.component.app.user.model.location;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;

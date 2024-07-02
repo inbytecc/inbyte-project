@@ -1,4 +1,4 @@
-package com.inbyte.commons.model.dict;
+package com.inbyte.commons.model.enums;
 
 /**
  * 退款状态

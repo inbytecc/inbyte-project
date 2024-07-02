@@ -1,7 +1,7 @@
 package com.inbyte.component.app.order.event;
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
-import com.inbyte.commons.model.dict.OrderTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
+import com.inbyte.commons.model.enums.OrderTypeEnum;
 import lombok.*;
 import org.springframework.context.ApplicationEvent;
 

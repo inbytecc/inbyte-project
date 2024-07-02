@@ -3,7 +3,7 @@ package com.inbyte.component.app.marketing.ambassador.service;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantMapper;

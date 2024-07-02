@@ -1,6 +1,6 @@
 package com.inbyte.component.app.payment.common.model;
 
-import com.inbyte.commons.model.dict.PaymentTypeEnum;
+import com.inbyte.commons.model.enums.PaymentTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;

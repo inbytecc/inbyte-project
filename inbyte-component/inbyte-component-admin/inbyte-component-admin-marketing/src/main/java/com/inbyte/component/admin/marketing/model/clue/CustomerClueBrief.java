@@ -1,6 +1,6 @@
 package com.inbyte.component.admin.marketing.model.clue;
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 

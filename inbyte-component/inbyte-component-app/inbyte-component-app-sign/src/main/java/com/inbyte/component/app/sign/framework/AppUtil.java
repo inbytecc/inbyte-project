@@ -1,6 +1,6 @@
 package com.inbyte.component.app.sign.framework;
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.app.sign.framework.exception.AppTokenUnavailableException;

@@ -16,7 +16,7 @@ import com.inbyte.component.app.payment.common.model.RefundSuccessNotifyParam;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinRefundMapper;
-import com.inbyte.commons.model.dict.PaymentTypeEnum;
+import com.inbyte.commons.model.enums.PaymentTypeEnum;
 import com.inbyte.component.app.payment.weixin.model.*;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.cipher.Signer;

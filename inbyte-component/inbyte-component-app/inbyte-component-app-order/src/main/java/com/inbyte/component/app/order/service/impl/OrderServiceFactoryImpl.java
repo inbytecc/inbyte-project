@@ -1,7 +1,7 @@
 package com.inbyte.component.app.order.service.impl;
 
 import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.commons.model.dict.OrderTypeEnum;
+import com.inbyte.commons.model.enums.OrderTypeEnum;
 import com.inbyte.component.app.order.service.OrderServiceCommonApi;
 import com.inbyte.component.app.order.service.OrderServiceFactory;
 import org.springframework.beans.BeansException;

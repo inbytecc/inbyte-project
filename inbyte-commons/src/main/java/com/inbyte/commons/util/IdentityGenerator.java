@@ -1,6 +1,6 @@
 package com.inbyte.commons.util;
 
-import com.inbyte.commons.model.dict.OrderTypeEnum;
+import com.inbyte.commons.model.enums.OrderTypeEnum;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

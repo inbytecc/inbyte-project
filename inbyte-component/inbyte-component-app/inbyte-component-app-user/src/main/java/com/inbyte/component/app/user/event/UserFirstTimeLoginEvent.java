@@ -1,6 +1,6 @@
 package com.inbyte.component.app.user.event;
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.context.ApplicationEvent;

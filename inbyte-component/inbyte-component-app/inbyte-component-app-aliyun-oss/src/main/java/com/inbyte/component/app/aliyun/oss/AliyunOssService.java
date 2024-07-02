@@ -5,7 +5,7 @@ import com.aliyun.oss.*;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
-import com.inbyte.commons.model.dict.UploadByEnum;
+import com.inbyte.commons.model.enums.UploadByEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;

@@ -3,7 +3,7 @@ package com.inbyte.component.app.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.api.CacheManager;
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.IdentityGenerator;

@@ -1,6 +1,6 @@
 package com.inbyte.component.app.aliyun.oss.model.storage;
 
-import com.inbyte.commons.model.dict.UploadByEnum;
+import com.inbyte.commons.model.enums.UploadByEnum;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;

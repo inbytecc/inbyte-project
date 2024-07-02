@@ -1,6 +1,6 @@
 package com.inbyte.component.app.user.framework;
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import lombok.*;
 
 import java.time.LocalDateTime;

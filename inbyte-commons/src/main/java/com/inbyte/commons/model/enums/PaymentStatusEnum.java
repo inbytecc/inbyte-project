@@ -1,4 +1,4 @@
-package com.inbyte.commons.model.dict;
+package com.inbyte.commons.model.enums;
 
 /**
  * 支付状态

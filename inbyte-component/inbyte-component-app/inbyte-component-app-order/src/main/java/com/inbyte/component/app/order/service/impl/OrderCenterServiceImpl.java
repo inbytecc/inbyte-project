@@ -2,7 +2,7 @@ package com.inbyte.component.app.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.commons.model.dict.OrderStatusEnum;
+import com.inbyte.commons.model.enums.OrderStatusEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.Assert;
 import com.inbyte.commons.util.PageUtil;

@@ -1,7 +1,7 @@
 package com.inbyte.component.app.user.event;
 
 
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

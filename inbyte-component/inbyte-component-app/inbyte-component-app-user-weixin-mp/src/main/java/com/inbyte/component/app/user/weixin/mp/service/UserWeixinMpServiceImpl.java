@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.commons.model.dict.AppTypeEnum;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePage;
 import com.inbyte.commons.model.dto.R;

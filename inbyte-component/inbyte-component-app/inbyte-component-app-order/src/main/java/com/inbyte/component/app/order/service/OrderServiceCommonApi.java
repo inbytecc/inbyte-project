@@ -1,6 +1,6 @@
 package com.inbyte.component.app.order.service;
 
-import com.inbyte.commons.model.dict.OrderTypeEnum;
+import com.inbyte.commons.model.enums.OrderTypeEnum;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.app.order.model.refund.RefundApplyParam;
 import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
