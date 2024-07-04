@@ -53,6 +53,12 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
                     new SystemUserLoginDto(SessionUtil.getJwtToken(sessionUser)));
         }
 
+        inbyteSystemUserMapper.updateById(InbyteSystemUserPo.builder()
+                .userId(detail.getUserId())
+                .latestLoginTime(LocalDateTime.now())
+                .loginWay("wx-mp")
+                .build());
+
         sessionUser.setUserId(detail.getUserId());
         sessionUser.setUserName(detail.getUserName());
         sessionUser.setTel(detail.getTel());
