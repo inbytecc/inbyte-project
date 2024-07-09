@@ -13,7 +13,7 @@
                #{createTime,jdbcType=TIMESTAMP}
           FROM DUAL
          WHERE NOT EXISTS(SELECT 1
-                            FROM qrcode_merchant_user
+                            FROM marketing_qrcode_merchant_user
                            WHERE qcid = #{qcid}
                              AND eid = #{eid}
                              AND etp = #{etp})

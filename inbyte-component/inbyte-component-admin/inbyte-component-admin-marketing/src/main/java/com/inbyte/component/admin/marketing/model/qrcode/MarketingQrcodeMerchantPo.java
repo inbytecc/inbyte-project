@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@TableName("qrcode_merchant")
-public class QrcodeMerchantPo {
+@TableName("marketing_qrcode_merchant")
+public class MarketingQrcodeMerchantPo {
 
     /**
      * 宣传码ID

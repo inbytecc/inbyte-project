@@ -57,15 +57,15 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     @Override
     public R insert(QrcodeMerchantInsert insert) {
         SessionUser sessionUser = SessionUtil.getSessionUser();
-        QrcodeMerchantPo qrcodeMerchantPo = QrcodeMerchantPo.builder()
+        MarketingQrcodeMerchantPo marketingQrcodeMerchantPo = MarketingQrcodeMerchantPo.builder()
                 .mctNo(sessionUser.getMctNo())
                 .createTime(LocalDateTime.now())
                 .creator(SessionUtil.getUserName())
                 .build();
-        BeanUtils.copyProperties(insert, qrcodeMerchantPo);
-        marketingQrcodeMerchantMapper.insert(qrcodeMerchantPo);
+        BeanUtils.copyProperties(insert, marketingQrcodeMerchantPo);
+        marketingQrcodeMerchantMapper.insert(marketingQrcodeMerchantPo);
 
-        String scene = "q=" + qrcodeMerchantPo.getQcid() +
+        String scene = "q=" + marketingQrcodeMerchantPo.getQcid() +
                 "&t=" + UserSourceTypeDict.Merchant_Share.code +
                 "&qr=true";
 
@@ -73,9 +73,9 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
             scene = scene + "&" + insert.getScene();
         }
 
-        LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(QrcodeMerchantPo::getQcid, qrcodeMerchantPo.getQcid());
-        updateWrapper.set(QrcodeMerchantPo::getScene, scene);
+        LambdaUpdateWrapper<MarketingQrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(MarketingQrcodeMerchantPo::getQcid, marketingQrcodeMerchantPo.getQcid());
+        updateWrapper.set(MarketingQrcodeMerchantPo::getScene, scene);
         marketingQrcodeMerchantMapper.update(null, updateWrapper);
 
         return R.ok("新增成功");
@@ -83,24 +83,24 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
 
     @Override
     public R delete(Integer qcid) {
-        LambdaQueryWrapper<QrcodeMerchantPo> queryWrapper = new QueryWrapper<QrcodeMerchantPo>().lambda();
-        queryWrapper.eq(QrcodeMerchantPo::getQcid, qcid);
-        queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
+        LambdaQueryWrapper<MarketingQrcodeMerchantPo> queryWrapper = new QueryWrapper<MarketingQrcodeMerchantPo>().lambda();
+        queryWrapper.eq(MarketingQrcodeMerchantPo::getQcid, qcid);
+        queryWrapper.eq(MarketingQrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
         marketingQrcodeMerchantMapper.delete(queryWrapper);
         return R.ok("删除成功");
     }
 
     @Override
     public R update(QrcodeMerchantUpdate update) {
-        QrcodeMerchantPo qrcodeMerchantPo = QrcodeMerchantPo.builder()
+        MarketingQrcodeMerchantPo marketingQrcodeMerchantPo = MarketingQrcodeMerchantPo.builder()
                 .updateTime(LocalDateTime.now())
                 .build();
-        BeanUtils.copyProperties(update, qrcodeMerchantPo);
+        BeanUtils.copyProperties(update, marketingQrcodeMerchantPo);
 
-        LambdaQueryWrapper<QrcodeMerchantPo> queryWrapper = new LambdaQueryWrapper<QrcodeMerchantPo>();
-        queryWrapper.eq(QrcodeMerchantPo::getQcid, update.getQcid());
-        queryWrapper.eq(QrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
-        marketingQrcodeMerchantMapper.update(qrcodeMerchantPo, queryWrapper);
+        LambdaQueryWrapper<MarketingQrcodeMerchantPo> queryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantPo>();
+        queryWrapper.eq(MarketingQrcodeMerchantPo::getQcid, update.getQcid());
+        queryWrapper.eq(MarketingQrcodeMerchantPo::getMctNo, SessionUtil.getMctNo());
+        marketingQrcodeMerchantMapper.update(marketingQrcodeMerchantPo, queryWrapper);
         return R.ok("修改成功");
     }
 

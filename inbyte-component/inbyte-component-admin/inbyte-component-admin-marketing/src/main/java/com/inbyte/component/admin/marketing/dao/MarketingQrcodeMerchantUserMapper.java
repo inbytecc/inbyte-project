@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 商户二维码注册用户
  *
- * 表名：  qrcode_merchant_user
+ * 表名：  marketing_qrcode_merchant_user
  * @author chenjw
  * @date 2023-04-04 16:39:21
  */

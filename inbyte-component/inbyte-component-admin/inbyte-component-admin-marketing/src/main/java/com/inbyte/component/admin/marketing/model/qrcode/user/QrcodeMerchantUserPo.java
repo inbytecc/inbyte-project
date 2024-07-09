@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-@TableName("qrcode_merchant_user")
+@TableName("marketing_qrcode_merchant_user")
 public class QrcodeMerchantUserPo {
 
     /**
