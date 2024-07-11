@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.user.model.mp.weixin;
 
+import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,16 +51,6 @@ public class UserWeixinMpDetail {
      * 微信 unionId 多应用唯一
      */
     private String unionId;
-
-    /**
-     * 小程序客户端appId
-     */
-    private String appId;
-
-    /**
-     * 商户号
-     */
-    private String mctNo;
 
     /**
      * 手机号
@@ -124,17 +115,13 @@ public class UserWeixinMpDetail {
     /**
      * 已绑定用户
      */
+    @DictSerialize
     private Integer boundWithUser;
 
     /**
      * 绑定用户时间
      */
     private LocalDateTime boundWithUserTime;
-
-    /**
-     * 逻辑删除
-     */
-    private Integer deleted;
 
     /**
      * 邀请数量
