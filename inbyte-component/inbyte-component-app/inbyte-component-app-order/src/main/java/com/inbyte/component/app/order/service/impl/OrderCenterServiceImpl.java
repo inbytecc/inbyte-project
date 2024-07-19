@@ -29,31 +29,31 @@ public class OrderCenterServiceImpl implements OrderCenterService {
     private OrderCenterMapper orderCenterMapper;
 
     @Override
-    public R create(OrderCenterCreate orderCenterCreate) {
-        Assert.ok(orderCenterCreate);
+    public R create(OrderCenterCreate param) {
+        Assert.ok(param);
 
         OrderCenterPo order = OrderCenterPo.builder()
-                .userId(orderCenterCreate.getUserId())
-                .nickname(orderCenterCreate.getNickname())
-                .avatar(orderCenterCreate.getAvatar())
-                .tel(orderCenterCreate.getTel())
-                .mainPhoto(orderCenterCreate.getMainPhoto())
+                .userId(param.getUserId())
+                .nickname(param.getNickname())
+                .avatar(param.getAvatar())
+                .tel(param.getTel())
+                .mainPhoto(param.getMainPhoto())
 
-                .orderNo(orderCenterCreate.getOrderNo())
-                .orderTitle(orderCenterCreate.getOrderTitle())
-                .orderBrief(orderCenterCreate.getOrderBrief())
-                .orderType(orderCenterCreate.getOrderType())
-                .orderStatus(OrderStatusEnum.WAIT_PAY)
-                .extent(orderCenterCreate.getExtent())
+                .orderNo(param.getOrderNo())
+                .orderTitle(param.getOrderTitle())
+                .orderBrief(param.getOrderBrief())
+                .orderType(param.getOrderType())
+                .orderStatus(param.getOrderStatus() == null ?OrderStatusEnum.WAIT_PAY : param.getOrderStatus())
+                .extent(param.getExtent())
 
-                .orderAmount(orderCenterCreate.getOrderAmount())
-                .payableAmount(orderCenterCreate.getPayableAmount())
+                .orderAmount(param.getOrderAmount())
+                .payableAmount(param.getPayableAmount())
 
-                .venueId(orderCenterCreate.getVenueId())
-                .venueName(orderCenterCreate.getVenueName())
-                .mctNo(orderCenterCreate.getMctNo())
-                .appId(orderCenterCreate.getAppId())
-                .appType(orderCenterCreate.getAppType())
+                .venueId(param.getVenueId())
+                .venueName(param.getVenueName())
+                .mctNo(param.getMctNo())
+                .appId(param.getAppId())
+                .appType(param.getAppType())
                 .createTime(LocalDateTime.now())
                 .build();
         orderCenterMapper.insert(order);

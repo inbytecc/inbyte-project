@@ -2,6 +2,7 @@ package com.inbyte.component.app.order.model;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.inbyte.commons.model.enums.AppTypeEnum;
+import com.inbyte.commons.model.enums.OrderStatusEnum;
 import com.inbyte.commons.model.enums.OrderTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -51,6 +52,12 @@ public class OrderCenterCreate {
     /** 订单简介 */
     @NotNull(message = "订单简介不能为空")
     private String orderBrief;
+
+    /**
+     * 订单状态
+     * 该字段可以为空，当为空时，默认为待支付
+     **/
+    private OrderStatusEnum orderStatus;
 
     /** 订单类型枚举 */
     @NotNull(message = "订单类型不能为空")
