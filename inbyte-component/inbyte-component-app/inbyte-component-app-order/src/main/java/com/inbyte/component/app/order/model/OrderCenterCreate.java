@@ -38,7 +38,6 @@ public class OrderCenterCreate {
     private String tel;
 
     /** 主要照片 */
-    @NotNull(message = "主要照片不能为空")
     private String mainPhoto;
 
     /** 订单编号 */
