@@ -6,10 +6,10 @@
     <parent>
 		<artifactId>inbyte-project</artifactId>
 		<groupId>com.inbyte</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.1.0-RELEASE</version>
 	</parent>
 	<artifactId>inbyte-util</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.1.0-RELEASE</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>inbyte-util-itext</module>

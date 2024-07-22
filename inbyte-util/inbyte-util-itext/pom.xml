@@ -6,11 +6,11 @@
     <parent>
 		<groupId>com.inbyte</groupId>
 		<artifactId>inbyte-util</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.1.0-RELEASE</version>
 	</parent>
 	<artifactId>inbyte-util-itext</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.1.0-RELEASE</version>
 	<name>${project.artifactId}</name>
 	<properties>
 		<itext.version>7.1.11</itext.version>
