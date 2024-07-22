@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.app.user.dao.UserMapper">
+
+    <insert id="insertSelective" parameterType="com.inbyte.component.app.user.model.UserPo" keyProperty="userId" useGeneratedKeys="true">
+        INSERT INTO user
+            (tel, user_name, nickname, real_name, avatar, create_time)
+        SELECT #{tel, jdbcType=VARCHAR},
+               #{userName, jdbcType=VARCHAR},
+               #{nickname, jdbcType=VARCHAR},
+               #{realName, jdbcType=VARCHAR},
+               #{avatar, jdbcType=VARCHAR},
+               #{createTime, jdbcType=TIMESTAMP}
+          FROM DUAL
+         WHERE NOT EXISTS(SELECT 1
+                            FROM user
+                           WHERE tel = #{tel})
+    </insert>
+
+    <select id="queryByTel" resultType="com.inbyte.component.app.user.model.UserBrief">
+        SELECT user_id,
+               tel,
+               nickname,
+               real_name,
+               pwd,
+               avatar,
+               create_time
+          FROM user
+         WHERE tel = #{tel}
+    </select>
+
+    <insert id="insertLocationSelective">
+        INSERT INTO user_location
+            (user_id, app_type, eid, mct_no, longitude, latitude, create_time)
+        SELECT #{userId,jdbcType=INTEGER},
+               #{appType,jdbcType=VARCHAR},
+               #{eid,jdbcType=INTEGER},
+               #{mctNo,jdbcType=VARCHAR},
+               #{longitude,jdbcType=DECIMAL},
+               #{latitude,jdbcType=DECIMAL},
+               #{createTime,jdbcType=TIMESTAMP}
+          FROM DUAL
+         WHERE NOT EXISTS(SELECT 1
+                            FROM user_location
+                           WHERE eid = #{eid,jdbcType=INTEGER}
+                             AND app_type = #{appType,jdbcType=VARCHAR}
+                             AND create_time > DATE_SUB(#{createTime,jdbcType=TIMESTAMP}, INTERVAL 2 HOUR))
+    </insert>
+
+</mapper>

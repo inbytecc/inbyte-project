@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper">
+
+    <insert id="insertSelective" parameterType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinInfoPo" keyProperty="weixinPaymentId" useGeneratedKeys="true">
+        INSERT INTO payment_weixin_info
+            (user_id, order_no, order_brief, order_type, main_photo, venue_id, mct_no, app_id, prepay_id,
+             payment_amount, weixin_payment_merchant_id, paid, create_time)
+        SELECT #{userId, jdbcType=INTEGER},
+               #{orderNo, jdbcType=VARCHAR},
+               #{orderBrief, jdbcType=VARCHAR},
+               #{orderType, jdbcType=VARCHAR},
+               #{mainPhoto, jdbcType=VARCHAR},
+               #{venueId, jdbcType=INTEGER},
+               #{mctNo, jdbcType=VARCHAR},
+               #{appId, jdbcType=VARCHAR},
+               #{prepayId, jdbcType=VARCHAR},
+               #{paymentAmount, jdbcType=DECIMAL},
+               #{weixinPaymentMerchantId, jdbcType=VARCHAR},
+               #{paid, jdbcType=INTEGER},
+               #{createTime, jdbcType=TIMESTAMP}
+          FROM DUAL
+         WHERE NOT EXISTS(SELECT 1
+                            FROM payment_weixin_info
+                           WHERE order_no = #{orderNo})
+    </insert>
+
+    <select id="selectByNo" parameterType="java.lang.String" resultType="com.inbyte.component.app.payment.weixin.model.PaymentWeixinInfoBrief">
+        SELECT weixin_payment_id,
+               user_id,
+               order_no,
+               order_brief,
+               order_type,
+               main_photo,
+               venue_id,
+               mct_no,
+               app_id,
+               payment_amount,
+               weixin_payment_merchant_id,
+               paid,
+               payment_no
+          FROM payment_weixin_info
+         WHERE order_no = #{orderNo, jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.user.dao.UserWeixinMpMapper">
+
+    <select id="detail" resultType="com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail">
+        SELECT eid,
+               open_id,
+               user_id,
+               nickname,
+               real_name,
+               gender,
+               union_id,
+               app_id,
+               mct_no,
+               tel,
+               pwd,
+               country_code,
+               avatar,
+               session_key,
+               create_time,
+               latest_login_time,
+               longitude,
+               latitude,
+               location_update_time,
+               register_longitude,
+               register_latitude,
+               recommend_eid,
+               bound_with_user,
+               bound_with_user_time,
+               invite_count,
+               remark,
+               register_type,
+               register_remark
+          FROM user_weixin_mp
+         WHERE eid = #{eid, jdbcType=INTEGER}
+           AND mct_no = #{mctNo}
+    </select>
+    <select id="getByUserId" resultType="com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpDetail">
+        SELECT eid,
+               open_id,
+               user_id,
+               nickname,
+               real_name,
+               gender,
+               union_id,
+               app_id,
+               mct_no,
+               tel,
+               pwd,
+               country_code,
+               avatar,
+               session_key,
+               create_time,
+               latest_login_time,
+               longitude,
+               latitude,
+               location_update_time,
+               register_longitude,
+               register_latitude,
+               recommend_eid,
+               bound_with_user,
+               bound_with_user_time,
+               invite_count,
+               remark
+          FROM user_weixin_mp
+         WHERE user_id = #{userId, jdbcType=INTEGER}
+           AND mct_no = #{mctNo}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.user.model.mp.weixin.UserWeixinMpBrief">
+        SELECT eid,
+               open_id,
+               user_id,
+               nickname,
+               real_name,
+               gender,
+               union_id,
+               app_id,
+               mct_no,
+               tel,
+               country_code,
+               avatar,
+               session_key,
+               create_time,
+               latest_login_time,
+               login_count,
+               longitude,
+               latitude,
+               location_update_time,
+               register_longitude,
+               register_latitude,
+               recommend_eid,
+               bound_with_user,
+               bound_with_user_time,
+               invite_count,
+               remark,
+               qcid,
+               register_type,
+               register_remark
+          FROM user_weixin_mp
+         WHERE deleted = 0
+           AND mct_no = #{mctNo}
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="recommendEid != null">
+           AND recommend_eid = #{recommendEid}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (nickname LIKE CONCAT('%', #{keyword}, '%') OR
+                 real_name LIKE CONCAT('%', #{keyword}, '%') OR
+                 tel LIKE CONCAT('%', #{keyword}, '%') OR
+                 remark LIKE CONCAT('%', #{keyword}, '%') OR
+                 register_remark LIKE CONCAT('%', #{keyword}, '%') OR
+                 eid = #{keyword})
+        </if>
+        <choose>
+            <when test="orderColumn != null and orderColumn != ''">
+                ORDER BY ${orderColumn} ${ordering}
+            </when>
+            <otherwise>
+                ORDER BY eid DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="userTrend" resultType="com.inbyte.component.admin.user.model.mp.UserTrendBrief">
+        SELECT DATE_FORMAT(create_time,'%Y-%m-%d') `date`,
+               count(open_id) `count`
+          FROM user_weixin_mp
+         WHERE deleted = 0
+           AND mct_no = #{mctNo}
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+         GROUP BY `date`
+         ORDER BY `date` ASC
+    </select>
+
+</mapper>

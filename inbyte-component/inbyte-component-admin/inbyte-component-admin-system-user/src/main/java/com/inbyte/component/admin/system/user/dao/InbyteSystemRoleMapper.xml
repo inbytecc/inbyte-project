@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.system.user.dao.InbyteSystemRoleMapper">
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.system.user.model.system.role.SystemRoleDetail">
+        SELECT role_id,
+               `name`,
+               menu,
+               remark,
+               creator,
+               create_time,
+               modifier,
+               update_time
+          FROM inbyte_system_role
+         WHERE role_id = #{roleId, jdbcType=INTEGER}
+           AND mct_no = #{mctNo, jdbcType=VARCHAR}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.system.user.model.system.role.SystemRoleBrief">
+        SELECT role_id,
+               `name`,
+               menu,
+               remark,
+               create_time,
+               update_time
+          FROM inbyte_system_role
+         WHERE deleted = 0
+           AND mct_no = #{mctNo}
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (name LIKE CONCAT('%', #{keyword}, '%')
+            OR remark LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+         ORDER BY role_id DESC
+    </select>
+</mapper>

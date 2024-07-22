@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpInviteMapper">
+
+    <select id="list" resultType="com.inbyte.component.app.user.weixin.mp.model.UserInviteDto">
+        SELECT uw.nickname,
+               wmi.appointed,
+               wmi.create_time
+          FROM user_weixin_mp_invite wmi
+         INNER JOIN user_weixin_mp uw
+            ON wmi.eid = uw.eid
+         WHERE wmi.recommend_eid = #{recommendEid}
+         ORDER BY wmi.create_time DESC
+    </select>
+</mapper>

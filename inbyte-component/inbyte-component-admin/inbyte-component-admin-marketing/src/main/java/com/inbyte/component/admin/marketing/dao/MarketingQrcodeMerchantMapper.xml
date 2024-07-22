@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantMapper">
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.qrcode.QrcodeMerchantDetail">
+        SELECT qcid,
+               `name`,
+               invest_cost,
+               online_ad,
+               ad_page_count,
+               page,
+               scene,
+               remark,
+               view_count,
+               register_count,
+               clue_count,
+               order_count,
+               trade_amount,
+               longitude,
+               latitude,
+               create_time,
+               creator,
+               update_time
+          FROM marketing_qrcode_merchant
+         WHERE qcid = #{qcid, jdbcType=INTEGER}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.marketing.model.qrcode.QrcodeMerchantBrief">
+        SELECT qcid,
+               `name`,
+               invest_cost,
+               online_ad,
+               ad_page_count,
+               page,
+               scene,
+               remark,
+               view_count,
+               relation_count,
+               register_count,
+               clue_count,
+               order_count,
+               trade_amount,
+               longitude,
+               latitude,
+               create_time,
+               update_time
+          FROM marketing_qrcode_merchant
+         WHERE deleted = 0
+           AND mct_no = #{mctNo}
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (name LIKE CONCAT('%', #{keyword}, '%')
+            OR remark LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <choose>
+            <when test="orderColumn != null and orderColumn != ''">
+                ORDER BY ${orderColumn} ${ordering}
+            </when>
+            <otherwise>
+                ORDER BY qcid DESC
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

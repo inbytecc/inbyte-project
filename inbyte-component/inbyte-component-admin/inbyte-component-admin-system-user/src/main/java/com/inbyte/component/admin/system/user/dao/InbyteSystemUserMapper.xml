@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.system.user.dao.InbyteSystemUserMapper">
+
+    <select id="detail" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
+        SELECT user_id,
+               user_name,
+               user_name,
+               nickname,
+               real_name,
+               tel,
+               avatar,
+               email,
+               disabled,
+               role,
+               role_desc,
+               create_time,
+               latest_login_time,
+               deleted,
+               remark,
+               need_update_pwd,
+               mct_no
+          FROM inbyte_system_user
+         WHERE user_id = #{userId, jdbcType=INTEGER}
+    </select>
+
+    <select id="queryByPwd" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
+        SELECT user_id,
+               user_name,
+               tel,
+               avatar,
+               email,
+               create_time,
+               latest_login_time,
+               deleted,
+               remark,
+               need_update_pwd,
+               mct_no,
+               admin
+          FROM inbyte_system_user
+         WHERE (tel = #{id, jdbcType=VARCHAR} OR user_name = #{id, jdbcType=VARCHAR})
+           AND pwd = #{pwd, jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryByOpenId" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
+        SELECT user_id,
+               user_name,
+               tel,
+               avatar,
+               email,
+               create_time,
+               latest_login_time,
+               deleted,
+               remark,
+               need_update_pwd,
+               mct_no
+          FROM inbyte_system_user
+         WHERE open_id = #{openId}
+    </select>
+
+    <select id="queryByTel" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
+        SELECT user_id,
+               user_name,
+               tel,
+               avatar,
+               email,
+               create_time,
+               latest_login_time,
+               deleted,
+               remark,
+               need_update_pwd,
+               mct_no
+          FROM inbyte_system_user
+         WHERE tel = #{tel}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserBrief">
+        SELECT user_id,
+               user_name,
+               nickname,
+               real_name,
+               tel,
+               avatar,
+               email,
+               disabled,
+               role,
+               role_desc,
+               create_time,
+               latest_login_time,
+               deleted,
+               remark,
+               need_update_pwd,
+               mct_no
+          FROM inbyte_system_user
+         WHERE deleted = 0
+           AND mct_no = #{mctNo, jdbcType=VARCHAR}
+        <if test="keyword != null and keyword != ''">
+            AND (user_name LIKE CONCAT('%', #{keyword}, '%') OR
+                 real_name LIKE CONCAT('%', #{keyword}, '%') OR
+                 tel LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+    </select>
+
+    <select id="dict" resultType="com.inbyte.commons.model.dto.Dict">
+        SELECT user_id AS code,
+               user_id AS codeStr,
+               user_name AS name
+          FROM inbyte_system_user
+         WHERE deleted = 0
+        <if test="keyword != null and keyword != ''">
+            AND (user_name LIKE CONCAT('%', #{keyword}, '%') OR
+                 real_name LIKE CONCAT('%', #{keyword}, '%') OR
+                 tel LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+    </select>
+</mapper>

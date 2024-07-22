@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.user.dao.UserMapper">
+
+    <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.user.model.UserBrief">
+        SELECT user_id,
+               tel,
+               nickname,
+               real_name,
+               email,
+               avatar,
+               remark
+          FROM user
+         WHERE user_id = #{userId, jdbcType=INTEGER}
+    </select>
+
+    <select id="briefByTel" resultType="com.inbyte.component.admin.user.model.UserBrief">
+        SELECT user_id,
+               tel,
+               nickname,
+               real_name,
+               email,
+               avatar,
+               remark
+          FROM user
+         WHERE tel = #{tel}
+    </select>
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.user.model.UserDetail">
+        SELECT user_id,
+               tel,
+               user_name,
+               nickname,
+               real_name,
+               email,
+               avatar,
+               create_time,
+               update_time,
+               remark
+          FROM user
+         WHERE user_id = #{userId, jdbcType=INTEGER}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.user.model.UserBrief">
+        SELECT user_id,
+               tel,
+               user_name,
+               nickname,
+               real_name,
+               email,
+               gender,
+               avatar,
+               create_time,
+               remark
+          FROM user
+         WHERE deleted = 0
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (user_name LIKE CONCAT('%', #{keyword}, '%')
+            OR tel LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+         ORDER BY user_id DESC
+    </select>
+
+    <select id="dict" resultType="com.inbyte.component.admin.user.model.UserDictBrief">
+        SELECT user_id,
+               tel,
+               nickname,
+               avatar,
+               create_time
+          FROM user
+         WHERE deleted = 0
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="keyword != null and keyword != ''">
+           AND (nickname LIKE CONCAT('%', #{keyword}, '%')
+           OR tel LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        ORDER BY user_id DESC
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantUserMapper">
+
+    <insert id="insertSelective" parameterType="com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantUserPo" keyProperty="qmUserId" useGeneratedKeys="true">
+        INSERT INTO marketing_qrcode_merchant_user
+            (qcid, eid, etp, longitude, latitude, create_time)
+        SELECT #{qcid, jdbcType=INTEGER},
+               #{eid, jdbcType=INTEGER},
+               #{etp, jdbcType=INTEGER},
+               #{longitude, jdbcType=DECIMAL},
+               #{latitude, jdbcType=DECIMAL},
+               #{createTime,jdbcType=TIMESTAMP}
+          FROM DUAL
+         WHERE NOT EXISTS(SELECT 1
+                            FROM marketing_qrcode_merchant_user
+                           WHERE qcid = #{qcid}
+                             AND eid = #{eid}
+                             AND etp = #{etp})
+    </insert>
+</mapper>

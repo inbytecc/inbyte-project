@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.marketing.dao.CustomerClueMapper">
+
+    <select id="brief" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueBrief">
+        SELECT clue_id,
+               user_id,
+               nickname,
+               eid,
+               etp,
+               tel,
+               dispatched,
+               contact_person_id,
+               contact_person_name,
+               latest_contact_time,
+               next_contact_time,
+               dropped,
+               drop_reason,
+               converted,
+               update_time
+          FROM customer_clue
+         WHERE clue_id = #{clueId, jdbcType=INTEGER}
+    </select>
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueDetail">
+        SELECT clue_id,
+               user_id,
+               nickname,
+               eid,
+               etp,
+               tel,
+               dispatched,
+               contact_person_id,
+               contact_person_name,
+               latest_contact_time,
+               next_contact_time,
+               dropped,
+               drop_reason,
+               converted,
+               remark,
+               create_time,
+               creator,
+               update_time
+          FROM customer_clue
+         WHERE clue_id = #{clueId, jdbcType=INTEGER}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.marketing.model.clue.CustomerClueBrief">
+        SELECT clue_id,
+               user_id,
+               nickname,
+               tel,
+               subject_name,
+               module_name,
+               dispatched,
+               contact_person_id,
+               contact_person_name,
+               contacting,
+               contact_stage,
+               latest_contact_time,
+               next_contact_time,
+               converted,
+               recommend_eid,
+               recommend_user_name,
+               latest_contact_msg,
+               longitude,
+               latitude,
+               remark,
+               create_time,
+               update_time
+          FROM customer_clue
+         WHERE deleted = 0
+           AND mct_no = #{mctNo}
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="clueStatus != null and clueStatus == 1">
+           AND contact_stage IN(0,1,2,3,4,5,6)
+        </if>
+        <if test="clueStatus != null and clueStatus == 2">
+           AND dropped = 1
+        </if>
+        <if test="clueStatus != null and clueStatus == 3">
+           AND converted = 1
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (nickname LIKE CONCAT('%', #{keyword}, '%')
+            OR tel LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+
+        <choose>
+            <when test="orderColumn != null and orderColumn != ''">
+                ORDER BY ${orderColumn} ${ordering}
+            </when>
+            <otherwise>
+                ORDER BY clue_id DESC
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
