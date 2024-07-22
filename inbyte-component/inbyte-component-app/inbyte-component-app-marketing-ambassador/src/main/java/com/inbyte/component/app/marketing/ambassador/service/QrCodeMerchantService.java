@@ -3,9 +3,8 @@ package com.inbyte.component.app.marketing.ambassador.service;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.commons.model.dict.Whether;
-import com.inbyte.commons.model.dict.WhetherDict;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantMapper;
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantUserMapper;
 import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantPo;
@@ -154,7 +153,7 @@ public class QrCodeMerchantService {
         LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qrcodeMerchantUserUpdate = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
                 .eq(MarketingQrcodeMerchantUserPo::getQcid, marketingQrcodeMerchantUserPo.getQcid())
                 .eq(MarketingQrcodeMerchantUserPo::getEid, marketingQrcodeMerchantUserPo.getEid())
-                .set(MarketingQrcodeMerchantUserPo::getMadeDeal, WhetherDict.Yes.code)
+                .set(MarketingQrcodeMerchantUserPo::getMadeDeal, Whether.Yes)
                 .setSql("order_count = order_count + 1")
                 .setSql("trade_amount = trade_amount + " + event.getOrderAmount());
         int update = marketingQrcodeMerchantUserMapper.update(null, qrcodeMerchantUserUpdate);
