@@ -83,6 +83,14 @@ public class TencentGeoService {
         return R.ok(commonCity);
     }
 
+    /**
+     * 地点搜索
+     *
+     * 接口文档：https://lbs.qq.com/service/webService/webServiceGuide/search/webServiceSearch
+     *
+     * @param request
+     * @return
+     */
     public R<List<TencentMapPlaceDto>> searchPlace(TencentMapPlaceSearchParam request) {
         // 构建 URI
         URI uri = UriComponentsBuilder.fromHttpUrl(TENCENT_PLACE_SEARCH_URL)
