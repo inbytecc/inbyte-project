@@ -8,6 +8,7 @@ package com.inbyte.commons.model.dict;
  */
 public enum WhetherDict {
 
+    UNK(-1, "未知"),
     No(0, "否"),
     Yes(1, "是");
 
