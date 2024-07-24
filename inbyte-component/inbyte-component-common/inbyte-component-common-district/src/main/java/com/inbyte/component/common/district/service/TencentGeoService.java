@@ -27,7 +27,7 @@ import java.util.Optional;
 @Slf4j
 @ConditionalOnProperty(name = "tencent.map.enable", havingValue = "true", matchIfMissing = false)
 @Service
-public class TencentGeoCoderService {
+public class TencentGeoService {
 
 
     @Value("${tencent.map.apikey}")
@@ -86,7 +86,7 @@ public class TencentGeoCoderService {
     public R<List<TencentMapPlaceDto>> searchPlace(TencentMapPlaceSearchParam request) {
         // 构建 URI
         URI uri = UriComponentsBuilder.fromHttpUrl(TENCENT_PLACE_SEARCH_URL)
-                .queryParam("key", request.getKey())
+                .queryParam("key", apiKey)
                 .queryParam("keyword", request.getKeyword())
                 .queryParam("boundary", request.getBoundary())
                 .queryParamIfPresent("filter", Optional.ofNullable(request.getFilter()))

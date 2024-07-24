@@ -1,6 +1,5 @@
 package com.inbyte.component.common.district.model.tencent;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TencentMapPlaceSearchParam {
-    /**
-     * 开发密钥（Key）
-     */
-    @JsonIgnore
-    private String key;
 
     /**
      * 搜索关键字，长度最大96个字节，注意键值要进行URL编码

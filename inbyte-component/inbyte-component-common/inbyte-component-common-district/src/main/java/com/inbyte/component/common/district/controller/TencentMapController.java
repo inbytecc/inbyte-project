@@ -4,7 +4,7 @@ import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.common.district.model.CommonCity;
 import com.inbyte.component.common.district.model.tencent.TencentMapPlaceDto;
 import com.inbyte.component.common.district.model.tencent.TencentMapPlaceSearchParam;
-import com.inbyte.component.common.district.service.TencentGeoCoderService;
+import com.inbyte.component.common.district.service.TencentGeoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ import java.util.List;
 public class TencentMapController {
 
     @Autowired
-    private TencentGeoCoderService tencentGeoCoderService;
+    private TencentGeoService tencentGeoService;
 
     /**
      * 经纬度解析城市
@@ -37,7 +37,7 @@ public class TencentMapController {
     @GetMapping("city/parse")
     public R<CommonCity> locationParseCity(@RequestParam(name = "longitude", required = false) BigDecimal longitude,
                                            @RequestParam(name = "latitude", required = false) BigDecimal latitude) {
-        return tencentGeoCoderService.locationParseCity(longitude, latitude);
+        return tencentGeoService.locationParseCity(longitude, latitude);
     }
 
     /**
@@ -47,6 +47,6 @@ public class TencentMapController {
      **/
     @GetMapping("place")
     public R<List<TencentMapPlaceDto>> searchPlace(@ModelAttribute TencentMapPlaceSearchParam request) {
-        return tencentGeoCoderService.searchPlace(request);
+        return tencentGeoService.searchPlace(request);
     }
 }
