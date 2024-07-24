@@ -1,9 +1,10 @@
-package com.inbyte.component.common.district;
+package com.inbyte.component.common.district.controller;
 
 import com.inbyte.component.common.district.model.CommonCity;
 import com.inbyte.component.common.district.model.CommonDistrict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.common.district.model.CommonProvince;
+import com.inbyte.component.common.district.service.CommonDistrictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

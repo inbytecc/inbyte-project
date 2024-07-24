@@ -1,4 +1,4 @@
-package com.inbyte.component.common.district;
+package com.inbyte.component.common.district.service;
 
 import com.inbyte.component.common.district.model.CommonCity;
 import com.inbyte.component.common.district.model.CommonDistrict;
