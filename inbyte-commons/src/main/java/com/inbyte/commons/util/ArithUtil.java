@@ -104,6 +104,16 @@ public class ArithUtil {
     }
 
     /**
+     * 判断第一个 BigDecimal 是否大于零
+     *
+     * @param num1 要比较的第一个 BigDecimal
+     * @return 如果 num1 大于 num2，则返回 true，否则返回 false
+     */
+    public static boolean isGreaterThanZero(BigDecimal num1) {
+        return num1.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    /**
      * 判断第一个 BigDecimal 是否小于第二个 BigDecimal。
      *
      * @param num1 要比较的第一个 BigDecimal
