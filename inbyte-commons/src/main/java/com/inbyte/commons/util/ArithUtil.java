@@ -110,7 +110,7 @@ public class ArithUtil {
      * @return 如果 num1 大于 num2，则返回 true，否则返回 false
      */
     public static boolean isGreaterThanZero(BigDecimal num1) {
-        return num1.compareTo(BigDecimal.ZERO) > 0;
+        return num1 != null && num1.compareTo(BigDecimal.ZERO) > 0;
     }
 
     /**
