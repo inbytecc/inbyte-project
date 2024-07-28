@@ -20,8 +20,6 @@ public class TimeUtil {
         } else if (minutes % 1440 == 0) {
             int days = minutes / 1440;
             return days + "天";
-        } else if (minutes == 30) {
-            return "半小时";
         } else {
             int hours = minutes / 60;
             int remainingMinutes = minutes % 60;
