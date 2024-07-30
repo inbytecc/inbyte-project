@@ -228,4 +228,26 @@ public class StringUtil {
     public static String defaultIfEmpty(String str, String defaultValue) {
         return str == null || "".equals(str) ? defaultValue : str;
     }
+
+    /**
+     * 去除最后一个英文逗号
+     * @param str
+     * @return
+     */
+    public static String removeLastComma(String str) {
+        return removeLastStr(str, ",");
+    }
+
+    /**
+     * 去除String文末字符
+     * @param str
+     * @param strToRemove
+     * @return
+     */
+    public static String removeLastStr(String str, String strToRemove) {
+        if (str != null && str.endsWith(strToRemove)) {
+            return str.substring(0, str.length() - strToRemove.length());
+        }
+        return str;
+    }
 }
