@@ -44,11 +44,6 @@ public class MarketingQrcodeMerchantPo {
     private BigDecimal investCost;
 
     /**
-      * 宣传单页数量
-      */
-    private Integer adPageCount;
-
-    /**
       * 页面路径
       */
     private String page;

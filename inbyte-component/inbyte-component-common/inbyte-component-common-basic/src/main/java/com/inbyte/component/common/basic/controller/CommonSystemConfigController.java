@@ -1,4 +1,4 @@
-package com.inbyte.component.common.basic;
+package com.inbyte.component.common.basic.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.inbyte.commons.model.dto.R;
@@ -18,7 +18,6 @@ public class CommonSystemConfigController {
 
     @Autowired
     private CommonSystemConfigService commonSystemConfigService;
-
 
     /**
      * Key获取 String Value

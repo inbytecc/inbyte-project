@@ -1,7 +1,7 @@
-package com.inbyte.component.app.sign.dao;
+package com.inbyte.component.common.basic.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.sign.model.InbyteAppPo;
+import com.inbyte.component.common.basic.model.InbyteAppPo;
 
 /**
  * 应用
