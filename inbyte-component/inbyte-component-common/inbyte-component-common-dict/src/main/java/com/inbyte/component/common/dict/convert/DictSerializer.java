@@ -11,7 +11,6 @@ import com.inbyte.component.common.dict.DictUtil;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  * 序列化注解自定义实现
@@ -19,20 +18,17 @@ import java.util.Collection;
  */
 public class DictSerializer extends JsonSerializer<Serializable> implements ContextualSerializer {
 
+
     private String dictName;
+    private String originalFieldName;
 
     @Override
     public void serialize(Serializable key, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        // 判断Key是否列表类型
-        if (key instanceof Collection) {
-            StringBuilder sb = new StringBuilder();
-            for (Object item : (Collection) key) {
-                sb.append(DictUtil.getName(dictName, item.toString())).append(",");
-            }
-            gen.writeString(sb.deleteCharAt(sb.length()-1).toString());
-        } else {
-            gen.writeString(DictUtil.getName(dictName, key));
-        }
+        gen.writeObject(key);
+
+        // 新增字段，名称为原字段名加 "Name"
+        String nameValue = DictUtil.getName(dictName, key.toString());
+        gen.writeStringField(originalFieldName + "Name", nameValue);
     }
 
     /**
@@ -40,8 +36,8 @@ public class DictSerializer extends JsonSerializer<Serializable> implements Cont
      */
     @Override
     public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property) throws JsonMappingException {
+        this.originalFieldName = property.getName();
         DictSerialize annotation = property.getAnnotation(DictSerialize.class);
-
         String name = annotation.name();
         if (StringUtil.isEmpty(name)) {
             this.dictName = annotation.value().getSimpleName();
