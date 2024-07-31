@@ -4,6 +4,7 @@ import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.util.SpringContextUtil;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,22 @@ public class DictUtil {
      */
     public static String getName(String dictName, Serializable code) {
         return getDict(dictName).get(String.valueOf(code));
+    }
+
+    /**
+     * 获取字典名称
+     * 多元素时, 以逗号分隔
+     *
+     * @param dictName
+     * @param codes
+     * @return
+     */
+    public static String getName(String dictName, Collection codes) {
+        StringBuilder sb = new StringBuilder();
+        for (Object code : codes) {
+            sb.append(getDict(dictName).get(String.valueOf(code))).append(",");
+        }
+        return sb.deleteCharAt(sb.length() - 1).toString();
     }
     /**
      * 获取字典名称

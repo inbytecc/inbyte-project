@@ -11,13 +11,13 @@ import com.inbyte.component.common.dict.DictUtil;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * 序列化注解自定义实现
  * JsonSerializer<String>：指定String 类型，serialize()方法用于将修改后的数据载入
  */
 public class DictSerializer extends JsonSerializer<Serializable> implements ContextualSerializer {
-
 
     private String dictName;
     private String originalFieldName;
@@ -26,9 +26,12 @@ public class DictSerializer extends JsonSerializer<Serializable> implements Cont
     public void serialize(Serializable key, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeObject(key);
 
-        // 新增字段，名称为原字段名加 "Name"
-        String nameValue = DictUtil.getName(dictName, key.toString());
-        gen.writeStringField(originalFieldName + "Name", nameValue);
+        // 判断Key是否列表类型
+        if (key instanceof Collection) {
+            gen.writeStringField(originalFieldName + "Name", DictUtil.getName(dictName, (Collection) key));
+        } else {
+            gen.writeStringField(originalFieldName + "Name", DictUtil.getName(dictName, key));
+        }
     }
 
     /**
