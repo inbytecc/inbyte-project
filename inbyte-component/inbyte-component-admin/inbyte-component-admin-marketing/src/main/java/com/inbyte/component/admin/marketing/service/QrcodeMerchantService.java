@@ -66,5 +66,5 @@ public interface QrcodeMerchantService {
 
     R<String> getUrlLink(Integer qcid);
 
-    R<String> getShortLink(Integer qcid);
+    R<String> getShortLink(Integer qcid, Integer showQrName);
 }

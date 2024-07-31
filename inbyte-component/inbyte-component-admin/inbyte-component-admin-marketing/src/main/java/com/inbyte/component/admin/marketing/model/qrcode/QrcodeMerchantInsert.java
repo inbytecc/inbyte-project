@@ -29,9 +29,6 @@ public class QrcodeMerchantInsert {
     @NotNull(message = "线上广告不能为空")
     private Integer onlineAd;
 
-    /** 宣传单页数量 */
-    private Integer adPageCount;
-
     /** 页面路径 */
     @Length(max = 255, message = "页面路径长度不能超过255位")
     private String page;

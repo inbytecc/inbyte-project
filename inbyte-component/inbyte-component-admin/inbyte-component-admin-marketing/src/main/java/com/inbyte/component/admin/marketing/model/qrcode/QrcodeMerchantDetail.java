@@ -31,9 +31,6 @@ public class QrcodeMerchantDetail {
     /** 线上广告 */
     private Integer onlineAd;
 
-    /** 宣传单页数量 */
-    private Integer adPageCount;
-
     /** 页面路径 */
     private String page;
 

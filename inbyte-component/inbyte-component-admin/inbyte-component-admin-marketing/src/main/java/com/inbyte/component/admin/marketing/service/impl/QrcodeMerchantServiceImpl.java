@@ -3,6 +3,9 @@ package com.inbyte.component.admin.marketing.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.inbyte.commons.exception.InbyteException;
+import com.inbyte.commons.model.dict.Whether;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantMapper;
 import com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantUserMapper;
 import com.inbyte.component.admin.marketing.model.UserLocationBrief;
@@ -17,6 +20,8 @@ import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
 import com.inbyte.commons.util.StringUtil;
+import com.inbyte.component.common.basic.dao.InbyteAppMapper;
+import com.inbyte.component.common.basic.model.InbyteAppPo;
 import com.inbyte.util.weixin.mp.client.WxMpLinkClient;
 import com.inbyte.util.weixin.mp.client.WxMpQrCodeClient;
 import com.inbyte.util.weixin.mp.client.WxMpSchemeClient;
@@ -44,13 +49,15 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     @Autowired
     private MarketingQrcodeMerchantUserMapper marketingQrcodeMerchantUserMapper;
     @Autowired
+    private InbyteAppMapper appMapper;
+    @Autowired
     private WxMpQrCodeClient wxMpQrCodeClient;
     @Autowired
     private WxMpSchemeClient wxMpSchemeClient;
     @Autowired
     private WxMpLinkClient wxMpLinkClient;
 
-    @Value("${wx.miniapp.default}")
+    @Value("${wx.miniapp.default:#{null}}")
     private String defaultAppId;
 
     @Transactional(rollbackFor = Exception.class)
@@ -140,7 +147,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         BeanUtils.copyProperties(param, qrCodeGenerateParam);
         qrCodeGenerateParam.setPage(detail.getPage());
         qrCodeGenerateParam.setScene(detail.getScene());
-        return wxMpQrCodeClient.qrCodeBase64(defaultAppId, qrCodeGenerateParam);
+        return wxMpQrCodeClient.qrCodeBase64(getAppId(), qrCodeGenerateParam);
     }
 
     @Override
@@ -149,7 +156,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return wxMpSchemeClient.generateScheme(defaultAppId, detail.getPage(), detail.getScene());
+        return wxMpSchemeClient.generateScheme(getAppId(), detail.getPage(), detail.getScene());
     }
 
     @Override
@@ -158,18 +165,37 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return wxMpLinkClient.generateUrlLink(defaultAppId, detail.getPage(), detail.getScene());
+        return wxMpLinkClient.generateUrlLink(getAppId(), detail.getPage(), detail.getScene());
     }
 
     @Override
-    public R<String> getShortLink(Integer qcid) {
+    public R<String> getShortLink(Integer qcid, Integer showQrName) {
         QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(qcid);
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return wxMpLinkClient.generateShortLink(defaultAppId,
+        return wxMpLinkClient.generateShortLink(getAppId(),
                 detail.getPage() + "?" + detail.getScene(),
-                detail.getName(),
+                showQrName == Whether.Yes ? detail.getName() : "",
                 WhetherDict.No);
     }
+
+    private String getAppId() {
+        if (StringUtil.isNotEmpty(defaultAppId)) {
+            return defaultAppId;
+        }
+
+        InbyteAppPo inbyteAppPo = appMapper.selectOne(new LambdaQueryWrapper<InbyteAppPo>()
+                .eq(InbyteAppPo::getAppType, AppTypeEnum.WXMP)
+                .eq(InbyteAppPo::getMctNo, SessionUtil.getMctNo())
+                .last("limit 1"));
+        if (inbyteAppPo == null) {
+            throw InbyteException.failure("当前商户未配置微信小程序");
+        }
+        if (StringUtil.isEmpty(inbyteAppPo.getAppId())) {
+            throw InbyteException.failure("当前商户微信小程序信息未完善");
+        }
+        return inbyteAppPo.getAppId();
+    }
+
 }

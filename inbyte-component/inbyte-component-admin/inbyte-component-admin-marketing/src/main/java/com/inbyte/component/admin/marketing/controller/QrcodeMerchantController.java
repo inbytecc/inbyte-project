@@ -123,8 +123,9 @@ public class QrcodeMerchantController {
     }
 
     @GetMapping("{qcid}/short-link")
-    public R<String> getShortLink(@PathVariable("qcid") Integer qcid) {
-        return qrcodeMerchantService.getShortLink(qcid);
+    public R<String> getShortLink(@PathVariable("qcid") Integer qcid,
+                                  @RequestParam(required = false, defaultValue = "0") Integer showQrName) {
+        return qrcodeMerchantService.getShortLink(qcid, showQrName);
     }
 
 }
