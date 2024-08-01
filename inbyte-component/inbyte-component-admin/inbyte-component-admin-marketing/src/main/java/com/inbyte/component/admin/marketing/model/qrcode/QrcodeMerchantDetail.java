@@ -1,5 +1,6 @@
 package com.inbyte.component.admin.marketing.model.qrcode;
 
+import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +30,7 @@ public class QrcodeMerchantDetail {
     private BigDecimal investCost;
 
     /** 线上广告 */
+    @DictSerialize
     private Integer onlineAd;
 
     /** 页面路径 */
