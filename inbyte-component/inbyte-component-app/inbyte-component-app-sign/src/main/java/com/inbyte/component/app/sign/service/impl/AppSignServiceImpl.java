@@ -1,13 +1,13 @@
 package com.inbyte.component.app.sign.service.impl;
 
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.app.sign.dao.InbyteAppMapper;
-import com.inbyte.component.app.sign.model.AppInfo;
 import com.inbyte.component.app.sign.framework.AppJwtUtil;
+import com.inbyte.component.app.sign.model.AppInfo;
 import com.inbyte.component.app.sign.model.AppSignDto;
 import com.inbyte.component.app.sign.model.AppSignParam;
-import com.inbyte.component.app.sign.model.InbyteAppPo;
 import com.inbyte.component.app.sign.service.AppSignService;
+import com.inbyte.component.common.basic.dao.InbyteAppMapper;
+import com.inbyte.component.common.basic.model.InbyteAppPo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
