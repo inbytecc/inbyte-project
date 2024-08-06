@@ -21,7 +21,8 @@
                need_update_pwd,
                mct_no
           FROM inbyte_system_user
-         WHERE user_id = #{userId, jdbcType=INTEGER}
+         WHERE deleted = 0
+           AND user_id = #{userId, jdbcType=INTEGER}
     </select>
 
     <select id="queryByPwd" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
@@ -38,8 +39,9 @@
                mct_no,
                admin
           FROM inbyte_system_user
-         WHERE (tel = #{id, jdbcType=VARCHAR} OR user_name = #{id, jdbcType=VARCHAR})
+         WHERE deleted = 0
            AND pwd = #{pwd, jdbcType=VARCHAR}
+           AND (tel = #{id, jdbcType=VARCHAR} OR user_name = #{id, jdbcType=VARCHAR})
     </select>
 
     <select id="queryByOpenId" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
@@ -55,7 +57,8 @@
                need_update_pwd,
                mct_no
           FROM inbyte_system_user
-         WHERE open_id = #{openId}
+         WHERE deleted = 0
+           AND open_id = #{openId}
     </select>
 
     <select id="queryByTel" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail">
@@ -72,6 +75,7 @@
                mct_no
           FROM inbyte_system_user
          WHERE tel = #{tel}
+           AND deleted = 0
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.system.user.model.system.user.SystemUserBrief">
