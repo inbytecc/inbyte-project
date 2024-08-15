@@ -7,14 +7,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePage;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.commons.util.SpringContextUtil;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.app.sign.framework.AppUtil;
+import com.inbyte.commons.model.enums.RecommendTypeEnum;
 import com.inbyte.component.app.user.event.UserFirstTimeLoginEvent;
 import com.inbyte.component.app.user.event.UserLocationUpdateEvent;
 import com.inbyte.component.app.user.event.UserRegisterEvent;
@@ -79,6 +80,20 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 如果微信用户未创建, 新增基本信息, 并且提示注册
         if (userWeixin == null) {
             String randomCommonAvatar = userService.getRandomCommonAvatar();
+
+            // 用户推荐源逻辑处理
+            RecommendTypeEnum recommendType = RecommendTypeEnum.OT;
+            if (param.getS() != null) {
+                recommendType = RecommendTypeEnum.USER;
+            } else if (param.getT() != null) {
+                // 20240815 记录，1.2版本去除此逻辑处理，修改为其它字段判断
+                if (param.getT() == 0) {
+                    recommendType = RecommendTypeEnum.USER;
+                } else {
+                    recommendType = RecommendTypeEnum.MERCHANT;
+                }
+            }
+
             UserWeixinMpPo weixinPo = UserWeixinMpPo.builder()
                     .openId(credentialDto.getOpenid())
                     .unionId(credentialDto.getUnionid())
@@ -90,7 +105,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .createTime(now)
                     .recommendEid(param.getS())
                     .qcid(param.getQ())
-                    .registerType(param.getT())
+                    .recommendType(recommendType)
                     .latestLoginTime(now)
                     .registerLongitude(param.getLongitude())
                     .registerLatitude(param.getLatitude())

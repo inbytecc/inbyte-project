@@ -25,11 +25,11 @@
                register_longitude,
                register_latitude,
                recommend_eid,
+               recommend_type,
                bound_with_user,
                bound_with_user_time,
                invite_count,
                remark,
-               register_type,
                register_remark
           FROM user_weixin_mp
          WHERE eid = #{eid, jdbcType=INTEGER}
@@ -58,6 +58,7 @@
                register_longitude,
                register_latitude,
                recommend_eid,
+               recommend_type,
                bound_with_user,
                bound_with_user_time,
                invite_count,
@@ -95,7 +96,7 @@
                invite_count,
                remark,
                qcid,
-               register_type,
+               recommend_type,
                register_remark
           FROM user_weixin_mp
          WHERE deleted = 0

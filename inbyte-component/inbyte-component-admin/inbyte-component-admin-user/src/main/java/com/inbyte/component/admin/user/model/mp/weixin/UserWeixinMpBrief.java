@@ -1,7 +1,9 @@
 package com.inbyte.component.admin.user.model.mp.weixin;
 
+import com.inbyte.commons.model.enums.RecommendTypeEnum;
 import com.inbyte.commons.util.serialize.Sensitive;
 import com.inbyte.commons.util.serialize.SensitiveStrategy;
+import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -127,7 +129,8 @@ public class UserWeixinMpBrief {
     /**
      * 推荐注册类型
      */
-    private Integer registerType;
+    @DictSerialize(RecommendTypeEnum.class)
+    private RecommendTypeEnum recommendType;
 
     /**
      * 注册说明

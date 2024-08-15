@@ -3,6 +3,7 @@ package com.inbyte.component.admin.user.model.mp.weixin;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.inbyte.commons.model.enums.RecommendTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -159,7 +160,7 @@ public class UserWeixinMpPo {
     /**
      * 推荐注册类型
      */
-    private Integer registerType;
+    private RecommendTypeEnum recommendType;
 
     /**
      * 注册说明

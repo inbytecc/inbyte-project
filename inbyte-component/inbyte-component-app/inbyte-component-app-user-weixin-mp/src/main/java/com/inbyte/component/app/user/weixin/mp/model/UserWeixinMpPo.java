@@ -1,6 +1,7 @@
 package com.inbyte.component.app.user.weixin.mp.model;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.inbyte.commons.model.enums.RecommendTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -158,12 +159,9 @@ public class UserWeixinMpPo {
     private Integer qcid;
 
     /**
-     * 注册类型
-     * 空：自然流
-     * 0：小程序用户分享
-     * 1：商家二维码注册
+     * 推荐类型
      */
-    private Integer registerType;
+    private RecommendTypeEnum recommendType;
 
     /**
      * 注册说明

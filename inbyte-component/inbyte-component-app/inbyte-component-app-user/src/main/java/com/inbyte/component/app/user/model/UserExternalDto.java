@@ -45,11 +45,6 @@ public class UserExternalDto {
      */
     private BigDecimal latitude;
 
-    /**
-     * 推荐注册类型
-     */
-    private Integer registerType;
-
     public Integer getUserId() {
         return userId;
     }
@@ -106,11 +101,4 @@ public class UserExternalDto {
         this.latitude = latitude;
     }
 
-    public Integer getRegisterType() {
-        return registerType;
-    }
-
-    public void setRegisterType(Integer registerType) {
-        this.registerType = registerType;
-    }
 }
