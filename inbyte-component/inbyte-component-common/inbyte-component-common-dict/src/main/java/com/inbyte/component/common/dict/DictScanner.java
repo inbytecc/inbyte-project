@@ -26,15 +26,15 @@ public class DictScanner {
     private static final Logger log = LoggerFactory.getLogger(DictScanner.class);
 
     /**
-     * 从包package中获取所有的Class
+     * 从包package中获取所有符合条件的枚举类
      *
      * @param pkg scan package
-     * @return scanned class
+     * @return scanned enum classes
      */
-    public static Set<Class<?>> scanDictBean(String pkg) {
+    public static Set<Class<? extends Enum<?>>> scanDictBean(String pkg) {
 
-        // 第一个class类的集合
-        Set<Class<?>> classes = new LinkedHashSet<>();
+        // 存放符合条件的class类的集合
+        Set<Class<? extends Enum<?>>> classes = new LinkedHashSet<>();
         // 是否循环迭代
         boolean recursive = true;
         // 获取包的名字 并进行替换
@@ -43,8 +43,7 @@ public class DictScanner {
         // 定义一个枚举的集合 并进行循环来处理这个目录下的things
         Enumeration<URL> dirs;
         try {
-            dirs = Thread.currentThread().getContextClassLoader().getResources(
-                    packageDirName);
+            dirs = Thread.currentThread().getContextClassLoader().getResources(packageDirName);
             // 循环迭代下去
             while (dirs.hasMoreElements()) {
                 // 获取下一个元素
@@ -56,16 +55,14 @@ public class DictScanner {
                     // 获取包的物理路径
                     String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
                     // 以文件的方式扫描整个包下的文件 并添加到集合中
-                    findAndAddClassesInPackageByFile(packageName, filePath,
-                            recursive, classes);
+                    findAndAddClassesInPackageByFile(packageName, filePath, recursive, classes);
                 } else if ("jar".equals(protocol)) {
                     // 如果是jar包文件
                     // 定义一个JarFile
                     JarFile jar;
                     try {
                         // 获取jar
-                        jar = ((JarURLConnection) url.openConnection())
-                                .getJarFile();
+                        jar = ((JarURLConnection) url.openConnection()).getJarFile();
                         // 从此jar包 得到一个枚举类
                         Enumeration<JarEntry> entries = jar.entries();
                         // 同样的进行循环迭代
@@ -84,22 +81,22 @@ public class DictScanner {
                                 // 如果以"/"结尾 是一个包
                                 if (idx != -1) {
                                     // 获取包名 把"/"替换成"."
-                                    packageName = name.substring(0, idx)
-                                            .replace('/', '.');
+                                    packageName = name.substring(0, idx).replace('/', '.');
                                 }
                                 // 如果可以迭代下去 并且是一个包
                                 if ((idx != -1) || recursive) {
                                     // 如果是一个.class文件 而且不是目录
-                                    if (name.endsWith(".class")
-                                            && !entry.isDirectory()) {
+                                    if (name.endsWith(".class") && !entry.isDirectory()) {
                                         // 去掉后面的".class" 获取真正的类名
-                                        String className = name.substring(
-                                                packageName.length() + 1, name
-                                                        .length() - 6);
+                                        String className = name.substring(packageName.length() + 1, name.length() - 6);
                                         try {
-                                            // 添加到classes
+                                            // 加载类并检查是否符合条件
                                             Class<?> clz = Class.forName(packageName + '.' + className);
-                                            classes.add(clz);
+                                            if (Enum.class.isAssignableFrom(clz) &&
+                                                    (className.endsWith("Dict") || className.endsWith("Enum"))) {
+                                                // 如果符合条件，添加到classes集合中
+                                                classes.add((Class<? extends Enum<?>>) clz);
+                                            }
                                         } catch (Exception e) {
                                             log.error("添加用户自定义视图类错误 找不到此类的.class文件", e);
                                         }
@@ -119,9 +116,8 @@ public class DictScanner {
         return classes;
     }
 
-
     /**
-     * 以文件的形式来获取包下的所有Class
+     * 以文件的形式来获取包下的所有符合条件的Class
      *
      * @param packageName
      * @param packagePath
@@ -130,7 +126,7 @@ public class DictScanner {
      */
     private static void findAndAddClassesInPackageByFile(String packageName,
                                                          String packagePath, final boolean recursive,
-                                                         Set<Class<?>> classes) {
+                                                         Set<Class<? extends Enum<?>>> classes) {
         // 获取此包的目录 建立一个File
         File dir = new File(packagePath);
         // 如果不存在或者 也不是目录就直接返回
@@ -161,9 +157,15 @@ public class DictScanner {
                 String className = file.getName().substring(0,
                         file.getName().length() - 6);
                 try {
-                    // 添加到集合中去
-                    // 经过回复同学的提醒, 这里用forName有一些不好, 会触发static方法, 没有使用classLoader的load干净
-                    classes.add(Thread.currentThread().getContextClassLoader().loadClass(packageName + '.' + className));
+                    // 加载类并检查是否符合条件
+                    if (!className.endsWith("Dict") && !className.endsWith("Enum")) {
+                        continue;
+                    }
+                    Class<?> clz = Thread.currentThread().getContextClassLoader().loadClass(packageName + '.' + className);
+                    if (Enum.class.isAssignableFrom(clz)) {
+                        // 如果符合条件，添加到classes集合中
+                        classes.add((Class<? extends Enum<?>>) clz);
+                    }
                 } catch (ClassNotFoundException e) {
                     log.error("添加用户自定义视图类错误 找不到此类的.class文件", e);
                 }

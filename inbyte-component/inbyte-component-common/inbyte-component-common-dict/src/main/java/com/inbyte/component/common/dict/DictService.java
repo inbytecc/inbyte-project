@@ -36,10 +36,13 @@ public class DictService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        init("com.inbyte.commons.model.dict", "com.inbyte.commons.model.enums");
+        init("com.inbyte.commons.model.dict", "com.inbyte.commons.model.enums", "com.inbyte.component");
+//        init("com.inbyte");
+        long startTime = System.currentTimeMillis();
         if (componentDictProperties.getPath() != null) {
             componentDictProperties.getPath().forEach(e -> init(e));
         }
+        log.info("字典加载完成, 耗时:{}ms", System.currentTimeMillis() - startTime);
     }
 
     @Autowired
@@ -79,18 +82,23 @@ public class DictService implements InitializingBean {
      * @param dictPath 字典目录 例：com.maidao.dict
      */
     public void init(String... dictPath) {
+        // 加载路径配置字典，计划将来废弃
         for (String path : dictPath) {
-            Set<Class<?>> classes = DictScanner.scanDictBean(path);
-            for (Class clz : classes) {
-                boolean anEnum = clz.isEnum();
-                if (anEnum) {
-                    Enum[] enums = (Enum[]) clz.getEnumConstants();
-                    load(enums);
-                }
+            Set<Class<? extends Enum<?>>> classes = DictScanner.scanDictBean(path);
+            load(classes);
+        }
+
+    }
+
+    private void load(Set<Class<? extends Enum<?>>> classes) {
+        for (Class clz : classes) {
+            boolean anEnum = clz.isEnum();
+            if (anEnum) {
+                Enum[] enums = (Enum[]) clz.getEnumConstants();
+                load(enums);
             }
         }
     }
-
     public void load(Enum[] enums) {
         String dictName = enums[0].getClass().getSimpleName().toLowerCase();
         if (dictName.endsWith(DICT_SUFFIX)) {

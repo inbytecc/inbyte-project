@@ -6,6 +6,7 @@ import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
 import com.inbyte.component.app.payment.common.model.PaymentSuccessNotifyParam;
+import com.inbyte.component.app.payment.common.model.RefundSuccessNotifyParam;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.app.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.app.payment.weixin.model.*;
@@ -17,6 +18,7 @@ import com.wechat.pay.java.core.notification.RequestParam;
 import com.wechat.pay.java.core.util.NonceUtil;
 import com.wechat.pay.java.service.partnerpayments.jsapi.JsapiService;
 import com.wechat.pay.java.service.partnerpayments.jsapi.model.*;
+import com.wechat.pay.java.service.refund.model.Refund;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -204,5 +206,21 @@ public class PaymentWeixinPartnerService {
             log.error("微信验签不通过", e);
             return R.failure("验签不通过");
         }
+    }
+
+    public R close(String orderNo) {
+        return R.failure("开发中");
+    }
+
+    public R<PaymentSuccessNotifyParam> queryPaymentStatus(String orderNo) {
+        return R.failure("开发中");
+    }
+    public R<Refund> refundApply(RefundCommonApplyParam param) {
+        return R.failure("开发中");
+
+    }
+
+    public R<RefundSuccessNotifyParam> refundSuccessVerify(RefundWeixinSuccessVerifyParam param) {
+        return R.failure("开发中");
     }
 }

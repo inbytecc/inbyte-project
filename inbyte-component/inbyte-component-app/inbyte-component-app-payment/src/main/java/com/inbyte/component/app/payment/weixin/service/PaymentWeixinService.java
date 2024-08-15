@@ -61,7 +61,7 @@ public class PaymentWeixinService {
 
         // 服务商支付模式
         if (paymentWeixinConfigPo.getPartnerPay() == Whether.Yes) {
-            return paymentWeixinPartnerService.prepayOrder(prepaidOrderParam, weixinPaymentId);
+            return paymentWeixinPartnerService.prepayOrder(prepaidOrderParam);
         }
         // 商户支付模式
         return paymentWeixinMerchantService.prepayOrder(prepaidOrderParam, weixinPaymentId);
