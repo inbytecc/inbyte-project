@@ -80,4 +80,6 @@ public interface SystemUserService {
     R updatePwd(SystemUserPwdUpdate update);
 
     R resetPwd(Integer userId);
+
+    R switchMerchant(String mctNo);
 }

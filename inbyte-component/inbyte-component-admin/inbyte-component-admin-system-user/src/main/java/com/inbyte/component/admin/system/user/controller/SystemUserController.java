@@ -140,4 +140,14 @@ public class SystemUserController {
         return systemUserService.list(query);
     }
 
+    /**
+     * 切换商户
+     *
+     * @param mctNo
+     * @return
+     */
+    @GetMapping("merchant/{mctNo}/switch")
+    public R switchMerchant(@PathVariable String mctNo) {
+        return systemUserService.switchMerchant(mctNo);
+    }
 }

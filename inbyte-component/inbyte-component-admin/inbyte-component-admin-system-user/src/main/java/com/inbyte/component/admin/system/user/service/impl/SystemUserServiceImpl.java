@@ -2,6 +2,7 @@ package com.inbyte.component.admin.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.model.dto.Page;
@@ -14,8 +15,10 @@ import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.user.SystemUserJwtUtil;
 import com.inbyte.component.admin.system.user.dao.InbyteSystemRoleMapper;
 import com.inbyte.component.admin.system.user.dao.InbyteSystemUserMapper;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemUserMerchantMapper;
 import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRolePo;
 import com.inbyte.component.admin.system.user.model.system.user.*;
+import com.inbyte.component.admin.system.user.model.system.user.merchant.InbyteSystemUserMerchantBrief;
 import com.inbyte.component.admin.system.user.service.SystemUserService;
 import com.inbyte.component.common.basic.dao.InbyteMerchantMapper;
 import com.inbyte.component.common.basic.model.InbyteMerchantPo;
@@ -46,6 +49,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Autowired
     private InbyteSystemUserMapper inbyteSystemUserMapper;
     @Autowired
+    private InbyteSystemUserMerchantMapper inbyteSystemUserMerchantMapper;
+    @Autowired
     private InbyteSystemRoleMapper inbyteSystemRoleMapper;
     @Autowired
     private InbyteMerchantMapper inbyteMerchantMapper;
@@ -56,6 +61,14 @@ public class SystemUserServiceImpl implements SystemUserService {
         SystemUserDetail detail = inbyteSystemUserMapper.queryByPwd(param);
         if (detail == null) {
             return R.failure("账号或密码错误");
+        }
+
+        SystemUserLoginDto systemUserLoginDto = new SystemUserLoginDto();
+        systemUserLoginDto.setMultipleMerchant(Whether.No);
+        List<InbyteSystemUserMerchantBrief> userMerchantPoList = inbyteSystemUserMerchantMapper.listByUserId(detail.getUserId());
+        if (!userMerchantPoList.isEmpty()) {
+            systemUserLoginDto.setMultipleMerchant(Whether.Yes);
+            systemUserLoginDto.setMerchantList(userMerchantPoList);
         }
 
         InbyteSystemUserPo platformPo = InbyteSystemUserPo.builder()
@@ -78,20 +91,22 @@ public class SystemUserServiceImpl implements SystemUserService {
                     .set(InbyteSystemUserPo::getOpenId, currentSession.getOpenId());
             inbyteSystemUserMapper.update(updateWrapper);
         }
+
         SessionUser sessionUser = new SessionUser();
         sessionUser.setUserId(detail.getUserId());
         sessionUser.setUserName(detail.getUserName());
         sessionUser.setTel(detail.getTel());
         sessionUser.setMctNo(detail.getMctNo());
         sessionUser.setMctName(inbyteMerchantPo.getMctName());
-        sessionUser.setMctPinYinName(inbyteMerchantPo.getPinyinName());
         sessionUser.setTokenVersion(SessionUtil.User_Token_Version);
         sessionUser.setLoginTime(LocalDateTime.now());
         sessionUser.setAdmin(detail.getAdmin());
         sessionUser.setLoginWay("id-pwd");
         String jwt = SystemUserJwtUtil.createJwt(sessionUser);
-        return R.ok(new SystemUserLoginDto(jwt));
+        systemUserLoginDto.setUserToken(jwt);
+        return R.ok(systemUserLoginDto);
     }
+
 
     @Override
     public R<SystemUserInfo> info() {
@@ -203,5 +218,24 @@ public class SystemUserServiceImpl implements SystemUserService {
                 .set(InbyteSystemUserPo::getUpdateTime, LocalDateTime.now());
         inbyteSystemUserMapper.update(updateWrapper);
         return R.ok("修改成功");
+    }
+
+    @Override
+    public R switchMerchant(String mctNo) {
+        SessionUser sessionUser = SessionUtil.getSessionUser();
+
+        List<InbyteSystemUserMerchantBrief> merchantBriefList = inbyteSystemUserMerchantMapper.listByUserId(sessionUser.getUserId());
+        if (!merchantBriefList.stream().anyMatch(item -> item.getMctNo().equals(mctNo))) {
+            return R.failure("当前用户没有对应商户权限, 切换失败");
+        }
+        InbyteMerchantPo inbyteMerchantPo = inbyteMerchantMapper.selectById(mctNo);
+        if (inbyteMerchantPo == null) {
+            return R.failure("商户不存在");
+        }
+        sessionUser.setMctNo(mctNo);
+        sessionUser.setMctName(inbyteMerchantPo.getMctName());
+        sessionUser.setMctPinYinName(inbyteMerchantPo.getPinyinName());
+
+        return R.ok("登录成功", SessionUtil.getJwtToken(sessionUser));
     }
 }
