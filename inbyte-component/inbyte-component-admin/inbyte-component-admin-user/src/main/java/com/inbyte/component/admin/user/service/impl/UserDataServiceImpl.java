@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2023-03-29 11:27:58
  **/
 @Service
-public class DataCenterUserDataServiceImpl implements UserDataService {
+public class UserDataServiceImpl implements UserDataService {
 
     @Autowired
     private UserLocationMapper userLocationMapper;

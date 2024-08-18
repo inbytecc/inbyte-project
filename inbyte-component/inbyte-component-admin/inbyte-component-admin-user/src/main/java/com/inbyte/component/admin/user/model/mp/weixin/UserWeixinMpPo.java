@@ -9,7 +9,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
+/**˛
  * 微信小程序用户实体
  *
  * @author chenjw

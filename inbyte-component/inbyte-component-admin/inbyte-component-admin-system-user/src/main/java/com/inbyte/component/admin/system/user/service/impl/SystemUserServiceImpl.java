@@ -66,7 +66,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         SystemUserLoginDto systemUserLoginDto = new SystemUserLoginDto();
         systemUserLoginDto.setMultipleMerchant(Whether.No);
         List<InbyteSystemUserMerchantBrief> userMerchantPoList = inbyteSystemUserMerchantMapper.listByUserId(detail.getUserId());
-        if (!userMerchantPoList.isEmpty()) {
+        if (userMerchantPoList.size() > 1) {
             systemUserLoginDto.setMultipleMerchant(Whether.Yes);
             systemUserLoginDto.setMerchantList(userMerchantPoList);
         }
