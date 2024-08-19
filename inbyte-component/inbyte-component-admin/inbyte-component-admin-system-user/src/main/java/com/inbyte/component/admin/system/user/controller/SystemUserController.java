@@ -1,10 +1,11 @@
 package com.inbyte.component.admin.system.user.controller;
 
-import com.inbyte.component.admin.system.user.model.system.user.*;
-import com.inbyte.component.admin.system.user.service.SystemUserService;
 import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.admin.system.user.model.system.user.*;
+import com.inbyte.component.admin.system.user.model.system.user.merchant.InbyteSystemUserMerchantBrief;
+import com.inbyte.component.admin.system.user.service.SystemUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -149,5 +150,10 @@ public class SystemUserController {
     @GetMapping("merchant/{mctNo}/switch")
     public R switchMerchant(@PathVariable String mctNo) {
         return systemUserService.switchMerchant(mctNo);
+    }
+
+    @GetMapping("merchant")
+    public R<List<InbyteSystemUserMerchantBrief>> switchMerchant() {
+        return systemUserService.merchantList();
     }
 }

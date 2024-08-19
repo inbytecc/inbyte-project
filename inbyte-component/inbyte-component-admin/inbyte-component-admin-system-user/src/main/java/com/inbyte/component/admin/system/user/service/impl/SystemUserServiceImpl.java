@@ -238,4 +238,9 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         return R.ok("登录成功", SessionUtil.getJwtToken(sessionUser));
     }
+
+    @Override
+    public R<List<InbyteSystemUserMerchantBrief>> merchantList() {
+        return R.ok(inbyteSystemUserMerchantMapper.listByUserId(SessionUtil.getUserId()));
+    }
 }

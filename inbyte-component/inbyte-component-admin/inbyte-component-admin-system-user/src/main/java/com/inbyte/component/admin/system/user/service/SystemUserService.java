@@ -4,6 +4,7 @@ import com.inbyte.component.admin.system.user.model.system.user.*;
 import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.admin.system.user.model.system.user.merchant.InbyteSystemUserMerchantBrief;
 
 import java.util.List;
 
@@ -82,4 +83,6 @@ public interface SystemUserService {
     R resetPwd(Integer userId);
 
     R switchMerchant(String mctNo);
+
+    R<List<InbyteSystemUserMerchantBrief>> merchantList();
 }
