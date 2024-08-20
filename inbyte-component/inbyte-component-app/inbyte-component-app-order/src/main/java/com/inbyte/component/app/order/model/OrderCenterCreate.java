@@ -93,4 +93,8 @@ public class OrderCenterCreate {
     @NotNull(message = "应用类型不能为空")
     private AppTypeEnum appType;
 
+    /**
+     * 推荐人EID
+     */
+    private Integer referrerEid;
 }

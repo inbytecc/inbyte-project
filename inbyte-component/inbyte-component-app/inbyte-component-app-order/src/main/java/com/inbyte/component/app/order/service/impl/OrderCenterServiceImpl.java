@@ -49,6 +49,7 @@ public class OrderCenterServiceImpl implements OrderCenterService {
                 .orderAmount(param.getOrderAmount())
                 .payableAmount(param.getPayableAmount())
 
+                .referrerEid(param.getReferrerEid())
                 .venueId(param.getVenueId())
                 .venueName(param.getVenueName())
                 .mctNo(param.getMctNo())

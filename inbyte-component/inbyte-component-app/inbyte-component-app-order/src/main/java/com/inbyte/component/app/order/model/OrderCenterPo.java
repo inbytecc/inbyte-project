@@ -133,4 +133,9 @@ public class OrderCenterPo {
       */
     private LocalDateTime updateTime;
 
+    /**
+     * 推荐人EID
+     */
+    private Integer referrerEid;
+
 }
