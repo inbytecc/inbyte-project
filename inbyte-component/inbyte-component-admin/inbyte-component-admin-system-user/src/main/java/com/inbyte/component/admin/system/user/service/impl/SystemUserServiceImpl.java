@@ -113,6 +113,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         SessionUser sessionUser = SessionUtil.getSessionUser();
         InbyteSystemUserPo detail = inbyteSystemUserMapper.selectById(sessionUser.getUserId());
         SystemUserInfo systemUserInfo = new SystemUserInfo();
+        systemUserInfo.setUserId(detail.getUserId());
         systemUserInfo.setUserName(detail.getUserName());
         systemUserInfo.setAvatar(detail.getAvatar());
         systemUserInfo.setRole(detail.getRole());

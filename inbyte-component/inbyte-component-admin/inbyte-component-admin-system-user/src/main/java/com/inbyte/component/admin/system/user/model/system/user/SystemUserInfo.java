@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class SystemUserInfo {
 
+    /** 用户ID */
+    private Integer userId;
     /** 昵称 */
     private String userName;
 
@@ -52,5 +54,13 @@ public class SystemUserInfo {
 
     public void setNeedUpdatePwd(Integer needUpdatePwd) {
         this.needUpdatePwd = needUpdatePwd;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
