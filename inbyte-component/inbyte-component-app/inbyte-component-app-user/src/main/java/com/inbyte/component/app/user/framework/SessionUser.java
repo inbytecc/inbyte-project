@@ -35,7 +35,7 @@ public class SessionUser {
     private String openId;
 
     /**
-     * 外部用户类型
+     * 应用类型
      */
     private AppTypeEnum appType;
 
@@ -75,6 +75,6 @@ public class SessionUser {
     /**
      * 推荐用户EID
      */
-    private Integer recommendEid;
+    private Integer referrerId;
 
 }

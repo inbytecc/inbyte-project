@@ -76,9 +76,10 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         WxMaJscode2SessionResult credentialDto = weixinUserCredentialR.getData();
 
         // 查询微信小程序用户信息
-        UserWeixinDetail userWeixin = userWeixinMpMapper.detail(credentialDto.getOpenid());
+        UserWeixinDetail userWeixinDetail = userWeixinMpMapper.detail(credentialDto.getOpenid());
+
         // 如果微信用户未创建, 新增基本信息, 并且提示注册
-        if (userWeixin == null) {
+        if (userWeixinDetail == null) {
             String randomCommonAvatar = userService.getRandomCommonAvatar();
 
             // 用户推荐源逻辑处理
@@ -103,7 +104,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .appId(AppUtil.getAppId())
                     .mctNo(AppUtil.getMctNo())
                     .createTime(now)
-                    .recommendEid(param.getS())
+                    .referrerEid(param.getS())
                     .qcid(param.getQ())
                     .recommendType(recommendType)
                     .latestLoginTime(now)
@@ -134,52 +135,55 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .loginTime(now)
                     .tokenVersion(SessionUtil.User_Token_Version)
                     .telBound(WhetherDict.No.code)
+                    .referrerId(param.getS())
                     .build();
             return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
         }
 
         // 非首次注册登录用户
         // 更新微信用户表
-        LambdaUpdateWrapper<UserWeixinMpPo> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(UserWeixinMpPo::getEid, userWeixin.getEid())
+        LambdaUpdateWrapper<UserWeixinMpPo> updateWrapper = new LambdaUpdateWrapper<UserWeixinMpPo>()
+                .eq(UserWeixinMpPo::getEid, userWeixinDetail.getEid())
                 .set(UserWeixinMpPo::getLongitude, param.getLongitude())
                 .set(UserWeixinMpPo::getLatitude, param.getLatitude())
                 .set(UserWeixinMpPo::getLatestLoginTime, now)
                 .setSql("login_count = login_count + 1");
         // 新登录微信 unionId 不为空, 而之前 unionId 为空
         // 说明首次注册小程序之后又关注了公众号, 再更新 unionId 信息, 以便账户关联, 发送用户消息等
-        if (StringUtil.isEmpty(userWeixin.getUnionId()) && StringUtil.isNotEmpty(credentialDto.getUnionid())) {
-            updateWrapper.set(UserWeixinMpPo::getUnionId, userWeixin.getUnionId());
+        if (StringUtil.isEmpty(userWeixinDetail.getUnionId()) && StringUtil.isNotEmpty(credentialDto.getUnionid())) {
+            updateWrapper.set(UserWeixinMpPo::getUnionId, userWeixinDetail.getUnionId());
         }
         userWeixinMpMapper.update(null, updateWrapper);
 
         // 如果未绑定手机号用户处理
-        if (userWeixin.getBoundWithUser() == WhetherDict.No.code) {
+        if (userWeixinDetail.getBoundWithUser() == WhetherDict.No.code) {
             sessionUser = SessionUser.builder()
-                    .eid(userWeixin.getEid())
-                    .openId(userWeixin.getOpenId())
+                    .eid(userWeixinDetail.getEid())
+                    .openId(userWeixinDetail.getOpenId())
                     .appType(AppTypeEnum.WXMP)
                     .nickname("游客")
-                    .avatar(userWeixin.getAvatar())
+                    .avatar(userWeixinDetail.getAvatar())
                     .loginTime(now)
                     .tokenVersion(SessionUtil.User_Token_Version)
                     .telBound(WhetherDict.No.code)
+                    .referrerId(param.getS())
                     .build();
             return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
         }
 
         // 已绑定手机号用户 Session 信息
         sessionUser = SessionUser.builder()
-                .eid(userWeixin.getEid())
-                .openId(userWeixin.getOpenId())
+                .eid(userWeixinDetail.getEid())
+                .openId(userWeixinDetail.getOpenId())
                 .appType(AppTypeEnum.WXMP)
-                .userId(userWeixin.getUserId())
-                .tel(userWeixin.getTel())
-                .nickname(userWeixin.getNickname())
-                .avatar(userWeixin.getAvatar())
+                .userId(userWeixinDetail.getUserId())
+                .tel(userWeixinDetail.getTel())
+                .nickname(userWeixinDetail.getNickname())
+                .avatar(userWeixinDetail.getAvatar())
                 .loginTime(now)
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
+                .referrerId(userWeixinDetail.getRecommendEid())
                 .build();
         return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
     }

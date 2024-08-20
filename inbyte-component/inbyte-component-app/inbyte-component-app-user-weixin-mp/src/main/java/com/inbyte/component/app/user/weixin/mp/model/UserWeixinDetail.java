@@ -58,4 +58,9 @@ public class UserWeixinDetail {
      * 创建时间
      */
     private LocalDateTime createTime;
+
+    /**
+     * 推荐外部用户ID
+     */
+    private Integer recommendEid;
 }

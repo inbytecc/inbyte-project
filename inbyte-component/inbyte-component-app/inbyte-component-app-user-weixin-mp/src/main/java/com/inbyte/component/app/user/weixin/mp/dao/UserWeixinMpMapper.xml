@@ -9,6 +9,7 @@
                bound_with_user,
                app_id,
                user_id,
+               referrer_eid,
                tel,
                nickname,
                avatar,
