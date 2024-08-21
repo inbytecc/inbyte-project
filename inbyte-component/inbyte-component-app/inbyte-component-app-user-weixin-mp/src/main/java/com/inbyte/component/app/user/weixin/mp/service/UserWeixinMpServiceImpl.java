@@ -135,7 +135,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .loginTime(now)
                     .tokenVersion(SessionUtil.User_Token_Version)
                     .telBound(WhetherDict.No.code)
-                    .referrerId(param.getS())
+                    .referrerEid(param.getS())
                     .build();
             return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
         }
@@ -166,7 +166,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                     .loginTime(now)
                     .tokenVersion(SessionUtil.User_Token_Version)
                     .telBound(WhetherDict.No.code)
-                    .referrerId(param.getS())
+                    .referrerEid(param.getS())
                     .build();
             return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.No.code));
         }
@@ -183,7 +183,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .loginTime(now)
                 .tokenVersion(SessionUtil.User_Token_Version)
                 .telBound(WhetherDict.Yes.code)
-                .referrerId(userWeixinDetail.getRecommendEid())
+                .referrerEid(userWeixinDetail.getReferrerEid())
                 .build();
         return R.ok(new UserLoginDto(SessionUtil.getJwtToken(sessionUser), WhetherDict.Yes.code));
     }

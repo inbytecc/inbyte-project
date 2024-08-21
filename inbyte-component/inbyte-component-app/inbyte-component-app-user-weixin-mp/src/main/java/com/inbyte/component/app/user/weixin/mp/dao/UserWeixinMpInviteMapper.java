@@ -36,6 +36,6 @@ public interface UserWeixinMpInviteMapper extends BaseMapper<UserWeixinMpInviteP
                        @Param("tradeAmount") BigDecimal tradeAmount);
 
 
-    List<UserInviteDto> list(Integer recommendEid);
+    List<UserInviteDto> list(Integer referrerEid);
 
 }

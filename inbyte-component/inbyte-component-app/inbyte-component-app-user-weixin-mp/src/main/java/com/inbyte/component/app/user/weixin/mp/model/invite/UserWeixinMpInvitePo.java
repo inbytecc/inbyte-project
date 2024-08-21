@@ -36,7 +36,7 @@ public class UserWeixinMpInvitePo {
     /**
       * 邀请人ID
       */
-    private Integer recommendEid;
+    private Integer referrerEid;
 
     /**
       * 创建时间

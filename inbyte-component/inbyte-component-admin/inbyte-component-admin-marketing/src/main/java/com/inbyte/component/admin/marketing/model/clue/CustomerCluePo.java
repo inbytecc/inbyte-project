@@ -203,7 +203,7 @@ public class CustomerCluePo {
     /**
      * 推荐人ID
      */
-    private Integer recommendEid;
+    private Integer referrerEid;
 
     /**
      * 推荐人名字

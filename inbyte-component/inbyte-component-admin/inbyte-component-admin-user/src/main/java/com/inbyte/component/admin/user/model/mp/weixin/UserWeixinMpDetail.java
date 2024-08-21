@@ -111,7 +111,7 @@ public class UserWeixinMpDetail {
     /**
      * 推荐外部用户ID
      */
-    private Integer recommendEid;
+    private Integer referrerEid;
 
     /**
      * 已绑定用户

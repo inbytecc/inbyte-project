@@ -75,6 +75,6 @@ public class SessionUser {
     /**
      * 推荐用户EID
      */
-    private Integer referrerId;
+    private Integer referrerEid;
 
 }

@@ -47,5 +47,5 @@ public class UserWeixinMpQuery extends BasePage {
     /**
      * 推荐人
      */
-    private Integer recommendEid;
+    private Integer referrerEid;
 }

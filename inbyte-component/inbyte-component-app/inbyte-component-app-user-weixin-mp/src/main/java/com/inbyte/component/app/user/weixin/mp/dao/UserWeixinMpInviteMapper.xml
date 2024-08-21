@@ -9,7 +9,7 @@
           FROM user_weixin_mp_invite wmi
          INNER JOIN user_weixin_mp uw
             ON wmi.eid = uw.eid
-         WHERE wmi.recommend_eid = #{recommendEid}
+         WHERE wmi.referrer_eid = #{referrerEid}
          ORDER BY wmi.create_time DESC
     </select>
 </mapper>

@@ -48,9 +48,6 @@ public class UserDetail {
     /** 注册客户端 */
     private Integer registerDeviceType;
 
-    /** 推荐人ID */
-    private Integer recommendEid;
-
     /** 推荐方式 */
     private Integer recommendWay;
 

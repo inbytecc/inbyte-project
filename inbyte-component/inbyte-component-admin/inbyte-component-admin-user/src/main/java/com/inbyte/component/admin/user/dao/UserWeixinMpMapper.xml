@@ -24,7 +24,7 @@
                location_update_time,
                register_longitude,
                register_latitude,
-               recommend_eid,
+               referrer_eid,
                recommend_type,
                bound_with_user,
                bound_with_user_time,
@@ -57,7 +57,7 @@
                location_update_time,
                register_longitude,
                register_latitude,
-               recommend_eid,
+               referrer_eid,
                recommend_type,
                bound_with_user,
                bound_with_user_time,
@@ -90,7 +90,7 @@
                location_update_time,
                register_longitude,
                register_latitude,
-               recommend_eid,
+               referrer_eid,
                bound_with_user,
                bound_with_user_time,
                invite_count,
@@ -107,8 +107,8 @@
         <if test="endDate != null">
            AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
         </if>
-        <if test="recommendEid != null">
-           AND recommend_eid = #{recommendEid}
+        <if test="referrerEid != null">
+           AND referrer_eid = #{referrerEid}
         </if>
         <if test="keyword != null and keyword != ''">
             AND (nickname LIKE CONCAT('%', #{keyword}, '%') OR

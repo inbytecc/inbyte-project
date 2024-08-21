@@ -128,7 +128,7 @@ public class UserWeixinMpPo {
     /**
       * 推荐用户ID
       */
-    private Integer recommendEid;
+    private Integer referrerEid;
 
     /**
       * 已绑定用户

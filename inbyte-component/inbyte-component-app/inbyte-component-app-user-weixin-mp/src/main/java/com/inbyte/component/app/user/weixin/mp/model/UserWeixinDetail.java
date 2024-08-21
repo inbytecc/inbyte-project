@@ -62,5 +62,5 @@ public class UserWeixinDetail {
     /**
      * 推荐外部用户ID
      */
-    private Integer recommendEid;
+    private Integer referrerEid;
 }

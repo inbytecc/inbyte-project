@@ -60,7 +60,7 @@
                latest_contact_time,
                next_contact_time,
                converted,
-               recommend_eid,
+               referrer_eid,
                recommend_user_name,
                latest_contact_msg,
                longitude,
