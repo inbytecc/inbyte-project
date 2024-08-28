@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.common.payment.weixin.dao.PaymentWeixinRefundMapper">
+
+    <update id="updateByRefundNo" parameterType="com.inbyte.component.common.payment.weixin.model.PaymentWeixinRefundPo">
+        UPDATE payment_weixin_refund
+        <set>
+            <if test="notifyRefundAmount != null">
+                notify_refund_amount = #{notifyRefundAmount, jdbcType=DECIMAL},
+            </if>
+            <if test="refundFinishTime != null">
+                refund_finish_time = #{refundFinishTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="refunded != null">
+                refunded = #{refunded, jdbcType=INTEGER},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted, jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE refund_no = #{refundNo, jdbcType=VARCHAR}
+    </update>
+
+    <select id="brief" parameterType="Integer" resultType="com.inbyte.component.common.payment.weixin.model.PaymentWeixinRefundBrief">
+        SELECT weixin_refund_id,
+               weixin_payment_id,
+               user_id,
+               order_no,
+               mct_no,
+               payment_no,
+               refund_apply_amount,
+               refund_apply_time,
+               notify_refund_amount,
+               refund_finish_time,
+               refunded,
+               create_time,
+               deleted
+          FROM payment_weixin_refund
+         WHERE refund_no = #{refundNo, jdbcType=VARCHAR}
+    </select>
+
+</mapper>

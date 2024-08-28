@@ -19,6 +19,7 @@
 		<module>inbyte-component-common-weixin-open</module>
 		<module>inbyte-component-common-weixin-robot</module>
 		<module>inbyte-component-common-email</module>
+		<module>inbyte-component-common-payment</module>
 	</modules>
 
 </project>

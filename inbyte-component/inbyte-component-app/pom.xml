@@ -20,7 +20,6 @@
         <module>inbyte-component-app-user-wallet</module>
         <module>inbyte-component-app-user-weixin-mp</module>
         <module>inbyte-component-app-order</module>
-        <module>inbyte-component-app-payment</module>
     </modules>
 
 </project>
