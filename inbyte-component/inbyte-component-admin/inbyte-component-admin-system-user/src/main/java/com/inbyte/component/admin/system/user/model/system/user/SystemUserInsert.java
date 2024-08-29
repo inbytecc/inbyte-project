@@ -1,10 +1,11 @@
 package com.inbyte.component.admin.system.user.model.system.user;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
 import org.hibernate.validator.constraints.Length;
-import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 /**
  * 后台用户创建
@@ -30,13 +31,16 @@ public class SystemUserInsert {
     @Length(max = 11, message = "手机号长度不能超过11位")
     private String tel;
 
-    /** 密码MD5 */
-    @NotNull(message = "密码MD5不能为空")
+    /** 密码 */
+    @NotNull(message = "密码不能为空")
     @Length(max = 128, message = "密码MD5长度不能超过128位")
     private String pwd;
 
     /** 邮箱 */
     @Length(max = 255, message = "邮箱长度不能超过255位")
     private String email;
+
+    /** 角色列表 */
+    private List<String> role;
 
 }

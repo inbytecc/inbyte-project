@@ -22,7 +22,7 @@ public class SystemUserInfo {
     private Integer needUpdatePwd;
 
     /** 角色 */
-    private List<Integer> role;
+    private List<String> role;
 
     public String getUserName() {
         return userName;
@@ -40,11 +40,11 @@ public class SystemUserInfo {
         this.avatar = avatar;
     }
 
-    public List<Integer> getRole() {
+    public List<String> getRole() {
         return role;
     }
 
-    public void setRole(List<Integer> role) {
+    public void setRole(List<String> role) {
         this.role = role;
     }
 

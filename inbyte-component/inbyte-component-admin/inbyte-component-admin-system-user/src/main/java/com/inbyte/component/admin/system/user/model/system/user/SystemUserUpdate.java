@@ -46,6 +46,6 @@ public class SystemUserUpdate {
     private Integer needUpdatePwd;
 
     /** 角色列表 */
-    private List<Integer> role;
+    private List<String> role;
 
 }

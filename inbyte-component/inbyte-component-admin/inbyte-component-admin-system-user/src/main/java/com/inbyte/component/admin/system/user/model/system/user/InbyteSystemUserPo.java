@@ -105,7 +105,7 @@ public class InbyteSystemUserPo {
      * 角色
      */
     @TableField(typeHandler = ListTypeHandler.class)
-    private List<Integer> role;
+    private List<String> role;
 
     /**
      * 角色描述
