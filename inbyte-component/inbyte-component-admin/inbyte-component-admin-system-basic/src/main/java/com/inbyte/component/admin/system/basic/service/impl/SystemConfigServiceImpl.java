@@ -80,9 +80,8 @@ public class SystemConfigServiceImpl implements SystemConfigService {
         }
         inbyteSystemConfigPo.setValue(val);
 
-        LambdaQueryWrapper<InbyteSystemConfigPo> query = new LambdaQueryWrapper<InbyteSystemConfigPo>()
-                .eq(InbyteSystemConfigPo::getKey, update.getKey());
-        inbyteSystemConfigMapper.update(inbyteSystemConfigPo, query);
+        inbyteSystemConfigMapper.insertOrUpdate(inbyteSystemConfigPo);
+
         return R.ok("修改成功");
     }
 
