@@ -21,7 +21,7 @@ public class SystemRoleUpdate {
 
     /** 角色ID */
     @NotNull(message = "角色ID不能为空")
-    private Integer roleId;
+    private String roleId;
 
     /** 名称 */
     @Length(max = 128, message = "名称长度不能超过128位")

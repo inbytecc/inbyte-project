@@ -26,7 +26,7 @@ public class InbyteSystemRolePo {
       * 角色ID
       */
     @TableId(value = "role_id", type = IdType.AUTO)
-    private Integer roleId;
+    private String roleId;
 
     /**
       * 名称

@@ -12,7 +12,7 @@
                modifier,
                update_time
           FROM inbyte_system_role
-         WHERE role_id = #{roleId, jdbcType=INTEGER}
+         WHERE role_id = #{roleId}
            AND mct_no = #{mctNo, jdbcType=VARCHAR}
     </select>
 
@@ -37,5 +37,12 @@
             OR remark LIKE CONCAT('%', #{keyword}, '%'))
         </if>
          ORDER BY role_id DESC
+    </select>
+
+    <select id="dict" resultType="com.inbyte.commons.model.dto.Dict">
+        SELECT role_id AS code,
+               name AS name
+          FROM inbyte_system_role
+         WHERE deleted = 0
     </select>
 </mapper>

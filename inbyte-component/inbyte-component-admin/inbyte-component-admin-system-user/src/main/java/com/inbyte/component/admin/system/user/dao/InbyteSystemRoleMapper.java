@@ -1,6 +1,7 @@
 package com.inbyte.component.admin.system.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRolePo;
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleQuery;
 import com.inbyte.component.admin.system.user.model.system.role.SystemRoleBrief;
@@ -24,7 +25,7 @@ public interface InbyteSystemRoleMapper extends BaseMapper<InbyteSystemRolePo> {
      * @param roleId
      * @return SystemRoleDetail
      **/
-    SystemRoleDetail detail(@Param("roleId") Integer roleId,
+    SystemRoleDetail detail(@Param("roleId") String roleId,
                             @Param("mctNo") String mctNo);
 
     /**
@@ -33,4 +34,7 @@ public interface InbyteSystemRoleMapper extends BaseMapper<InbyteSystemRolePo> {
      * @return List<SystemRoleBrief>
      **/
     List<SystemRoleBrief> list(SystemRoleQuery query);
+
+
+    List<Dict> dict();
 }

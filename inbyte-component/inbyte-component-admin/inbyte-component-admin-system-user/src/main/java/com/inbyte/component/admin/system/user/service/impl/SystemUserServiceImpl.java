@@ -135,6 +135,18 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     @Override
     public R insert(SystemUserInsert insert) {
+        InbyteSystemUserPo user = inbyteSystemUserMapper.selectOne(new LambdaQueryWrapper<InbyteSystemUserPo>()
+                .eq(InbyteSystemUserPo::getUserName, insert.getUserName()));
+        if (user != null) {
+            return R.failure("该用户名已存在");
+        }
+
+        user = inbyteSystemUserMapper.selectOne(new LambdaQueryWrapper<InbyteSystemUserPo>()
+                .eq(InbyteSystemUserPo::getTel, insert.getTel()));
+        if (user != null) {
+            return R.failure("该手机号已存在");
+        }
+
         InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
                 .mctNo(SessionUtil.getMctNo())
                 .createTime(LocalDateTime.now())
@@ -143,6 +155,8 @@ public class SystemUserServiceImpl implements SystemUserService {
         BeanUtils.copyProperties(insert, inbyteSystemUserPo);
         inbyteSystemUserPo.setPwd(MD5Util.md5(insert.getPwd()));
         inbyteSystemUserPo.setNeedUpdatePwd(1);
+        inbyteSystemUserPo.setNickname(insert.getUserName());
+        inbyteSystemUserPo.setAvatar("https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png");
         inbyteSystemUserMapper.insert(inbyteSystemUserPo);
         return R.ok("新增成功");
     }

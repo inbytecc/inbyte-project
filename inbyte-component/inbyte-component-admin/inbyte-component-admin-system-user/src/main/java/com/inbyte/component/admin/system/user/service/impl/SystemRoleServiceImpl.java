@@ -1,24 +1,20 @@
 package com.inbyte.component.admin.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.system.user.dao.InbyteSystemRoleMapper;
-import com.inbyte.component.admin.system.user.service.SystemRoleService;
+import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.user.model.system.role.InbyteSystemRolePo;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleQuery;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleInsert;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleUpdate;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleBrief;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleDetail;
 import com.inbyte.commons.util.PageUtil;
-
+import com.inbyte.component.admin.system.user.SessionUtil;
+import com.inbyte.component.admin.system.user.dao.InbyteSystemRoleMapper;
+import com.inbyte.component.admin.system.user.model.system.role.*;
+import com.inbyte.component.admin.system.user.service.SystemRoleService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 角色服务
@@ -45,7 +41,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
     }
 
     @Override
-    public R delete(Integer roleId) {
+    public R delete(String roleId) {
         LambdaQueryWrapper<InbyteSystemRolePo> queryWrapper = new LambdaQueryWrapper();
         queryWrapper.eq(InbyteSystemRolePo::getRoleId, roleId);
         queryWrapper.eq(InbyteSystemRolePo::getMctNo, SessionUtil.getMctNo());
@@ -68,7 +64,7 @@ public class SystemRoleServiceImpl implements SystemRoleService {
     }
 
     @Override
-    public R<SystemRoleDetail> detail(Integer roleId) {
+    public R<SystemRoleDetail> detail(String roleId) {
         return R.ok(inbyteSystemRoleMapper.detail(roleId, SessionUtil.getMctNo()));
     }
 
@@ -80,5 +76,10 @@ public class SystemRoleServiceImpl implements SystemRoleService {
         PageUtil.startPage(query);
         query.setMctNo(SessionUtil.getMctNo());
         return R.page(inbyteSystemRoleMapper.list(query));
+    }
+
+    @Override
+    public R<List<Dict>> dict() {
+        return R.ok(inbyteSystemRoleMapper.dict());
     }
 }

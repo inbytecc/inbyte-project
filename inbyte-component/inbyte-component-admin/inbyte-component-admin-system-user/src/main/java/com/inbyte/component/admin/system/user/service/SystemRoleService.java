@@ -1,11 +1,11 @@
 package com.inbyte.component.admin.system.user.service;
+
+import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleQuery;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleInsert;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleUpdate;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleBrief;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleDetail;
+import com.inbyte.component.admin.system.user.model.system.role.*;
+
+import java.util.List;
 
 /**
  * 角色服务
@@ -29,7 +29,7 @@ public interface SystemRoleService {
      * @param roleId
      * @return Result
      **/
-    R delete(Integer roleId);
+    R delete(String roleId);
 
     /**
      * 修改
@@ -45,7 +45,7 @@ public interface SystemRoleService {
      * @param roleId
      * @return SystemRoleDetail
      **/
-    R<SystemRoleDetail> detail(Integer roleId);
+    R<SystemRoleDetail> detail(String roleId);
 
     /**
      * 列表
@@ -54,4 +54,6 @@ public interface SystemRoleService {
      * @return Result<Page<List<SystemRoleBrief>>>
      **/
     R<Page<SystemRoleBrief>> list(SystemRoleQuery query);
+
+    R<List<Dict>> dict();
 }

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class SystemRoleBrief {
 
     /** 角色ID */
-    private Integer roleId;
+    private String roleId;
 
     /** 名称 */
     private String name;

@@ -1,16 +1,14 @@
 package com.inbyte.component.admin.system.user.controller;
-import com.inbyte.component.admin.system.user.service.SystemRoleService;
-import com.inbyte.commons.model.dto.Page;
-import com.inbyte.commons.model.dto.R;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleQuery;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleInsert;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleUpdate;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleBrief;
-import com.inbyte.component.admin.system.user.model.system.role.SystemRoleDetail;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+import com.inbyte.commons.model.dto.Dict;
+import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.admin.system.user.service.SystemRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 角色
@@ -25,58 +23,69 @@ public class SystemRoleController {
     @Autowired
     private SystemRoleService systemRoleService;
 
-    /**
-     * 新增
-     *
-     * @param insert
-     * @return Result
-     **/
-    @PostMapping
-    public R insert(@RequestBody @Valid SystemRoleInsert insert) {
-        return systemRoleService.insert(insert);
-    }
+//    /**
+//     * 新增
+//     *
+//     * @param insert
+//     * @return Result
+//     **/
+//    @PostMapping
+//    public R insert(@RequestBody @Valid SystemRoleInsert insert) {
+//        return systemRoleService.insert(insert);
+//    }
+//
+//    /**
+//     * 删除
+//     *
+//     * @param roleId
+//     * @return Result
+//     **/
+//    @DeleteMapping("{roleId}")
+//    public R delete(@PathVariable("roleId") String roleId) {
+//        return systemRoleService.delete(roleId);
+//    }
+//
+//    /**
+//     * 更新
+//     *
+//     * @param update
+//     * @return Result
+//     **/
+//    @PutMapping
+//    public R update(@RequestBody @Valid SystemRoleUpdate update) {
+//        return systemRoleService.update(update);
+//    }
+//
+//    /**
+//     * 详情
+//     *
+//     * @param roleId
+//     * @return Result<SystemRoleDetail>
+//     **/
+//    @GetMapping("{roleId}")
+//    public R<SystemRoleDetail> detail(@PathVariable("roleId") String roleId) {
+//        return systemRoleService.detail(roleId);
+//    }
+//
+//    /**
+//     * 列表
+//     *
+//     * @param query
+//     * @return Result<Page<List<SystemRoleBrief>>>
+//     **/
+//    @GetMapping
+//    public R<Page<SystemRoleBrief>> list(@ModelAttribute @Valid SystemRoleQuery query) {
+//        return systemRoleService.list(query);
+//    }
 
     /**
-     * 删除
+     * 字典
      *
-     * @param roleId
-     * @return Result
+     * @return R<Dict>
      **/
-    @DeleteMapping("{roleId}")
-    public R delete(@PathVariable("roleId") Integer roleId) {
-        return systemRoleService.delete(roleId);
+    @GetMapping("dict")
+    public R<List<Dict>> dict() {
+        return systemRoleService.dict();
     }
 
-    /**
-     * 更新
-     *
-     * @param update
-     * @return Result
-     **/
-    @PutMapping
-    public R update(@RequestBody @Valid SystemRoleUpdate update) {
-        return systemRoleService.update(update);
-    }
-
-    /**
-     * 详情
-     *
-     * @param roleId
-     * @return Result<SystemRoleDetail>
-     **/
-    @GetMapping("{roleId}")
-    public R<SystemRoleDetail> detail(@PathVariable("roleId") Integer roleId) {
-        return systemRoleService.detail(roleId);
-    }
-
-    /**
-     * 列表
-     *
-     * @param query
-     * @return Result<Page<List<SystemRoleBrief>>>
-     **/
-    @GetMapping
-    public R<Page<SystemRoleBrief>> list(@ModelAttribute @Valid SystemRoleQuery query) {
-        return systemRoleService.list(query);
-    }
 }
