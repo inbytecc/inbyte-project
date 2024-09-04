@@ -137,6 +137,9 @@ public class ArithUtil {
     public static boolean isZero(BigDecimal num1) {
         return BigDecimal.ZERO.compareTo(num1) == 0;
     }
+    public static boolean isNullOrZero(BigDecimal num) {
+        return num == null || BigDecimal.ZERO.compareTo(num) == 0;
+    }
 
     /**
      * 判断第一个 BigDecimal 是否大于或等于第二个 BigDecimal。
