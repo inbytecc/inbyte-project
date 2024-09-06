@@ -6,10 +6,9 @@
     <parent>
         <artifactId>inbyte-component-common</artifactId>
         <groupId>com.inbyte</groupId>
-        <version>1.1.0-RELEASE</version>
+        <version>1.1.1-SNAPSHOT</version>
     </parent>
     <artifactId>inbyte-component-common-dict</artifactId>
-<!--    <version>1.1.0-RELEASE</version>-->
     <version>1.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
@@ -32,7 +31,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.5</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>

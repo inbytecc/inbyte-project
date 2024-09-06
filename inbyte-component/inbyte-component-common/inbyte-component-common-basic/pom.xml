@@ -6,11 +6,10 @@
     <parent>
 		<groupId>com.inbyte</groupId>
 		<artifactId>inbyte-component-common</artifactId>
-		<version>1.1.0-RELEASE</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>inbyte-component-common-basic</artifactId>
 	<packaging>jar</packaging>
-<!--	<version>1.1.0-RELEASE</version>-->
 	<version>1.1.1-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 
@@ -29,7 +28,6 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.5.5</version>
 		</dependency>
 
 		<dependency>

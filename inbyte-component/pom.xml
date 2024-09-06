@@ -6,10 +6,10 @@
     <parent>
 		<artifactId>inbyte-project</artifactId>
 		<groupId>com.inbyte</groupId>
-		<version>1.1.0-RELEASE</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>inbyte-component</artifactId>
-	<version>1.1.0-RELEASE</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
 		<module>inbyte-component-admin</module>

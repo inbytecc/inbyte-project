@@ -6,11 +6,11 @@
     <parent>
 		<groupId>com.inbyte</groupId>
 		<artifactId>inbyte-component-app</artifactId>
-		<version>1.1.0-RELEASE</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>inbyte-component-app-aliyun-oss</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.0-RELEASE</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 
 	<dependencies>
@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-user</artifactId>
-			<version>1.1.0-RELEASE</version>
+			<version>1.1.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -33,14 +33,13 @@
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-sign</artifactId>
-			<version>1.1.0-RELEASE</version>
+			<version>1.1.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.aliyun.oss</groupId>
 			<artifactId>aliyun-sdk-oss</artifactId>
 			<version>3.10.2</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -52,7 +51,6 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.5.5</version>
 		</dependency>
 
 		<dependency>
