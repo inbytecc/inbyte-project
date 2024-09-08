@@ -32,7 +32,11 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     @Override
     public R<String> getShortLink(ShortLinkParam param) {
         if (param.getEid() != null) {
-            param.setPath(param.getPath() + "?s=" + param.getEid());
+            if (param.getPath().contains("?")) {
+                param.setPath(param.getPath() + "&s=" + param.getEid());
+            } else {
+                param.setPath(param.getPath() + "?s=" + param.getEid());
+            }
         }
 
         return wxMpLinkClient.generateShortLink(getAppId(),
