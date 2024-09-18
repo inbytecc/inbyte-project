@@ -7,6 +7,7 @@ import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.Dict;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.commons.util.MD5Util;
 import com.inbyte.commons.util.PageUtil;
 import com.inbyte.commons.util.StringUtil;
@@ -112,6 +113,13 @@ public class SystemUserServiceImpl implements SystemUserService {
     public R<SystemUserInfo> info() {
         SessionUser sessionUser = SessionUtil.getSessionUser();
         InbyteSystemUserPo detail = inbyteSystemUserMapper.selectById(sessionUser.getUserId());
+        if (detail == null) {
+            return R.set(ResultStatus.Unauthorized, "用户信息不存在");
+        }
+        if (detail.getDeleted() == Whether.Yes) {
+            return R.set(ResultStatus.Unauthorized, "用户信息错误");
+        }
+
         SystemUserInfo systemUserInfo = new SystemUserInfo();
         systemUserInfo.setUserId(detail.getUserId());
         systemUserInfo.setUserName(detail.getUserName());
