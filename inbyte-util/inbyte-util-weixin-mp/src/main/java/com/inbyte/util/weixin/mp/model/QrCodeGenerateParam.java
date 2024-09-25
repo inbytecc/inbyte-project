@@ -1,8 +1,7 @@
 package com.inbyte.util.weixin.mp.model;
 
 import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * 二维码生成参数
@@ -12,6 +11,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class QrCodeGenerateParam {
 
     /**
