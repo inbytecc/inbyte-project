@@ -157,7 +157,7 @@ public class PaymentWeixinMerchantService {
      * 获取小程序调起微信支付的参数, 返回给前端调起微信支付
      */
     private R<PaymentWeixinPrepayDto> requestPayment(PaymentWeixinPrepayParam paymentWeixinPrepayParam, String prepayId, String weixinPaymentId) {
-        // 创建微信支付周期起始数据
+        // 创建微信支付信息数据
         PaymentWeixinInfoPo paymentWeixinInfoPo = PaymentWeixinInfoPo.builder()
                 .userId(paymentWeixinPrepayParam.getUserId())
                 .orderNo(paymentWeixinPrepayParam.getOrderNo())
