@@ -90,7 +90,8 @@ public class PaymentWeixinPartnerService implements InitializingBean {
                 new RSAAutoCertificateConfig.Builder()
                         .merchantId(WEIXIN_PARTNER_APP_ID)
                         // 使用 com.wechat.pay.java.core.util 中的函数从本地文件中加载商户私钥，商户私钥会用来生成请求的签名
-                        .privateKeyFromPath(privateKeyPath)
+//                        .privateKeyFromPath(privateKeyPath)
+                        .privateKey(privateKeyPath)
                         .merchantSerialNumber(merchantSerialNumber)
                         .apiV3Key(apiV3Key)
                         .build();
