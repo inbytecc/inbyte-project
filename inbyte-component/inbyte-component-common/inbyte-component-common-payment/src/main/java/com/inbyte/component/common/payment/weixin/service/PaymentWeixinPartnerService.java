@@ -8,6 +8,7 @@ import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
 import com.inbyte.component.common.payment.common.model.PaymentSuccessNotifyParam;
 import com.inbyte.component.common.payment.common.model.RefundSuccessNotifyParam;
+import com.inbyte.component.common.payment.weixin.InbytePaymentWeixinPartnerProperties;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.model.*;
@@ -44,33 +45,14 @@ public class PaymentWeixinPartnerService implements InitializingBean {
     @Value("${inbyte.app.server}")
     private String appServer;
 
-    /**
-     * 微信服务商商户号
-     */
-    public static String WEIXIN_PARTNER_MERCHANT_ID = "1672917102";
-    /**
-     * 微信服务商公众号APPID
-     */
-    public static String WEIXIN_PARTNER_APP_ID = "1672917102";
-    /**
-     * 商户API私钥路径
-     */
-    public static String privateKeyPath = "/Users/yourname/your/path/apiclient_key.pem";
-    /**
-     * 商户证书序列号
-     */
-    public static String merchantSerialNumber = "5157F09EFDC096DE15EBE81A47057A72********";
-    /**
-     * 商户APIV3密钥
-     */
-    public static String apiV3Key = "...";
-
     @Autowired
     private PaymentWeixinInfoMapper paymentWeixinInfoMapper;
     @Autowired
     private PaymentWeixinConfigMapper paymentWeixinConfigMapper;
     @Autowired
     private SystemAlarm alarmSystemClient;
+    @Autowired
+    private InbytePaymentWeixinPartnerProperties inbytePaymentWeixinPartnerProperties;
 
 
     public static JsapiService service;
@@ -85,15 +67,19 @@ public class PaymentWeixinPartnerService implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
+        if (inbytePaymentWeixinPartnerProperties == null) {
+            return;
+        }
+
         // 初始化商户配置
         Config config =
                 new RSAAutoCertificateConfig.Builder()
-                        .merchantId(WEIXIN_PARTNER_APP_ID)
+                        .merchantId(inbytePaymentWeixinPartnerProperties.getMerchantId())
                         // 使用 com.wechat.pay.java.core.util 中的函数从本地文件中加载商户私钥，商户私钥会用来生成请求的签名
 //                        .privateKeyFromPath(privateKeyPath)
-                        .privateKey(privateKeyPath)
-                        .merchantSerialNumber(merchantSerialNumber)
-                        .apiV3Key(apiV3Key)
+                        .privateKey(inbytePaymentWeixinPartnerProperties.getPrivateKey())
+                        .merchantSerialNumber(inbytePaymentWeixinPartnerProperties.getSerialNumber())
+                        .apiV3Key(inbytePaymentWeixinPartnerProperties.getApiV3Key())
                         .build();
 
         // 初始化服务
@@ -109,15 +95,7 @@ public class PaymentWeixinPartnerService implements InitializingBean {
     public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepayParam) {
         // 使用自动更新平台证书的RSA配置
         // 一个商户号只能初始化一个配置，否则会因为重复的下载任务报错
-        Config config =
-                new RSAAutoCertificateConfig.Builder()
-                        .merchantId(WEIXIN_PARTNER_MERCHANT_ID)
-                        .privateKeyFromPath(privateKeyPath)
-                        .merchantSerialNumber(merchantSerialNumber)
-                        .apiV3Key(apiV3Key)
-                        .build();
         // 构建service
-        JsapiService service = new JsapiService.Builder().config(config).build();
         // request.setXxx(val)设置所需参数，具体参数可见Request定义
         PrepayRequest request = new PrepayRequest();
         Amount amount = new Amount();

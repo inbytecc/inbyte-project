@@ -14,61 +14,61 @@ public class InbytePaymentWeixinPartnerProperties {
     /**
      * 微信服务商商户号
      */
-    public static String merchantId;
+    public String merchantId;
     /**
      * 微信服务商公众号APPID
      */
-    public static String appId;
+    public String appId;
     /**
      * 商户API私钥路径
      */
-    public static String privateKey;
+    public String privateKey;
     /**
      * 商户证书序列号
      */
-    public static String serialNumber;
+    public String serialNumber;
     /**
      * 商户APIV3密钥
      */
-    public static String apiV3Key;
+    public String apiV3Key;
 
-    public static String getMerchantId() {
+    public String getMerchantId() {
         return merchantId;
     }
 
-    public static void setMerchantId(String merchantId) {
-        InbytePaymentWeixinPartnerProperties.merchantId = merchantId;
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
     }
 
-    public static String getAppId() {
+    public String getAppId() {
         return appId;
     }
 
-    public static void setAppId(String appId) {
-        InbytePaymentWeixinPartnerProperties.appId = appId;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
-    public static String getPrivateKey() {
+    public String getPrivateKey() {
         return privateKey;
     }
 
-    public static void setPrivateKey(String privateKey) {
-        InbytePaymentWeixinPartnerProperties.privateKey = privateKey;
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
     }
 
-    public static String getSerialNumber() {
+    public String getSerialNumber() {
         return serialNumber;
     }
 
-    public static void setSerialNumber(String serialNumber) {
-        InbytePaymentWeixinPartnerProperties.serialNumber = serialNumber;
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
-    public static String getApiV3Key() {
+    public String getApiV3Key() {
         return apiV3Key;
     }
 
-    public static void setApiV3Key(String apiV3Key) {
-        InbytePaymentWeixinPartnerProperties.apiV3Key = apiV3Key;
+    public void setApiV3Key(String apiV3Key) {
+        this.apiV3Key = apiV3Key;
     }
 }
