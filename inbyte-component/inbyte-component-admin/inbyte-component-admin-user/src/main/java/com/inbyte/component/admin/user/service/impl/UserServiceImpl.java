@@ -80,4 +80,30 @@ public class UserServiceImpl implements UserService {
         userMapper.insert(userPo);
         return userPo.getUserId();
     }
+
+    @Override
+    public UserBrief getUser(String tel) {
+        if (StringUtil.isEmpty(tel)) {
+            throw InbyteException.failure("请输入手机号");
+        }
+        if (tel.length() != 11) {
+            throw InbyteException.failure("手机号长度不正确");
+        }
+        UserBrief userBrief = userMapper.briefByTel(tel);
+        if (userBrief != null) {
+            return userBrief;
+        }
+
+        String nickname = "用户" + tel.substring(7);
+        UserPo userPo = UserPo.builder()
+                .tel(tel)
+                .nickname(nickname)
+                .userName(nickname)
+                .avatar("https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132")
+                .createTime(LocalDateTime.now())
+                .build();
+        userMapper.insert(userPo);
+
+        return userMapper.brief(userPo.getUserId());
+    }
 }

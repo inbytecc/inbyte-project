@@ -51,4 +51,5 @@ public interface UserService {
      **/
     Integer getUserId(String tel);
 
+    UserBrief getUser(String tel);
 }
