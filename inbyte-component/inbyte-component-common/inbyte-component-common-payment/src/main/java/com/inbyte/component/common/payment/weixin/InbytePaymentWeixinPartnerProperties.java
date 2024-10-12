@@ -14,23 +14,23 @@ public class InbytePaymentWeixinPartnerProperties {
     /**
      * 微信服务商商户号
      */
-    public String merchantId;
+    private String merchantId;
     /**
      * 微信服务商公众号APPID
      */
-    public String appId;
+    private String appId;
     /**
      * 商户API私钥路径
      */
-    public String privateKey;
+    private String privateKey;
     /**
      * 商户证书序列号
      */
-    public String serialNumber;
+    private String serialNumber;
     /**
      * 商户APIV3密钥
      */
-    public String apiV3Key;
+    private String apiV3Key;
 
     public String getMerchantId() {
         return merchantId;

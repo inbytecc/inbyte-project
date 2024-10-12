@@ -140,8 +140,8 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
         Amount amount = new Amount();
         amount.setTotal(ArithUtil.multiply(prepayParam.getPaymentAmount(), ONE_HUNDRED).intValue());
         request.setAmount(amount);
-        request.setSpAppid("wx96bb1723f57649e0");
-        request.setSpMchid("1672917102");
+        request.setSpAppid(inbytePaymentWeixinPartnerProperties.getAppId());
+        request.setSpMchid(inbytePaymentWeixinPartnerProperties.getMerchantId());
         request.setSubAppid(prepayParam.getAppId());
         request.setSubMchid(weixinPaymentId);
         Payer payer = new Payer();
@@ -282,7 +282,35 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
     }
 
     public R close(String orderNo) {
-        return R.failure("开发中");
+        PaymentWeixinInfoBrief brief = paymentWeixinInfoMapper.selectByNo(orderNo);
+        if (brief == null) {
+            return R.ok("该订单未支付, 无需取消");
+        }
+
+        CloseOrderRequest request = new CloseOrderRequest();
+        request.setSpMchid(inbytePaymentWeixinPartnerProperties.getMerchantId());
+        request.setSubMchid(brief.getWeixinPaymentMerchantId());
+        request.setOutTradeNo(orderNo);
+
+        try {
+            jsapiService.closeOrder(request);
+
+            // 记录退款申请数据
+            PaymentWeixinInfoPo paymentWeixinInfoPo = PaymentWeixinInfoPo.builder()
+                    .weixinPaymentId(brief.getWeixinPaymentId())
+                    .cancelTime(LocalDateTime.now())
+                    .build();
+            int update = paymentWeixinInfoMapper.updateById(paymentWeixinInfoPo);
+            log.info("微信支付取消更新参数:{}, 响应结果:{}", JSON.toJSONString(paymentWeixinInfoPo), update);
+
+            return R.ok("关闭成功");
+        } catch (ServiceException e) {
+            log.warn("取消订单失败, 异常信息:{}", e);
+            if ("ORDERPAID".equals(e.getErrorCode())) {
+                return R.failure("该订单已支付, 请申请退款操作");
+            }
+            return R.failure("订单取消操作失败, 请稍后再试");
+        }
     }
 
     public R<PaymentSuccessNotifyParam> queryPaymentStatus(String orderNo) {
@@ -316,6 +344,7 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
         amountReq.setRefund(ArithUtil.multiply(param.getRefundAmount(), new BigDecimal(100)).longValue());
         amountReq.setCurrency("CNY");
         amountReq.setTotal(ArithUtil.multiply(paymentInfoBrief.getPaymentAmount(), new BigDecimal(100)).longValue());
+        request.setSubMchid(paymentInfoBrief.getWeixinPaymentMerchantId());
         request.setAmount(amountReq);
         request.setNotifyUrl(notifyUrl);
         request.setOutTradeNo(param.getOrderNo());
@@ -324,9 +353,6 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
 
         LocalDateTime now = LocalDateTime.now();
         try {
-            Refund refund = refundService.create(request);
-            log.info("退款申请请求结果:{}", JSON.toJSONString(refund));
-
             // 记录退款申请数据
             PaymentWeixinInfoPo paymentWeixinInfoPo = PaymentWeixinInfoPo.builder()
                     .weixinPaymentId(paymentInfoBrief.getWeixinPaymentId())
@@ -350,6 +376,10 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
                     .build();
             int insert = refundMapper.insert(refundPo);
             log.info("微信支付退款明细参数新增:{}, 响应结果:{}", JSON.toJSONString(refundPo), insert);
+
+            // 发起退款请求
+            Refund refund = refundService.create(request);
+            log.info("退款申请请求结果:{}", JSON.toJSONString(refund));
 
             return R.ok("退款请求发送成功", refund);
         } catch (ServiceException e) {
