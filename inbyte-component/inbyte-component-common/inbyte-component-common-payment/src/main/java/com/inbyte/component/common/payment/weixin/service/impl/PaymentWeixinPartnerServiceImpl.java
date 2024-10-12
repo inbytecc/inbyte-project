@@ -13,6 +13,7 @@ import com.inbyte.component.common.payment.weixin.InbytePaymentWeixinPartnerProp
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.model.*;
+import com.inbyte.component.common.payment.weixin.service.PaymentWeixinService;
 import com.inbyte.component.common.payment.weixin.service.PaymentWeixinServiceApi;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
@@ -249,7 +250,7 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
                     .paymentNo(transaction.getTransactionId())
                     .paymentAmount(paymentAmount)
                     .paymentUserId(transaction.getPayer().getSubOpenid())
-                    .paymentTime(LocalDateTime.now())
+                    .paymentTime(PaymentWeixinService.dateFormatConvert(transaction.getSuccessTime()))
                     .build();
             return R.ok(paymentSuccessDto);
         } catch (Exception e) {

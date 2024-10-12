@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -171,5 +172,10 @@ public class PaymentWeixinService {
 
     private PaymentWeixinServiceApi getPaymentService(PaymentWeixinConfigPo paymentWeixinConfigPo) {
         return paymentWeixinConfigPo.getPartnerPay() == Whether.Yes ? paymentWeixinPartnerServiceImpl : paymentWeixinMerchantServiceImpl;
+    }
+
+
+    public static LocalDateTime dateFormatConvert(String oldDateStr) {
+        return LocalDateTime.parse(oldDateStr.substring(0, 19));
     }
 }

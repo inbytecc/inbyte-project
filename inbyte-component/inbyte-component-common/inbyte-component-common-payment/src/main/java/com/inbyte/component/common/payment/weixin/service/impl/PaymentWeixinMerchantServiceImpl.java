@@ -18,6 +18,7 @@ import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinRefundMapper;
 import com.inbyte.component.common.payment.weixin.model.*;
+import com.inbyte.component.common.payment.weixin.service.PaymentWeixinService;
 import com.inbyte.component.common.payment.weixin.service.PaymentWeixinServiceApi;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.cipher.Signer;
@@ -448,7 +449,7 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
                 .paymentAmount(paymentAmount)
                 .paymentUserId(transaction.getPayer().getOpenid())
                 .paymentUserName("微信用户")
-                .paymentTime(PaymentWeixinMerchantServiceImpl.dateFormatConvert(transaction.getSuccessTime()))
+                .paymentTime(PaymentWeixinService.dateFormatConvert(transaction.getSuccessTime()))
                 .build();
 
         return R.ok(paymentSuccessDto);
@@ -514,7 +515,4 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
         return R.ok(refundSuccessDto);
     }
 
-    static LocalDateTime dateFormatConvert(String oldDateStr) {
-        return LocalDateTime.parse(oldDateStr.substring(0, 19));
-    }
 }

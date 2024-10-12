@@ -4,12 +4,13 @@
 
     <insert id="insertSelective" parameterType="com.inbyte.component.common.payment.weixin.model.PaymentWeixinInfoPo" keyProperty="weixinPaymentId" useGeneratedKeys="true">
         INSERT INTO payment_weixin_info
-            (user_id, order_no, order_brief, order_type, main_photo, venue_id, mct_no, app_id, prepay_id,
+            (user_id, order_no, order_brief, order_type, partner_payment, main_photo, venue_id, mct_no, app_id, prepay_id,
              payment_amount, weixin_payment_merchant_id, paid, create_time)
         SELECT #{userId, jdbcType=INTEGER},
                #{orderNo, jdbcType=VARCHAR},
                #{orderBrief, jdbcType=VARCHAR},
                #{orderType, jdbcType=VARCHAR},
+               #{partnerPayment, jdbcType=INTEGER},
                #{mainPhoto, jdbcType=VARCHAR},
                #{venueId, jdbcType=INTEGER},
                #{mctNo, jdbcType=VARCHAR},
