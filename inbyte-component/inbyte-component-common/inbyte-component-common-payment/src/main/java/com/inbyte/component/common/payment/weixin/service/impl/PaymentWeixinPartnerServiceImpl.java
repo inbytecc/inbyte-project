@@ -1,4 +1,4 @@
-package com.inbyte.component.common.payment.weixin.service;
+package com.inbyte.component.common.payment.weixin.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.google.common.base.Throwables;
@@ -6,22 +6,23 @@ import com.inbyte.commons.api.SystemAlarm;
 import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.ArithUtil;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.common.payment.common.model.PaymentSuccessNotifyParam;
 import com.inbyte.component.common.payment.common.model.RefundSuccessNotifyParam;
 import com.inbyte.component.common.payment.weixin.InbytePaymentWeixinPartnerProperties;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.model.*;
+import com.inbyte.component.common.payment.weixin.service.PaymentWeixinServiceApi;
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
+import com.wechat.pay.java.core.cipher.Signer;
 import com.wechat.pay.java.core.exception.ServiceException;
 import com.wechat.pay.java.core.notification.NotificationParser;
 import com.wechat.pay.java.core.notification.RequestParam;
+import com.wechat.pay.java.core.util.NonceUtil;
 import com.wechat.pay.java.service.partnerpayments.jsapi.JsapiService;
-import com.wechat.pay.java.service.partnerpayments.jsapi.model.Amount;
-import com.wechat.pay.java.service.partnerpayments.jsapi.model.PrepayRequest;
-import com.wechat.pay.java.service.partnerpayments.jsapi.model.PrepayResponse;
-import com.wechat.pay.java.service.partnerpayments.jsapi.model.Transaction;
+import com.wechat.pay.java.service.partnerpayments.jsapi.model.*;
 import com.wechat.pay.java.service.refund.model.Refund;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -30,6 +31,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 /**
@@ -40,7 +42,14 @@ import java.time.LocalDateTime;
  */
 @Service
 @Slf4j
-public class PaymentWeixinPartnerService implements InitializingBean {
+public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi, InitializingBean {
+
+    private BigDecimal ONE_HUNDRED = new BigDecimal(100);
+
+    /**
+     * 微信支付签署
+     */
+    private Signer signer;
 
     @Value("${inbyte.app.server}")
     private String appServer;
@@ -84,6 +93,8 @@ public class PaymentWeixinPartnerService implements InitializingBean {
 
         // 初始化服务
         service = new JsapiService.Builder().config(config).build();
+
+        signer = config.createSigner();
     }
 
     /**
@@ -92,25 +103,34 @@ public class PaymentWeixinPartnerService implements InitializingBean {
      * @param prepayParam 预支付订单参数
      * @return 预支付订单响应
      */
-    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepayParam) {
+    public R<PaymentWeixinPrepayDto> prepayOrder(PaymentWeixinPrepayParam prepayParam, String weixinPaymentId) {
+        String notifyUrl;
+        if (StringUtil.isEmpty(prepayParam.getAppServer())) {
+            notifyUrl = String.format(appServer + "/api/payment/weixin/%s/notify/payment-success", weixinPaymentId);
+        } else {
+            notifyUrl = String.format(prepayParam.getAppServer() + "/api/payment/weixin/%s/notify/payment-success", weixinPaymentId);
+        }
+
         // 使用自动更新平台证书的RSA配置
-        // 一个商户号只能初始化一个配置，否则会因为重复的下载任务报错
-        // 构建service
-        // request.setXxx(val)设置所需参数，具体参数可见Request定义
         PrepayRequest request = new PrepayRequest();
         Amount amount = new Amount();
-        amount.setTotal(100);
+        amount.setTotal(ArithUtil.multiply(prepayParam.getPaymentAmount(), ONE_HUNDRED).intValue());
         request.setAmount(amount);
-        request.setSpAppid("wxa9d9651ae******");
-        request.setSpMchid("190000****");
-        request.setDescription("测试商品标题");
-        request.setNotifyUrl("https://notify_url");
-        request.setOutTradeNo("out_trade_no_001");
+        request.setSpAppid("wx96bb1723f57649e0");
+        request.setSpMchid("1672917102");
+        request.setSubAppid(prepayParam.getAppId());
+        request.setSubMchid(weixinPaymentId);
+        Payer payer = new Payer();
+        payer.setSubOpenid(prepayParam.getOpenId());
+        request.setPayer(payer);
+        request.setDescription(prepayParam.getOrderBrief());
+        request.setNotifyUrl(notifyUrl);
+        request.setOutTradeNo(prepayParam.getOrderNo());
         // 调用下单方法，得到应答
         // 获取微信预支付ID
         try {
             PrepayResponse response = service.prepay(request);
-            return requestPayment(prepayParam, response.getPrepayId());
+            return requestPayment(prepayParam, response.getPrepayId(), weixinPaymentId);
         } catch (ServiceException e) {
             if ("ORDERPAID".equals(e.getErrorCode())) {
                 return R.failure("该订单已支付, 请稍等片刻订单状态将恢复正常");
@@ -133,42 +153,42 @@ public class PaymentWeixinPartnerService implements InitializingBean {
      * @param prepayId                 预支付ID
      * @return 微信支付参数
      */
-    private R<PaymentWeixinPrepayDto> requestPayment(PaymentWeixinPrepayParam paymentWeixinPrepayParam, String prepayId) {
+    private R<PaymentWeixinPrepayDto> requestPayment(PaymentWeixinPrepayParam paymentWeixinPrepayParam, String prepayId, String weixinPaymentId) {
         // 创建微信支付信息数据
         PaymentWeixinInfoPo paymentWeixinInfoPo = PaymentWeixinInfoPo.builder()
                 .userId(paymentWeixinPrepayParam.getUserId())
                 .orderNo(paymentWeixinPrepayParam.getOrderNo())
                 .orderBrief(paymentWeixinPrepayParam.getOrderBrief())
                 .orderType(paymentWeixinPrepayParam.getOrderType())
+                .partnerPayment(Whether.Yes)
                 .mainPhoto(paymentWeixinPrepayParam.getMainPhoto())
                 .venueId(paymentWeixinPrepayParam.getVenueId())
                 .mctNo(paymentWeixinPrepayParam.getMctNo())
                 .appId(paymentWeixinPrepayParam.getAppId())
                 .paymentAmount(paymentWeixinPrepayParam.getPaymentAmount())
-//                .weixinPaymentMerchantId(weixinPaymentId)
-                .paid(Whether.Yes)
+                .weixinPaymentMerchantId(weixinPaymentId)
+                .paid(Whether.No)
                 .prepayId(prepayId)
                 .createTime(LocalDateTime.now())
                 .build();
         int insert = paymentWeixinInfoMapper.insertSelective(paymentWeixinInfoPo);
         log.info("微信支付数据创建参数:{}, 响应结果:{}", JSON.toJSONString(paymentWeixinInfoPo), insert);
 
-
-//        Signer signer = service.createSigner();
-//        long timestamp = Instant.now().getEpochSecond();
-//        String nonceStr = NonceUtil.createNonce(32);
-//        String packageVal = "prepay_id=" + prepayId;
-//        String message = paymentWeixinPrepayParam.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + packageVal + "\n";
-//        String sign = signer.sign(message).getSign();
+        long timestamp = Instant.now().getEpochSecond();
+        String nonceStr = NonceUtil.createNonce(32);
+        String packageVal = "prepay_id=" + prepayId;
+        String message = paymentWeixinPrepayParam.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + packageVal + "\n";
+        log.debug("Message for RequestPayment signatures is[{}]", message);
+        String sign = signer.sign(message).getSign();
 
         PaymentWeixinPrepayDto requestPayment = PaymentWeixinPrepayDto.builder()
-//                .timeStamp(String.valueOf(timestamp))
-//                .nonceStr(nonceStr)
-//                .packageVal(packageVal)
-//                .paySign(sign)
+                .timeStamp(String.valueOf(timestamp))
+                .nonceStr(nonceStr)
+                .package1(packageVal)
+                .packageVal(packageVal)
+                .paySign(sign)
                 .signType("RSA")
                 .build();
-
         return R.ok(requestPayment);
     }
 
@@ -191,7 +211,6 @@ public class PaymentWeixinPartnerService implements InitializingBean {
                 .body(param.getRequestBodyString())
                 .build();
 
-//        NotificationParser parser = new NotificationParser(getConfig(PARTNER_ID));
         NotificationParser parser = new NotificationParser();
         try {
             Transaction transaction = parser.parse(requestParam, Transaction.class);
@@ -232,7 +251,6 @@ public class PaymentWeixinPartnerService implements InitializingBean {
                     .paymentUserId(transaction.getPayer().getSubOpenid())
                     .paymentTime(LocalDateTime.now())
                     .build();
-
             return R.ok(paymentSuccessDto);
         } catch (Exception e) {
             log.error("微信验签不通过", e);

@@ -52,6 +52,11 @@ public class PaymentWeixinInfoPo {
     private OrderTypeEnum orderType;
 
     /**
+     * 服务商模式支付
+     */
+    private Integer partnerPayment;
+
+    /**
      * 订单图片
      */
     private String mainPhoto;

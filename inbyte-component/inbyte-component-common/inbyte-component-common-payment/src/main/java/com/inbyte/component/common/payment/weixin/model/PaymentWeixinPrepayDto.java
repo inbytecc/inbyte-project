@@ -1,6 +1,5 @@
 package com.inbyte.component.common.payment.weixin.model;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.*;
 
 /**
@@ -15,6 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class PaymentWeixinPrepayDto {
+
     /**
      * 时间戳
      * 是否必填:是
@@ -29,10 +29,17 @@ public class PaymentWeixinPrepayDto {
     private String nonceStr;
 
     /**
+     * 与packageVal的值是一样的，待删除
+     * 20241012 已弃用
+     * 20250301 后可删除 TODO
+     **/
+    @Deprecated
+    private String package1;
+
+    /**
      *订单详情扩展字符串
      * 是否必填:是
      *小程序下单接口返回的prepay_id参数值, 提交格式如：prepay_id=****/
-    @JsonSetter("package1")
     private String packageVal;
 
     /**

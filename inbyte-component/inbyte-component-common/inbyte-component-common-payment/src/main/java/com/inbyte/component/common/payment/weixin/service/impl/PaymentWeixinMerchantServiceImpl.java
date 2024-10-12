@@ -1,4 +1,4 @@
-package com.inbyte.component.common.payment.weixin.service;
+package com.inbyte.component.common.payment.weixin.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -18,6 +18,7 @@ import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinConfigMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinRefundMapper;
 import com.inbyte.component.common.payment.weixin.model.*;
+import com.inbyte.component.common.payment.weixin.service.PaymentWeixinServiceApi;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.cipher.Signer;
 import com.wechat.pay.java.core.exception.ServiceException;
@@ -50,7 +51,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Slf4j
-public class PaymentWeixinMerchantService {
+public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi {
 
     /**
      * 服务器地址地址
@@ -163,13 +164,14 @@ public class PaymentWeixinMerchantService {
                 .orderNo(paymentWeixinPrepayParam.getOrderNo())
                 .orderBrief(paymentWeixinPrepayParam.getOrderBrief())
                 .orderType(paymentWeixinPrepayParam.getOrderType())
+                .partnerPayment(Whether.No)
                 .mainPhoto(paymentWeixinPrepayParam.getMainPhoto())
                 .venueId(paymentWeixinPrepayParam.getVenueId())
                 .mctNo(paymentWeixinPrepayParam.getMctNo())
                 .appId(paymentWeixinPrepayParam.getAppId())
                 .paymentAmount(paymentWeixinPrepayParam.getPaymentAmount())
                 .weixinPaymentMerchantId(weixinPaymentId)
-                .paid(Whether.Yes)
+                .paid(Whether.No)
                 .prepayId(prepayId)
                 .createTime(LocalDateTime.now())
                 .build();
@@ -188,6 +190,7 @@ public class PaymentWeixinMerchantService {
                 .timeStamp(String.valueOf(timestamp))
                 .nonceStr(nonceStr)
                 .packageVal(packageVal)
+                .package1(packageVal)
                 .paySign(sign)
                 .signType("RSA")
                 .build();
@@ -445,7 +448,7 @@ public class PaymentWeixinMerchantService {
                 .paymentAmount(paymentAmount)
                 .paymentUserId(transaction.getPayer().getOpenid())
                 .paymentUserName("微信用户")
-                .paymentTime(PaymentWeixinMerchantService.dateFormatConvert(transaction.getSuccessTime()))
+                .paymentTime(PaymentWeixinMerchantServiceImpl.dateFormatConvert(transaction.getSuccessTime()))
                 .build();
 
         return R.ok(paymentSuccessDto);

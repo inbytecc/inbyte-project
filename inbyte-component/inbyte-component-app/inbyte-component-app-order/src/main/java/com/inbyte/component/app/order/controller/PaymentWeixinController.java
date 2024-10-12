@@ -10,6 +10,7 @@ import com.inbyte.component.common.payment.weixin.model.PaymentWeixinSuccessVeri
 import com.inbyte.component.common.payment.weixin.model.RefundWeixinSuccessVerifyParam;
 import com.inbyte.component.common.payment.weixin.service.PaymentWeixinService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,8 @@ public class PaymentWeixinController implements InitializingBean {
      */
     @PostMapping("notify/payment-success")
     public PaymentWeixinResult paymentSuccessNotify(@PathVariable("weixinMerchantId") String weixinMerchantId,
-                                                    HttpServletRequest request) {
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response) {
         // 从请求头里获取相关信息, 用于验证签名
         // 时间戳
         String timestamp = request.getHeader("Wechatpay-Timestamp");
@@ -78,16 +80,12 @@ public class PaymentWeixinController implements InitializingBean {
             return weixinFailureResult;
         }
         PaymentSuccessNotifyParam paymentSuccessNotifyParam = paymentSuccessDtoR.getData();
-        try {
             R r = orderServiceFactory.getServiceByOrderNo(paymentSuccessNotifyParam.getOrderNo()).paymentSuccessNotify(paymentSuccessNotifyParam);
-            if (r.failed()) {
-                return weixinFailureResult;
-            }
-            return weixinSuccessResult;
-        } catch (Exception e) {
-            log.error("订单支付回调异常: {}", e);
+        if (r.failed()) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return weixinFailureResult;
         }
+        return weixinSuccessResult;
     }
 
     /**
@@ -97,7 +95,9 @@ public class PaymentWeixinController implements InitializingBean {
      * @return
      */
     @PostMapping("notify/refund-success")
-    public PaymentWeixinResult refundSuccessNotify(@PathVariable("weixinMerchantId") String weixinMerchantId, HttpServletRequest request) {
+    public PaymentWeixinResult refundSuccessNotify(@PathVariable("weixinMerchantId") String weixinMerchantId,
+                                                   HttpServletRequest request,
+                                                   HttpServletResponse response) {
         // 从请求头里获取相关信息, 用于验证签名
         // 时间戳
         String timestamp = request.getHeader("Wechatpay-Timestamp");
@@ -120,12 +120,14 @@ public class PaymentWeixinController implements InitializingBean {
                 .build();
         R<RefundSuccessNotifyParam> refundWeixinSuccessR = paymentWeixinService.refundSuccessVerify(build);
         if (refundWeixinSuccessR.failed()) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return weixinFailureResult;
         }
         RefundSuccessNotifyParam data = refundWeixinSuccessR.getData();
         R r = orderServiceFactory.getServiceByOrderNo(data.getOrderNo())
                 .refundSuccessNotify(data);
         if (r.failed()) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return weixinFailureResult;
         }
         return weixinSuccessResult;
