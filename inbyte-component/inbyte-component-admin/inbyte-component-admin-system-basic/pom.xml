@@ -8,7 +8,7 @@
         <version>1.1.1-SNAPSHOT</version>
     </parent>
     <artifactId>inbyte-component-admin-system-basic</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1-RELEASE</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -21,7 +21,6 @@
         <dependency>
             <groupId>com.inbyte</groupId>
             <artifactId>inbyte-component-admin-system-user</artifactId>
-            <version>1.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.inbyte</groupId>

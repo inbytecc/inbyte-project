@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>inbyte-component-app-user-weixin-mp</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.1-RELEASE</version>
 	<name>${project.artifactId}</name>
 
 	<dependencies>
@@ -22,17 +22,14 @@
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-util-weixin-mp</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-user</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-sign</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -54,7 +51,6 @@
 		<dependency>
 			<groupId>com.alibaba.fastjson2</groupId>
 			<artifactId>fastjson2</artifactId>
-			<version>2.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

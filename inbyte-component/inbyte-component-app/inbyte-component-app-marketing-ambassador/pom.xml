@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>inbyte-component-app-marketing-ambassador</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.1-RELEASE</version>
 	<name>${project.artifactId}</name>
 
 	<dependencies>
@@ -22,19 +22,16 @@
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-user</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-sign</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.inbyte</groupId>
 			<artifactId>inbyte-component-app-order</artifactId>
-			<version>1.1.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 
