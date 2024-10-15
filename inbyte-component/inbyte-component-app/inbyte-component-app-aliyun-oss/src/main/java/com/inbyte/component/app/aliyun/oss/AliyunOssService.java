@@ -5,7 +5,7 @@ import com.aliyun.oss.*;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
-import com.inbyte.commons.model.enums.UploadByEnum;
+import com.inbyte.commons.model.enums.AccountTypeEnum;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
@@ -112,7 +112,7 @@ public class AliyunOssService {
                     .endPoint(endpoint)
                     .name(fileName)
                     .fileType(param.getFileType())
-                    .uploadBy(UploadByEnum.USER)
+                    .uploadBy(AccountTypeEnum.USER)
                     .bucket(bucketName)
                     .path(param.getPath())
                     .createTime(now)
@@ -379,7 +379,7 @@ public class AliyunOssService {
                 .path(objectName)
                 .fileType(param.getFileType())
 //                .mimeType(FileTypeEnum.getByCode(Integer.valueOf(param.getFileType())).name)
-                .uploadBy(UploadByEnum.USER)
+                .uploadBy(AccountTypeEnum.USER)
                 .size(param.getFileBytes().length)
                 .bucket(bucketName)
                 .uploaded(WhetherDict.Yes.code)

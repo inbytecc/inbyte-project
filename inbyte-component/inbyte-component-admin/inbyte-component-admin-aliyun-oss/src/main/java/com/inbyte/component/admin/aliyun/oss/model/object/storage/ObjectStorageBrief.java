@@ -1,7 +1,7 @@
 package com.inbyte.component.admin.aliyun.oss.model.object.storage;
 
 import com.inbyte.commons.model.enums.FileTypeEnum;
-import com.inbyte.commons.model.enums.UploadByEnum;
+import com.inbyte.commons.model.enums.AccountTypeEnum;
 import com.inbyte.commons.util.serialize.ReadableByte;
 import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
@@ -52,8 +52,8 @@ public class ObjectStorageBrief {
     private String mimeType;
 
     /** 上传源 */
-    @DictSerialize(UploadByEnum.class)
-    private UploadByEnum uploadBy;
+    @DictSerialize(AccountTypeEnum.class)
+    private AccountTypeEnum uploadBy;
 
     /** 高度 */
     private Integer height;

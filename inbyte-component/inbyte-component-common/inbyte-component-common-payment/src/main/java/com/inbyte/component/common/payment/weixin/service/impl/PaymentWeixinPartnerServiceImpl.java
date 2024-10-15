@@ -95,7 +95,7 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
      * @throws Exception
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         if (inbytePaymentWeixinPartnerProperties == null) {
             return;
         }
@@ -103,8 +103,6 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
         // 初始化商户配置
         RSAAutoCertificateConfig config = new RSAAutoCertificateConfig.Builder()
                         .merchantId(inbytePaymentWeixinPartnerProperties.getMerchantId())
-                        // 使用 com.wechat.pay.java.core.util 中的函数从本地文件中加载商户私钥，商户私钥会用来生成请求的签名
-//                        .privateKeyFromPath(privateKeyPath)
                         .privateKey(inbytePaymentWeixinPartnerProperties.getPrivateKey())
                         .merchantSerialNumber(inbytePaymentWeixinPartnerProperties.getSerialNumber())
                         .apiV3Key(inbytePaymentWeixinPartnerProperties.getApiV3Key())
