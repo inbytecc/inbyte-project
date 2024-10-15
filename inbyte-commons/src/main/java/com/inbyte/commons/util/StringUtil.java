@@ -2,8 +2,14 @@ package com.inbyte.commons.util;
 
 import com.alibaba.fastjson2.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 
+/**
+ * 字符串工具
+ * @author chenjw
+ * @date 2016-6-6
+ */
 public class StringUtil {
 
 
@@ -249,5 +255,25 @@ public class StringUtil {
             return str.substring(0, str.length() - strToRemove.length());
         }
         return str;
+    }
+
+
+    /**
+     * 序列化BigDecimal
+     *
+     * 小数后为0，返回整数
+     * @param number
+     * @return
+     */
+    public static String formatBigDecimal(BigDecimal number) {
+        // 去掉末尾的0并去掉小数点（如果是整数）
+        number = number.stripTrailingZeros();
+
+        // 判断是否是整数
+        if (number.scale() <= 0) {
+            return number.toPlainString(); // 整数部分
+        } else {
+            return number.toString(); // 有小数部分，保留小数
+        }
     }
 }
