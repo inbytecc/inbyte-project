@@ -35,6 +35,11 @@
             <artifactId>inbyte-component-common-basic</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.inbyte</groupId>
+            <artifactId>inbyte-component-common-payment</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

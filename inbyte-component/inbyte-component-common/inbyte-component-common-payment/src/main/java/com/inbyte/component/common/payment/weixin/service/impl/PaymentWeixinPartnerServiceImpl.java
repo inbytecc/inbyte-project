@@ -13,7 +13,6 @@ import com.inbyte.commons.util.IdentityGenerator;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.common.payment.common.model.PaymentSuccessNotifyParam;
 import com.inbyte.component.common.payment.common.model.RefundSuccessNotifyParam;
-import com.inbyte.component.common.payment.weixin.InbytePaymentWeixinPartnerProperties;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinRefundMapper;
 import com.inbyte.component.common.payment.weixin.model.*;
@@ -54,11 +53,6 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
 
     private BigDecimal ONE_HUNDRED = new BigDecimal(100);
 
-    /**
-     * 微信支付签署
-     */
-    private Signer signer;
-
     @Value("${inbyte.app.server}")
     private String appServer;
 
@@ -69,7 +63,12 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
     @Autowired
     private SystemAlarm alarmSystemClient;
     @Autowired
-    private InbytePaymentWeixinPartnerProperties inbytePaymentWeixinPartnerProperties;
+    private PaymentWeixinPartnerConfig paymentWeixinPartnerConfig;
+
+    /**
+     * 微信支付签署
+     */
+    private Signer signer;
 
     /**
      * JSApi支付服务
@@ -96,17 +95,7 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
      */
     @Override
     public void afterPropertiesSet() {
-        if (inbytePaymentWeixinPartnerProperties == null) {
-            return;
-        }
-
-        // 初始化商户配置
-        RSAAutoCertificateConfig config = new RSAAutoCertificateConfig.Builder()
-                        .merchantId(inbytePaymentWeixinPartnerProperties.getMerchantId())
-                        .privateKey(inbytePaymentWeixinPartnerProperties.getPrivateKey())
-                        .merchantSerialNumber(inbytePaymentWeixinPartnerProperties.getSerialNumber())
-                        .apiV3Key(inbytePaymentWeixinPartnerProperties.getApiV3Key())
-                        .build();
+        RSAAutoCertificateConfig config = paymentWeixinPartnerConfig.getConfig();
 
         // 初始化服务
         jsapiService = new JsapiService.Builder().config(config).build();
@@ -138,8 +127,8 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
         Amount amount = new Amount();
         amount.setTotal(ArithUtil.multiply(prepayParam.getPaymentAmount(), ONE_HUNDRED).intValue());
         request.setAmount(amount);
-        request.setSpAppid(inbytePaymentWeixinPartnerProperties.getAppId());
-        request.setSpMchid(inbytePaymentWeixinPartnerProperties.getMerchantId());
+        request.setSpAppid(paymentWeixinPartnerConfig.getAppId());
+        request.setSpMchid(paymentWeixinPartnerConfig.getWeixinPaymentMchId());
         request.setSubAppid(prepayParam.getAppId());
         request.setSubMchid(weixinPaymentId);
         Payer payer = new Payer();
@@ -148,6 +137,7 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
         request.setDescription(prepayParam.getOrderBrief());
         request.setNotifyUrl(notifyUrl);
         request.setOutTradeNo(prepayParam.getOrderNo());
+
         // 调用下单方法，得到应答
         // 获取微信预支付ID
         try {
@@ -286,7 +276,7 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
         }
 
         CloseOrderRequest request = new CloseOrderRequest();
-        request.setSpMchid(inbytePaymentWeixinPartnerProperties.getMerchantId());
+        request.setSpMchid(paymentWeixinPartnerConfig.getWeixinPaymentMchId());
         request.setSubMchid(brief.getWeixinPaymentMerchantId());
         request.setOutTradeNo(orderNo);
 
