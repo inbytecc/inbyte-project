@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.marketing.dao.MarketingDistributorMapper">
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorDetail">
+        SELECT distributor_id,
+               account_type,
+               receiver_account,
+               receiver_name,
+               eid,
+               tel,
+               wechat_id,
+               mct_no,
+               remark,
+               create_time,
+               creator,
+               update_time,
+               modifier
+          FROM marketing_distributor
+         WHERE distributor_id = #{distributorId, jdbcType=INTEGER}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorBrief">
+        SELECT distributor_id,
+               account_type,
+               receiver_account,
+               receiver_name,
+               eid,
+               tel,
+               wechat_id,
+               remark,
+               create_time,
+               creator,
+               update_time,
+               modifier
+          FROM marketing_distributor
+         WHERE deleted = 0
+        <if test="keyword != null and keyword != ''">
+           AND (receiver_name LIKE CONCAT('%', #{keyword}, '%')
+            OR tel LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+         ORDER BY distributor_id DESC
+    </select>
+</mapper>
