@@ -54,4 +54,6 @@ public interface MarketingDistributorService {
      * @return R<Page<MarketingDistributorBrief>>
      **/
     R<Page<MarketingDistributorBrief>> list(MarketingDistributorQuery query);
+
+    R addReceiver(Integer distributorId);
 }

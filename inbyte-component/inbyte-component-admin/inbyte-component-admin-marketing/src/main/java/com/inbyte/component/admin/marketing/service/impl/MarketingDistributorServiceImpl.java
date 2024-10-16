@@ -3,20 +3,20 @@ package com.inbyte.component.admin.marketing.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.model.enums.AccountTypeEnum;
 import com.inbyte.commons.util.PageUtil;
-import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.marketing.service.MarketingDistributorService;
 import com.inbyte.component.admin.marketing.dao.MarketingDistributorMapper;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorPo;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorQuery;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorCreate;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorUpdate;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorBrief;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorDetail;
-
+import com.inbyte.component.admin.marketing.model.marketing.distributor.*;
+import com.inbyte.component.admin.marketing.service.MarketingDistributorService;
+import com.inbyte.component.admin.system.user.SessionUtil;
+import com.inbyte.component.common.payment.weixin.service.PaymentWeixinPartnerProfitSharingService;
+import com.wechat.pay.java.service.profitsharing.model.AddReceiverRequest;
+import com.wechat.pay.java.service.profitsharing.model.ReceiverRelationType;
+import com.wechat.pay.java.service.profitsharing.model.ReceiverType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
@@ -27,10 +27,13 @@ import java.time.LocalDateTime;
  * @date 2024-10-15 14:29:46
  **/
 @Service
+@Slf4j
 public class MarketingDistributorServiceImpl implements MarketingDistributorService {
 
     @Autowired
     private MarketingDistributorMapper marketingDistributorMapper;
+    @Autowired
+    private PaymentWeixinPartnerProfitSharingService paymentWeixinPartnerProfitSharingService;
 
     @Override
     public R create(MarketingDistributorCreate create) {
@@ -70,12 +73,39 @@ public class MarketingDistributorServiceImpl implements MarketingDistributorServ
 
     @Override
     public R<MarketingDistributorDetail> detail(Integer distributorId) {
-        return R.ok(marketingDistributorMapper.detail(distributorId));
+        return R.ok(marketingDistributorMapper.detail(distributorId, SessionUtil.getMctNo()));
     }
 
     @Override
     public R<Page<MarketingDistributorBrief>> list(MarketingDistributorQuery query) {
         PageUtil.startPage(query);
         return R.page(marketingDistributorMapper.list(query));
+    }
+
+    @Override
+    public R addReceiver(Integer distributorId) {
+        MarketingDistributorDetail detail = marketingDistributorMapper.detail(distributorId, SessionUtil.getMctNo());
+        if (detail == null) {
+            return R.failure("分销商不存在");
+        }
+        ReceiverType receiverType;
+        if (detail.getAccountType() == AccountTypeEnum.MERCHANT) {
+            return R.failure("微信账户无法添加为分账接收方");
+        } else if (detail.getAccountType() == AccountTypeEnum.PERSONAL) {
+            receiverType = ReceiverType.PERSONAL_OPENID;
+        } else {
+            return R.failure("暂不支持该账户类型");
+        }
+
+        AddReceiverRequest account = new AddReceiverRequest();
+        account.setSubMchid("1683232124");
+        account.setSubAppid("wxce4ba383495d7553");
+        account.setType(receiverType);
+        account.setAccount(detail.getReceiverAccount());
+        account.setName(detail.getReceiverName());
+        account.setRelationType(ReceiverRelationType.DISTRIBUTOR);
+        R r = paymentWeixinPartnerProfitSharingService.addReceiver(account);
+        log.info("设置结果：{}", r);
+        return R.ok("设置成功");
     }
 }

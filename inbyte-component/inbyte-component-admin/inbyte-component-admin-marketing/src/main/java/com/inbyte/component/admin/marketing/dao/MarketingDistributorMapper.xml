@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.inbyte.component.admin.marketing.dao.MarketingDistributorMapper">
 
-    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorDetail">
+    <select id="detail" resultType="com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorDetail">
         SELECT distributor_id,
                account_type,
                receiver_account,
@@ -18,6 +18,7 @@
                modifier
           FROM marketing_distributor
          WHERE distributor_id = #{distributorId, jdbcType=INTEGER}
+           AND mct_no = #{mctNo, jdbcType=VARCHAR}
     </select>
 
     <select id="list" resultType="com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorBrief">

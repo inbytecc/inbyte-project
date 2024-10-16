@@ -61,6 +61,12 @@ public class PaymentWeixinService {
                 .prepayOrder(prepaidOrderParam, weixinPaymentConfig.getWeixinPaymentMerchantId());
     }
 
+    /**
+     * 关闭订单
+     *
+     * @param orderNo
+     * @return
+     */
     public R close(String orderNo) {
         PaymentWeixinInfoBrief paymentWeixinInfoBrief = paymentWeixinInfoMapper.selectByNo(orderNo);
         if (paymentWeixinInfoBrief == null) {
@@ -103,7 +109,6 @@ public class PaymentWeixinService {
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(paymentWeixinInfoBrief.getWeixinPaymentMerchantId());
 
         return getPaymentService(paymentWeixinConfigPo).refundApply(param);
-
     }
 
 //    @Override

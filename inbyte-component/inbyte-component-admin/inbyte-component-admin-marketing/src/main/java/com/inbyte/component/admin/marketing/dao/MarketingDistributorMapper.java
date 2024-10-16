@@ -1,10 +1,12 @@
 package com.inbyte.component.admin.marketing.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorPo;
-import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorQuery;
 import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorBrief;
 import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorDetail;
+import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorPo;
+import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorQuery;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -22,7 +24,8 @@ public interface MarketingDistributorMapper extends BaseMapper<MarketingDistribu
      * @param distributorId
      * @return MarketingDistributorDetail
      **/
-    MarketingDistributorDetail detail(Integer distributorId);
+    MarketingDistributorDetail detail(@Param("distributorId")Integer distributorId,
+                                      @Param("mctNo") String mctNo);
 
     /**
      * 查询列表

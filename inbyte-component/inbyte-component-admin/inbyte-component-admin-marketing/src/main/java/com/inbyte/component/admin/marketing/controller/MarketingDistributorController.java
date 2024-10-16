@@ -69,10 +69,21 @@ public class MarketingDistributorController {
      * 列表
      *
      * @param query
-     * @return R<Page<MarketingDistributorBrief>>
+     * @return R<Page < MarketingDistributorBrief>>
      **/
     @GetMapping
     public R<Page<MarketingDistributorBrief>> list(@ModelAttribute @Valid MarketingDistributorQuery query) {
         return marketingDistributorService.list(query);
+    }
+
+    /**
+     * 添加到商户的分账接收方
+     *
+     * @param distributorId
+     * @return
+     */
+    @PostMapping("{distributorId}/receiver")
+    public R addReceiver(@PathVariable("distributorId") Integer distributorId) {
+        return marketingDistributorService.addReceiver(distributorId);
     }
 }

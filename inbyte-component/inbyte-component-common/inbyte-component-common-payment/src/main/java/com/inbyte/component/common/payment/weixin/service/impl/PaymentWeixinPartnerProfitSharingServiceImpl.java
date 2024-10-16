@@ -4,11 +4,10 @@ import com.inbyte.commons.api.SystemAlarm;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinRefundMapper;
+import com.inbyte.component.common.payment.weixin.service.PaymentWeixinPartnerProfitSharingService;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.service.profitsharing.ProfitsharingService;
-import com.wechat.pay.java.service.profitsharing.model.CreateOrderReceiver;
-import com.wechat.pay.java.service.profitsharing.model.CreateOrderRequest;
-import com.wechat.pay.java.service.profitsharing.model.OrdersEntity;
+import com.wechat.pay.java.service.profitsharing.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class PaymentWeixinPartnerProfitSharingServiceImpl implements InitializingBean {
+public class PaymentWeixinPartnerProfitSharingServiceImpl implements PaymentWeixinPartnerProfitSharingService, InitializingBean {
 
     private BigDecimal ONE_HUNDRED = new BigDecimal(100);
 
@@ -82,6 +81,14 @@ public class PaymentWeixinPartnerProfitSharingServiceImpl implements Initializin
 
         OrdersEntity ordersEntity = profitsharingService.createOrder(request);
         log.info("分账结果：{}", ordersEntity);
+        return R.ok();
+    }
+
+    @Override
+    public R addReceiver(AddReceiverRequest param) {
+        param.setAppid(paymentWeixinPartnerConfig.getAppId());
+        AddReceiverResponse addReceiverResponse = profitsharingService.addReceiver(param);
+        log.info("添加分账接收方结果：{}", addReceiverResponse);
         return R.ok();
     }
 
