@@ -19,6 +19,8 @@ public enum OrderTypeEnum {
 
     COUPON("CPN", "优惠券订单"),
 
+    ACTIVITY("ACT", "活动订单"),
+
     // 不存在的订单，为了赠送会员卡场景使用
     VIRTUAL("VTL", "虚拟订单"),
     ;
