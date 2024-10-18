@@ -85,4 +85,6 @@ public interface SystemUserService {
     R switchMerchant(String mctNo);
 
     R<List<InbyteSystemUserMerchantBrief>> merchantList();
+
+    boolean hasFinancialAuthority();
 }

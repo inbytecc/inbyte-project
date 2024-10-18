@@ -2,6 +2,7 @@ package com.inbyte.component.admin.system.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.google.common.collect.Lists;
 import com.inbyte.commons.model.dict.Whether;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.Dict;
@@ -29,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +49,11 @@ public class SystemUserServiceImpl implements SystemUserService {
      * 平台用户默认密码
      */
     private static final String Initial_Password = "e10adc3949ba59abbe56e057f20f883e";
+
+    /**
+     * 平台财务权限角色
+     */
+    private static final ArrayList<String> FINANCE_ROLE_LIST = Lists.newArrayList("OWNER", "ADMIN", "FINANCE");
 
     @Autowired
     private InbyteSystemUserMapper inbyteSystemUserMapper;
@@ -107,7 +115,6 @@ public class SystemUserServiceImpl implements SystemUserService {
         systemUserLoginDto.setUserToken(jwt);
         return R.ok(systemUserLoginDto);
     }
-
 
     @Override
     public R<SystemUserInfo> info() {
@@ -180,6 +187,7 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     @Override
     public R update(SystemUserUpdate update) {
+
         InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
                 .modifier(SessionUtil.getUserName())
                 .updateTime(LocalDateTime.now())
@@ -187,6 +195,10 @@ public class SystemUserServiceImpl implements SystemUserService {
         BeanUtils.copyProperties(update, inbyteSystemUserPo);
 
         if (update.getRole() != null && update.getRole().size() > 0) {
+            if (update.getRole().contains("OWNER")) {
+                return R.failure("管理员角色不允许修改");
+            }
+
             List<InbyteSystemRolePo> inbyteSystemRolePos = inbyteSystemRoleMapper.selectBatchIds(update.getRole());
             String roleDesc = inbyteSystemRolePos.stream().map(InbyteSystemRolePo::getName).collect(Collectors.joining(","));
             inbyteSystemUserPo.setRoleDesc(roleDesc);
@@ -265,5 +277,11 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Override
     public R<List<InbyteSystemUserMerchantBrief>> merchantList() {
         return R.ok(inbyteSystemUserMerchantMapper.listByUserId(SessionUtil.getUserId()));
+    }
+
+    @Override
+    public boolean hasFinancialAuthority() {
+        InbyteSystemUserPo inbyteSystemUserPo = inbyteSystemUserMapper.selectById(SessionUtil.getUserId());
+        return !Collections.disjoint(inbyteSystemUserPo.getRole(), FINANCE_ROLE_LIST);
     }
 }

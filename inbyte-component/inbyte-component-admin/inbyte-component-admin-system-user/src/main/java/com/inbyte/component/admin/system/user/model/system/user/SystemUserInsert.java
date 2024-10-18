@@ -41,6 +41,7 @@ public class SystemUserInsert {
     private String email;
 
     /** 角色列表 */
+    @NotNull(message = "角色列表不能为空")
     private List<String> role;
 
 }
