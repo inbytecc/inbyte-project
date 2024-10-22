@@ -133,6 +133,7 @@ public class CommonExceptionResolver {
     @ExceptionHandler({IllegalArgumentException.class})
     @ResponseBody
     public R illegalArgumentException(IllegalArgumentException e) {
+        log.warn("参数问题导致系统错误", e);
         return R.failure("参数问题导致系统错误");
     }
 
