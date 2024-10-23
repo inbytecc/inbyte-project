@@ -266,6 +266,9 @@ public class StringUtil {
      * @return
      */
     public static String formatBigDecimal(BigDecimal number) {
+        if (number == null) {
+            return "0";
+        }
         // 去掉末尾的0并去掉小数点（如果是整数）
         number = number.stripTrailingZeros();
 
