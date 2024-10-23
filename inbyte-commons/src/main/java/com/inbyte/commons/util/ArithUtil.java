@@ -135,7 +135,7 @@ public class ArithUtil {
         return num1.compareTo(num2) == 0;
     }
     public static boolean isZero(BigDecimal num1) {
-        return BigDecimal.ZERO.compareTo(num1) == 0;
+        return num1 == null || BigDecimal.ZERO.compareTo(num1) == 0;
     }
     public static boolean isNullOrZero(BigDecimal num) {
         return num == null || BigDecimal.ZERO.compareTo(num) == 0;
