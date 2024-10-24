@@ -3,6 +3,7 @@ package com.inbyte.component.app.order.model;
 import com.alibaba.fastjson2.JSONObject;
 import com.inbyte.commons.model.enums.OrderTypeEnum;
 import com.inbyte.commons.model.enums.OrderStatusEnum;
+import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +33,7 @@ public class OrderCenterBrief {
     /**
      * 订单类型
      */
+    @DictSerialize(OrderTypeEnum.class)
     private OrderTypeEnum orderType;
 
     /**
@@ -57,6 +59,7 @@ public class OrderCenterBrief {
     /**
      * 订单状态
      */
+    @DictSerialize(OrderStatusEnum.class)
     private OrderStatusEnum orderStatus;
 
     /**
