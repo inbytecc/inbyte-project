@@ -9,6 +9,10 @@ import com.inbyte.component.admin.marketing.dao.MarketingDistributorMapper;
 import com.inbyte.component.admin.marketing.model.marketing.distributor.*;
 import com.inbyte.component.admin.marketing.service.MarketingDistributorService;
 import com.inbyte.component.admin.system.user.SessionUtil;
+import com.inbyte.component.common.basic.dao.InbyteAppMapper;
+import com.inbyte.component.common.basic.model.InbyteAppPo;
+import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinConfigMapper;
+import com.inbyte.component.common.payment.weixin.model.PaymentWeixinConfigPo;
 import com.inbyte.component.common.payment.weixin.service.PaymentWeixinPartnerProfitSharingService;
 import com.wechat.pay.java.service.profitsharing.model.AddReceiverRequest;
 import com.wechat.pay.java.service.profitsharing.model.ReceiverRelationType;
@@ -34,6 +38,10 @@ public class MarketingDistributorServiceImpl implements MarketingDistributorServ
     private MarketingDistributorMapper marketingDistributorMapper;
     @Autowired
     private PaymentWeixinPartnerProfitSharingService paymentWeixinPartnerProfitSharingService;
+    @Autowired
+    private InbyteAppMapper inbyteAppMapper;
+    @Autowired
+    private PaymentWeixinConfigMapper paymentWeixinConfigMapper;
 
     @Override
     public R create(MarketingDistributorCreate create) {
@@ -79,6 +87,7 @@ public class MarketingDistributorServiceImpl implements MarketingDistributorServ
     @Override
     public R<Page<MarketingDistributorBrief>> list(MarketingDistributorQuery query) {
         PageUtil.startPage(query);
+        query.setMctNo(SessionUtil.getMctNo());
         return R.page(marketingDistributorMapper.list(query));
     }
 
@@ -90,16 +99,26 @@ public class MarketingDistributorServiceImpl implements MarketingDistributorServ
         }
         ReceiverType receiverType;
         if (detail.getAccountType() == AccountTypeEnum.MERCHANT) {
-            return R.failure("微信账户无法添加为分账接收方");
-        } else if (detail.getAccountType() == AccountTypeEnum.PERSONAL) {
-            receiverType = ReceiverType.PERSONAL_OPENID;
+            return R.failure("暂不支持商户账户类型作为分账接收方");
         } else {
-            return R.failure("暂不支持该账户类型");
+            receiverType = ReceiverType.PERSONAL_SUB_OPENID;
+        }
+
+        InbyteAppPo inbyteAppPo = inbyteAppMapper.selectOne(new LambdaQueryWrapper<InbyteAppPo>()
+                .eq(InbyteAppPo::getMctNo, detail.getMctNo()));
+        if (inbyteAppPo == null) {
+            return R.failure("未配置小程序信息");
+        }
+
+        PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectOne(new LambdaQueryWrapper<PaymentWeixinConfigPo>()
+                .eq(PaymentWeixinConfigPo::getMctNo, detail.getMctNo()));
+        if (paymentWeixinConfigPo == null) {
+            return R.failure("未配置微信支付信息");
         }
 
         AddReceiverRequest account = new AddReceiverRequest();
-        account.setSubMchid("1683232124");
-        account.setSubAppid("wxce4ba383495d7553");
+        account.setSubMchid(paymentWeixinConfigPo.getWeixinPaymentMerchantId());
+        account.setSubAppid(inbyteAppPo.getAppId());
         account.setType(receiverType);
         account.setAccount(detail.getReceiverAccount());
         account.setName(detail.getReceiverName());

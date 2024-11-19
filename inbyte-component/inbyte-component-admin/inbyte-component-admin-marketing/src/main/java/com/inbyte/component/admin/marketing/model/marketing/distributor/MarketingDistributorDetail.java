@@ -54,4 +54,9 @@ public class MarketingDistributorDetail {
     /** 修改人 */
     private String modifier;
 
+    /**
+     * 商户号
+     */
+    private String mctNo;
+
 }

@@ -2,6 +2,7 @@ package com.inbyte.commons.model.enums;
 
 /**
  * 处理状态
+ *
  * 杭州易思网络
  * @author chenjw
  * @date 2016年08月15日

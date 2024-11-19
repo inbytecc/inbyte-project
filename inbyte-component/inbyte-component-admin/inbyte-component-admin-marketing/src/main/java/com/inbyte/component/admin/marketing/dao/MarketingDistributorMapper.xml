@@ -36,6 +36,7 @@
                modifier
           FROM marketing_distributor
          WHERE deleted = 0
+           AND mct_no = #{mctNo, jdbcType=VARCHAR}
         <if test="keyword != null and keyword != ''">
            AND (receiver_name LIKE CONCAT('%', #{keyword}, '%')
             OR tel LIKE CONCAT('%', #{keyword}, '%'))

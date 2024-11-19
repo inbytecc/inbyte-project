@@ -52,8 +52,13 @@ public class PaymentWeixinConfigPo {
     private String serviceChargeRate;
 
     /**
-      * 备注
-      */
+     * 备注
+     */
     private String remark;
+
+    /**
+     * 商户号
+     */
+    private String mctNo;
 
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.admin.marketing.dao.MarketingOrderProfitSharingMapper">
+
+    <select id="detail" parameterType="Integer" resultType="com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingDetail">
+        SELECT share_log_id,
+               order_no,
+               order_title,
+               order_brief,
+               distributor_id,
+               account_type,
+               distributor_name,
+               sub_merchant_id,
+               share_percentage,
+               share_amount,
+               share_status,
+               canceled,
+               creator,
+               create_time,
+               modifier,
+               update_time,
+               mct_no,
+               venue_id,
+               deleted
+          FROM marketing_order_profit_sharing
+         WHERE share_log_id = #{shareLogId, jdbcType=INTEGER}
+    </select>
+
+    <select id="list" resultType="com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingBrief">
+        SELECT share_log_id,
+               order_no,
+               order_title,
+               order_brief,
+               distributor_id,
+               account_type,
+               distributor_name,
+               sub_merchant_id,
+               share_percentage,
+               share_amount,
+               share_status,
+               canceled,
+               creator,
+               create_time,
+               modifier,
+               update_time,
+               venue_id,
+               deleted
+          FROM marketing_order_profit_sharing
+         WHERE deleted = 0
+           AND mct_no = #{mctNo, jdbcType=VARCHAR}
+        <if test="startDate != null">
+           AND create_time &gt; #{startDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="endDate != null">
+           AND create_time &lt; #{endDate, jdbcType=TIMESTAMP}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (order_brief LIKE CONCAT('%', #{keyword}, '%')
+            OR distributor_name LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+         ORDER BY share_log_id DESC
+    </select>
+</mapper>
