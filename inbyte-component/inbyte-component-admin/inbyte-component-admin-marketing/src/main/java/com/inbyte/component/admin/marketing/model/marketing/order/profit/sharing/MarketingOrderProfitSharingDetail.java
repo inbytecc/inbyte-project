@@ -2,6 +2,7 @@ package com.inbyte.component.admin.marketing.model.marketing.order.profit.sharin
 
 import com.inbyte.commons.model.enums.AccountTypeEnum;
 import com.inbyte.commons.model.enums.ProcessEnum;
+import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,9 @@ public class MarketingOrderProfitSharingDetail {
     /** 分账记录ID */
     private Integer shareLogId;
 
+    /** 分账记录编号 */
+    private String shareLogNo;
+
     /** 订单编号 */
     private String orderNo;
 
@@ -34,6 +38,7 @@ public class MarketingOrderProfitSharingDetail {
     private Integer distributorId;
 
     /** 分销员类型 */
+    @DictSerialize(AccountTypeEnum.class)
     private AccountTypeEnum accountType;
 
     /** 分销员名称 */
@@ -49,9 +54,11 @@ public class MarketingOrderProfitSharingDetail {
     private BigDecimal shareAmount;
 
     /** 分账状态 */
+    @DictSerialize(ProcessEnum.class)
     private ProcessEnum shareStatus;
 
     /** 已取消 */
+    @DictSerialize
     private Integer canceled;
 
     /** 创建人 */

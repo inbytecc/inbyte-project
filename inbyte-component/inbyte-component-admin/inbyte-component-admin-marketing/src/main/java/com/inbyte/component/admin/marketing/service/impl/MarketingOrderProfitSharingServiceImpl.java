@@ -57,7 +57,7 @@ public class MarketingOrderProfitSharingServiceImpl implements MarketingOrderPro
 
     @Override
     public R<MarketingOrderProfitSharingDetail> detail(Integer shareLogId) {
-        return R.ok(marketingOrderProfitSharingMapper.detail(shareLogId));
+        return R.ok(marketingOrderProfitSharingMapper.detail(shareLogId, SessionUtil.getMctNo()));
     }
 
     @Override

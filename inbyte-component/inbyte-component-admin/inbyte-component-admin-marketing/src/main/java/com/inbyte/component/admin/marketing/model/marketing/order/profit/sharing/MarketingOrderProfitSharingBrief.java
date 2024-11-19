@@ -21,6 +21,9 @@ public class MarketingOrderProfitSharingBrief {
     /** 分账记录ID */
     private Integer shareLogId;
 
+    /** 分账记录编号 */
+    private String shareLogNo;
+
     /** 订单编号 */
     private String orderNo;
 

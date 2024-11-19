@@ -5,6 +5,8 @@ import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing
 import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingQuery;
 import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingBrief;
 import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingDetail;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -22,7 +24,8 @@ public interface MarketingOrderProfitSharingMapper extends BaseMapper<MarketingO
      * @param shareLogId
      * @return MarketingOrderProfitSharingDetail
      **/
-    MarketingOrderProfitSharingDetail detail(Integer shareLogId);
+    MarketingOrderProfitSharingDetail detail(@Param("shareLogId") Integer shareLogId,
+                                             @Param("mctNo") String mctNo);
 
     /**
      * 查询列表
