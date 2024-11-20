@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
+import com.inbyte.component.admin.marketing.dao.MarketingDistributorMapper;
 import com.inbyte.component.admin.marketing.dao.MarketingOrderProfitSharingMapper;
+import com.inbyte.component.admin.marketing.model.marketing.distributor.MarketingDistributorPo;
 import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.*;
 import com.inbyte.component.admin.marketing.service.MarketingOrderProfitSharingService;
 import com.inbyte.component.admin.system.user.SessionUtil;
@@ -28,6 +30,8 @@ public class MarketingOrderProfitSharingServiceImpl implements MarketingOrderPro
     @Autowired
     private MarketingOrderProfitSharingMapper marketingOrderProfitSharingMapper;
     @Autowired
+    private MarketingDistributorMapper marketingDistributorMapper;
+    @Autowired
     private PaymentWeixinPartnerProfitSharingService service;
 
     @Override
@@ -37,7 +41,19 @@ public class MarketingOrderProfitSharingServiceImpl implements MarketingOrderPro
             return R.failure("分账记录不存在");
         }
 
+        MarketingDistributorPo marketingDistributorPo = marketingDistributorMapper.selectById(detail.getDistributorId());
+        if (marketingDistributorPo == null) {
+            return R.failure("分销商不存在");
+        }
+
         PaymentWeixinProfitShareParam param = PaymentWeixinProfitShareParam.builder()
+                .accountType(detail.getAccountType())
+                .orderBrief(detail.getOrderBrief())
+                .orderNo(detail.getOrderNo())
+                .orderType(detail.getOrderType())
+                .receiverAccount(marketingDistributorPo.getReceiverAccount())
+                .receiverName(detail.getDistributorName())
+                .shareAmount(detail.getShareAmount())
                 .build();
         service.profitShare(param);
 

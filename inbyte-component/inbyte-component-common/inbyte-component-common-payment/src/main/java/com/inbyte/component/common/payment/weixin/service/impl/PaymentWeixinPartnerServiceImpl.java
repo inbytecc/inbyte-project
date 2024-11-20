@@ -124,19 +124,27 @@ public class PaymentWeixinPartnerServiceImpl implements PaymentWeixinServiceApi,
 
         // 使用自动更新平台证书的RSA配置
         PrepayRequest request = new PrepayRequest();
+
         Amount amount = new Amount();
         amount.setTotal(ArithUtil.multiply(prepayParam.getPaymentAmount(), ONE_HUNDRED).intValue());
         request.setAmount(amount);
+
         request.setSpAppid(paymentWeixinPartnerConfig.getAppId());
         request.setSpMchid(paymentWeixinPartnerConfig.getWeixinPaymentMchId());
         request.setSubAppid(prepayParam.getAppId());
         request.setSubMchid(weixinPaymentId);
+
         Payer payer = new Payer();
         payer.setSubOpenid(prepayParam.getOpenId());
         request.setPayer(payer);
+
         request.setDescription(prepayParam.getOrderBrief());
         request.setNotifyUrl(notifyUrl);
         request.setOutTradeNo(prepayParam.getOrderNo());
+
+        SettleInfo settleInfo = new SettleInfo();
+        settleInfo.setProfitSharing(prepayParam.getProfitSharing());
+        request.setSettleInfo(settleInfo);
 
         // 调用下单方法，得到应答
         // 获取微信预支付ID

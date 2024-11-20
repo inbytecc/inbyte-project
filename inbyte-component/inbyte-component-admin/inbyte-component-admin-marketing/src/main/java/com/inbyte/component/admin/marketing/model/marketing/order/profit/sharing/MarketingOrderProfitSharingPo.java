@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.inbyte.commons.model.enums.AccountTypeEnum;
+import com.inbyte.commons.model.enums.OrderTypeEnum;
 import com.inbyte.commons.model.enums.ProcessEnum;
 import lombok.*;
 
@@ -40,6 +41,9 @@ public class MarketingOrderProfitSharingPo {
       * 订单编号
       */
     private String orderNo;
+
+    /** 订单类型 */
+    private OrderTypeEnum orderType;
 
     /**
       * 订单标题

@@ -84,4 +84,8 @@ public class PaymentWeixinPrepayParam {
      */
     private BigDecimal paymentAmount;
 
+    /**
+     * 是否开启分账
+     */
+    private Boolean profitSharing;
 }

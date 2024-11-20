@@ -1,6 +1,7 @@
 package com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing;
 
 import com.inbyte.commons.model.enums.AccountTypeEnum;
+import com.inbyte.commons.model.enums.OrderTypeEnum;
 import com.inbyte.commons.model.enums.ProcessEnum;
 import com.inbyte.component.common.dict.convert.DictSerialize;
 import lombok.Getter;
@@ -27,6 +28,9 @@ public class MarketingOrderProfitSharingDetail {
 
     /** 订单编号 */
     private String orderNo;
+
+    /** 订单类型 */
+    private OrderTypeEnum orderType;
 
     /** 订单标题 */
     private String orderTitle;
