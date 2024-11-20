@@ -21,7 +21,7 @@ public interface MarketingOrderProfitSharingService {
      * @param shareLogId
      * @return R
      **/
-    R delete(Integer shareLogId);
+    R execute(Integer shareLogId);
 
     /**
      * 修改

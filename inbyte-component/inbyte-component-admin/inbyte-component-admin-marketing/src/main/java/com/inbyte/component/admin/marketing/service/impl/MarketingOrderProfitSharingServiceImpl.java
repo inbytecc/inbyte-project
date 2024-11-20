@@ -4,18 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.commons.model.dto.Page;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.PageUtil;
-import com.inbyte.component.admin.system.user.SessionUtil;
-import com.inbyte.component.admin.marketing.service.MarketingOrderProfitSharingService;
 import com.inbyte.component.admin.marketing.dao.MarketingOrderProfitSharingMapper;
-import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingPo;
-import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingQuery;
-import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingUpdate;
-import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingBrief;
-import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.MarketingOrderProfitSharingDetail;
-
+import com.inbyte.component.admin.marketing.model.marketing.order.profit.sharing.*;
+import com.inbyte.component.admin.marketing.service.MarketingOrderProfitSharingService;
+import com.inbyte.component.admin.system.user.SessionUtil;
+import com.inbyte.component.common.payment.weixin.model.PaymentWeixinProfitShareParam;
+import com.inbyte.component.common.payment.weixin.service.PaymentWeixinPartnerProfitSharingService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
@@ -30,13 +27,20 @@ public class MarketingOrderProfitSharingServiceImpl implements MarketingOrderPro
 
     @Autowired
     private MarketingOrderProfitSharingMapper marketingOrderProfitSharingMapper;
+    @Autowired
+    private PaymentWeixinPartnerProfitSharingService service;
 
     @Override
-    public R delete(Integer shareLogId) {
-        LambdaQueryWrapper<MarketingOrderProfitSharingPo> queryWrapper = new LambdaQueryWrapper<MarketingOrderProfitSharingPo>()
-            .eq(MarketingOrderProfitSharingPo::getShareLogId, shareLogId)
-            .eq(MarketingOrderProfitSharingPo::getMctNo, SessionUtil.getMctNo());
-        marketingOrderProfitSharingMapper.delete(queryWrapper);
+    public R execute(Integer shareLogId) {
+        MarketingOrderProfitSharingDetail detail = marketingOrderProfitSharingMapper.detail(shareLogId, SessionUtil.getMctNo());
+        if (detail == null) {
+            return R.failure("分账记录不存在");
+        }
+
+        PaymentWeixinProfitShareParam param = PaymentWeixinProfitShareParam.builder()
+                .build();
+        service.profitShare(param);
+
         return R.ok("删除成功");
     }
 

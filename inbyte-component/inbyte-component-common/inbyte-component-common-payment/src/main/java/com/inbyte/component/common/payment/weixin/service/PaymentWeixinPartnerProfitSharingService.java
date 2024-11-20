@@ -1,6 +1,7 @@
 package com.inbyte.component.common.payment.weixin.service;
 
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.common.payment.weixin.model.PaymentWeixinProfitShareParam;
 import com.wechat.pay.java.service.profitsharing.model.AddReceiverRequest;
 
 /**
@@ -12,7 +13,7 @@ import com.wechat.pay.java.service.profitsharing.model.AddReceiverRequest;
 public interface PaymentWeixinPartnerProfitSharingService {
 
 
-    R profitShare();
+    R profitShare(PaymentWeixinProfitShareParam param);
 
     R addReceiver(AddReceiverRequest param);
 }

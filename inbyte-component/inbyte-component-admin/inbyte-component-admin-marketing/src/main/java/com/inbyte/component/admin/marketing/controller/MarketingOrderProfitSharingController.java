@@ -30,9 +30,9 @@ public class MarketingOrderProfitSharingController {
      * @param shareLogId
      * @return R
      **/
-    @DeleteMapping("{shareLogId}")
-    public R delete(@PathVariable("shareLogId") Integer shareLogId) {
-        return marketingOrderProfitSharingService.delete(shareLogId);
+    @PostMapping("{shareLogId}/execute")
+    public R execute(@PathVariable("shareLogId") Integer shareLogId) {
+        return marketingOrderProfitSharingService.execute(shareLogId);
     }
 
     /**

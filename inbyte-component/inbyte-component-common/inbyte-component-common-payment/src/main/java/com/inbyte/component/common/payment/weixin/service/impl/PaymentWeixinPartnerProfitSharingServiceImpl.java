@@ -2,8 +2,12 @@ package com.inbyte.component.common.payment.weixin.service.impl;
 
 import com.inbyte.commons.api.SystemAlarm;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.model.enums.AccountTypeEnum;
+import com.inbyte.commons.util.ArithUtil;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinInfoMapper;
 import com.inbyte.component.common.payment.weixin.dao.PaymentWeixinRefundMapper;
+import com.inbyte.component.common.payment.weixin.model.PaymentWeixinInfoBrief;
+import com.inbyte.component.common.payment.weixin.model.PaymentWeixinProfitShareParam;
 import com.inbyte.component.common.payment.weixin.service.PaymentWeixinPartnerProfitSharingService;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.service.profitsharing.ProfitsharingService;
@@ -43,7 +47,6 @@ public class PaymentWeixinPartnerProfitSharingServiceImpl implements PaymentWeix
     @Autowired
     private PaymentWeixinPartnerConfig paymentWeixinPartnerConfig;
 
-
     private ProfitsharingService profitsharingService;
 
     /**
@@ -59,22 +62,34 @@ public class PaymentWeixinPartnerProfitSharingServiceImpl implements PaymentWeix
         profitsharingService = new ProfitsharingService.Builder().config(config).build();
     }
 
-    public R profitShare() {
+    public R profitShare(PaymentWeixinProfitShareParam param) {
         List<CreateOrderReceiver> receivers = new ArrayList();
         CreateOrderReceiver orderReceiver = new CreateOrderReceiver();
-        orderReceiver.setType("PERSONAL_SUB_OPENID");
-        orderReceiver.setAccount("oS1t77bmtVbex2iZND9CKWIfvfA0");
-//        orderReceiver.setName("UNCLEKEVIN");
-        orderReceiver.setDescription("分账描述");
-        orderReceiver.setAmount(100L);
+        String type;
+        if (param.getAccountType() == AccountTypeEnum.MERCHANT) {
+            return R.failure("暂不支持商户分账");
+        } else {
+            type = "PERSONAL_SUB_OPENID";
+        }
+        orderReceiver.setType(type);
+        orderReceiver.setAccount(param.getReceiverAccount());
+        orderReceiver.setName(param.getReceiverName());
+        orderReceiver.setDescription(param.getOrderType().name + " - " + param.getOrderBrief() + " - 分账" + param.getShareAmount());
+        orderReceiver.setAmount(ArithUtil.multiply(param.getShareAmount(), new BigDecimal(100)).longValue());
         receivers.add(orderReceiver);
+
+        PaymentWeixinInfoBrief paymentWeixinInfoBrief = paymentWeixinInfoMapper.selectByNo(param.getOrderNo());
+        if (paymentWeixinInfoBrief == null) {
+            return R.error("订单不存在");
+        }
+
 
         CreateOrderRequest request = new CreateOrderRequest();
         request.setAppid(paymentWeixinPartnerConfig.getAppId());
-        request.setSubMchid("1683232124");
-        request.setSubAppid("wxce4ba383495d7553");
-        request.setTransactionId("4200002359202410150075395592");
-        request.setOutOrderNo("CMP151531001246811011");
+        request.setSubMchid(paymentWeixinInfoBrief.getWeixinPaymentMerchantId());
+        request.setSubAppid(paymentWeixinInfoBrief.getAppId());
+        request.setTransactionId(paymentWeixinInfoBrief.getPaymentNo());
+        request.setOutOrderNo(param.getOrderNo());
         request.setReceivers(receivers);
         request.setUnfreezeUnsplit(false);
         request.setNotifyUrl(appServer + "/api/payment/weixin/profit/sharing/success");
