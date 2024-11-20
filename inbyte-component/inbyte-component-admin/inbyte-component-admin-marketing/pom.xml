@@ -8,7 +8,7 @@
         <version>1.1.1-SNAPSHOT</version>
     </parent>
     <artifactId>inbyte-component-admin-marketing</artifactId>
-    <version>1.1.1-RELEASE</version>
+    <version>1.1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -38,6 +38,7 @@
         <dependency>
             <groupId>com.inbyte</groupId>
             <artifactId>inbyte-component-common-payment</artifactId>
+            <version>1.1.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
