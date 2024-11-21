@@ -21,4 +21,9 @@ public class Whether {
      */
     public static final Integer Yes = 1;
 
+    private Whether(){}
+
+    public static boolean isTrue(Integer value){
+        return value != null && value == Yes;
+    }
 }
