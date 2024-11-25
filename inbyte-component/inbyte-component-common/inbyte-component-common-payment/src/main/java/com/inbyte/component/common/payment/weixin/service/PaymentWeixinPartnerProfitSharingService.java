@@ -16,4 +16,6 @@ public interface PaymentWeixinPartnerProfitSharingService {
     R profitShare(PaymentWeixinProfitShareParam param);
 
     R addReceiver(AddReceiverRequest param);
+
+    R unfreeze(String orderNo);
 }

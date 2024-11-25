@@ -92,7 +92,7 @@ public class PaymentWeixinPartnerProfitSharingServiceImpl implements PaymentWeix
         request.setOutOrderNo(param.getOrderNo());
         request.setReceivers(receivers);
         request.setUnfreezeUnsplit(false);
-        request.setNotifyUrl(appServer + "/api/payment/weixin/profit/sharing/success");
+        request.setNotifyUrl(appServer + "/api/payment/weixin/profit/sharing/notify/success");
 
         OrdersEntity ordersEntity = profitsharingService.createOrder(request);
         log.info("分账结果：{}", ordersEntity);
@@ -105,6 +105,21 @@ public class PaymentWeixinPartnerProfitSharingServiceImpl implements PaymentWeix
         AddReceiverResponse addReceiverResponse = profitsharingService.addReceiver(param);
         log.info("添加分账接收方结果：{}", addReceiverResponse);
         return R.ok();
+    }
+
+    @Override
+    public R unfreeze(String orderNo) {
+        PaymentWeixinInfoBrief paymentWeixinInfoBrief = paymentWeixinInfoMapper.selectByNo(orderNo);
+        if (paymentWeixinInfoBrief != null) {
+            UnfreezeOrderRequest request = new UnfreezeOrderRequest();
+            request.setTransactionId(paymentWeixinInfoBrief.getPaymentNo());
+            request.setOutOrderNo(orderNo);
+            request.setDescription("解除分账冻结");
+            request.setSubMchid(paymentWeixinInfoBrief.getWeixinPaymentMerchantId());
+            request.setNotifyUrl(appServer + "/api/payment/weixin/profit/sharing/notify/unfreeze");
+            profitsharingService.unfreezeOrder(request);
+        }
+        return R.ok("分账解冻指令发送成功");
     }
 
 }
