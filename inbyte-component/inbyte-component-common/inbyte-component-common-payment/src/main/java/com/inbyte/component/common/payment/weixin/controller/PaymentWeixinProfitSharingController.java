@@ -50,7 +50,7 @@ public class PaymentWeixinProfitSharingController {
      **/
     @PostMapping("{orderNo}/unfreeze")
     public R unfreeze(@PathVariable String orderNo) {
-        log.info("分账解冻回调请求：{}", orderNo);
+        log.info("分账解冻请求：{}", orderNo);
         return paymentWeixinPartnerProfitSharingService.unfreeze(orderNo);
     }
 }
