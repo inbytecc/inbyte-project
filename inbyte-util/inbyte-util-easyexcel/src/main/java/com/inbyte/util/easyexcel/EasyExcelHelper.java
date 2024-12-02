@@ -1,6 +1,7 @@
 package com.inbyte.util.easyexcel;
 
 import com.alibaba.excel.EasyExcel;
+import com.inbyte.commons.exception.BizException;
 import com.inbyte.commons.util.WebUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class EasyExcelHelper {
         HttpServletResponse response = WebUtil.getCurrentResponse();
 
         try {
-            response.setContentType("application/vnd.ms-excel");
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setCharacterEncoding("utf-8");
             response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode( fileName, "UTF-8") + ".xlsx");
 
@@ -48,6 +49,7 @@ public class EasyExcelHelper {
         } catch (Exception e) {
             // 记录日志
             log.error("Excel写入失败", e);
+            throw BizException.error("Excel写入失败");
         }
     }
 
