@@ -6,6 +6,7 @@ import com.alibaba.excel.metadata.GlobalConfiguration;
 import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
+import com.inbyte.component.common.dict.DictUtil;
 
 /**
  * 枚举对象转换器
@@ -49,7 +50,7 @@ public class GenericEnumNameConverter implements Converter<Object> {
     public WriteCellData<String> convertToExcelData(Object value, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) {
         // 确认 value 是枚举类型并返回枚举的 name 值
         if (value != null && value.getClass().isEnum()) {
-            return new WriteCellData<>(((Enum<?>) value).name());
+            return new WriteCellData<>(DictUtil.getName(value.getClass().getSimpleName(), value.toString()));
         }
 
         // 如果不是枚举类型，可以添加其他处理逻辑
