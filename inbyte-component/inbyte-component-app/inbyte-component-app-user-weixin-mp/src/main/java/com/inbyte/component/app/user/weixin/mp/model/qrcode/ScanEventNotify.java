@@ -1,5 +1,7 @@
 package com.inbyte.component.app.user.weixin.mp.model.qrcode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inbyte.commons.model.enums.AppTypeEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +28,15 @@ public class ScanEventNotify {
     @NotNull
     private Integer shareEid;
 
+    /**
+     * 当前用户EID
+     */
+    @JsonIgnore
+    private Integer currentEid;
+
+    /**
+     * App类型
+     */
+    @JsonIgnore
+    private AppTypeEnum appType;
 }

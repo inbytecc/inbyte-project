@@ -66,12 +66,12 @@ public class QrCodeServiceImpl implements QrCodeService {
         // 用户分享二维码
         if (scanEventNotify.getT() == UserSourceTypeDict.User_Share.code) {
             UserQrcodeViewedEvent userQrcodeViewedEvent = new UserQrcodeViewedEvent(this,
-                    scanEventNotify.getShareEid(), SessionUtil.getEid(), SessionUtil.getSessionUser().getAppType());
+                    scanEventNotify.getShareEid(), scanEventNotify.getCurrentEid(), scanEventNotify.getAppType());
             SpringContextUtil.getContext().publishEvent(userQrcodeViewedEvent);
         } else {
             // 商家分享二维码
             MerchantQrcodeViewedEvent userQrcodeViewedEvent = new MerchantQrcodeViewedEvent(this,
-                    scanEventNotify.getQ(), SessionUtil.getEid(), SessionUtil.getSessionUser().getAppType());
+                    scanEventNotify.getQ(), scanEventNotify.getCurrentEid(), scanEventNotify.getAppType());
             SpringContextUtil.getContext().publishEvent(userQrcodeViewedEvent);
         }
     }
