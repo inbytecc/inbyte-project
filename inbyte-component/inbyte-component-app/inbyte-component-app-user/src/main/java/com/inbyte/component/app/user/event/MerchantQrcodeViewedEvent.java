@@ -16,13 +16,13 @@ import org.springframework.context.ApplicationEvent;
 @Setter
 public class MerchantQrcodeViewedEvent extends ApplicationEvent {
 
-    private Integer quid;
+    private Integer qcid;
     private Integer eid;
     private AppTypeEnum appType;
 
-    public MerchantQrcodeViewedEvent(Object source, Integer quid, Integer eid, AppTypeEnum appType) {
+    public MerchantQrcodeViewedEvent(Object source, Integer qcid, Integer eid, AppTypeEnum appType) {
         super(source);
-        this.quid = quid;
+        this.qcid = qcid;
         this.eid = eid;
         this.appType = appType;
     }

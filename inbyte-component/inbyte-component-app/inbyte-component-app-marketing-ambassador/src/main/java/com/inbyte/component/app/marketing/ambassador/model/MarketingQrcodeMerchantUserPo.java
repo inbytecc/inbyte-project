@@ -36,9 +36,15 @@ public class MarketingQrcodeMerchantUserPo {
     private Integer qcid;
 
     /**
-     * 注册用户ID
+     * 注册用户EID
      */
     private Integer eid;
+
+
+    /**
+     * 注册用户ID
+     */
+    private Integer userId;
 
     /**
      * 用户类型

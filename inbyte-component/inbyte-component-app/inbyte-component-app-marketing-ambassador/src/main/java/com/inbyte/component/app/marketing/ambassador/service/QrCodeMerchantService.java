@@ -11,6 +11,7 @@ import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMercha
 import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantUserPo;
 import com.inbyte.component.app.order.event.OrderPaidEvent;
 import com.inbyte.component.app.user.dict.UserSourceTypeDict;
+import com.inbyte.component.app.user.event.MerchantQrcodeViewedEvent;
 import com.inbyte.component.app.user.event.UserFirstTimeLoginEvent;
 import com.inbyte.component.app.user.event.UserRegisterEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -95,7 +96,7 @@ public class QrCodeMerchantService {
     @Async
     @EventListener
     public void onUserRegisterEvent(UserRegisterEvent event) {
-        log.info("监听用户注册事件,event：{}", event);
+        log.info("监听商家码用户注册事件,event：{}", event);
         LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
                 .eq(MarketingQrcodeMerchantUserPo::getEid, event.getEid())
                 .eq(MarketingQrcodeMerchantUserPo::getEtp, event.getAppType())
@@ -114,12 +115,13 @@ public class QrCodeMerchantService {
         LambdaUpdateWrapper<MarketingQrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantPo>()
                 .eq(MarketingQrcodeMerchantPo::getQcid, marketingQrcodeMerchantUserPo.getQcid())
                 .setSql("register_count = register_count + 1");
-        marketingQrcodeMerchantMapper.update(null, updateWrapper);
+        marketingQrcodeMerchantMapper.update(updateWrapper);
 
         LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
                 .eq(MarketingQrcodeMerchantUserPo::getQmUserId, marketingQrcodeMerchantUserPo.getQmUserId())
-                .set(MarketingQrcodeMerchantUserPo::getRegistered, Whether.Yes);
-        marketingQrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
+                .set(MarketingQrcodeMerchantUserPo::getRegistered, Whether.Yes)
+                .set(MarketingQrcodeMerchantUserPo::getUserId, event.getUserId());
+        marketingQrcodeMerchantUserMapper.update(qmUpdateWrapper);
 
         log.info("商家码用户注册事件处理完成:{}, 二维码:{}, 用户与码关系:{}",
                 JSON.toJSONString(event),
@@ -137,27 +139,31 @@ public class QrCodeMerchantService {
     @EventListener
     public void onOrderPurchaseEvent(OrderPaidEvent event) {
         log.info("监听用户订单付款事件,event：{}", event);
-        // TODO 有BUG以后处理 chenjw
         LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> queryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
-                .eq(MarketingQrcodeMerchantUserPo::getQmUserId, event.getUserId())
+                .eq(MarketingQrcodeMerchantUserPo::getUserId, event.getUserId())
                 .eq(MarketingQrcodeMerchantUserPo::getEtp, event.getAppType());
         MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = marketingQrcodeMerchantUserMapper.selectOne(queryWrapper);
         if (marketingQrcodeMerchantUserPo == null) {
             return;
         }
+
+        // 获取商户二维码
         MarketingQrcodeMerchantPo detail = marketingQrcodeMerchantMapper.selectById(marketingQrcodeMerchantUserPo.getQcid());
         if (detail == null) {
             log.warn("扫码的二维码不存在");
             return;
         }
+
+        // 更新用户二维码成交订单与交易金额
         LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qrcodeMerchantUserUpdate = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
                 .eq(MarketingQrcodeMerchantUserPo::getQcid, marketingQrcodeMerchantUserPo.getQcid())
                 .eq(MarketingQrcodeMerchantUserPo::getEid, marketingQrcodeMerchantUserPo.getEid())
                 .set(MarketingQrcodeMerchantUserPo::getMadeDeal, Whether.Yes)
                 .setSql("order_count = order_count + 1")
                 .setSql("trade_amount = trade_amount + " + event.getOrderAmount());
-        int update = marketingQrcodeMerchantUserMapper.update(null, qrcodeMerchantUserUpdate);
+        int update = marketingQrcodeMerchantUserMapper.update(qrcodeMerchantUserUpdate);
         if (update == 1) {
+            // 更新商家二维码成交订单与交易金额
             LambdaUpdateWrapper<MarketingQrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantPo>()
                     .eq(MarketingQrcodeMerchantPo::getQcid, marketingQrcodeMerchantUserPo.getQcid())
                     .setSql("order_count = order_count + 1")
@@ -171,26 +177,22 @@ public class QrCodeMerchantService {
                 JSON.toJSONString(marketingQrcodeMerchantUserPo));
     }
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public void viewed(ScanEventNotify scanEventNotify) {
-//        QrcodeMerchantPo detail = qrcodeMerchantMapper.selectById(scanEventNotify.getQ());
-//        if (detail == null) {
-//            log.warn("扫码的二维码不存在");
-//            return;
-//        }
-//
-//        LambdaUpdateWrapper<QrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<QrcodeMerchantPo>()
-//                .eq(QrcodeMerchantPo::getQcid, scanEventNotify.getQ())
-//                .setSql("view_count = view_count + 1");
-//        qrcodeMerchantMapper.update(null, updateWrapper);
-//
-//        log.info("用户扫描商家码, 扫码信息:{}, 二维码:{}",
-//                JSON.toJSONString(scanEventNotify),
-//                JSON.toJSONString(detail));
-//    }
+    @EventListener
+    public void viewed(MerchantQrcodeViewedEvent scanEventNotify) {
+        MarketingQrcodeMerchantPo detail = marketingQrcodeMerchantMapper.selectById(scanEventNotify.getQcid());
+        if (detail == null) {
+            log.warn("扫码的二维码不存在");
+            return;
+        }
 
-    public void newClue(Integer eid, AppTypeEnum etp) {
+        LambdaUpdateWrapper<MarketingQrcodeMerchantPo> updateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantPo>()
+                .eq(MarketingQrcodeMerchantPo::getQcid, scanEventNotify.getQcid())
+                .setSql("view_count = view_count + 1");
+        marketingQrcodeMerchantMapper.update(updateWrapper);
 
+        log.info("用户扫描商家码, 扫码信息:{}, 二维码:{}",
+                JSON.toJSONString(scanEventNotify),
+                JSON.toJSONString(detail));
     }
 
 //    @Override

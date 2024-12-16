@@ -121,7 +121,7 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-app-marketing-ambassador</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
@@ -136,7 +136,7 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-app-user</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
