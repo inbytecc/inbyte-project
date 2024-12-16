@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.model.dict.Whether;
-import com.inbyte.commons.model.enums.AppTypeEnum;
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantMapper;
 import com.inbyte.component.app.marketing.ambassador.dao.MarketingQrcodeMerchantUserMapper;
 import com.inbyte.component.app.marketing.ambassador.model.MarketingQrcodeMerchantPo;
@@ -20,7 +19,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -226,20 +224,20 @@ public class QrCodeMerchantService {
 //                JSON.toJSONString(userWeixinMpPo));
 //    }
 
-    public void syncLocation(Integer qcid, Integer eid, AppTypeEnum etp, BigDecimal longitude, BigDecimal latitude) {
-        LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> qmQueryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
-                .eq(MarketingQrcodeMerchantUserPo::getQcid, qcid)
-                .eq(MarketingQrcodeMerchantUserPo::getEid, eid)
-                .eq(MarketingQrcodeMerchantUserPo::getEtp, etp);
-        MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = marketingQrcodeMerchantUserMapper.selectOne(qmQueryWrapper);
-
-        if (marketingQrcodeMerchantUserPo != null && marketingQrcodeMerchantUserPo.getLongitude() == null) {
-            LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
-                    .eq(MarketingQrcodeMerchantUserPo::getQmUserId, marketingQrcodeMerchantUserPo.getQmUserId())
-                    .set(MarketingQrcodeMerchantUserPo::getLongitude, longitude)
-                    .set(MarketingQrcodeMerchantUserPo::getLatitude, latitude);
-            marketingQrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
-            log.info("补齐商户码用户定位信息, 关联信息:{}, 位置:{}, {}", JSON.toJSONString(marketingQrcodeMerchantUserPo), longitude, latitude);
-        }
-    }
+//    public void syncLocation(Integer qcid, Integer eid, AppTypeEnum etp, BigDecimal longitude, BigDecimal latitude) {
+//        LambdaQueryWrapper<MarketingQrcodeMerchantUserPo> qmQueryWrapper = new LambdaQueryWrapper<MarketingQrcodeMerchantUserPo>()
+//                .eq(MarketingQrcodeMerchantUserPo::getQcid, qcid)
+//                .eq(MarketingQrcodeMerchantUserPo::getEid, eid)
+//                .eq(MarketingQrcodeMerchantUserPo::getEtp, etp);
+//        MarketingQrcodeMerchantUserPo marketingQrcodeMerchantUserPo = marketingQrcodeMerchantUserMapper.selectOne(qmQueryWrapper);
+//
+//        if (marketingQrcodeMerchantUserPo != null && marketingQrcodeMerchantUserPo.getLongitude() == null) {
+//            LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo> qmUpdateWrapper = new LambdaUpdateWrapper<MarketingQrcodeMerchantUserPo>()
+//                    .eq(MarketingQrcodeMerchantUserPo::getQmUserId, marketingQrcodeMerchantUserPo.getQmUserId())
+//                    .set(MarketingQrcodeMerchantUserPo::getLongitude, longitude)
+//                    .set(MarketingQrcodeMerchantUserPo::getLatitude, latitude);
+//            marketingQrcodeMerchantUserMapper.update(null, qmUpdateWrapper);
+//            log.info("补齐商户码用户定位信息, 关联信息:{}, 位置:{}, {}", JSON.toJSONString(marketingQrcodeMerchantUserPo), longitude, latitude);
+//        }
+//    }
 }
