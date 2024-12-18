@@ -7,7 +7,7 @@
             (qcid, eid, etp, longitude, latitude, create_time)
         SELECT #{qcid, jdbcType=INTEGER},
                #{eid, jdbcType=INTEGER},
-               #{etp, jdbcType=INTEGER},
+               #{etp, jdbcType=VARCHAR},
                #{longitude, jdbcType=DECIMAL},
                #{latitude, jdbcType=DECIMAL},
                #{createTime,jdbcType=TIMESTAMP}
