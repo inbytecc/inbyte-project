@@ -31,6 +31,17 @@ public class CommonSystemConfigController {
     }
 
     /**
+     * Key获取 Number Value
+     *
+     * @param key
+     * @return R<Integer>
+     **/
+    @GetMapping("{key}/number")
+    public R<Integer> intValue(@PathVariable("key") String key) {
+        return R.ok(commonSystemConfigService.getInteger(key));
+    }
+
+    /**
      * Key获取Value
      *
      * @param key

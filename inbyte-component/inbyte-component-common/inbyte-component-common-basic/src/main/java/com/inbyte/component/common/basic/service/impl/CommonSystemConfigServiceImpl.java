@@ -21,4 +21,9 @@ public class CommonSystemConfigServiceImpl implements CommonSystemConfigService 
     public String getValue(String key) {
         return commonSystemConfigMapper.getValue(key);
     }
+
+    @Override
+    public Integer getInteger(String key) {
+        return Integer.valueOf(commonSystemConfigMapper.getValue(key));
+    }
 }

@@ -9,4 +9,6 @@ package com.inbyte.component.common.basic.service;
 public interface CommonSystemConfigService {
 
     String getValue(String key);
+
+    Integer getInteger(String key);
 }
