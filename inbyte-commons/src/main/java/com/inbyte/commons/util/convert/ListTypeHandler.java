@@ -1,6 +1,7 @@
 package com.inbyte.commons.util.convert;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -32,7 +33,7 @@ public class ListTypeHandler extends BaseTypeHandler<List> {
 //		} else {
 //			ps.setObject(i, value, jdbcType.TYPE_CODE);
 //		}
-        ps.setObject(i, JSON.toJSONString(parameter));
+        ps.setObject(i, JSON.toJSONString(parameter, JSONWriter.Feature.WriteEnumUsingToString));
     }
 
     /**
