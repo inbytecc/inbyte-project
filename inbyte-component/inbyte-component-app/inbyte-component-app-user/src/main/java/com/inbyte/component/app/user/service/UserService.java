@@ -39,6 +39,8 @@ public interface UserService {
 
     UserBrief queryByTel(String tel);
 
+    UserBrief queryById(Integer userId);
+
     String getRandomCommonAvatar();
 
     R<UserLoginDto> register(UserRegisterParam param);

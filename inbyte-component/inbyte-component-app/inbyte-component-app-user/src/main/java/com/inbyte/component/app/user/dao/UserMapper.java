@@ -18,9 +18,17 @@ public interface UserMapper extends BaseMapper<UserPo> {
      * 手机号查询用户
      *
      * @param tel
-     * @return 用户session信息
+     * @return UserBrief
      */
     UserBrief queryByTel(@Param("tel") String tel);
+
+    /**
+     * 手机号查询用户
+     *
+     * @param userId
+     * @return UserBrief
+     */
+    UserBrief queryById(@Param("userId") Integer userId);
 
     /**
      * 全字段新增

@@ -197,6 +197,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserBrief queryById(Integer userId) {
+        return userMapper.queryById(userId);
+    }
+
+    @Override
     public String getRandomCommonAvatar() {
         if (componentUserProperties.getAvatars() != null && !componentUserProperties.getAvatars().isEmpty()) {
             return componentUserProperties.getAvatars().get(new Random().nextInt(componentUserProperties.getAvatars().size()));

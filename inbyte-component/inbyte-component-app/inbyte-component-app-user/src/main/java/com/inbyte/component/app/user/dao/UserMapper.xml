@@ -29,6 +29,18 @@
          WHERE tel = #{tel}
     </select>
 
+    <select id="queryById" resultType="com.inbyte.component.app.user.model.UserBrief">
+        SELECT user_id,
+               tel,
+               nickname,
+               real_name,
+               pwd,
+               avatar,
+               create_time
+          FROM user
+         WHERE user_id = #{userId}
+    </select>
+
     <insert id="insertLocationSelective">
         INSERT INTO user_location
             (user_id, app_type, eid, mct_no, longitude, latitude, create_time)
