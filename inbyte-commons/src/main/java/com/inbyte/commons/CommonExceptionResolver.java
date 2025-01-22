@@ -42,7 +42,7 @@ import java.util.List;
 @Slf4j
 public class CommonExceptionResolver {
 
-    @Autowired
+    @Autowired(required = false)
     private SystemAlarm alarm;
 
     /**
@@ -59,7 +59,7 @@ public class CommonExceptionResolver {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public R globalException(Exception e) {
-        alarm.alert("未知异常", WebUtil.getRequestInfo(), e);
+        alert("未知异常", WebUtil.getRequestInfo(), e);
         log.error("未知异常", e);
         return R.error("休息一下, 马上回来");
     }
@@ -148,7 +148,7 @@ public class CommonExceptionResolver {
     public R myBatisSystemException(MyBatisSystemException e) {
         log.error("数据库异常", e);
         if (e.getCause() instanceof ResultMapException) {
-            alarm.alert("数据库脏数据错误问题", WebUtil.getRequestInfo(), e);
+            alert("数据库脏数据错误问题", WebUtil.getRequestInfo(), e);
             return R.error("数据库脏数据错误问题, 技术人员已介入处理");
         }
         return R.failure("数据库异常, 技术人员很快将介入处理");
@@ -226,7 +226,7 @@ public class CommonExceptionResolver {
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     @ResponseBody
     public R dtaIntegrityViolationException(DataIntegrityViolationException e) {
-        alarm.alert("Mysql数据处理", WebUtil.getRequestInfo(), e);
+        alert("Mysql数据处理", WebUtil.getRequestInfo(), e);
         log.warn("数据处理失败", e);
         return R.failure("数据处理失败, 技术人员已介入处理, 请稍后再试");
     }
@@ -243,7 +243,7 @@ public class CommonExceptionResolver {
 //        if (!SpringContextUtil.devEnv()) {
 //            exceptionNoticeApi.sendEx(e, LogUtil.getRequestInfo(),30L);
 //        }
-        alarm.alert("Mysql数据操作不符合要求", WebUtil.getRequestInfo(), e);
+        alert("Mysql数据操作不符合要求", WebUtil.getRequestInfo(), e);
         log.warn("字段不能为空异常", e);
         return R.failure("数据库操作失败, 请重新输入或联系技术客服");
     }
@@ -273,4 +273,11 @@ public class CommonExceptionResolver {
         return R.failure("请求数据类型不符合要求" + e.getName() + ":" + e.getParameter());
     }
 
+    private void alert(String module, String requestInfo, Exception e) {
+        if (alarm != null) {
+            alarm.alert(module, requestInfo, e);
+        } else {
+            log.error(module, requestInfo, e);
+        }
+    }
 }
