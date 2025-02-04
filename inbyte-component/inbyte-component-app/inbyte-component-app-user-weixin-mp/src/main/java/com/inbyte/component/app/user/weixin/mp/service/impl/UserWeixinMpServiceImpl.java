@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.weixin.mp.service;
+package com.inbyte.component.app.user.weixin.mp.service.impl;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
@@ -27,6 +27,7 @@ import com.inbyte.component.app.user.service.UserService;
 import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpInviteMapper;
 import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper;
 import com.inbyte.component.app.user.weixin.mp.model.*;
+import com.inbyte.component.app.user.weixin.mp.service.UserWeixinMpService;
 import com.inbyte.util.weixin.mp.client.WxMpUserClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,7 +154,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         if (StringUtil.isEmpty(userWeixinDetail.getUnionId()) && StringUtil.isNotEmpty(credentialDto.getUnionid())) {
             updateWrapper.set(UserWeixinMpPo::getUnionId, userWeixinDetail.getUnionId());
         }
-        userWeixinMpMapper.update(null, updateWrapper);
+        userWeixinMpMapper.update(updateWrapper);
 
         // 如果未绑定手机号用户处理
         if (userWeixinDetail.getBoundWithUser() == WhetherDict.No.code) {
@@ -386,7 +387,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         updateWrapper.eq(UserWeixinMpPo::getEid, SessionUtil.getEid());
         updateWrapper.set(UserWeixinMpPo::getNickname, userWeixinMpUpdate.getNickname());
         updateWrapper.set(UserWeixinMpPo::getAvatar, userWeixinMpUpdate.getAvatar());
-        userWeixinMpMapper.update(null, updateWrapper);
+        userWeixinMpMapper.update(updateWrapper);
         return R.ok("修改成功");
     }
 

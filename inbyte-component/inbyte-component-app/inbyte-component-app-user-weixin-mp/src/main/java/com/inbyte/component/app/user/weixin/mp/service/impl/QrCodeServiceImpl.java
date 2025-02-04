@@ -1,4 +1,4 @@
-package com.inbyte.component.app.user.weixin.mp.service;
+package com.inbyte.component.app.user.weixin.mp.service.impl;
 
 import com.inbyte.commons.model.dto.BasePath;
 import com.inbyte.commons.model.dto.R;
@@ -8,9 +8,10 @@ import com.inbyte.component.app.user.dict.UserSourceTypeDict;
 import com.inbyte.component.app.user.event.MerchantQrcodeViewedEvent;
 import com.inbyte.component.app.user.event.UserQrcodeViewedEvent;
 import com.inbyte.component.app.user.framework.SessionUtil;
-import com.inbyte.component.app.user.weixin.mp.SceneUtil;
+import com.inbyte.component.app.user.weixin.mp.util.SceneUtil;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ScanEventNotify;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ShareDto;
+import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
 import com.inbyte.util.weixin.mp.client.WxMpQrCodeClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

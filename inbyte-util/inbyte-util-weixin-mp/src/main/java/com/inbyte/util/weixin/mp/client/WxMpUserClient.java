@@ -23,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Component
 public class WxMpUserClient {
 
-    @Autowired
+    @Autowired(required = false)
     private WxMaService wxMaService;
+
 
     /**
      * 静默登录

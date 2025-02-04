@@ -15,7 +15,7 @@
                avatar,
                location_update_time,
                create_time
-          FROM user_weixin_mp uwmp
+          FROM user_weixin_mp
          WHERE open_id = #{openId}
     </select>
 
