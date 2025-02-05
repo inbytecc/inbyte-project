@@ -5,7 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dict.Whether;
+import com.inbyte.commons.model.dict.WhetherDict;
+import com.inbyte.commons.model.dto.Page;
+import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.enums.AppTypeEnum;
+import com.inbyte.commons.util.PageUtil;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantMapper;
 import com.inbyte.component.admin.marketing.dao.MarketingQrcodeMerchantUserMapper;
 import com.inbyte.component.admin.marketing.model.UserLocationBrief;
@@ -15,16 +20,11 @@ import com.inbyte.component.admin.marketing.service.QrcodeMerchantService;
 import com.inbyte.component.admin.system.user.SessionUser;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.admin.system.user.dict.UserSourceTypeDict;
-import com.inbyte.commons.model.dict.WhetherDict;
-import com.inbyte.commons.model.dto.Page;
-import com.inbyte.commons.model.dto.R;
-import com.inbyte.commons.util.PageUtil;
-import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.common.basic.dao.InbyteAppMapper;
 import com.inbyte.component.common.basic.model.InbyteAppPo;
-import com.inbyte.util.weixin.mp.client.WxMpLinkClient;
-import com.inbyte.util.weixin.mp.client.WxMpQrCodeClient;
-import com.inbyte.util.weixin.mp.client.WxMpSchemeClient;
+import com.inbyte.util.weixin.mp.client.WxLinkClient;
+import com.inbyte.util.weixin.mp.client.WxQrCodeClient;
+import com.inbyte.util.weixin.mp.client.WxSchemeClient;
 import com.inbyte.util.weixin.mp.model.QrCodeGenerateParam;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +51,11 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     @Autowired
     private InbyteAppMapper appMapper;
     @Autowired
-    private WxMpQrCodeClient wxMpQrCodeClient;
+    private WxQrCodeClient wxQrCodeMaClient;
     @Autowired
-    private WxMpSchemeClient wxMpSchemeClient;
+    private WxSchemeClient wxMpSchemeClient;
     @Autowired
-    private WxMpLinkClient wxMpLinkClient;
+    private WxLinkClient wxLinkMpClient;
 
     @Value("${wx.miniapp.default:#{null}}")
     private String defaultAppId;
@@ -147,7 +147,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         BeanUtils.copyProperties(param, qrCodeGenerateParam);
         qrCodeGenerateParam.setPage(detail.getPage());
         qrCodeGenerateParam.setScene(detail.getScene());
-        return wxMpQrCodeClient.qrCodeBase64(getAppId(), qrCodeGenerateParam);
+        return R.ok(wxQrCodeMaClient.qrCodeBase64(getAppId(), qrCodeGenerateParam));
     }
 
     @Override
@@ -156,7 +156,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return wxMpSchemeClient.generateScheme(getAppId(), detail.getPage(), detail.getScene());
+        return R.ok(wxMpSchemeClient.generateScheme(getAppId(), detail.getPage(), detail.getScene()));
     }
 
     @Override
@@ -165,7 +165,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return wxMpLinkClient.generateUrlLink(getAppId(), detail.getPage(), detail.getScene());
+        return R.ok(wxLinkMpClient.generateUrlLink(getAppId(), detail.getPage(), detail.getScene()));
     }
 
     @Override
@@ -174,10 +174,11 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return wxMpLinkClient.generateShortLink(getAppId(),
+        String shortLink = wxLinkMpClient.generateShortLink(getAppId(),
                 detail.getPage() + "?" + detail.getScene(),
                 showQrName == Whether.Yes ? detail.getName() : "",
                 WhetherDict.No);
+        return R.ok(shortLink);
     }
 
     private String getAppId() {

@@ -28,7 +28,7 @@ import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpInviteMapper;
 import com.inbyte.component.app.user.weixin.mp.dao.UserWeixinMpMapper;
 import com.inbyte.component.app.user.weixin.mp.model.*;
 import com.inbyte.component.app.user.weixin.mp.service.UserWeixinMpService;
-import com.inbyte.util.weixin.mp.client.WxMpUserClient;
+import com.inbyte.util.weixin.mp.client.WxUserClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     @Autowired
     private UserService userService;
     @Autowired
-    private WxMpUserClient wxMpUserClient;
+    private WxUserClient wxUserClient;
 
     /**
      * 微信小程序登录
@@ -69,12 +69,8 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         LocalDateTime now = LocalDateTime.now();
 
         // 获取微信小程序登录用户证明
-        R<WxMaJscode2SessionResult> weixinUserCredentialR = wxMpUserClient.code2session(AppUtil.getAppId(), param.getOpenIdJsCode());
-        log.info("微信用户登录 code2session 结果:{}", JSON.toJSONString(weixinUserCredentialR));
-        if (weixinUserCredentialR.failed()) {
-            return R.valueOf(weixinUserCredentialR);
-        }
-        WxMaJscode2SessionResult credentialDto = weixinUserCredentialR.getData();
+        WxMaJscode2SessionResult credentialDto = wxUserClient.getSessionInfo(AppUtil.getAppId(), param.getOpenIdJsCode());
+        log.info("微信用户登录 code2session 结果:{}", JSON.toJSONString(credentialDto));
 
         // 查询微信小程序用户信息
         UserWeixinDetail userWeixinDetail = userWeixinMpMapper.detail(credentialDto.getOpenid());
@@ -202,11 +198,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
             log.error("未登录用户, 调用注册接口, 程序异常");
             return R.error("未登录用户, 调用注册接口, 程序异常");
         }
-        R<WxMaPhoneNumberInfo> weixinUserTel = wxMpUserClient.getPhoneInfo(AppUtil.getAppId(), param.getPhoneNumberJsCode());
-        if (weixinUserTel.failed()) {
-            return R.valueOf(weixinUserTel);
-        }
-        WxMaPhoneNumberInfo phoneInfo = weixinUserTel.getData();
+        WxMaPhoneNumberInfo phoneInfo = wxUserClient.getPhoneInfo(AppUtil.getAppId(), param.getPhoneNumberJsCode());
         UserBrief userBrief = userService.queryByTel(phoneInfo.getPurePhoneNumber());
 
         // 在整个平台都没有注册过的用户

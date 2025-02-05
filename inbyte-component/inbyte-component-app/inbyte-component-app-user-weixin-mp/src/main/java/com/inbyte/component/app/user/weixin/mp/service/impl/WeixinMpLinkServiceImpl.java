@@ -1,13 +1,13 @@
 package com.inbyte.component.app.user.weixin.mp.service.impl;
 
-import com.inbyte.component.app.sign.framework.AppUtil;
-import com.inbyte.component.app.user.weixin.mp.util.SceneUtil;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.BasePath;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.app.sign.framework.AppUtil;
 import com.inbyte.component.app.user.framework.SessionUtil;
 import com.inbyte.component.app.user.weixin.mp.service.WeixinMpLinkService;
-import com.inbyte.util.weixin.mp.client.WxMpLinkClient;
+import com.inbyte.component.app.user.weixin.mp.util.SceneUtil;
+import com.inbyte.util.weixin.mp.client.WxLinkClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,22 +23,24 @@ import org.springframework.stereotype.Service;
 public class WeixinMpLinkServiceImpl implements WeixinMpLinkService {
 
     @Autowired
-    private WxMpLinkClient wxMpLinkClient;
+    private WxLinkClient wxLinkMpClient;
 
     @Override
     public R<String> getUrlLink(BasePath basePath) {
         String userShareScene = SceneUtil.getUserShareScene(SessionUtil.getEid(), basePath.getPathParam());
-        return wxMpLinkClient.generateUrlLink(AppUtil.getAppId(),
+        String urlLink = wxLinkMpClient.generateUrlLink(AppUtil.getAppId(),
                 basePath.getPath(),
                 userShareScene);
+        return R.ok(urlLink);
     }
 
     @Override
     public R<String> getShortLink(BasePath basePath) {
         String userShareScene = SceneUtil.getUserShareScene(SessionUtil.getEid(), basePath.getPathParam());
-        return wxMpLinkClient.generateShortLink(AppUtil.getAppId(),
+        String shortLink = wxLinkMpClient.generateShortLink(AppUtil.getAppId(),
                 basePath.getPath() + "?" + userShareScene,
                 "",
                 WhetherDict.No);
+        return R.ok(shortLink);
     }
 }

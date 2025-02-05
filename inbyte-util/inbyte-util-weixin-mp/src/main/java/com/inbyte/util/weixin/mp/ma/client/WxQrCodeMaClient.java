@@ -1,17 +1,17 @@
-package com.inbyte.util.weixin.mp.client;
+package com.inbyte.util.weixin.mp.ma.client;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
+import com.inbyte.commons.exception.BizException;
 import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.StringUtil;
+import com.inbyte.util.weixin.mp.client.WxQrCodeClient;
 import com.inbyte.util.weixin.mp.model.QrCodeGenerateParam;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 
@@ -22,7 +22,7 @@ import java.util.Base64;
  */
 @Slf4j
 @Component
-public class WxMpQrCodeClient {
+public class WxQrCodeMaClient implements WxQrCodeClient {
 
     @Autowired
     private WxMaService wxMaService;
@@ -48,8 +48,7 @@ public class WxMpQrCodeClient {
      * @return 文件内容字节数组
      * @throws WxErrorException 异常
      */
-    @GetMapping
-    public R<byte[]> qrCode(String appId, String scene, String page, int width) {
+    public byte[] qrCode(String appId, String scene, String page, int width) {
         if (!wxMaService.switchover(appId)) {
             throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
         }
@@ -58,10 +57,10 @@ public class WxMpQrCodeClient {
             byte[] wxaCodeUnLimitBytes = wxMaService.getQrcodeService().createWxaCodeUnlimitBytes(
                     scene, page, true,"release",
                     width, true, null, true);
-            return R.ok(wxaCodeUnLimitBytes);
+            return wxaCodeUnLimitBytes;
         } catch (WxErrorException e) {
             log.error(e.getMessage(), e);
-            return R.error(e.toString());
+            throw BizException.error(e.toString());
         }
     }
 
@@ -89,7 +88,7 @@ public class WxMpQrCodeClient {
      * @return 文件内容字节数组
      * @throws WxErrorException 异常
      */
-    public R<String> qrCodeBase64(String appId, String scene,
+    public String qrCodeBase64(String appId, String scene,
                                   String page, int width) {
         if (!wxMaService.switchover(appId)) {
             log.error("未找到对应appId={}的配置，请核实！", appId);
@@ -100,10 +99,10 @@ public class WxMpQrCodeClient {
             byte[] wxaCodeUnLimitBytes = wxMaService.getQrcodeService().createWxaCodeUnlimitBytes(
                     scene, page, true,"release",
                     width, true, null, true);
-            return R.ok("获取成功", Base64.getEncoder().encodeToString(wxaCodeUnLimitBytes));
+            return Base64.getEncoder().encodeToString(wxaCodeUnLimitBytes);
         } catch (WxErrorException e) {
             log.error(e.getMessage(), e);
-            return R.error(e.toString());
+            throw BizException.error(e.toString());
         }
     }
 
@@ -122,7 +121,7 @@ public class WxMpQrCodeClient {
      * @return 文件内容字节数组
      * @throws WxErrorException 异常
      */
-    public R<String> qrCodeBase64(String appId,
+    public String qrCodeBase64(String appId,
                                   QrCodeGenerateParam param) {
         if (!wxMaService.switchover(appId)) {
             throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
@@ -143,10 +142,10 @@ public class WxMpQrCodeClient {
                     param.getAutoColor() == 0 ? false : true,
                     wxMaCodeLineColor,
                     param.getIsHyaline() == 0 ? false : true);
-            return R.ok("获取成功", Base64.getEncoder().encodeToString(wxaCodeUnLimitBytes));
+            return Base64.getEncoder().encodeToString(wxaCodeUnLimitBytes);
         } catch (WxErrorException e) {
             log.error(e.getMessage(), e);
-            return R.error(e.toString());
+            throw BizException.error(e.toString());
         }
     }
 

@@ -1,4 +1,4 @@
-package com.inbyte.util.weixin.mp.config;
+package com.inbyte.util.weixin.mp.ma;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

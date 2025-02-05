@@ -1,12 +1,13 @@
-package com.inbyte.util.weixin.mp.client;
+package com.inbyte.util.weixin.mp.ma.client;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.shortlink.GenerateShortLinkRequest;
 import cn.binarywang.wx.miniapp.bean.urllink.GenerateUrlLinkRequest;
 import cn.binarywang.wx.miniapp.util.WxMaConfigHolder;
 import com.alibaba.fastjson2.JSON;
+import com.inbyte.commons.exception.BizException;
 import com.inbyte.commons.model.dict.WhetherDict;
-import com.inbyte.commons.model.dto.R;
+import com.inbyte.util.weixin.mp.client.WxLinkClient;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class WxMpLinkClient {
+public class WxLinkMaClient implements WxLinkClient {
 
     @Autowired
     private WxMaService wxMaService;
@@ -29,12 +30,12 @@ public class WxMpLinkClient {
     /**
      * 生成 URL Link
      */
-    public R<String> generateUrlLink(String appId,
+    public String generateUrlLink(String appId,
                                      @NotNull String path,
                                      String query) {
         if (!wxMaService.switchover(appId)) {
             log.error("URL Link 生成, 未找到对应appId={}, 的配置, 请核实！", appId);
-            return R.failure("服务错误, 稍等一下马上就好");
+            throw BizException.failure("服务错误, 稍等一下马上就好");
         }
 
         try {
@@ -46,10 +47,10 @@ public class WxMpLinkClient {
             log.info("URL Link 生成, jsCode:{}", JSON.toJSONString(generateUrlLinkRequest));
             String generate = wxMaService.getLinkService().generateUrlLink(generateUrlLinkRequest);
             log.info("URL Link 生成, 返回结果:{}", generate);
-            return R.ok("生成成功", generate);
+            return generate;
         } catch (WxErrorException e) {
             log.error("URL Link 生成", e);
-            return R.failure("URL Link 生成, 稍等一下马上就好");
+            throw BizException.failure("URL Link 生成, 稍等一下马上就好");
         } finally {
             //清理ThreadLocal
             WxMaConfigHolder.remove();
@@ -59,13 +60,13 @@ public class WxMpLinkClient {
     /**
      * 生成 URL Link
      */
-    public R<String> generateShortLink(String appId,
+    public String generateShortLink(String appId,
                                        @NotNull String pageUrl,
                                        String pageTitle,
                                        WhetherDict permanent) {
         if (!wxMaService.switchover(appId)) {
             log.error("URL Link 生成, 未找到对应appId={}, 的配置, 请核实！", appId);
-            return R.failure("服务错误, 稍等一下马上就好");
+            throw BizException.failure("服务错误, 稍等一下马上就好");
         }
 
         try {
@@ -74,16 +75,15 @@ public class WxMpLinkClient {
                     .pageTitle(pageTitle)
                     .isPermanent(permanent.yes())
                     .build();
-            log.info("URL Link 生成, jsCode:{}", JSON.toJSONString(generateUrlLinkRequest));
+            log.info("URL Link 生成, 参数:{}", JSON.toJSONString(generateUrlLinkRequest));
             String generate = wxMaService.getLinkService().generateShortLink(generateUrlLinkRequest);
-            log.info("URL Link 生成, 返回结果:{}", generate);
-            return R.ok("生成成功", generate);
+            return generate;
         } catch (WxErrorException e) {
             if (e.getError().getErrorCode() == 43104) {
-                return R.failure("此小程序暂时没有权限生成短链");
+                throw BizException.failure("此小程序暂时没有权限生成短链");
             }
             log.error("URL Link 生成", e);
-            return R.failure("URL Link 生成, 稍等一下马上就好");
+            throw BizException.failure("URL Link 生成, 稍等一下马上就好");
         } finally {
             //清理ThreadLocal
             WxMaConfigHolder.remove();

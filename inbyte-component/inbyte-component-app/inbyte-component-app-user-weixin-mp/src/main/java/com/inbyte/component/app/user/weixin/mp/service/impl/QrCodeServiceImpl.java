@@ -8,11 +8,11 @@ import com.inbyte.component.app.user.dict.UserSourceTypeDict;
 import com.inbyte.component.app.user.event.MerchantQrcodeViewedEvent;
 import com.inbyte.component.app.user.event.UserQrcodeViewedEvent;
 import com.inbyte.component.app.user.framework.SessionUtil;
-import com.inbyte.component.app.user.weixin.mp.util.SceneUtil;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ScanEventNotify;
 import com.inbyte.component.app.user.weixin.mp.model.qrcode.ShareDto;
 import com.inbyte.component.app.user.weixin.mp.service.QrCodeService;
-import com.inbyte.util.weixin.mp.client.WxMpQrCodeClient;
+import com.inbyte.component.app.user.weixin.mp.util.SceneUtil;
+import com.inbyte.util.weixin.mp.client.WxQrCodeClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class QrCodeServiceImpl implements QrCodeService {
 
     @Autowired
-    private WxMpQrCodeClient wxMpQrCodeClient;
+    private WxQrCodeClient wxQrCodeClient;
 
     /**
      * 直接分享
@@ -56,9 +56,10 @@ public class QrCodeServiceImpl implements QrCodeService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public R qrCode(BasePath param) {
+    public R<String> qrCode(BasePath param) {
         String scene = SceneUtil.getUserShareScene(SessionUtil.getEid(), param.getPathParam());
-        return wxMpQrCodeClient.qrCodeBase64(AppUtil.getAppId(), param.getPath(), scene, 430);
+        String qrCodeBase64 = wxQrCodeClient.qrCodeBase64(AppUtil.getAppId(), param.getPath(), scene, 430);
+        return R.ok(qrCodeBase64);
     }
 
     @Async

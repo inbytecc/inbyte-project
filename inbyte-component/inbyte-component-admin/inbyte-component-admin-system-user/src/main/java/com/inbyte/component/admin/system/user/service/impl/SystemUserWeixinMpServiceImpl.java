@@ -13,7 +13,7 @@ import com.inbyte.component.admin.system.user.model.system.user.InbyteSystemUser
 import com.inbyte.component.admin.system.user.model.system.user.SystemUserDetail;
 import com.inbyte.component.admin.system.user.model.system.user.SystemUserLoginDto;
 import com.inbyte.component.admin.system.user.service.SystemUserWeixinMpService;
-import com.inbyte.util.weixin.mp.client.WxMpUserClient;
+import com.inbyte.util.weixin.mp.client.WxUserClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,17 +33,14 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
     @Autowired
     private InbyteSystemUserMapper inbyteSystemUserMapper;
     @Autowired
-    private WxMpUserClient wxMpUserClient;
+    private WxUserClient wxMpUserClient;
 
     @Override
     public R<SystemUserLoginDto> weiXinLogin(WxMpSilentLoginParam param) {
         SessionUser sessionUser = new SessionUser();
-        R<WxMaJscode2SessionResult> weixinUserCredentialR = wxMpUserClient.code2session(
+        WxMaJscode2SessionResult weixinUserCredentialR = wxMpUserClient.getSessionInfo(
                 "wxc257a1d131f3b26e", param.getOpenIdJsCode());
-        if (weixinUserCredentialR.failed()) {
-            return R.valueOf(weixinUserCredentialR);
-        }
-        String openId = weixinUserCredentialR.getData().getOpenid();
+        String openId = weixinUserCredentialR.getOpenid();
         SystemUserDetail detail = inbyteSystemUserMapper.queryByOpenId(openId);
 
         // 如果微信用户未创建, 新增基本信息, 并且提示注册
@@ -71,17 +68,14 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
 
     @Override
     public R<SystemUserLoginDto> weixinRegister(WxMpRegisterParam param) {
-        R<WxMaPhoneNumberInfo> phoneInfo = wxMpUserClient.getPhoneInfo("wxc257a1d131f3b26e", param.getPhoneNumberJsCode());
-        if (phoneInfo.failed()) {
-            return R.valueOf(phoneInfo);
-        }
+        WxMaPhoneNumberInfo phoneInfo = wxMpUserClient.getPhoneInfo("wxc257a1d131f3b26e", param.getPhoneNumberJsCode());
 
         SessionUser sessionUser = SessionUtil.getSessionUserUnchecked();
         if (sessionUser == null) {
             return R.failure("请先静默登录获取token后再绑定账号");
         }
 
-        String tel = phoneInfo.getData().getPurePhoneNumber();
+        String tel = phoneInfo.getPurePhoneNumber();
         SystemUserDetail detail = inbyteSystemUserMapper.queryByTel(tel);
         if (detail == null) {
             return register(tel, sessionUser);

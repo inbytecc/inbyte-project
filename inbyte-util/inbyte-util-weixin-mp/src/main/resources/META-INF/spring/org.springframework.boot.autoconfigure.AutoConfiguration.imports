@@ -1,1 +1,2 @@
-com.inbyte.util.weixin.mp.UtilWeixinMpConfiguration
+com.inbyte.util.weixin.mp.ma.WxMaConfiguration
+com.inbyte.util.weixin.mp.open.WxOpenConfiguration
