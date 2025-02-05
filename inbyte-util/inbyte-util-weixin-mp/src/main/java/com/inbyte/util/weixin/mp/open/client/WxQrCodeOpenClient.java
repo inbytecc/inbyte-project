@@ -1,10 +1,18 @@
 package com.inbyte.util.weixin.mp.open.client;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaCodeLineColor;
+import com.inbyte.commons.exception.BizException;
 import com.inbyte.util.weixin.mp.client.WxQrCodeClient;
 import com.inbyte.util.weixin.mp.model.QrCodeGenerateParam;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.open.api.WxOpenService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Base64;
 
 /**
  * 微信小程序用户
@@ -15,12 +23,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class WxQrCodeOpenClient implements WxQrCodeClient {
 
+    @Autowired
+    private WxOpenService wxOpenService;
 
     public byte[] qrCode(String appId, String scene, String page, int width) {
-
-        return null;
+        try {
+            WxMaService wxMaService = wxOpenService.getWxOpenComponentService().getWxMaServiceByAppid(appId);
+            return wxMaService.getQrcodeService().createWxaCodeUnlimitBytes(
+                    scene, page, true,"release",
+                    width, true, null, true);
+        } catch (WxErrorException e) {
+            log.error(e.getMessage(), e);
+            throw BizException.error(e.toString());
+        }
     }
-
 
     /**
      * 接口B: 获取小程序码（永久有效、数量暂无限制）.
@@ -47,16 +63,38 @@ public class WxQrCodeOpenClient implements WxQrCodeClient {
      */
     public String qrCodeBase64(String appId, String scene,
                                   String page, int width) {
-
-        return null;
+        try {
+            WxMaService wxMaService = wxOpenService.getWxOpenComponentService().getWxMaServiceByAppid(appId);
+            byte[] wxaCodeUnLimitBytes = wxMaService.getQrcodeService().createWxaCodeUnlimitBytes(
+                    scene, page, true,"release",
+                    width, true, null, true);
+            return Base64.getEncoder().encodeToString(wxaCodeUnLimitBytes);
+        } catch (WxErrorException e) {
+            log.error(e.getMessage(), e);
+            throw BizException.error(e.toString());
+        }
     }
-
 
     public String qrCodeBase64(String appId,
                                   QrCodeGenerateParam param) {
+        try {
+            WxMaService wxMaService = wxOpenService.getWxOpenComponentService().getWxMaServiceByAppid(appId);
+            WxMaCodeLineColor wxMaCodeLineColor = new WxMaCodeLineColor();
+            BeanUtils.copyProperties(param.getLineColor(), wxMaCodeLineColor);
 
-        return null;
+            byte[] wxaCodeUnLimitBytes = wxMaService.getQrcodeService().createWxaCodeUnlimitBytes(
+                    param.getScene(),
+                    param.getPage(), true,
+                    param.getEnvVersion(),
+                    param.getWidth(),
+                    param.getAutoColor() == 0 ? false : true,
+                    wxMaCodeLineColor,
+                    param.getIsHyaline() == 0 ? false : true);
+            return Base64.getEncoder().encodeToString(wxaCodeUnLimitBytes);
+        } catch (WxErrorException e) {
+            log.error(e.getMessage(), e);
+            throw BizException.error(e.toString());
+        }
     }
-
 
 }
