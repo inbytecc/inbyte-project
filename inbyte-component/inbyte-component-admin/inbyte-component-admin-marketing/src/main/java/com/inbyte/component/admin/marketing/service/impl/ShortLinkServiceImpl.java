@@ -11,7 +11,7 @@ import com.inbyte.component.admin.marketing.service.ShortLinkService;
 import com.inbyte.component.admin.system.user.SessionUtil;
 import com.inbyte.component.common.basic.dao.InbyteAppMapper;
 import com.inbyte.component.common.basic.model.InbyteAppPo;
-import com.inbyte.util.weixin.mp.ma.client.WxLinkMaClient;
+import com.inbyte.util.weixin.mp.client.WxLinkClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     @Autowired
     private InbyteAppMapper appMapper;
     @Autowired
-    private WxLinkMaClient wxLinkMaClient;
+    private WxLinkClient wxLinkClient;
 
     @Override
     public R<String> getShortLink(ShortLinkParam param) {
@@ -39,7 +39,7 @@ public class ShortLinkServiceImpl implements ShortLinkService {
             }
         }
 
-        String shortLink = wxLinkMaClient.generateShortLink(getAppId(),
+        String shortLink = wxLinkClient.generateShortLink(getAppId(),
                 param.getPath(),
                 "",
                 WhetherDict.Yes);
