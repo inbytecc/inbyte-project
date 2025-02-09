@@ -12,11 +12,6 @@ import lombok.*;
  **/
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@ToString
-@TableName("inbyte_merchant")
 public class InbyteMerchantUpdate {
 
     /**
