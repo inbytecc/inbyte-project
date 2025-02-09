@@ -1,5 +1,6 @@
 package com.inbyte.component.common.basic.model;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -47,6 +48,11 @@ public class InbyteAppPo {
       * 商户号
       */
     private String mctNo;
+
+    /**
+     * 扩展信息
+     */
+    private JSONObject extJson;
 
     /**
       * 备注
