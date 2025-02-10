@@ -38,11 +38,21 @@ public class InbyteMerchantPo {
      * 营业执照编号 
      */
     private String creditCode;
-    
+
+    /**
+     * 企业代码类型 1：统一社会信用代码（18 位） 2：组织机构代码（9 位 xxxxxxxx-x） 3：营业执照注册号(15 位)
+     */
+    private CreditCodeTypeEnum creditCodeType;
+
     /**
      * 法人
      */
     private String legalPerson;
+
+    /**
+     * 法人微信号
+     */
+    private String legalPersonWeixinId;
 
     /**
      * 拼音名字
@@ -78,6 +88,11 @@ public class InbyteMerchantPo {
      * 已删除
      */
     private Integer deleted;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 创建时间
