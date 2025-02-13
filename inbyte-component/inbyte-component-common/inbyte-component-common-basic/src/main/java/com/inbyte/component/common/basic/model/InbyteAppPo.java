@@ -37,7 +37,7 @@ public class InbyteAppPo {
     /**
       * app类型
       */
-    private Integer appType;
+    private String appType;
 
     /**
       * app密钥
@@ -58,6 +58,16 @@ public class InbyteAppPo {
       * 备注
       */
     private String remark;
+
+    /**
+     * app类型
+     */
+    private Long maAuditId;
+
+    /**
+     * 小程序审核中
+     */
+    private Integer maUnderAudit;
 
     /**
       * 创建时间
