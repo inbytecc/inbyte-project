@@ -14,12 +14,6 @@
         <springboot.version>3.0.0</springboot.version>
     </properties>
 
-    <modules>
-        <module>inbyte-commons</module>
-        <module>inbyte-component</module>
-        <module>inbyte-util</module>
-    </modules>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -45,7 +39,7 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-common-basic</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>

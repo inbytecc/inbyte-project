@@ -1,5 +1,6 @@
 package com.inbyte.component.common.basic.model;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -82,11 +83,14 @@ public class InbyteAppPo {
 
     /**
      * 营位订单订阅通知
+     * 出行前订通知:[{"subscribeMsgType":"PRE_TRIP_NOTICE", "templateId":"xx"},
+     *             {"subscribeMsgType":"CHECK_IN_NOTICE", "templateId":"xx"},
+     *             {"subscribeMsgType":"CHECK_OUT_NOTICE", "templateId":"xx"}]
      */
-    private List<String> orderSubscribeMsgSite;
+    private JSONArray orderSubscribeMsgSite;
 
     /**
      * 门票订单订阅通知
      */
-    private List<String> orderSubscribeMsgTicket;
+    private JSONArray orderSubscribeMsgTicket;
 }
