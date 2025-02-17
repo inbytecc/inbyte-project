@@ -87,10 +87,10 @@ public class InbyteAppPo {
      *             {"subscribeMsgType":"CHECK_IN_NOTICE", "templateId":"xx"},
      *             {"subscribeMsgType":"CHECK_OUT_NOTICE", "templateId":"xx"}]
      */
-    private JSONArray orderSubscribeMsgSite;
+    private List<SubscribeMsgConfig> orderSubscribeMsgSite;
 
     /**
      * 门票订单订阅通知
      */
-    private JSONArray orderSubscribeMsgTicket;
+    private List<SubscribeMsgConfig> orderSubscribeMsgTicket;
 }
