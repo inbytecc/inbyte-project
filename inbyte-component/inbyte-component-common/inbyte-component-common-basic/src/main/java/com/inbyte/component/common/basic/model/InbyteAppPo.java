@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 应用实体
@@ -79,4 +80,13 @@ public class InbyteAppPo {
      */
     private LocalDateTime updateTime;
 
+    /**
+     * 营位订单订阅通知
+     */
+    private List<String> orderSubscribeMsgSite;
+
+    /**
+     * 门票订单订阅通知
+     */
+    private List<String> orderSubscribeMsgTicket;
 }
