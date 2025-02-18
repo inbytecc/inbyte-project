@@ -25,12 +25,6 @@ public class RefundApplyParam implements Serializable {
     private String orderNo;
 
     /**
-     * 是否全额退款
-     */
-    @NotNull(message = "是否全额退款不能为空")
-    private Integer fullAmountRefund;
-
-    /**
      * 退款金额
      */
     private BigDecimal refundAmount;
