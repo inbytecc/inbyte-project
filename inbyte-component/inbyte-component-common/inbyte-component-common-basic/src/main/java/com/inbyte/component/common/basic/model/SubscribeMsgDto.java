@@ -3,7 +3,6 @@ package com.inbyte.component.common.basic.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -13,15 +12,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class SubscribeMsgDto implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 订阅消息类型
-     * 例如：PRE_TRIP_NOTICE, CHECK_IN_NOTICE, CHECK_OUT_NOTICE
-     */
-    private String subscribeMsgType;
+public class SubscribeMsgDto {
 
     /**
      * 订阅状态
