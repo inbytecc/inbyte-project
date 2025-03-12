@@ -147,7 +147,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         BeanUtils.copyProperties(param, qrCodeGenerateParam);
         qrCodeGenerateParam.setPage(detail.getPage());
         qrCodeGenerateParam.setScene(detail.getScene());
-        return R.ok(wxQrCodeMaClient.qrCodeBase64(getAppId(), qrCodeGenerateParam));
+        return R.okStr(wxQrCodeMaClient.qrCodeBase64(getAppId(), qrCodeGenerateParam));
     }
 
     @Override
@@ -156,7 +156,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return R.ok(wxMpSchemeClient.generateScheme(getAppId(), detail.getPage(), detail.getScene()));
+        return R.okStr(wxMpSchemeClient.generateScheme(getAppId(), detail.getPage(), detail.getScene()));
     }
 
     @Override
@@ -165,7 +165,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
         if (detail == null) {
             return R.failure("二维码ID不存在");
         }
-        return R.ok(wxLinkMpClient.generateUrlLink(getAppId(), detail.getPage(), detail.getScene()));
+        return R.okStr(wxLinkMpClient.generateUrlLink(getAppId(), detail.getPage(), detail.getScene()));
     }
 
     @Override
@@ -178,7 +178,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
                 detail.getPage() + "?" + detail.getScene(),
                 showQrName == Whether.Yes ? detail.getName() : "",
                 WhetherDict.No);
-        return R.ok(shortLink);
+        return R.okStr(shortLink);
     }
 
     private String getAppId() {
