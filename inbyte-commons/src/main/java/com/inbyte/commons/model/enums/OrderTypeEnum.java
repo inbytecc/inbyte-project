@@ -9,6 +9,7 @@ package com.inbyte.commons.model.enums;
 public enum OrderTypeEnum {
 
     CAMP_SITE("CMP", "营位订单"),
+    HOTEL("HTL", "酒店订单"),
     TICKET("TKT", "门票订单"),
 
     CARD_VALUE("CDV", "储值卡订单"),
