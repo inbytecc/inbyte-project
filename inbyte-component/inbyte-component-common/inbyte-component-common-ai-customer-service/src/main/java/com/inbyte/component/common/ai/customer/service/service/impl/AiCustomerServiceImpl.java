@@ -58,7 +58,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         chatHistory.setAnswer(answer);
         chatHistory.setSender(chatParam.getSender());
         chatHistory.setReceiver(chatParam.getReceiver());
-        chatHistory.setClient("MP");
+        chatHistory.setClient("WECHAT");
         chatHistory.setCreateTime(LocalDateTime.now());
         aiChatHistoryMapper.insert(chatHistory);
 
@@ -116,6 +116,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         chatHistory.setUserId(userId);
         chatHistory.setSender(userName);
         chatHistory.setReceiver("ROBOT");
+        chatHistory.setClient("WXMP");
         chatHistory.setQuestion(question);
         chatHistory.setQuestionHash(questionHash);
         chatHistory.setAnswer(answer);
