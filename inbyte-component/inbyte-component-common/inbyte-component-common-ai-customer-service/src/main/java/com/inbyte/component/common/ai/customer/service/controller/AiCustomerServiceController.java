@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
  * AI客服接口
  */
 @RestController
-@RequestMapping({"ai/customer", "ai/customer/service"}) // 20251001后, 可以删除ai/customer接口
-public class AiCustomerController {
+@RequestMapping("ai/customer/service")
+public class AiCustomerServiceController {
 
     @Autowired
     private AiCustomerService aiCustomerService;
