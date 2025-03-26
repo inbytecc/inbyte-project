@@ -20,6 +20,7 @@
 		<module>inbyte-component-common-weixin-robot</module>
 		<module>inbyte-component-common-email</module>
 		<module>inbyte-component-common-payment</module>
+		<module>inbyte-component-common-ai-customer-service</module>
 	</modules>
 
 </project>

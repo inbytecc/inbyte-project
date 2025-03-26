@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inbyte.component.common.ai.customer.service.dao.AiQuestionCountMapper">
+    
+    <insert id="insertOrUpdate">
+        INSERT INTO ai_question_count (
+            question,
+            question_hash,
+            ask_count,
+            create_time,
+            update_time,
+            mct_no
+        ) VALUES (
+            #{question},
+            #{questionHash},
+            1,
+            NOW(),
+            NOW(),
+            #{mctNo}
+        ) ON DUPLICATE KEY UPDATE
+            ask_count = ask_count + 1,
+            update_time = NOW()
+    </insert>
+
+</mapper>
