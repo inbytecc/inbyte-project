@@ -42,7 +42,10 @@ public class AiScriptLibraryPo {
     /** 关键词 */
     @TableField(typeHandler = ListTypeHandler.class)
     private List<String> keywordList;
-    
+
+    /** 命中次数 */
+    private Integer hitCount;
+
     /** 删除标记 */
     private Integer deleted;
     
