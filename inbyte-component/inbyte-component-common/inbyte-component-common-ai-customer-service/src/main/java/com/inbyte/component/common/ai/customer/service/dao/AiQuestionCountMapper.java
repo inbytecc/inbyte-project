@@ -1,10 +1,11 @@
 package com.inbyte.component.common.ai.customer.service.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.inbyte.component.common.ai.customer.service.model.po.AiQuestionCountPo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface AiQuestionCountMapper {
+public interface AiQuestionCountMapper extends BaseMapper<AiQuestionCountPo> {
     
     /**
      * 插入或更新问题统计
