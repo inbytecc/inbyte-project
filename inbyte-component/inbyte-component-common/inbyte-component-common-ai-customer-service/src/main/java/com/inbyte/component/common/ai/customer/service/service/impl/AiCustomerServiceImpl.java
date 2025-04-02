@@ -46,13 +46,12 @@ public class AiCustomerServiceImpl implements AiCustomerService {
     @Override
     public R<String> chatOnWechat(ChatParam chatParam) {
         // 计算问题的hash值用于相似问题判断
-        String mctNo = "easyweb";
-        String answer = getAnswer(chatParam.getQuestion(), mctNo);
+        String answer = getAnswer(chatParam.getQuestion(), chatParam.getMctNo());
 
         String questionHash = MD5Util.md5(chatParam.getQuestion());
         // 保存对话记录
         AiChatHistoryPo chatHistory = new AiChatHistoryPo();
-        chatHistory.setMctNo(mctNo);
+        chatHistory.setMctNo(chatParam.getMctNo());
         chatHistory.setQuestion(chatParam.getQuestion());
         chatHistory.setQuestionHash(questionHash);
         chatHistory.setAnswer(answer);
@@ -66,7 +65,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         AiQuestionCountPo questionCount = new AiQuestionCountPo();
         questionCount.setQuestion(chatParam.getQuestion());
         questionCount.setQuestionHash(questionHash);
-        questionCount.setMctNo(mctNo);
+        questionCount.setMctNo(chatParam.getMctNo());
         aiQuestionCountMapper.insertOrUpdate(questionCount);
 
         return R.okStr(answer);

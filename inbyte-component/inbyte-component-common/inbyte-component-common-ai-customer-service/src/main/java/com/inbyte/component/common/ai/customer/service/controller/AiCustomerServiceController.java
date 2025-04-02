@@ -24,10 +24,12 @@ public class AiCustomerServiceController {
      */
     @GetMapping("chat")
     public R<String> chat(@ModelAttribute ChatParam param) {
-        if (!"bailuguapikey".equals(param.getApiKey())) {
-            return R.failure("apiKey错误");
+        if ("bailuguapikey".equals(param.getApiKey())) {
+            param.setMctNo("junyou");
+            param.setVenueId("4");
+            return aiCustomerService.chatOnWechat(param);
         }
-        return aiCustomerService.chatOnWechat(param);
+        return R.failure("apiKey错误");
     }
 
 }
