@@ -10,6 +10,7 @@ import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.Assert;
 import com.inbyte.commons.util.MD5Util;
+import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.common.ai.customer.service.dao.AiChatHistoryMapper;
 import com.inbyte.component.common.ai.customer.service.dao.AiQuestionCountMapper;
 import com.inbyte.component.common.ai.customer.service.dao.AiRobotConfigMapper;
@@ -134,6 +135,12 @@ public class AiCustomerServiceImpl implements AiCustomerService {
 
 
     public R<String> getLocalScriptLibrary(String question, String mctNo) {
+        if (StringUtil.isEmpty(question)) {
+            return R.failure("问题不能为空");
+        }
+        if (question.length() > 10) {
+            return R.failure("关键字无法匹配");
+        }
         AiScriptLibraryPo aiScriptLibraryPo = aiScriptLibraryMapper.findByKeyword(question, mctNo);
         // 先从话术库中查找匹配的问题（模糊查询）
         if (aiScriptLibraryPo == null) {
