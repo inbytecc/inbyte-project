@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,9 @@ public class AiCustomerServiceImpl implements AiCustomerService {
 
     @Override
     public R<String> chatOnWechat(ChatParam chatParam) {
+        String memoryId = chatParam.getSender() + LocalDate.now().toString().substring(0, 7);
         // 计算问题的hash值用于相似问题判断
-        String answer = getAnswer(chatParam.getQuestion(), chatParam.getMctNo());
+        String answer = getAnswer(chatParam.getQuestion(), chatParam.getMctNo(), memoryId);
 
         String questionHash = MD5Util.md5(chatParam.getQuestion());
         // 保存对话记录
@@ -72,7 +74,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         return R.okStr(answer);
     }
 
-    private String getAnswer(String question, String mctNo) {
+    private String getAnswer(String question, String mctNo, String memoryId) {
         // 先从话术库中查找匹配的问题（模糊查询）
         R<String> r = getLocalScriptLibrary(question, mctNo);
         if (r.succeeded()) {
@@ -88,6 +90,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
                     .apiKey(aiRobotConfigPo.getApiKey())
                     .appId(aiRobotConfigPo.getAppId())
                     .prompt(question)
+                    .memoryId(memoryId)
                     .build();
 
             Application application = new Application();
@@ -108,7 +111,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         String questionHash = MD5Util.md5(question);
 
         // 调用AI接口
-        String answer = getAnswer(question, mctNo);
+        String answer = getAnswer(question, mctNo, userId.toString());
 
         // 保存对话记录
         AiChatHistoryPo chatHistory = new AiChatHistoryPo();
