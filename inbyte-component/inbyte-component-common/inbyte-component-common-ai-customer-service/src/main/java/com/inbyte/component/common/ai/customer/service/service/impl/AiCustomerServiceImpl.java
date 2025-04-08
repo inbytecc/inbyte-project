@@ -47,9 +47,9 @@ public class AiCustomerServiceImpl implements AiCustomerService {
 
     @Override
     public R<String> chatOnWechat(ChatParam chatParam) {
-        String memoryId = chatParam.getSender() + LocalDate.now().toString().substring(0, 7);
+        String sessionId = chatParam.getSender() + LocalDate.now().toString().substring(0, 7);
         // 计算问题的hash值用于相似问题判断
-        String answer = getAnswer(chatParam.getQuestion(), chatParam.getMctNo(), memoryId);
+        String answer = getAnswer(chatParam.getQuestion(), chatParam.getMctNo(), sessionId);
 
         String questionHash = MD5Util.md5(chatParam.getQuestion());
         // 保存对话记录
@@ -74,7 +74,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         return R.okStr(answer);
     }
 
-    private String getAnswer(String question, String mctNo, String memoryId) {
+    private String getAnswer(String question, String mctNo, String sessionId) {
         // 先从话术库中查找匹配的问题（模糊查询）
         R<String> r = getLocalScriptLibrary(question, mctNo);
         if (r.succeeded()) {
@@ -90,7 +90,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
                     .apiKey(aiRobotConfigPo.getApiKey())
                     .appId(aiRobotConfigPo.getAppId())
                     .prompt(question)
-                    .memoryId(memoryId)
+                    .sessionId(sessionId)
                     .build();
 
             Application application = new Application();
