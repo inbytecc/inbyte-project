@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 营地支付配置实体
+ * 门店支付配置实体
  *
  * @author chenjw
  * @date 2024-05-20 16:48:37
@@ -24,7 +24,7 @@ import java.util.List;
 public class PaymentVenuePo {
 
     /**
-      * 营地ID
+      * 门店ID
       */
     @TableId(value = "venue_id", type = IdType.AUTO)
     private String venueId;

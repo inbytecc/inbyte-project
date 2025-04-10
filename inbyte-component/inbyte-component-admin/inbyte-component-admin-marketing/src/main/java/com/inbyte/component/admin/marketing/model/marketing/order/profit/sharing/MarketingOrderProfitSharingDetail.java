@@ -77,10 +77,10 @@ public class MarketingOrderProfitSharingDetail {
     /** 更新时间 */
     private LocalDateTime updateTime;
 
-    /** 营地ID */
+    /** 门店ID */
     private String venueId;
 
-    /** 营地名 */
+    /** 门店名 */
     private String venueName;
 
 }

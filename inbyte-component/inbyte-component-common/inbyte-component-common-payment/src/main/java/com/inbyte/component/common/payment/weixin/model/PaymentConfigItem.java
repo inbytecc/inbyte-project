@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 营地支付配置实体
+ * 门店支付配置实体
  *
  * @author chenjw
  * @date 2024-05-20 16:48:37

@@ -121,12 +121,12 @@ public class MarketingOrderProfitSharingPo {
     private String mctNo;
 
     /**
-     * 营地ID
+     * 门店ID
      */
     private String venueId;
 
     /**
-     * 营地名
+     * 门店名
      */
     private String venueName;
 

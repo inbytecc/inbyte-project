@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.inbyte.component.common.payment.weixin.model.PaymentVenuePo;
 
 /**
- * 营地支付配置
+ * 门店支付配置
  *
  * 表名 payment_venue
  * @author chenjw
