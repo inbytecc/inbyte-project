@@ -30,7 +30,7 @@ public class ObjectStorageDetail {
     /** 商户号 */
     private String mctNo;
 
-    /** 场馆ID */
+    /** 门店ID */
     private String venueId;
 
     /** 文件名 */

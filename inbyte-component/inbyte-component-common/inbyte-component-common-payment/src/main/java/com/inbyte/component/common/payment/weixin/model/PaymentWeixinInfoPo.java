@@ -62,7 +62,7 @@ public class PaymentWeixinInfoPo {
     private String mainPhoto;
 
     /**
-     * 场馆ID
+     * 门店ID
      */
     private String venueId;
 

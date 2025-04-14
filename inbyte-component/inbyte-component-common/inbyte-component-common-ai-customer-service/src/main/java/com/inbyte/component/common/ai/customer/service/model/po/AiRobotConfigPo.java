@@ -40,14 +40,24 @@ public class AiRobotConfigPo {
     private String mctNo;
 
     /**
-     * 场馆ID
+     * 门店ID
      */
     private String venueId;
+
+    /**
+     * 创建人
+     */
+    private String creator;
 
     /**
      * 创建时间
      */
     private LocalDateTime createTime;
+
+    /**
+     * 修改人
+     */
+    private String modifier;
 
     /**
      * 更新时间

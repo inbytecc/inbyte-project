@@ -92,7 +92,7 @@ public class OrderRefundPo {
     private LocalDateTime refundSuccessTime;
 
     /**
-     * 场馆ID
+     * 门店ID
      */
     private String venueId;
 

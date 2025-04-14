@@ -89,12 +89,12 @@ public class OrderCenterPo {
     private BigDecimal payableAmount;
 
     /**
-      * 场馆ID
+      * 门店ID
       */
     private String venueId;
 
     /**
-      * 场馆名称
+      * 门店名称
       */
     private String venueName;
 

@@ -49,7 +49,7 @@ public class AiScriptLibraryPo {
     /** 删除标记 */
     private Integer deleted;
     
-    /** 场馆ID */
+    /** 门店ID */
     private String venueId;
     
     /** 商户号 */

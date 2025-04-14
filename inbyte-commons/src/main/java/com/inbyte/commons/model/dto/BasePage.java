@@ -36,14 +36,14 @@ public class BasePage {
     @JsonIgnore
     private Integer userId;
     /**
-     * 当前场馆ID
+     * 当前门店ID
      * 服务端参数，前端忽略
      * @ignore
      */
     @JsonIgnore
     private String venueId;
     /**
-     * 当前场馆ID
+     * 当前门店ID
      * 服务端参数，前端忽略
      * @ignore
      */

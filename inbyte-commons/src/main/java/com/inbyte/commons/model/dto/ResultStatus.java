@@ -21,7 +21,7 @@ public enum ResultStatus {
     Unregistered(4010, "未注册绑定手机号"),
     Authentication(4011, "实名认证"),
     App_Token_Unavailable(4012, "AppToken失效"),
-    Did_Not_Choose_Venue(4014, "未选择场馆错误"),
+    Did_Not_Choose_Venue(4014, "未选择门店错误"),
     Forbidden(403, "无权限访问"),
     Not_Found(404, "无效指令, 或接口不存在"),
     Method_Not_Allowed(405, "程序版本可能过旧, 请更新版本或强制刷新页面试下"),

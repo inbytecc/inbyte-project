@@ -18,13 +18,13 @@ public class BaseQuery {
     @JsonIgnore
     private Integer userId;
     /**
-     * 当前场馆ID
+     * 当前门店ID
      * 服务端参数，前端忽略
      * @ignore
      */
     private String venueId;
     /**
-     * 当前场馆ID
+     * 当前门店ID
      * 服务端参数，前端忽略
      * @ignore
      */

@@ -33,7 +33,7 @@ public class PaymentWeixinInfoBrief {
     /** 订单图片url */
     private String mainPhoto;
 
-    /** 场馆ID */
+    /** 门店ID */
     private String venueId;
 
     /**

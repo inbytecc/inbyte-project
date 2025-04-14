@@ -73,12 +73,12 @@ public class OrderCenterCreate {
     @NotNull(message = "应付金额不能为空")
     private BigDecimal payableAmount;
 
-    /** 场馆ID */
-    @NotNull(message = "场馆ID不能为空")
+    /** 门店ID */
+    @NotNull(message = "门店ID不能为空")
     private String venueId;
 
-    /** 场馆名称 */
-    @NotNull(message = "场馆名称不能为空")
+    /** 门店名称 */
+    @NotNull(message = "门店名称不能为空")
     private String venueName;
 
     /** 商户号 */

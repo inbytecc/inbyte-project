@@ -28,7 +28,7 @@ public class OrderPaidEvent extends ApplicationEvent {
     private AppTypeEnum appType;
 
     /**
-     * 场馆ID
+     * 门店ID
      */
     private String venueId;
     /**

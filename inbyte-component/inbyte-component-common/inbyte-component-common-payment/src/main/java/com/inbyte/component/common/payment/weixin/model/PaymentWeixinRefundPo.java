@@ -100,7 +100,7 @@ public class PaymentWeixinRefundPo {
     private LocalDateTime createTime;
 
     /**
-     * 场馆ID
+     * 门店ID
      */
     private String venueId;
 
