@@ -2,6 +2,7 @@ package com.inbyte.commons.util.convert;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONWriter;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -24,7 +25,7 @@ public class JsonArrayTypeHandler extends BaseTypeHandler<JSONArray> {
 	 */
 	@Override
 	public void setNonNullParameter(PreparedStatement ps, int i, JSONArray parameter, JdbcType jdbcType) throws SQLException {
-		String value = parameter.toString();
+		String value = parameter.toJSONString(JSONWriter.Feature.WriteEnumUsingToString);
 		if (jdbcType == null) {
 			ps.setObject(i, value);
 		} else {
