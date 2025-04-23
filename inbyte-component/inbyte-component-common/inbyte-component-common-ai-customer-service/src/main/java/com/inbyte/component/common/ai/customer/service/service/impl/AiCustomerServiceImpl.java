@@ -3,8 +3,13 @@ package com.inbyte.component.common.ai.customer.service.service.impl;
 import com.alibaba.dashscope.app.Application;
 import com.alibaba.dashscope.app.ApplicationParam;
 import com.alibaba.dashscope.app.ApplicationResult;
+import com.alibaba.dashscope.common.Message;
+import com.alibaba.dashscope.common.Role;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.inbyte.commons.exception.InbyteException;
 import com.inbyte.commons.model.dto.R;
@@ -54,6 +59,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         String questionHash = MD5Util.md5(chatParam.getQuestion());
         // 保存对话记录
         AiChatHistoryPo chatHistory = new AiChatHistoryPo();
+        chatHistory.setSessionId(sessionId);
         chatHistory.setMctNo(chatParam.getMctNo());
         chatHistory.setQuestion(chatParam.getQuestion());
         chatHistory.setQuestionHash(questionHash);
@@ -85,12 +91,13 @@ public class AiCustomerServiceImpl implements AiCustomerService {
                     .eq(AiRobotConfigPo::getMctNo, mctNo));
             Assert.notNull(aiRobotConfigPo, "该商户暂未支持AI客服哦");
 
+            List<Message> messages = getMessages(question, sessionId, mctNo);
             // 调用AI接口
             ApplicationParam applicationParam = ApplicationParam.builder()
                     .apiKey(aiRobotConfigPo.getApiKey())
                     .appId(aiRobotConfigPo.getAppId())
-                    .prompt(question)
-                    .sessionId(sessionId)
+                    .messages(messages)
+//                    .sessionId(sessionId)
                     .build();
 
             Application application = new Application();
@@ -102,9 +109,14 @@ public class AiCustomerServiceImpl implements AiCustomerService {
             } catch (InputRequiredException e) {
                 throw InbyteException.error("客服功能异常");
             }
-            return result.getOutput().getText();
+            String answer = result.getOutput().getText();
+            if (answer.contains("```json")) {
+                answer = answer.substring(answer.indexOf("```json\n") + 8, answer.lastIndexOf("\n```"));
+            }
+            return answer;
         }
     }
+
     @Override
     public R<String> chatOnMp(String question, Integer userId, String userName, String mctNo) {
         // 计算问题的hash值用于相似问题判断
@@ -189,5 +201,73 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         AiChatConfig aiChatConfig = new AiChatConfig();
         aiChatConfig.setEnabled(enabled);
         return R.ok(aiChatConfig);
+    }
+
+    private List<Message> getMessages(String question, String sessionId, String mctNo) {
+        Message systemMsg = Message.builder()
+                .role(Role.SYSTEM.getValue())
+                .content("# 角色\n" +
+                        "你是白鹭谷专业客服小白，你的回答需要专业、严谨、简洁、友好、说人话。\n" +
+                        "## 技能\n" +
+                        "### 技能 1：直接返回结果\n" +
+                        "- **任务**：根据用户输入的提示词以及知识库中的内容，直接给出答案，无需进行推理。\n" +
+                        "- **要求1**：\n" +
+                        "  - 回答问题时，确保内容简短且准确。\n" +
+                        "  - 如果不在知识库里的内容，稍等我同事来了给您确定。\n" +
+                        "  - 可以偶尔适当使用连续句话感叹号微信表情或Emoji等，显得像真人一样。\n" +
+                        "- **要求2**：\n" +
+                        "  - 回复信息拟人化方式，信息简短，可以分成多条回复" +
+                        "## 限制\n" +
+                        "- 只回答与知识库内容相关的问题。\n" +
+                        "- 不要在知识库外进行推理或提供未经验证的信息。\n" +
+                        "- 回答内容必须简洁明了，避免冗长和复杂的解释。\n" +
+                        "# 格式" +
+                        "- 强制使用JSON数组格式返回" +
+                        "- 返回字段包括msg, msgType\n" +
+                        "- msgType类型包括text, image, video, audio, link, location, event\n" +
+                        "\n" +
+                        "# 知识库\n" +
+                        "请记住以下材料，他们可能对回答问题有帮助。\n" +
+                        "${documents}")
+                .build();
+        List<Message> messages = new ArrayList<>();
+        messages.add(systemMsg);
+
+        List<AiChatHistoryPo> history = aiChatHistoryMapper.selectList(new LambdaQueryWrapper<AiChatHistoryPo>()
+                .eq(AiChatHistoryPo::getSessionId, sessionId)
+                .eq(AiChatHistoryPo::getMctNo, mctNo)
+                .orderByDesc(AiChatHistoryPo::getId));
+        for (AiChatHistoryPo chat : history) {
+            messages.add(Message.builder()
+                    .role(Role.USER.getValue())
+                    .content(chat.getQuestion())
+                    .build());
+
+            if (JSON.isValid(chat.getAnswer())) {
+                JSONArray jsonArray = JSON.parseArray(chat.getAnswer());
+                for (Object obj : jsonArray) {
+                    JSONObject jsonObject = (JSONObject) obj;
+                    String msgType = jsonObject.getString("msgType");
+                    if ("text".equals(msgType)) {
+                        messages.add(Message.builder()
+                                .role(Role.ASSISTANT.getValue())
+                                .content(jsonObject.getString("msg"))
+                                .build());
+                    }
+                }
+            } else {
+                messages.add(Message.builder()
+                        .role(Role.ASSISTANT.getValue())
+                        .content(chat.getAnswer())
+                        .build());
+            }
+        }
+
+        Message userMsg = Message.builder()
+                .role(Role.USER.getValue())
+                .content(question)
+                .build();
+        messages.add(userMsg);
+        return messages;
     }
 }

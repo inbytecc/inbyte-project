@@ -30,6 +30,11 @@ public class AiChatHistoryPo {
     private String mctNo;
 
     /**
+     * 会话ID
+     */
+    private String sessionId;
+
+    /**
      * 用户ID
      */
     private Integer userId;
