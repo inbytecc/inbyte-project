@@ -193,11 +193,6 @@ public class AiCustomerServiceImpl implements AiCustomerService {
     @Override
     public R<AiChatConfig> getConfig(String mctNo) {
         Integer enabled = 0;
-        if ("easyweb".equals(mctNo) ||
-                "junyou".equals(mctNo) ||
-                "jingsheng".equals(mctNo)) {
-            enabled = 1;
-        }
         AiChatConfig aiChatConfig = new AiChatConfig();
         aiChatConfig.setEnabled(enabled);
         return R.ok(aiChatConfig);
@@ -217,6 +212,8 @@ public class AiCustomerServiceImpl implements AiCustomerService {
                         "  - 可以偶尔适当使用连续句话感叹号微信表情或Emoji等，显得像真人一样。\n" +
                         "- **要求2**：\n" +
                         "  - 回复信息拟人化方式，信息简短，可以分成多条回复" +
+                        "- **要求3**：" +
+                        "  - 如果问题很抽象或者很简单无法判断意图，那么就像真人一样很简单3~5个字交流引导需要什么帮助" +
                         "## 限制\n" +
                         "- 只回答与知识库内容相关的问题。\n" +
                         "- 不要在知识库外进行推理或提供未经验证的信息。\n" +
@@ -236,7 +233,8 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         List<AiChatHistoryPo> history = aiChatHistoryMapper.selectList(new LambdaQueryWrapper<AiChatHistoryPo>()
                 .eq(AiChatHistoryPo::getSessionId, sessionId)
                 .eq(AiChatHistoryPo::getMctNo, mctNo)
-                .orderByDesc(AiChatHistoryPo::getId));
+                .orderByDesc(AiChatHistoryPo::getId)
+                .last("limit 5"));
         for (AiChatHistoryPo chat : history) {
             messages.add(Message.builder()
                     .role(Role.USER.getValue())
