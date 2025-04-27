@@ -56,6 +56,9 @@ public class DictUtil {
      * @return
      */
     public static String getName(String dictName, Collection codes) {
+        if (codes == null || codes.isEmpty()) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (Object code : codes) {
             sb.append(getDict(dictName).get(String.valueOf(code))).append(",");
