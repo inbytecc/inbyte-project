@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.inbyte.commons.util.convert.ListTypeHandler;
-import com.inbyte.component.common.ai.customer.service.model.dict.ScriptTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,18 +32,12 @@ public class AiScriptLibraryPo {
     /** 回答 */
     private String answer;
     
-    /** 话术类型（售前/售后/投诉等） */
-    private ScriptTypeEnum scriptType;
-    
-    /** 适用场景 */
-    private String scene;
-    
     /** 关键词 */
     @TableField(typeHandler = ListTypeHandler.class)
     private List<String> keywordList;
 
-    /** 命中次数 */
-    private Integer hitCount;
+    /** 微信小程序短链 */
+    private String weixinMpShortLink;
 
     /** 删除标记 */
     private Integer deleted;
@@ -67,6 +60,4 @@ public class AiScriptLibraryPo {
     /** 修改人 */
     private String modifier;
     
-    /** 备注 */
-    private String remark;
-} 
+}

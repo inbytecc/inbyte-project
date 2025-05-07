@@ -20,10 +20,4 @@
          LIMIT 1
     </select>
     
-    <update id="incrementHitCount">
-        UPDATE ai_script_library
-           SET hit_count = IFNULL(hit_count, 0) + 1
-         WHERE script_id = #{scriptId}
-    </update>
-
 </mapper>

@@ -162,12 +162,6 @@ public class AiCustomerServiceImpl implements AiCustomerService {
             aiScriptLibraryPo = aiScriptLibraryMapper.findByQuestion(question, mctNo);
         }
 
-        if (aiScriptLibraryPo != null) {
-            // 找到匹配的问题话术，增加命中次数
-            aiScriptLibraryMapper.incrementHitCount(aiScriptLibraryPo.getScriptId());
-            return R.okStr(aiScriptLibraryPo.getAnswer());
-        }
-
         return R.failure("没有找到匹配的问题");
     }
 

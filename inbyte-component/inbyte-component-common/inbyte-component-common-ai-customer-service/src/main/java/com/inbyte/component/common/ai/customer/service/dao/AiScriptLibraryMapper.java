@@ -35,12 +35,4 @@ public interface AiScriptLibraryMapper extends BaseMapper<AiScriptLibraryPo> {
     AiScriptLibraryPo findByKeyword(@Param("keyword") String keyword,
                                     @Param("mctNo") String mctNo);
 
-    /**
-     * 增加话术命中次数
-     *
-     * @param scriptId 话术ID
-     * @return 影响的行数
-     */
-    int incrementHitCount(@Param("scriptId") Integer scriptId);
-
 }
