@@ -19,14 +19,14 @@ import com.inbyte.commons.util.StringUtil;
 import com.inbyte.component.common.ai.customer.service.dao.AiChatHistoryMapper;
 import com.inbyte.component.common.ai.customer.service.dao.AiQuestionCountMapper;
 import com.inbyte.component.common.ai.customer.service.dao.AiRobotConfigMapper;
-import com.inbyte.component.common.ai.customer.service.dao.AiScriptLibraryMapper;
+import com.inbyte.component.common.ai.customer.service.dao.AiKnowledgeMapper;
 import com.inbyte.component.common.ai.customer.service.model.AiChatConfig;
 import com.inbyte.component.common.ai.customer.service.model.ChatHistoryDTO;
 import com.inbyte.component.common.ai.customer.service.model.ChatParam;
 import com.inbyte.component.common.ai.customer.service.model.po.AiChatHistoryPo;
 import com.inbyte.component.common.ai.customer.service.model.po.AiQuestionCountPo;
 import com.inbyte.component.common.ai.customer.service.model.po.AiRobotConfigPo;
-import com.inbyte.component.common.ai.customer.service.model.po.AiScriptLibraryPo;
+import com.inbyte.component.common.ai.customer.service.model.po.AiKnowledgePo;
 import com.inbyte.component.common.ai.customer.service.service.AiCustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
     @Autowired
     private AiQuestionCountMapper aiQuestionCountMapper;
     @Autowired
-    private AiScriptLibraryMapper aiScriptLibraryMapper;
+    private AiKnowledgeMapper aiKnowledgeMapper;
     @Autowired
     private AiRobotConfigMapper aiRobotConfigMapper;
 
@@ -81,12 +81,12 @@ public class AiCustomerServiceImpl implements AiCustomerService {
     }
 
     private String getAnswer(String question, String mctNo, String sessionId) {
-        // 先从话术库中查找匹配的问题（模糊查询）
+        // 先从知识库中查找匹配的问题（模糊查询）
         R<String> r = getLocalScriptLibrary(question, mctNo);
         if (r.succeeded()) {
             return r.getData();
         } else {
-            // 如果在话术库中没有找到匹配的问题或关键词，则调用AI接口
+            // 如果在知识库中没有找到匹配的问题或关键词，则调用AI接口
             AiRobotConfigPo aiRobotConfigPo = aiRobotConfigMapper.selectOne(new LambdaQueryWrapper<AiRobotConfigPo>()
                     .eq(AiRobotConfigPo::getMctNo, mctNo));
             Assert.notNull(aiRobotConfigPo, "该商户暂未支持AI客服哦");
@@ -153,10 +153,10 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         if (StringUtil.isEmpty(question)) {
             return R.failure("问题不能为空");
         }
-        AiScriptLibraryPo aiScriptLibraryPo = aiScriptLibraryMapper.findByQuestion(question, mctNo);
-        // 先从话术库中查找匹配的问题（模糊查询）
-        if (aiScriptLibraryPo != null) {
-            return R.okStr(aiScriptLibraryPo.getAnswer());
+        AiKnowledgePo aiKnowledgePo = aiKnowledgeMapper.findByQuestion(question, mctNo);
+        // 先从知识库中查找匹配的问题（模糊查询）
+        if (aiKnowledgePo != null) {
+            return R.okStr(aiKnowledgePo.getAnswer());
         }
 
         return R.failure("没有找到匹配的问题");

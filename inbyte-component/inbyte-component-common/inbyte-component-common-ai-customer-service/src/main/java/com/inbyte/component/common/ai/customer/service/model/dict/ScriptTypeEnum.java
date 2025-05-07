@@ -1,7 +1,7 @@
 package com.inbyte.component.common.ai.customer.service.model.dict;
 
 /**
- * 客服话术类别
+ * 客服知识类别
  *
  * @author chenjw
  * @date: 2016/10/24 15:24

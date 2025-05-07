@@ -12,19 +12,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * AI客服话术库持久化对象
+ * AI客服知识库持久化对象
  *
  * @author claude
  * @date 2024-05-15
  **/
 @Getter
 @Setter
-@TableName("ai_script_library")
-public class AiScriptLibraryPo {
+@TableName("ai_knowledge")
+public class AiKnowledgePo {
 
-    /** 话术ID */
+    /** 知识ID */
     @TableId(type = IdType.AUTO)
-    private Integer scriptId;
+    private Integer knowledgeId;
 
     /** 问题 */
     private String question;

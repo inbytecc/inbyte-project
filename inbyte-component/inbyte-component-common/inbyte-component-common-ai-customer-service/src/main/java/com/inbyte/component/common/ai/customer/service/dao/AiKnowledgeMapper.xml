@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inbyte.component.common.ai.customer.service.dao.AiScriptLibraryMapper">
+<mapper namespace="com.inbyte.component.common.ai.customer.service.dao.AiKnowledgeMapper">
 
-    <select id="findByQuestion" resultType="com.inbyte.component.common.ai.customer.service.model.po.AiScriptLibraryPo">
+    <select id="findByQuestion" resultType="com.inbyte.component.common.ai.customer.service.model.po.AiKnowledgePo">
         SELECT *
-          FROM ai_script_library
+          FROM ai_knowledge
          WHERE mct_no = #{mctNo}
            AND (question LIKE CONCAT('%', #{question}, '%')
              OR JSON_CONTAINS(keyword_list, CONCAT('"', #{keyword}, '"'), '$'))
