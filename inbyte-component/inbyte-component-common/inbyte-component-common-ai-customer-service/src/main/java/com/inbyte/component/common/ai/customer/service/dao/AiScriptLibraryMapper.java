@@ -25,14 +25,4 @@ public interface AiScriptLibraryMapper extends BaseMapper<AiScriptLibraryPo> {
     AiScriptLibraryPo findByQuestion(@Param("question") String question,
                                      @Param("mctNo") String mctNo);
 
-    /**
-     * 根据关键词精确查询话术
-     *
-     * @param keyword 关键词
-     * @param mctNo   商户号
-     * @return 匹配的话术
-     */
-    AiScriptLibraryPo findByKeyword(@Param("keyword") String keyword,
-                                    @Param("mctNo") String mctNo);
-
 }

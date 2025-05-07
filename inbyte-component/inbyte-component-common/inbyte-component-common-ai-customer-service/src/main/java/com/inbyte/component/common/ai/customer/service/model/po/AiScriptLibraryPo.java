@@ -39,9 +39,6 @@ public class AiScriptLibraryPo {
     /** 微信小程序短链 */
     private String weixinMpShortLink;
 
-    /** 删除标记 */
-    private Integer deleted;
-    
     /** 门店ID */
     private String venueId;
     

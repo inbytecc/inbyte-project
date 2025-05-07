@@ -153,13 +153,10 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         if (StringUtil.isEmpty(question)) {
             return R.failure("问题不能为空");
         }
-        if (question.length() > 10) {
-            return R.failure("关键字无法匹配");
-        }
-        AiScriptLibraryPo aiScriptLibraryPo = aiScriptLibraryMapper.findByKeyword(question, mctNo);
+        AiScriptLibraryPo aiScriptLibraryPo = aiScriptLibraryMapper.findByQuestion(question, mctNo);
         // 先从话术库中查找匹配的问题（模糊查询）
-        if (aiScriptLibraryPo == null) {
-            aiScriptLibraryPo = aiScriptLibraryMapper.findByQuestion(question, mctNo);
+        if (aiScriptLibraryPo != null) {
+            return R.okStr(aiScriptLibraryPo.getAnswer());
         }
 
         return R.failure("没有找到匹配的问题");

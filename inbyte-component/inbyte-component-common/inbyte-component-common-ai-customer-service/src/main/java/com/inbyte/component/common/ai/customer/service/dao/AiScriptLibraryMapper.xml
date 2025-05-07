@@ -6,18 +6,9 @@
         SELECT *
           FROM ai_script_library
          WHERE mct_no = #{mctNo}
-           AND question LIKE CONCAT('%', #{question}, '%')
-           AND deleted = 0
-         LIMIT 1
+           AND (question LIKE CONCAT('%', #{question}, '%')
+             OR JSON_CONTAINS(keyword_list, CONCAT('"', #{keyword}, '"'), '$'))
+             LIMIT 1
     </select>
-    
-    <select id="findByKeyword" resultType="com.inbyte.component.common.ai.customer.service.model.po.AiScriptLibraryPo">
-        SELECT *
-          FROM ai_script_library
-         WHERE mct_no = #{mctNo}
-           AND JSON_CONTAINS(keyword_list, CONCAT('"', #{keyword}, '"'), '$')
-           AND deleted = 0
-         LIMIT 1
-    </select>
-    
+
 </mapper>
