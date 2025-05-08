@@ -91,7 +91,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
                     .eq(AiRobotConfigPo::getMctNo, mctNo));
             Assert.notNull(aiRobotConfigPo, "该商户暂未支持AI客服哦");
 
-            List<Message> messages = getMessages(question, sessionId, mctNo);
+            List<Message> messages = getMessages(aiRobotConfigPo, question, sessionId, mctNo);
             // 调用AI接口
             ApplicationParam applicationParam = ApplicationParam.builder()
                     .apiKey(aiRobotConfigPo.getApiKey())
@@ -189,34 +189,10 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         return R.ok(aiChatConfig);
     }
 
-    private List<Message> getMessages(String question, String sessionId, String mctNo) {
+    private List<Message> getMessages(AiRobotConfigPo aiRobotConfigPo, String question, String sessionId, String mctNo) {
         Message systemMsg = Message.builder()
                 .role(Role.SYSTEM.getValue())
-                .content("# 角色\n" +
-                        "你是白鹭谷专业客服小白，你的回答需要专业、严谨、简洁、友好、说人话。\n" +
-                        "## 技能\n" +
-                        "### 技能 1：直接返回结果\n" +
-                        "- **任务**：根据用户输入的提示词以及知识库中的内容，直接给出答案，无需进行推理。\n" +
-                        "- **要求1**：\n" +
-                        "  - 回答问题时，确保内容简短且准确。\n" +
-                        "  - 如果不在知识库里的内容，稍等我同事来了给您确定。\n" +
-                        "  - 可以偶尔适当使用连续句话感叹号微信表情或Emoji等，显得像真人一样。\n" +
-                        "- **要求2**：\n" +
-                        "  - 回复信息拟人化方式，信息简短，可以分成多条回复" +
-                        "- **要求3**：" +
-                        "  - 如果问题很抽象或者很简单无法判断意图，那么就像真人一样很简单3~5个字交流引导需要什么帮助" +
-                        "## 限制\n" +
-                        "- 只回答与知识库内容相关的问题。\n" +
-                        "- 不要在知识库外进行推理或提供未经验证的信息。\n" +
-                        "- 回答内容必须简洁明了，避免冗长和复杂的解释。\n" +
-                        "# 格式" +
-                        "- 强制使用JSON数组格式返回" +
-                        "- 返回字段包括msg, msgType\n" +
-                        "- msgType类型包括text, image, video, audio, link, location, event\n" +
-                        "\n" +
-                        "# 知识库\n" +
-                        "请记住以下材料，他们可能对回答问题有帮助。\n" +
-                        "${documents}")
+                .content(aiRobotConfigPo.getCustomerServiceSystemPrompt())
                 .build();
         List<Message> messages = new ArrayList<>();
         messages.add(systemMsg);

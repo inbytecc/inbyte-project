@@ -45,6 +45,11 @@ public class AiRobotConfigPo {
     private String venueId;
 
     /**
+     * 客服系统提示词
+     */
+    private String customerServiceSystemPrompt;
+
+    /**
      * 创建人
      */
     private String creator;
