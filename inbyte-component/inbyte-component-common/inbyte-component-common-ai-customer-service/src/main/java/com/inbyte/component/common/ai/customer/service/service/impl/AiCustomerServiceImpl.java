@@ -176,7 +176,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
         if (StringUtil.isEmpty(question)) {
             return R.failure("问题不能为空");
         }
-        AiKnowledgePo aiKnowledgePo = aiKnowledgeMapper.findByQuestion(question, question.replace("\n", ""), mctNo);
+        AiKnowledgePo aiKnowledgePo = aiKnowledgeMapper.findByQuestion(question, question.replaceAll("[\n|\t]", ""), mctNo);
         // 先从知识库中查找匹配的问题（模糊查询）
         if (aiKnowledgePo != null) {
             return R.okStr(aiKnowledgePo.getAnswer());
