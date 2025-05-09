@@ -235,6 +235,10 @@ public class StringUtil {
         return str == null || "".equals(str) ? defaultValue : str;
     }
 
+    public static String defaultIfEmpty(String str) {
+        return defaultIfEmpty(str, "");
+    }
+
     /**
      * 去除最后一个英文逗号
      * @param str
