@@ -20,9 +20,9 @@ public class ChatParam {
     private String receiver;
     /** apikey */
     private String apiKey;
-    /** 商户号 */
-    private String mctNo;
-    /** 门店ID */
-    private String venueId;
+//    /** 商户号 */
+//    private String mctNo;
+//    /** 门店ID */
+//    private String venueId;
 
 }

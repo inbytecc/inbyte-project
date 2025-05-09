@@ -22,14 +22,9 @@ public class AiCustomerServiceController {
     /**
      * AI智能问答
      */
-    @GetMapping("chat")
+    @GetMapping("wechat")
     public R<String> chat(@ModelAttribute ChatParam param) {
-        if ("bailuguapikey".equals(param.getApiKey())) {
-            param.setMctNo("junyou");
-            param.setVenueId("4");
-            return aiCustomerService.chatOnWechat(param);
-        }
-        return R.failure("apiKey错误");
+        return aiCustomerService.chatOnWechat(param);
     }
 
 }

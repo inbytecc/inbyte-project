@@ -35,7 +35,7 @@ public class SystemUserSessionCheckAspect {
             "/api/common/district/province",
             "/api/common/district/city",
             "/api/common/district/district",
-            "/api/ai/customer/service/chat"
+            "/api/ai/customer/service/wechat"
     );
 
     @Pointcut("@within(org.springframework.stereotype.Controller) ||" +
