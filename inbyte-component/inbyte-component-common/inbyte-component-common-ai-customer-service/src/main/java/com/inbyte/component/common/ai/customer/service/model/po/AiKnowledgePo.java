@@ -39,6 +39,9 @@ public class AiKnowledgePo {
     /** 微信小程序短链 */
     private String weixinMpShortLink;
 
+    /** 外部ID */
+    private String outId;
+
     /** 门店ID */
     private String venueId;
     
