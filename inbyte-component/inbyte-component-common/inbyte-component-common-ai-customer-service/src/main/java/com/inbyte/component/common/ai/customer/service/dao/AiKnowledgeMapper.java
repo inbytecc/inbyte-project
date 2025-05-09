@@ -23,6 +23,7 @@ public interface AiKnowledgeMapper extends BaseMapper<AiKnowledgePo> {
      * @return 匹配的知识
      */
     AiKnowledgePo findByQuestion(@Param("question") String question,
+                                 @Param("keyword") String keyword,
                                  @Param("mctNo") String mctNo);
 
 }

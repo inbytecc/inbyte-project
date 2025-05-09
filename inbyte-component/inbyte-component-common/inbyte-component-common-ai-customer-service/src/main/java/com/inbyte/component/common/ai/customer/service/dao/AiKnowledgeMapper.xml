@@ -7,7 +7,7 @@
           FROM ai_knowledge
          WHERE mct_no = #{mctNo}
            AND (question LIKE CONCAT('%', #{question}, '%')
-             OR JSON_CONTAINS(keyword_list, CONCAT('"', #{question}, '"'), '$'))
+             OR JSON_CONTAINS(keyword_list, CONCAT('"', #{keyword}, '"'), '$'))
              LIMIT 1
     </select>
 
