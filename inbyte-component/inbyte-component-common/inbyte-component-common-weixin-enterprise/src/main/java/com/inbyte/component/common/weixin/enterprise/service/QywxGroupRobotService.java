@@ -54,7 +54,7 @@ public class QywxGroupRobotService {
                     content, null, null);
         } catch (WxErrorException e) {
             log.error("企微消息发送失败", e);
-            return R.failure("企微消息发送失败");
+            return R.fail("企微消息发送失败");
         }
         return R.ok("发送成功");
     }

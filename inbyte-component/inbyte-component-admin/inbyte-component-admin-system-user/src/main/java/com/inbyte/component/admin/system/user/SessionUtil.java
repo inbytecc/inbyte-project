@@ -87,7 +87,7 @@ public class SessionUtil {
 //    public static String getVenueId() {
 //        String venueId = WebUtil.getHeader("Current-Venue-Id");
 //        if (venueId == null) {
-//            throw InbyteException.failure("请选择门店");
+//            throw InbyteException.fail("请选择门店");
 //        }
 //        return venueId;
 //    }

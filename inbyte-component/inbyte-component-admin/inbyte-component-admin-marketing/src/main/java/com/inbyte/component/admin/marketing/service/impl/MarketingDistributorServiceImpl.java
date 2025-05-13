@@ -95,11 +95,11 @@ public class MarketingDistributorServiceImpl implements MarketingDistributorServ
     public R addReceiver(Integer distributorId) {
         MarketingDistributorDetail detail = marketingDistributorMapper.detail(distributorId, SessionUtil.getMctNo());
         if (detail == null) {
-            return R.failure("分销商不存在");
+            return R.fail("分销商不存在");
         }
         ReceiverType receiverType;
         if (detail.getAccountType() == AccountTypeEnum.MERCHANT) {
-            return R.failure("暂不支持商户账户类型作为分账接收方");
+            return R.fail("暂不支持商户账户类型作为分账接收方");
         } else {
             receiverType = ReceiverType.PERSONAL_SUB_OPENID;
         }
@@ -107,13 +107,13 @@ public class MarketingDistributorServiceImpl implements MarketingDistributorServ
         InbyteAppPo inbyteAppPo = inbyteAppMapper.selectOne(new LambdaQueryWrapper<InbyteAppPo>()
                 .eq(InbyteAppPo::getMctNo, detail.getMctNo()));
         if (inbyteAppPo == null) {
-            return R.failure("未配置小程序信息");
+            return R.fail("未配置小程序信息");
         }
 
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectOne(new LambdaQueryWrapper<PaymentWeixinConfigPo>()
                 .eq(PaymentWeixinConfigPo::getMctNo, detail.getMctNo()));
         if (paymentWeixinConfigPo == null) {
-            return R.failure("未配置微信支付信息");
+            return R.fail("未配置微信支付信息");
         }
 
         AddReceiverRequest account = new AddReceiverRequest();

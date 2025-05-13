@@ -59,10 +59,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer getUserId(String tel) {
         if (StringUtil.isEmpty(tel)) {
-            throw InbyteException.failure("请输入手机号");
+            throw InbyteException.fail("请输入手机号");
         }
         if (tel.length() != 11) {
-            throw InbyteException.failure("手机号长度不正确");
+            throw InbyteException.fail("手机号长度不正确");
         }
         UserBrief userBrief = userMapper.briefByTel(tel);
         if (userBrief != null) {
@@ -84,10 +84,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserBrief getUser(String tel) {
         if (StringUtil.isEmpty(tel)) {
-            throw InbyteException.failure("请输入手机号");
+            throw InbyteException.fail("请输入手机号");
         }
         if (tel.length() != 11) {
-            throw InbyteException.failure("手机号长度不正确");
+            throw InbyteException.fail("手机号长度不正确");
         }
         UserBrief userBrief = userMapper.briefByTel(tel);
         if (userBrief != null) {

@@ -141,7 +141,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     public R<String> downloadQrCode(QrCodeDownloadParam param) {
         QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(param.getQcid());
         if (detail == null) {
-            return R.failure("二维码ID不存在");
+            return R.fail("二维码ID不存在");
         }
         QrCodeGenerateParam qrCodeGenerateParam = new QrCodeGenerateParam();
         BeanUtils.copyProperties(param, qrCodeGenerateParam);
@@ -154,7 +154,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     public R<String> getScheme(Integer qcid) {
         QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(qcid);
         if (detail == null) {
-            return R.failure("二维码ID不存在");
+            return R.fail("二维码ID不存在");
         }
         return R.okStr(wxMpSchemeClient.generateScheme(getAppId(), detail.getPage(), detail.getScene()));
     }
@@ -163,7 +163,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     public R<String> getUrlLink(Integer qcid) {
         QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(qcid);
         if (detail == null) {
-            return R.failure("二维码ID不存在");
+            return R.fail("二维码ID不存在");
         }
         return R.okStr(wxLinkMpClient.generateUrlLink(getAppId(), detail.getPage(), detail.getScene()));
     }
@@ -172,7 +172,7 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
     public R<String> getShortLink(Integer qcid, Integer showQrName) {
         QrcodeMerchantDetail detail = marketingQrcodeMerchantMapper.detail(qcid);
         if (detail == null) {
-            return R.failure("二维码ID不存在");
+            return R.fail("二维码ID不存在");
         }
         String shortLink = wxLinkMpClient.generateShortLink(getAppId(),
                 detail.getPage() + "?" + detail.getScene(),
@@ -191,10 +191,10 @@ public class QrcodeMerchantServiceImpl implements QrcodeMerchantService {
                 .eq(InbyteAppPo::getMctNo, SessionUtil.getMctNo())
                 .last("limit 1"));
         if (inbyteAppPo == null) {
-            throw InbyteException.failure("当前商户未配置微信小程序");
+            throw InbyteException.fail("当前商户未配置微信小程序");
         }
         if (StringUtil.isEmpty(inbyteAppPo.getAppId())) {
-            throw InbyteException.failure("当前商户微信小程序信息未完善");
+            throw InbyteException.fail("当前商户微信小程序信息未完善");
         }
         return inbyteAppPo.getAppId();
     }

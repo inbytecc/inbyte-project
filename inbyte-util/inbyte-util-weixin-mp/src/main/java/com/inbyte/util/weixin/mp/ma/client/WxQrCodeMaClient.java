@@ -50,7 +50,7 @@ public class WxQrCodeMaClient implements WxQrCodeClient {
      */
     public byte[] qrCode(String appId, String scene, String page, int width) {
         if (!wxMaService.switchover(appId)) {
-            throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
+            throw InbyteException.fail(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
         }
 
         try {
@@ -92,7 +92,7 @@ public class WxQrCodeMaClient implements WxQrCodeClient {
                                   String page, int width) {
         if (!wxMaService.switchover(appId)) {
             log.error("未找到对应appId={}的配置，请核实！", appId);
-            throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
+            throw InbyteException.fail(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
         }
 
         try {
@@ -124,7 +124,7 @@ public class WxQrCodeMaClient implements WxQrCodeClient {
     public String qrCodeBase64(String appId,
                                   QrCodeGenerateParam param) {
         if (!wxMaService.switchover(appId)) {
-            throw InbyteException.failure(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
+            throw InbyteException.fail(String.format("未找到对应appId=[%s]的配置，请核实！", appId));
         }
 
         if (StringUtil.isEmpty(param.getEnvVersion())) {

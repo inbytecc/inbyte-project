@@ -28,12 +28,12 @@ public class WxUserMaClient implements WxUserClient {
      */
     public WxMaJscode2SessionResult getSessionInfo(String appId, String jsCode) {
         if (StringUtils.isBlank(jsCode)) {
-            throw BizException.failure("jsCode 不能为空");
+            throw BizException.fail("jsCode 不能为空");
         }
 
         if (!wxMaService.switchover(appId)) {
             log.error("微信登录, 未找到对应appId={}, 的配置, 请核实！", appId);
-            throw BizException.failure("服务错误, 稍等一下马上就好");
+            throw BizException.fail("服务错误, 稍等一下马上就好");
         }
 
         try {
@@ -43,7 +43,7 @@ public class WxUserMaClient implements WxUserClient {
             return result;
         } catch (WxErrorException e) {
             log.error("微信登录异常", e);
-            throw BizException.failure("微信登录异常, 稍等一下马上就好");
+            throw BizException.fail("微信登录异常, 稍等一下马上就好");
         } finally {
             //清理ThreadLocal
             WxMaConfigHolder.remove();
@@ -59,7 +59,7 @@ public class WxUserMaClient implements WxUserClient {
                                             @RequestParam("jsCode") String jsCode) {
         if (!wxMaService.switchover(appId)) {
             log.error("微信获取手机号, 未找到对应appId={}, 的配置, 请核实！", appId);
-            throw BizException.failure("服务错误, 稍等一下马上就好");
+            throw BizException.fail("服务错误, 稍等一下马上就好");
         }
 
         try {

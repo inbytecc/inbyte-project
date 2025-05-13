@@ -33,7 +33,7 @@ public class AppSignServiceImpl implements AppSignService {
     public R<AppSignDto> appSign(AppSignParam param) {
         InbyteAppPo inbyteAppPo = inbyteAppMapper.selectById(param.getAppId());
         if (inbyteAppPo == null) {
-            return R.failure("该 AppID 未在系统注册, 请联系商务人员");
+            return R.fail("该 AppID 未在系统注册, 请联系商务人员");
         }
 
         AppInfo appInfo = new AppInfo();

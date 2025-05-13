@@ -32,7 +32,7 @@ public class WxSchemeMaClient implements WxSchemeClient {
                                     String query) {
         if (!wxMaService.switchover(appId)) {
             log.error("Scheme码生成, 未找到对应appId={}, 的配置, 请核实！", appId);
-            throw BizException.failure("服务错误, 稍等一下马上就好");
+            throw BizException.fail("服务错误, 稍等一下马上就好");
         }
 
         try {
@@ -51,7 +51,7 @@ public class WxSchemeMaClient implements WxSchemeClient {
             return generate;
         } catch (WxErrorException e) {
             log.error("Scheme码生成", e);
-            throw BizException.failure("Scheme码生成, 稍等一下马上就好");
+            throw BizException.fail("Scheme码生成, 稍等一下马上就好");
         } finally {
             //清理ThreadLocal
             WxMaConfigHolder.remove();

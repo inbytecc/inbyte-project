@@ -69,7 +69,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         param.setPwd(MD5Util.md5(param.getPwd()));
         SystemUserDetail detail = inbyteSystemUserMapper.queryByPwd(param);
         if (detail == null) {
-            return R.failure("账号或密码错误");
+            return R.fail("账号或密码错误");
         }
 
         SystemUserLoginDto systemUserLoginDto = new SystemUserLoginDto();
@@ -89,7 +89,7 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         InbyteMerchantPo inbyteMerchantPo = inbyteMerchantMapper.selectById(detail.getMctNo());
         if (inbyteMerchantPo == null) {
-            return R.failure("商户信息错误，请联系技术客服处理");
+            return R.fail("商户信息错误，请联系技术客服处理");
         }
 
         // 如果微信小程序登录场景，则更新当前用户openID
@@ -153,13 +153,13 @@ public class SystemUserServiceImpl implements SystemUserService {
         InbyteSystemUserPo user = inbyteSystemUserMapper.selectOne(new LambdaQueryWrapper<InbyteSystemUserPo>()
                 .eq(InbyteSystemUserPo::getUserName, insert.getUserName()));
         if (user != null) {
-            return R.failure("该用户名已存在");
+            return R.fail("该用户名已存在");
         }
 
         user = inbyteSystemUserMapper.selectOne(new LambdaQueryWrapper<InbyteSystemUserPo>()
                 .eq(InbyteSystemUserPo::getTel, insert.getTel()));
         if (user != null) {
-            return R.failure("该手机号已存在");
+            return R.fail("该手机号已存在");
         }
 
         InbyteSystemUserPo inbyteSystemUserPo = InbyteSystemUserPo.builder()
@@ -196,7 +196,7 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         if (update.getRole() != null && update.getRole().size() > 0) {
             if (update.getRole().contains("OWNER")) {
-                return R.failure("管理员角色不允许修改");
+                return R.fail("管理员角色不允许修改");
             }
 
             List<InbyteSystemRolePo> inbyteSystemRolePos = inbyteSystemRoleMapper.selectBatchIds(update.getRole());
@@ -241,7 +241,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     public R resetPwd(Integer userId) {
         InbyteSystemUserPo inbyteSystemUserPo = inbyteSystemUserMapper.selectById(SessionUtil.getUserId());
         if (inbyteSystemUserPo.getAdmin() == WhetherDict.No.code) {
-            return R.failure("只有超管可以重置用户密码");
+            return R.fail("只有超管可以重置用户密码");
         }
 
         LambdaUpdateWrapper<InbyteSystemUserPo> updateWrapper = new LambdaUpdateWrapper<InbyteSystemUserPo>()
@@ -261,11 +261,11 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         List<InbyteSystemUserMerchantBrief> merchantBriefList = inbyteSystemUserMerchantMapper.listByUserId(sessionUser.getUserId());
         if (!merchantBriefList.stream().anyMatch(item -> item.getMctNo().equals(mctNo))) {
-            return R.failure("当前用户没有对应商户权限, 切换失败");
+            return R.fail("当前用户没有对应商户权限, 切换失败");
         }
         InbyteMerchantPo inbyteMerchantPo = inbyteMerchantMapper.selectById(mctNo);
         if (inbyteMerchantPo == null) {
-            return R.failure("商户不存在");
+            return R.fail("商户不存在");
         }
         sessionUser.setMctNo(mctNo);
         sessionUser.setMctName(inbyteMerchantPo.getMctName());

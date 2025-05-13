@@ -112,7 +112,7 @@ public class TencentGeoService {
 
         if (jsonObject == null || jsonObject.getIntValue("status") != 0) {
             log.error("腾讯地图位置数据查询失败:{}", jsonObject);
-            return R.failure("数据查询失败, 请稍后再试");
+            return R.fail("数据查询失败, 请稍后再试");
         }
         List<TencentMapPlaceDto> list = jsonObject.getList("data", TencentMapPlaceDto.class);
         return R.ok(list);

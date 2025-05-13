@@ -69,13 +69,13 @@ public class UserServiceImpl implements UserService {
         UserPo userExists = userMapper.selectOne(queryWrapper);
         if (userExists != null) {
             if (userExists.getEmail() != null && userExists.getEmail().equals(param.getEmail())) {
-                return R.failure("该邮箱已被注册");
+                return R.fail("该邮箱已被注册");
             }
             if (userExists.getTel() != null && userExists.getTel().equals(param.getTel())) {
-                return R.failure("该手机号已被注册");
+                return R.fail("该手机号已被注册");
             }
             if (userExists.getUserName() != null && userExists.getUserName().equals(param.getUserName())) {
-                return R.failure("该用户名已被注册");
+                return R.fail("该用户名已被注册");
             }
         }
 
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
                 .select(UserPo::getUserId, UserPo::getTel, UserPo::getNickname, UserPo::getAvatar);
         UserPo userPo = userMapper.selectOne(queryWrapper);
         if (userPo == null) {
-            return R.failure("账号或密码错误");
+            return R.fail("账号或密码错误");
         }
 
         SessionUser sessionUser = SessionUser.builder()
@@ -140,14 +140,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public R<UserLoginDto> telLogin(UserTelLoginParam param) {
         if (!"88888888".equals(param.getPwd())) {
-            return R.failure("账号或密码错误");
+            return R.fail("账号或密码错误");
         }
 //        LambdaQueryWrapper<UserPo> queryWrapper = new LambdaQueryWrapper<>();
 //        queryWrapper.eq(UserPo::getTel, param.getTel())
 //                .select(UserPo::getUserId, UserPo::getNickname, UserPo::getAvatar, UserPo::getTel);
 //        UserPo userPo = userMapper.selectOne(queryWrapper);
 //        if (userPo == null) {
-//            return R.failure("用户不存在哦, 请先注册后登录");
+//            return R.fail("用户不存在哦, 请先注册后登录");
 //        }
 
         SessionUser sessionUser = SessionUser.builder()
@@ -185,7 +185,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         int insert = userMapper.insertSelective(userPo);
         if (insert == 0) {
-            return R.failure("用户注册失败, 请重试一下");
+            return R.fail("用户注册失败, 请重试一下");
         }
 
         return R.ok("注册成功", userPo.getUserId());
@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public R<UserLoginDto> emailResetPwd(EmailResetPwdParam emailResetPwdParam) {
         if (!verifyCode(emailResetPwdParam.getEmail(), emailResetPwdParam.getVerifyCode())) {
-            return R.failure("验证码不正确");
+            return R.fail("验证码不正确");
         }
 
         LambdaUpdateWrapper<UserPo> updateWrapper = new LambdaUpdateWrapper<UserPo>()
@@ -247,7 +247,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public R<UserLoginDto> registerWithEmail(UserRegisterWithVerifyCodeParam param) {
         if (!verifyCode(param.getEmail(), param.getVerifyCode())) {
-            return R.failure("验证码不正确");
+            return R.fail("验证码不正确");
         }
         return register(param);
     }

@@ -228,7 +228,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
         // 新注册账号
         R<Integer> register = userService.register(phoneInfo.getPurePhoneNumber(), nickname, sessionUser.getAvatar());
         if (register.failed()) {
-            return R.failure("用户注册失败, 请重试一下");
+            return R.fail("用户注册失败, 请重试一下");
         }
 
         // 更新用户微信表
@@ -246,7 +246,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
 
         int update = userWeixinMpMapper.updateById(userWeixinMpPo);
         if (update == 0) {
-            throw InbyteException.failure("注册账号异常, 请重试看看");
+            throw InbyteException.fail("注册账号异常, 请重试看看");
         }
 
         // 发布用户注册事件
@@ -298,7 +298,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
                 .build();
         int update = userWeixinMpMapper.updateById(userWeixinPO);
         if (update == 0) {
-            throw InbyteException.failure("注册账号异常, 请重试看看");
+            throw InbyteException.fail("注册账号异常, 请重试看看");
         }
 
         // 用户 Session 信息
@@ -392,7 +392,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     @Override
     public R<Integer> count() {
         if (!AppUtil.isWeixinMp()) {
-            return R.failure("暂时不支持查询邀请数据");
+            return R.fail("暂时不支持查询邀请数据");
         }
         LambdaQueryWrapper<UserWeixinMpPo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(UserWeixinMpPo::getInviteCount);
@@ -410,7 +410,7 @@ public class UserWeixinMpServiceImpl implements UserWeixinMpService {
     @Override
     public R<List<UserInviteDto>> list(BasePage basePage) {
         if (!AppUtil.isWeixinMp()) {
-            return R.failure("暂时不支持查询邀请数据");
+            return R.fail("暂时不支持查询邀请数据");
         }
         PageHelper.startPage(basePage);
         return R.ok(inviteMapper.list(SessionUtil.getEid()));

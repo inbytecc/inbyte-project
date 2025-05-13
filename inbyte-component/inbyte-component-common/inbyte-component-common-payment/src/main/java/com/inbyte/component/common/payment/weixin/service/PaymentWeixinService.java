@@ -70,7 +70,7 @@ public class PaymentWeixinService {
     public R close(String orderNo) {
         PaymentWeixinInfoBrief paymentWeixinInfoBrief = paymentWeixinInfoMapper.selectByNo(orderNo);
         if (paymentWeixinInfoBrief == null) {
-            return R.failure("查不到该【" + orderNo + "】订单的支付记录");
+            return R.fail("查不到该【" + orderNo + "】订单的支付记录");
         }
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(paymentWeixinInfoBrief.getWeixinPaymentMerchantId());
 
@@ -87,7 +87,7 @@ public class PaymentWeixinService {
     public R<PaymentSuccessNotifyParam> queryPaymentStatus(String orderNo) {
         PaymentWeixinInfoBrief paymentWeixinInfoBrief = paymentWeixinInfoMapper.selectByNo(orderNo);
         if (paymentWeixinInfoBrief == null) {
-            return R.failure("查不到该【" + orderNo + "】订单的支付记录");
+            return R.fail("查不到该【" + orderNo + "】订单的支付记录");
         }
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(paymentWeixinInfoBrief.getWeixinPaymentMerchantId());
 
@@ -104,7 +104,7 @@ public class PaymentWeixinService {
     public R<Refund> refundApply(RefundCommonApplyParam param) {
         PaymentWeixinInfoBrief paymentWeixinInfoBrief = paymentWeixinInfoMapper.selectByNo(param.getOrderNo());
         if (paymentWeixinInfoBrief == null) {
-            return R.failure("查不到该【" + param.getOrderNo() + "】订单的支付记录");
+            return R.fail("查不到该【" + param.getOrderNo() + "】订单的支付记录");
         }
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(paymentWeixinInfoBrief.getWeixinPaymentMerchantId());
 
@@ -169,7 +169,7 @@ public class PaymentWeixinService {
 
         PaymentWeixinConfigPo paymentWeixinConfigPo = paymentWeixinConfigMapper.selectById(paymentMctId);
         if (paymentWeixinConfigPo == null) {
-            throw InbyteException.failure("商户未配置收款信息, 暂不支持在线支付");
+            throw InbyteException.fail("商户未配置收款信息, 暂不支持在线支付");
         }
 
         return paymentWeixinConfigPo;

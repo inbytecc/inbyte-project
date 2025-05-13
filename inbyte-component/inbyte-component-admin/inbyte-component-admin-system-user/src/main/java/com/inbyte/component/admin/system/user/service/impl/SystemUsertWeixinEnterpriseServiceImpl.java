@@ -83,7 +83,7 @@ public class SystemUsertWeixinEnterpriseServiceImpl implements SystemUsertWeixin
 //                .build();
 //        int insert = userPlatformMapper.insertSelective(platformPo);
 //        if (insert == 0) {
-//            return Result.failure("用户初始化创建失败, 请重试一下");
+//            return R.fail("用户初始化创建失败, 请重试一下");
 //        }
 //        sessionUser.setUserId(detail.getUserId());
 //        sessionUser.setUserName(userInfoResult.getData().getName());
@@ -93,7 +93,7 @@ public class SystemUsertWeixinEnterpriseServiceImpl implements SystemUsertWeixin
 //
 //        String jwt = PlatformJwtUtil.createJwt(sessionUser);
 //        return Result.success(new PlatformUserLoginDto(jwt));
-        return R.failure("功能关闭");
+        return R.fail("功能关闭");
     }
 
     @Override
@@ -105,7 +105,7 @@ public class SystemUsertWeixinEnterpriseServiceImpl implements SystemUsertWeixin
 //
 //        UserPlatformDetail detail = userPlatformMapper.detail(authResult.getData().getUserid());
 //        if (detail == null) {
-//            return Result.failure("该账号未注册,先进入企业微信, 打开工作台 -> 找到【Pyrange 后台管理系统】 -> 点击【后台系统】, 打开页面时点击【允许授权】");
+//            return R.fail("该账号未注册,先进入企业微信, 打开工作台 -> 找到【Pyrange 后台管理系统】 -> 点击【后台系统】, 打开页面时点击【允许授权】");
 //        }
 //        UserPlatformPo platformPo = UserPlatformPo.builder()
 //                .userId(detail.getUserId())
@@ -122,7 +122,7 @@ public class SystemUsertWeixinEnterpriseServiceImpl implements SystemUsertWeixin
 //        sessionUser.setLoginTime(LocalDateTime.now());
 //        String jwt = PlatformJwtUtil.createJwt(sessionUser);
 //        return Result.success(new PlatformUserLoginDto(jwt));
-        return R.failure("功能关闭");
+        return R.fail("功能关闭");
     }
 
 

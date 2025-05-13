@@ -47,7 +47,7 @@ public class WxSchemeOpenClient implements WxSchemeClient {
             return generate;
         } catch (WxErrorException e) {
             log.error("Scheme码生成", e);
-            throw BizException.failure("Scheme码生成, 稍等一下马上就好");
+            throw BizException.fail("Scheme码生成, 稍等一下马上就好");
         }
     }
 

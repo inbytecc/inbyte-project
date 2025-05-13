@@ -52,10 +52,10 @@ public class ShortLinkServiceImpl implements ShortLinkService {
                 .eq(InbyteAppPo::getMctNo, SessionUtil.getMctNo())
                 .last("limit 1"));
         if (inbyteAppPo == null) {
-            throw InbyteException.failure("当前商户未配置微信小程序");
+            throw InbyteException.fail("当前商户未配置微信小程序");
         }
         if (StringUtil.isEmpty(inbyteAppPo.getAppId())) {
-            throw InbyteException.failure("当前商户微信小程序信息未完善");
+            throw InbyteException.fail("当前商户微信小程序信息未完善");
         }
         return inbyteAppPo.getAppId();
     }

@@ -38,12 +38,12 @@ public class MarketingOrderProfitSharingServiceImpl implements MarketingOrderPro
     public R execute(Integer shareLogId) {
         MarketingOrderProfitSharingDetail detail = marketingOrderProfitSharingMapper.detail(shareLogId, SessionUtil.getMctNo());
         if (detail == null) {
-            return R.failure("分账记录不存在");
+            return R.fail("分账记录不存在");
         }
 
         MarketingDistributorPo marketingDistributorPo = marketingDistributorMapper.selectById(detail.getDistributorId());
         if (marketingDistributorPo == null) {
-            return R.failure("分销商不存在");
+            return R.fail("分销商不存在");
         }
 
         PaymentWeixinProfitShareParam param = PaymentWeixinProfitShareParam.builder()

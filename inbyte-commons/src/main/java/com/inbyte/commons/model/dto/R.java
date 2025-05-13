@@ -138,8 +138,8 @@ public class R<E> implements Serializable {
      * @param <T>
      * @return
      */
-    public static <T> R<T> failure(String msg) {
-        return failure(msg, null);
+    public static <T> R<T> fail(String msg) {
+        return fail(msg, null);
     }
 
     /**
@@ -150,11 +150,11 @@ public class R<E> implements Serializable {
      * @param <T>
      * @return
      */
-    public static <T> R<T> failure(String msg, T data) {
+    public static <T> R<T> fail(String msg, T data) {
         return new R(ResultStatus.Failure.code, msg, data);
     }
 
-    public static <T> R<T> failure(ResultStatus statusCode) {
+    public static <T> R<T> fail(ResultStatus statusCode) {
         return new R(statusCode.code, statusCode.name, null);
     }
 

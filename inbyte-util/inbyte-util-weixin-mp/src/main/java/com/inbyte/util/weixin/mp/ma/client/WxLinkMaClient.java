@@ -35,7 +35,7 @@ public class WxLinkMaClient implements WxLinkClient {
                                      String query) {
         if (!wxMaService.switchover(appId)) {
             log.error("URL Link 生成, 未找到对应appId={}, 的配置, 请核实！", appId);
-            throw BizException.failure("服务错误, 稍等一下马上就好");
+            throw BizException.fail("服务错误, 稍等一下马上就好");
         }
 
         try {
@@ -50,7 +50,7 @@ public class WxLinkMaClient implements WxLinkClient {
             return generate;
         } catch (WxErrorException e) {
             log.error("URL Link 生成", e);
-            throw BizException.failure("URL Link 生成, 稍等一下马上就好");
+            throw BizException.fail("URL Link 生成, 稍等一下马上就好");
         } finally {
             //清理ThreadLocal
             WxMaConfigHolder.remove();
@@ -66,7 +66,7 @@ public class WxLinkMaClient implements WxLinkClient {
                                        WhetherDict permanent) {
         if (!wxMaService.switchover(appId)) {
             log.error("URL Link 生成, 未找到对应appId={}, 的配置, 请核实！", appId);
-            throw BizException.failure("服务错误, 稍等一下马上就好");
+            throw BizException.fail("服务错误, 稍等一下马上就好");
         }
 
         try {
@@ -80,10 +80,10 @@ public class WxLinkMaClient implements WxLinkClient {
             return generate;
         } catch (WxErrorException e) {
             if (e.getError().getErrorCode() == 43104) {
-                throw BizException.failure("此小程序暂时没有权限生成短链");
+                throw BizException.fail("此小程序暂时没有权限生成短链");
             }
             log.error("URL Link 生成", e);
-            throw BizException.failure("URL Link 生成, 稍等一下马上就好");
+            throw BizException.fail("URL Link 生成, 稍等一下马上就好");
         } finally {
             //清理ThreadLocal
             WxMaConfigHolder.remove();

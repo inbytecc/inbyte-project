@@ -76,7 +76,7 @@ public class CommonExceptionResolver {
         if (e.getResult() != null) {
             return e.getResult();
         }
-        return R.failure(
+        return R.fail(
                 StringUtil.isEmpty(e.getMessage()) ? Default_Message : e.getMessage()
         );
     }
@@ -114,14 +114,14 @@ public class CommonExceptionResolver {
                 // 这里列出了全部错误参数, 按正常逻辑, 只需要第一条错误即可
                 FieldError fieldError = (FieldError) errors.get(0);
 
-                return R.failure(
+                return R.fail(
                         StringUtil.isEmpty(fieldError.getDefaultMessage())
                                 ? fieldError.getField() + " 参数错误"
                                 : fieldError.getDefaultMessage()
                 );
             }
         }
-        return R.failure("请求参数错误");
+        return R.fail("请求参数错误");
     }
 
     /**
@@ -134,7 +134,7 @@ public class CommonExceptionResolver {
     @ResponseBody
     public R illegalArgumentException(IllegalArgumentException e) {
         log.warn("参数问题导致系统错误", e);
-        return R.failure("参数问题导致系统错误");
+        return R.fail("参数问题导致系统错误");
     }
 
     /**
@@ -151,7 +151,7 @@ public class CommonExceptionResolver {
             alert("数据库脏数据错误问题", WebUtil.getRequestInfo(), e);
             return R.error("数据库脏数据错误问题, 技术人员已介入处理");
         }
-        return R.failure("数据库异常, 技术人员很快将介入处理");
+        return R.fail("数据库异常, 技术人员很快将介入处理");
     }
 
     /**
@@ -175,7 +175,7 @@ public class CommonExceptionResolver {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     @ResponseBody
     public R requestParameterException(MissingServletRequestParameterException e) {
-        return R.failure("请求参数不正确, 缺少" + e.getParameterName());
+        return R.fail("请求参数不正确, 缺少" + e.getParameterName());
     }
 
 
@@ -201,7 +201,7 @@ public class CommonExceptionResolver {
     @ResponseBody
     public R parameterBodyMissingExceptionHandler(HttpMessageNotReadableException e) {
         log.warn("请求体数据无法读取异常:{}", e);
-        return R.failure("请求体数据不可读异常, 技术人员已经介入, 马上处理");
+        return R.fail("请求体数据不可读异常, 技术人员已经介入, 马上处理");
     }
 
     /**
@@ -214,7 +214,7 @@ public class CommonExceptionResolver {
     @ResponseBody
     public R duplicateKeyException(DuplicateKeyException e) {
         log.warn("主键重复异常", e);
-        return R.failure("数据库操作失败, 请重新输入或联系技术客服");
+        return R.fail("数据库操作失败, 请重新输入或联系技术客服");
     }
 
     /**
@@ -228,7 +228,7 @@ public class CommonExceptionResolver {
     public R dtaIntegrityViolationException(DataIntegrityViolationException e) {
         alert("Mysql数据处理", WebUtil.getRequestInfo(), e);
         log.warn("数据处理失败", e);
-        return R.failure("数据处理失败, 技术人员已介入处理, 请稍后再试");
+        return R.fail("数据处理失败, 技术人员已介入处理, 请稍后再试");
     }
 
     /**
@@ -245,7 +245,7 @@ public class CommonExceptionResolver {
 //        }
         alert("Mysql数据操作不符合要求", WebUtil.getRequestInfo(), e);
         log.warn("字段不能为空异常", e);
-        return R.failure("数据库操作失败, 请重新输入或联系技术客服");
+        return R.fail("数据库操作失败, 请重新输入或联系技术客服");
     }
 
     /**
@@ -258,7 +258,7 @@ public class CommonExceptionResolver {
     @ResponseBody
     public R dtaIntegrityViolationException(HttpMediaTypeNotSupportedException e) {
         log.warn("请求头数据类型不符合要求", e);
-        return R.failure("请求头数据类型不符合要求");
+        return R.fail("请求头数据类型不符合要求");
     }
 
     /**
@@ -270,7 +270,7 @@ public class CommonExceptionResolver {
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
     @ResponseBody
     public R methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-        return R.failure("请求数据类型不符合要求" + e.getName() + ":" + e.getParameter());
+        return R.fail("请求数据类型不符合要求" + e.getName() + ":" + e.getParameter());
     }
 
     private void alert(String module, String requestInfo, Exception e) {

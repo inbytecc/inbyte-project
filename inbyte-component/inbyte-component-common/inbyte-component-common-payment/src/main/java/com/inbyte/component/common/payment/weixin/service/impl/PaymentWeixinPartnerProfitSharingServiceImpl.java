@@ -67,7 +67,7 @@ public class PaymentWeixinPartnerProfitSharingServiceImpl implements PaymentWeix
         CreateOrderReceiver orderReceiver = new CreateOrderReceiver();
         String type;
         if (param.getAccountType() == AccountTypeEnum.MERCHANT) {
-            return R.failure("暂不支持商户分账");
+            return R.fail("暂不支持商户分账");
         } else {
             type = "PERSONAL_SUB_OPENID";
         }

@@ -41,8 +41,8 @@ public class InbyteException extends RuntimeException {
      * @param msg
      * @return
      */
-    public static InbyteException failure(String msg) {
-        return new InbyteException(R.failure(msg));
+    public static InbyteException fail(String msg) {
+        return new InbyteException(R.fail(msg));
     }
 
     /**

@@ -46,7 +46,7 @@ public class WechatOpenPlatformController {
         if (!StringUtils.equalsIgnoreCase("aes", encType)
                 || !wxOpenService.getWxOpenComponentService().checkSignature(timestamp, nonce, signature)) {
             log.error("微信开放平台通知，非法请求，可能属于伪造的请求！");
-            throw InbyteException.failure("请求错误");
+            throw InbyteException.fail("请求错误");
         }
 
         // aes加密的消息

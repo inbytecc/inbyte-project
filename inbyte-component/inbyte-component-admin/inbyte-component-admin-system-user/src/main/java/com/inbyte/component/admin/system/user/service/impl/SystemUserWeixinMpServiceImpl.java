@@ -72,7 +72,7 @@ public class SystemUserWeixinMpServiceImpl implements SystemUserWeixinMpService 
 
         SessionUser sessionUser = SessionUtil.getSessionUserUnchecked();
         if (sessionUser == null) {
-            return R.failure("请先静默登录获取token后再绑定账号");
+            return R.fail("请先静默登录获取token后再绑定账号");
         }
 
         String tel = phoneInfo.getPurePhoneNumber();

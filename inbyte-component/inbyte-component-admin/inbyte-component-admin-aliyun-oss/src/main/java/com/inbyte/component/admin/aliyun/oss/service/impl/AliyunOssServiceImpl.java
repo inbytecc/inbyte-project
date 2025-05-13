@@ -148,7 +148,7 @@ public class AliyunOssServiceImpl implements AliyunOssService {
             return R.ok(aliYunOssSignDto);
         } catch (Exception e) {
             log.error("获取阿里云 OSS 文件上传授权异常", e);
-            return R.failure("获取授权失败");
+            return R.fail("获取授权失败");
         }
     }
 

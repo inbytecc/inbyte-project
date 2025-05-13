@@ -39,7 +39,7 @@ public class PaymentCommonService {
         } else if (PaymentTypeEnum.WEIXIN_PAY == paymentType) {
             return paymentWeixinService.queryPaymentStatus(orderNo);
         }
-        return R.failure("该订单未支付");
+        return R.fail("该订单未支付");
     }
 
     /**
@@ -55,7 +55,7 @@ public class PaymentCommonService {
         } else if (PaymentTypeEnum.WEIXIN_PAY == paymentType) {
             return paymentWeixinService.close(orderNo);
         }
-        return R.failure("该订单未支付");
+        return R.fail("该订单未支付");
     }
 
     /**
@@ -70,6 +70,6 @@ public class PaymentCommonService {
         } else if (PaymentTypeEnum.WEIXIN_PAY == param.getPaymentType()) {
             return paymentWeixinService.refundApply(param);
         }
-        return R.failure("该订单未支付");
+        return R.fail("该订单未支付");
     }
 }

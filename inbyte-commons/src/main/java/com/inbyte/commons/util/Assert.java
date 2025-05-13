@@ -21,7 +21,7 @@ public class Assert {
     public static void ok(Object o) {
         Set<ConstraintViolation<Object>> violations = VALIDATOR.validate(o);
         for (ConstraintViolation<Object> violation : violations) {
-            throw InbyteException.failure(violation.getMessage());
+            throw InbyteException.fail(violation.getMessage());
         }
     }
 

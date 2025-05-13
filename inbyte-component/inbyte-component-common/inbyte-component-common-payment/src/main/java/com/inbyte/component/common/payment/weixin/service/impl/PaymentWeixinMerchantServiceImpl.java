@@ -142,16 +142,16 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
             return requestPayment(prepayParam, response.getPrepayId(), weixinPaymentId);
         } catch (ServiceException e) {
             if ("ORDERPAID".equals(e.getErrorCode())) {
-                return R.failure("该订单已支付, 请稍等片刻订单状态将恢复正常");
+                return R.fail("该订单已支付, 请稍等片刻订单状态将恢复正常");
             }
 
             log.warn("生成微信支付异常, 支付拉起参数{}, 异常信息:{}", JSON.toJSONString(prepayParam), e);
             alarmSystemClient.alert("支付服务异常", JSON.toJSONString(prepayParam)
                     + "异常信息:" + Throwables.getStackTraceAsString(e));
             if ("APPID_MCHID_NOT_MATCH".equals(e.getErrorCode())) {
-                return R.failure("服务器支付服务维护中, 请稍后 1 分钟重试");
+                return R.fail("服务器支付服务维护中, 请稍后 1 分钟重试");
             }
-            return R.failure("支付拉起失败, 请稍后再试");
+            return R.fail("支付拉起失败, 请稍后再试");
         }
     }
 
@@ -222,9 +222,9 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
         } catch (ServiceException e) {
             log.warn("取消订单失败, 异常信息:{}", e);
             if ("ORDERPAID".equals(e.getErrorCode())) {
-                return R.failure("该订单已支付, 请申请退款操作");
+                return R.fail("该订单已支付, 请申请退款操作");
             }
-            return R.failure("订单取消操作失败, 请稍后再试");
+            return R.fail("订单取消操作失败, 请稍后再试");
         }
     }
 
@@ -238,7 +238,7 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
     public R<PaymentSuccessNotifyParam> queryPaymentStatus(String orderNo) {
         PaymentWeixinInfoBrief brief = paymentWeixinInfoMapper.selectByNo(orderNo);
         if (brief == null) {
-            return R.failure("该订单未支付");
+            return R.fail("该订单未支付");
         }
 
         JsapiService service = getJsApiService(brief.getWeixinPaymentMerchantId());
@@ -292,7 +292,7 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
         }
         if (param.getRefundAmount().compareTo(paymentInfoBrief.getPaymentAmount()) == 1) {
             log.info("退款申请金额不能大于支付金额退款请求参数{}, 错误信息{}", param);
-            return R.failure("退款申请金额不能大于支付金额");
+            return R.fail("退款申请金额不能大于支付金额");
         }
 
         String notifyUrl;
@@ -355,12 +355,12 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
                 alarmSystemClient.alert("微信支付退款申请",
                         e.getMessage() + ", 请求参数:" + JSON.toJSONString(param), e);
                 // 请求参数错误, 一般是开发期间异常
-                return R.failure("退款申请失败, 请稍后再试, 或联系管理员操作(400)");
+                return R.fail("退款申请失败, 请稍后再试, 或联系管理员操作(400)");
             } else if (e.getHttpStatusCode() == HttpStatus.FORBIDDEN.value()) {
                 // 账户余额不足, 无法申请退款
                 alarmSystemClient.alert("微信支付退款申请",
                         e.getMessage() + ", 请求参数:" + JSON.toJSONString(param), e);
-                return R.failure("退款操作失败, 或联系管理员操作, 客服也会介入处理, 请稍后");
+                return R.fail("退款操作失败, 或联系管理员操作, 客服也会介入处理, 请稍后");
             } else {
                 alarmSystemClient.alert("微信支付退款申请",
                         "退款申请异常,状态码:" + e.getHttpStatusCode() + ", 请求参数:" + JSON.toJSONString(param), e);
@@ -410,19 +410,19 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
             transaction = parser.parse(requestParam, Transaction.class);
         } catch (Exception e) {
             log.error("微信验签不通过", e);
-            return R.failure("验签不通过");
+            return R.fail("验签不通过");
         }
 
         log.info("微信支付成功回调通知, 解析报文：{}", transaction);
         if (transaction.getTradeState() != Transaction.TradeStateEnum.SUCCESS) {
             log.warn("微信支付回调状态:{}, 放弃业务处理", transaction.getTradeState());
-            return R.failure("微信支付回调状态非支付成功");
+            return R.fail("微信支付回调状态非支付成功");
         }
 
         PaymentWeixinInfoBrief brief = paymentWeixinInfoMapper.selectByNo(transaction.getOutTradeNo());
         if (brief == null) {
             log.warn("微信支付单不存在, 支付回调验证失败, 参数:{}", JSON.toJSONString(param));
-            return R.failure("微信支付单不存在, 支付回调验证失败");
+            return R.fail("微信支付单不存在, 支付回调验证失败");
         }
 
         BigDecimal paymentAmount = ArithUtil.divide(transaction.getAmount().getTotal(), 100);
@@ -474,13 +474,13 @@ public class PaymentWeixinMerchantServiceImpl implements PaymentWeixinServiceApi
         log.info("微信退款执行成功, 解析报文：{}", refund);
         if (!"REFUND.SUCCESS".equals(jsonObject.getString("event_type"))) {
             log.warn("微信退款回调状态:{}, 放弃业务处理", refund.getStatus());
-            return R.failure("微信退款回调状态非成功, 放弃业务处理");
+            return R.fail("微信退款回调状态非成功, 放弃业务处理");
         }
 
         PaymentWeixinInfoBrief brief = paymentWeixinInfoMapper.selectByNo(refund.getOutTradeNo());
         if (brief == null) {
             log.warn("微信支付单不存在退款回调状态:{}, 放弃业务处理", refund.getStatus());
-            return R.failure("微信支付单不存在, 放弃业务处理");
+            return R.fail("微信支付单不存在, 放弃业务处理");
         }
 
         // 微信支付表更新退款信息

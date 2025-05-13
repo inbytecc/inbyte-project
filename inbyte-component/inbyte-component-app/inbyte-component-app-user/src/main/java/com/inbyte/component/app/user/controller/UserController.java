@@ -46,7 +46,7 @@ public class UserController {
     @PostMapping("register")
     public R<UserLoginDto> register(@RequestBody @Valid UserRegisterParam param) {
         if (!componentUserProperties.isAllowRegisterNotVerified()) {
-            return R.failure("请使用验证码注册方法");
+            return R.fail("请使用验证码注册方法");
         }
         return userService.register(param);
     }

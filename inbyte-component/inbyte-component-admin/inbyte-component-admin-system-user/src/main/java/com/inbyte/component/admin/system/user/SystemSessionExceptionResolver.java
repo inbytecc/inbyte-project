@@ -55,6 +55,6 @@ public class SystemSessionExceptionResolver {
     @ExceptionHandler(value = AdminUnavailableException.class)
     @ResponseBody
     public R adminUnavailableException(AdminUnavailableException e) {
-        return R.failure("只有超管才允许操作此功能");
+        return R.fail("只有超管才允许操作此功能");
     }
 }

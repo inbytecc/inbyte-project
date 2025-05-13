@@ -37,7 +37,7 @@ public class CustomerClueLogServiceImpl implements CustomerClueLogService {
     public R insert(CustomerClueLogInsert insert) {
         CustomerCluePo customerCluePo = customerclueMapper.selectById(insert.getClueId());
         if (customerCluePo == null) {
-            return R.failure("客户线索不存在");
+            return R.fail("客户线索不存在");
         }
 
         LocalDateTime now = LocalDateTime.now();

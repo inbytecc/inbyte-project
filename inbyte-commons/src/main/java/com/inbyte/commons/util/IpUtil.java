@@ -147,7 +147,7 @@ public class IpUtil {
                 && Integer.valueOf(split[2]) >= 0 && Integer.valueOf(split[2]) <= 255
                 && Integer.valueOf(split[3]) > 0 && Integer.valueOf(split[3]) <= 255;
         if (!legalIP) {
-            return R.failure("IP格式不正确");
+            return R.fail("IP格式不正确");
         }
 
         Matcher matcher = Ip_Pattern.matcher(ip);
@@ -155,7 +155,7 @@ public class IpUtil {
         int ipEndSegment = Integer.parseInt(matcher.group(1));
         int ipEnd = ipEndSegment + num - 1;
         if (ipEnd > Max_Ip_Segment) {
-            return R.failure("Ip尾端超过255, 请重新选择起始IP");
+            return R.fail("Ip尾端超过255, 请重新选择起始IP");
         }
 
         int i = ip.lastIndexOf(".");

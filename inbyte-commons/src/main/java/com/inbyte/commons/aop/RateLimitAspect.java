@@ -37,7 +37,7 @@ public class RateLimitAspect {
         if (rateLimiter.tryAcquire()) {
             return joinPoint.proceed();
         } else {
-            return R.failure("请求频率太高啦，稍等下再试");
+            return R.fail("请求频率太高啦，稍等下再试");
         }
 
     }

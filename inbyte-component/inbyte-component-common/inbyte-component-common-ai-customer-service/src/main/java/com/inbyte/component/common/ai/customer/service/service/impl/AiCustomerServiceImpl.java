@@ -127,7 +127,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
             try {
                 result = application.call(applicationParam);
             } catch (NoApiKeyException e) {
-                throw InbyteException.failure("暂未支持哦");
+                throw InbyteException.fail("暂未支持哦");
             } catch (InputRequiredException e) {
                 throw InbyteException.error("客服功能异常");
             }
@@ -174,7 +174,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
 
     public R<String> getLocalScriptLibrary(String question, String mctNo) {
         if (StringUtil.isEmpty(question)) {
-            return R.failure("问题不能为空");
+            return R.fail("问题不能为空");
         }
         AiKnowledgePo aiKnowledgePo = aiKnowledgeMapper.findByQuestion(question, question.replaceAll("[\n|\t]", ""), mctNo);
         // 先从知识库中查找匹配的问题（模糊查询）
@@ -182,7 +182,7 @@ public class AiCustomerServiceImpl implements AiCustomerService {
             return R.okStr(aiKnowledgePo.getAnswer());
         }
 
-        return R.failure("没有找到匹配的问题");
+        return R.fail("没有找到匹配的问题");
     }
 
 
