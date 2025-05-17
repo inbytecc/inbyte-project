@@ -50,22 +50,22 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-common-dict</artifactId>
-                <version>1.1.2-RELEASE</version>
+                <version>1.1.3-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-common-district</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-common-email</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-common-weixin-enterprise</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
@@ -80,7 +80,7 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-common-payment</artifactId>
-                <version>1.1.2-SNAPSHOT</version>
+                <version>1.1.3-RELEASE</version>
             </dependency>
             <!-- 公共项目依赖结束 -->
 
@@ -93,7 +93,7 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-admin-aliyun-oss</artifactId>
-                <version>1.1.2-RELEASE</version>
+                <version>1.1.3-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
@@ -103,12 +103,12 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-admin-system-basic</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-admin-user</artifactId>
-                <version>1.1.1-RELEASE</version>
+                <version>1.1.2-RELEASE</version>
             </dependency>
             <!-- 后台项目依赖结束 -->
 
@@ -116,7 +116,7 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-app-aliyun-oss</artifactId>
-                <version>1.1.2-RELEASE</version>
+                <version>1.1.3-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
@@ -131,7 +131,7 @@
             <dependency>
                 <groupId>com.inbyte</groupId>
                 <artifactId>inbyte-component-app-sign</artifactId>
-                <version>1.1.2-RELEASE</version>
+                <version>1.1.3-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.inbyte</groupId>
