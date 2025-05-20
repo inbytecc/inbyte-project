@@ -30,7 +30,7 @@ public interface OrderServiceCommonApi {
      * @param orderNo
      * @return
      */
-    R cancel(String orderNo, Integer userId);
+    R cancel(String orderNo, Integer userId, String reason);
 
     /**
      * 微信预支付
