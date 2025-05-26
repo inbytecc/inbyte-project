@@ -32,5 +32,6 @@ public class RefundApplyParam implements Serializable {
     /**
      * 退款原因
      */
+    @NotNull(message = "退款原因不能为空")
     private String refundReason;
 }
