@@ -15,6 +15,7 @@
 		<module>inbyte-component-admin</module>
 		<module>inbyte-component-app</module>
 		<module>inbyte-component-common</module>
+		<module>inbyte-component-iot</module>
 	</modules>
 
 	<build>
