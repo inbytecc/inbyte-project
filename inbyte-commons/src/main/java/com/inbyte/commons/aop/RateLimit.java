@@ -1,4 +1,4 @@
-package com.inbyte.commons.model;
+package com.inbyte.commons.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

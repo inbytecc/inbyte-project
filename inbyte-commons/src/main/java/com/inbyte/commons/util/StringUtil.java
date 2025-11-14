@@ -283,4 +283,23 @@ public class StringUtil {
             return number.toString(); // 有小数部分，保留小数
         }
     }
+
+    public static boolean isNotBlankOrEmpty(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof String) {
+            return ((String) obj).length() > 0;
+        }
+        if (obj.getClass().isArray()) {
+            return java.lang.reflect.Array.getLength(obj) > 0;
+        }
+        if (obj instanceof java.util.Collection) {
+            return !((java.util.Collection<?>) obj).isEmpty();
+        }
+        if (obj instanceof java.util.Map) {
+            return !((java.util.Map<?, ?>) obj).isEmpty();
+        }
+        return true;
+    }
 }

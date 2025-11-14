@@ -1,6 +1,6 @@
 package com.inbyte.component.app.user.controller;
 
-import com.inbyte.commons.model.RateLimit;
+import com.inbyte.commons.aop.RateLimit;
 import com.inbyte.component.app.user.ComponentUserProperties;
 import com.inbyte.component.app.user.model.*;
 import com.inbyte.component.app.user.service.UserService;

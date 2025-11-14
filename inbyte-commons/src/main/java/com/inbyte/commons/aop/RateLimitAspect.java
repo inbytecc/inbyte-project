@@ -4,7 +4,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import com.inbyte.commons.exception.InbyteException;
-import com.inbyte.commons.model.RateLimit;
 import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.util.IpUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
