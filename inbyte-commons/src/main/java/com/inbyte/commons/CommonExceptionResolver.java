@@ -7,6 +7,7 @@ import com.inbyte.commons.model.dto.R;
 import com.inbyte.commons.model.dto.ResultStatus;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.result.ResultMapException;
 import org.mybatis.spring.MyBatisSystemException;
@@ -125,19 +126,6 @@ public class CommonExceptionResolver {
     }
 
     /**
-     * 参数效验异常处理器
-     *
-     * @param e 参数验证异常
-     * @return ResponseInfo
-     */
-    @ExceptionHandler({IllegalArgumentException.class})
-    @ResponseBody
-    public R illegalArgumentException(IllegalArgumentException e) {
-        log.warn("参数问题导致系统错误", e);
-        return R.fail("参数问题导致系统错误");
-    }
-
-    /**
      * Mysql 数据库操作异常
      *
      * @param e 参数验证异常
@@ -156,6 +144,7 @@ public class CommonExceptionResolver {
 
     /**
      * JSR303 数据校验不通过错误拦截
+     * 400 Bad Request
      *
      * @param e
      * @return
@@ -163,7 +152,7 @@ public class CommonExceptionResolver {
     @ExceptionHandler(value = BindException.class)
     @ResponseBody
     public R dataBindException(BindException e) {
-        return R.set(ResultStatus.Failure, e.getFieldError().getDefaultMessage());
+        return R.fail(e.getFieldError().getDefaultMessage());
     }
 
     /**
@@ -178,6 +167,30 @@ public class CommonExceptionResolver {
         return R.fail("请求参数不正确, 缺少" + e.getParameterName());
     }
 
+    /**
+     * 400 Bad Request
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    @ResponseBody
+    public R constraintViolationException(ConstraintViolationException e) {
+        return R.fail(e.getConstraintViolations().iterator().next().getMessage());
+    }
+
+    /**
+     * 参数效验异常处理器
+     *
+     * @param e 参数验证异常
+     * @return ResponseInfo
+     */
+    @ExceptionHandler({IllegalArgumentException.class})
+    @ResponseBody
+    public R illegalArgumentException(IllegalArgumentException e) {
+        log.warn("参数问题导致系统错误", e);
+        return R.fail("参数问题导致系统错误");
+    }
 
     /**
      * HTTP Status 405 Method Not Support
