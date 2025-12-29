@@ -302,4 +302,17 @@ public class StringUtil {
         }
         return true;
     }
+
+    /**
+     * 添加非空字符串
+     *
+     * @param sb
+     * @param prefix
+     * @param value
+     */
+    public static void appendIfNotEmpty(StringBuilder sb, String prefix, String value) {
+        if (!StringUtil.isEmpty(value)) {
+            sb.append(prefix).append(value).append("\n");
+        }
+    }
 }
