@@ -13,6 +13,7 @@ import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.app.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignDto;
+import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignGeneralParam;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignParam;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssUploadFileParam;
 import com.inbyte.component.app.aliyun.oss.model.storage.InbyteObjectStoragePo;
@@ -68,6 +69,89 @@ public class AliyunOssService {
     private InbyteMerchantProperties inbyteMerchantProperties;
     @Autowired
     private ObjectStorageMapper objectStorageMapper;
+
+
+    public R<AliYunOssSignDto> getCredentialGeneral(AliYunOssSignGeneralParam param) {
+        LocalDateTime now = LocalDateTime.now();
+        SessionUser sessionUser = SessionUtil.getSessionUser();
+        if (sessionUser == null) {
+            return R.set(ResultStatus.Unauthorized);
+        }
+
+        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
+        /**
+         * 文件格式
+         * 商户空间/可删除/商户名/年/月/日/模块参数/防重复随机数
+         */
+        String deletableDesc = param.getDeletable() == 1 ? "deletable/" : "";
+        String direction = new StringBuilder()
+                .append("mct-space/").append(deletableDesc)
+                .append(getMctNo()).append("/")
+                .append(now.getYear()).append("/")
+                .append(now.getMonthValue()).append("/")
+                .append(now.getDayOfMonth()).append("/")
+                .append(new Random().nextInt(1000000)).append("-")
+                .append(fileName)
+                .toString()
+                .replace("//", "/");
+
+        String host = "https://" + bucketName + "." + endpoint + "/" + direction;
+
+        OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        try {
+            InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
+                    .mctNo(getMctNo())
+                    .url(host)
+                    .endPoint(endpoint)
+                    .name(fileName)
+                    .fileType(param.getFileType())
+                    .uploadBy(AccountTypeEnum.USER)
+                    .bucket(bucketName)
+                    .createTime(now)
+                    .creator(sessionUser.getNickname())
+                    .build();
+            objectStorageMapper.insert(inbyteObjectStoragePo);
+
+            long expireTime = 10;
+            long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
+            Date expiration = new Date(expireEndTime);
+            PolicyConditions policyConditions = new PolicyConditions();
+            policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
+            policyConditions.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, direction);
+
+            String postPolicy = client.generatePostPolicy(expiration, policyConditions);
+            byte[] binaryData = postPolicy.getBytes("utf-8");
+            String encodedPolicy = BinaryUtil.toBase64String(binaryData);
+            String postSignature = client.calculatePostSignature(postPolicy);
+
+            JSONObject jasonCallback = new JSONObject();
+            jasonCallback.put("callbackUrl", server + "/api/aliyun/oss/callback");
+            jasonCallback.put("callbackBody",
+                    "object=${object}&" +
+                            "size=${size}&" +
+                            "etag=${etag}&" +
+                            "mimeType=${mimeType}&" +
+                            "height=${imageInfo.height}&" +
+                            "width=${imageInfo.width}&" +
+                            "objectId=" + inbyteObjectStoragePo.getObjectId());
+            jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
+            String base64CallbackBody = BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
+
+            AliYunOssSignDto aliYunOssSignDto = AliYunOssSignDto.builder()
+                    .accessId(accessKeyId)
+                    .policy(encodedPolicy)
+                    .signature(postSignature)
+                    .dir(direction)
+                    .host("https://" + bucketName + "." + endpoint)
+                    .expire(expireEndTime / 1000)
+                    .callback(base64CallbackBody)
+                    .build();
+            return R.ok(aliYunOssSignDto);
+        } catch (Exception e) {
+            log.error("获取阿里云 OSS 文件上传授权异常", e);
+            return R.fail("获取授权失败");
+        }
+    }
 
     /**
      * 获取OSS授权
@@ -402,4 +486,5 @@ public class AliyunOssService {
         }
         return AppUtil.getMctNo();
     }
+
 }

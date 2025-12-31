@@ -16,22 +16,23 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AliYunOssSignParam {
-
-    /**
-     * 页面
-     * 小程序页面地址 等于 page
-     **/
-    @NotNull(message = "上传资源所在页面路径不能为空")
-    private String path;
+public class AliYunOssSignGeneralParam {
 
     /**
      * 文件名称
      **/
+    @NotNull
     private String fileName;
 
     /**
      * 文件类型
      */
+    @NotNull
     private FileTypeEnum fileType;
+
+    /**
+     * 是否可定期清除
+     */
+    @NotNull
+    private Integer deletable;
 }

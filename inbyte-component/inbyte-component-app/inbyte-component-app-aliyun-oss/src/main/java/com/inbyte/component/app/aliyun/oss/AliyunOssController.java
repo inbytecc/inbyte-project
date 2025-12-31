@@ -1,6 +1,7 @@
 package com.inbyte.component.app.aliyun.oss;
 
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignDto;
+import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignGeneralParam;
 import com.inbyte.component.app.aliyun.oss.model.AliYunOssSignParam;
 import com.inbyte.commons.model.dto.R;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +29,20 @@ public class AliyunOssController {
 
     /**
      * 获取OSS授权
-     *
+     * 通用场景
+     * <p>获取STS参考文档：https://help.aliyun.com/document_detail/100624.html?spm=a2c4g.11186623.2.10.455750fdskCKbP#concept-xzh-nzk-2gb
+     * <p>JS上传文件参考文档：https://help.aliyun.com/document_detail/31926.html
+     * https://help.aliyun.com/document_detail/64041.html?spm=a2c4g.11186623.6.1323.2cff3b49yokLxd
+     */
+    @CrossOrigin
+    @PostMapping("credential/general")
+    public R<AliYunOssSignDto> getCredentialGeneral(@RequestBody @Valid AliYunOssSignGeneralParam param) {
+        return aliyunOssService.getCredentialGeneral(param);
+    }
+
+    /**
+     * 获取OSS授权
+     * 小程序场景
      * <p>获取STS参考文档：https://help.aliyun.com/document_detail/100624.html?spm=a2c4g.11186623.2.10.455750fdskCKbP#concept-xzh-nzk-2gb
      * <p>JS上传文件参考文档：https://help.aliyun.com/document_detail/31926.html
      * https://help.aliyun.com/document_detail/64041.html?spm=a2c4g.11186623.6.1323.2cff3b49yokLxd
@@ -41,6 +55,7 @@ public class AliyunOssController {
 
     /**
      * 回调通知
+     *
      * @param request
      * @param response
      */

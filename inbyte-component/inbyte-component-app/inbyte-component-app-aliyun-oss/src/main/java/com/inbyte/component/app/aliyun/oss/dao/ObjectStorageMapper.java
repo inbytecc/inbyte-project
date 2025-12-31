@@ -1,12 +1,7 @@
 package com.inbyte.component.app.aliyun.oss.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStorageBrief;
-import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStorageDetail;
 import com.inbyte.component.app.aliyun.oss.model.storage.InbyteObjectStoragePo;
-import com.inbyte.component.app.aliyun.oss.model.storage.ObjectStorageQuery;
-
-import java.util.List;
 
 /**
  * 对象存储
@@ -17,18 +12,5 @@ import java.util.List;
  */
 public interface ObjectStorageMapper extends BaseMapper<InbyteObjectStoragePo> {
 
-    /**
-     * 详情
-     *
-     * @param objectId
-     * @return ObjectStorageDetail
-     **/
-    ObjectStorageDetail detail(Integer objectId);
 
-    /**
-     * 查询列表
-     * @param query
-     * @return List<ObjectStorageBrief>
-     **/
-    List<ObjectStorageBrief> list(ObjectStorageQuery query);
 }
