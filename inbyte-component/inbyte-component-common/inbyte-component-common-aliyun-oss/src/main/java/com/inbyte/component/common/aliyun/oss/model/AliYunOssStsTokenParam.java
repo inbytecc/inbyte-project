@@ -1,4 +1,4 @@
-package com.inbyte.component.app.aliyun.oss.model;
+package com.inbyte.component.common.aliyun.oss.model;
 
 
 import com.inbyte.commons.model.enums.FileTypeEnum;
@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AliYunOssSignGeneralParam {
+public class AliYunOssStsTokenParam {
 
     /**
      * 文件名称

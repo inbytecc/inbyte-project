@@ -1,4 +1,4 @@
-package com.inbyte.component.app.aliyun.oss;
+package com.inbyte.component.common.aliyun.oss;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @ComponentScan
 @Configuration
-@MapperScan(basePackages = "com.inbyte.component.app.aliyun.oss.dao")
-public class AppAliyunOssConfiguration {
+@MapperScan(basePackages = "com.inbyte.component.common.aliyun.oss.dao")
+public class CommonAliyunOssConfiguration {
 }

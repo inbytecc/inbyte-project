@@ -1,4 +1,4 @@
-package com.inbyte.component.app.aliyun.oss.model.storage;
+package com.inbyte.component.common.aliyun.oss.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

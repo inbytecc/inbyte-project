@@ -1,7 +1,7 @@
-package com.inbyte.component.app.aliyun.oss.dao;
+package com.inbyte.component.common.aliyun.oss.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.inbyte.component.app.aliyun.oss.model.storage.InbyteObjectStoragePo;
+import com.inbyte.component.common.aliyun.oss.model.InbyteObjectStoragePo;
 
 /**
  * 对象存储
