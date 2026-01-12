@@ -21,6 +21,7 @@
 		<module>inbyte-component-common-email</module>
 		<module>inbyte-component-common-payment</module>
 		<module>inbyte-component-common-ai-customer-service</module>
+		<module>inbyte-component-common-aliyun-oss</module>
 	</modules>
 
 </project>
