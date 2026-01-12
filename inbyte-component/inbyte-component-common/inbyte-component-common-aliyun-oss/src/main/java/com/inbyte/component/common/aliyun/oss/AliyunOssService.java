@@ -2,6 +2,8 @@ package com.inbyte.component.common.aliyun.oss;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.oss.common.utils.BinaryUtil;
+import com.aliyun.oss.model.MatchMode;
+import com.aliyun.oss.model.PolicyConditions;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
@@ -10,6 +12,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.commons.model.enums.AccountTypeEnum;
 import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.common.aliyun.oss.dao.ObjectStorageMapper;
@@ -36,7 +39,9 @@ import java.net.URLDecoder;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 /**
  * 阿里云授权
@@ -63,49 +68,94 @@ public class AliyunOssService {
      * @return STS Token信息
      */
     public R<AliyunOssStsTokenDto> getStsToken(AliYunOssStsTokenParam param) {
-        if (aliyunOssProperties.getRoleArn() == null || aliyunOssProperties.getRoleArn().trim().isEmpty()) {
-            log.error("STS RoleArn未配置");
-            return R.fail("STS配置不完整，请配置roleArn");
-        }
+        LocalDateTime now = LocalDateTime.now();
 
-        IClientProfile profile = DefaultProfile.getProfile(
-                aliyunOssProperties.getRegion(),
-                aliyunOssProperties.getAccessKeyId(),
-                aliyunOssProperties.getAccessKeySecret());
+        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
+
+        /**
+         * 文件格式
+         * 商户空间/可删除/商户名/年/月/日/模块参数/防重复随机数
+         */
+        String deletableDesc = param.getDeletable() == 1 ? "deletable/" : "";
+        String direction = new StringBuilder()
+                .append("mct-space/")
+                .append(param.getMctNo()).append("/").append(deletableDesc)
+                .append(now.getYear()).append("/")
+                .append(now.getMonthValue()).append("/")
+                .append(now.getDayOfMonth()).append("/")
+                .append(new Random().nextInt(1000000)).append("-")
+                .append(fileName)
+                .toString()
+                .replace("//", "/");
+
+        String host = "https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint() + "/" + direction;
+        InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
+                .mctNo(param.getMctNo())
+                .url(host)
+                .endPoint(aliyunOssProperties.getEndpoint())
+                .name(fileName)
+                .fileType(param.getFileType())
+                .uploadBy(AccountTypeEnum.USER)
+                .bucket(aliyunOssProperties.getBucketName())
+                .createTime(now)
+//                    .creator(sessionUser.getNickname())
+                .build();
+        objectStorageMapper.insert(inbyteObjectStoragePo);
+
+        IClientProfile profile = DefaultProfile.getProfile(aliyunOssProperties.getRegion(), aliyunOssProperties.getAccessKeyId(), aliyunOssProperties.getAccessKeySecret());
         DefaultAcsClient client = new DefaultAcsClient(profile);
-
         try {
-            AssumeRoleRequest request = new AssumeRoleRequest();
+
+            final AssumeRoleRequest request = new AssumeRoleRequest();
+            // 适用于Java SDK 3.12.0及以上版本。
             request.setSysMethod(MethodType.POST);
-            request.setRoleArn(aliyunOssProperties.getRoleArn());
-            request.setRoleSessionName(aliyunOssProperties.getRoleSessionName());
-            request.setDurationSeconds(aliyunOssProperties.getDurationSeconds());
+            // 适用于Java SDK 3.12.0以下版本。
+            // request.setMethod(MethodType.POST);
+            request.setRoleArn(roleArn);
+            request.setRoleSessionName(roleSessionName);
+            request.setPolicy(policy);
+            request.setDurationSeconds(durationSeconds);
+            final AssumeRoleResponse response = client.getAcsResponse(request);
 
-            // 可选：设置Policy限制访问权限
-            // String policy = "{\"Version\":\"1\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"oss:PutObject\",\"oss:GetObject\"],\"Resource\":[\"acs:oss:*:*:bucket-name/*\"]}]}";
-            // request.setPolicy(policy);
 
-            AssumeRoleResponse response = client.getAcsResponse(request);
-            AssumeRoleResponse.Credentials credentials = response.getCredentials();
+            long expireTime = 10;
+            long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
+            Date expiration = new Date(expireEndTime);
+            PolicyConditions policyConditions = new PolicyConditions();
+            policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
+            policyConditions.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, direction);
 
-            LocalDateTime expirationTime = LocalDateTime.now().plusSeconds(aliyunOssProperties.getDurationSeconds());
-            long expiration = System.currentTimeMillis() / 1000 + aliyunOssProperties.getDurationSeconds();
+            String postPolicy = client.generatePostPolicy(expiration, policyConditions);
+            byte[] binaryData = postPolicy.getBytes("utf-8");
+            String encodedPolicy = BinaryUtil.toBase64String(binaryData);
+            String postSignature = client.calculatePostSignature(postPolicy);
 
-            AliyunOssStsTokenDto tokenDto = AliyunOssStsTokenDto.builder()
-                    .accessKeyId(credentials.getAccessKeyId())
-                    .accessKeySecret(credentials.getAccessKeySecret())
-                    .securityToken(credentials.getSecurityToken())
-                    .expiration(expiration)
-                    .expirationTime(expirationTime)
-                    .bucketName(aliyunOssProperties.getBucketName())
-                    .endpoint(aliyunOssProperties.getEndpoint())
+            JSONObject jasonCallback = new JSONObject();
+            jasonCallback.put("callbackUrl", server + "/api/aliyun/oss/callback");
+            jasonCallback.put("callbackBody",
+                    "object=${object}&" +
+                            "size=${size}&" +
+                            "etag=${etag}&" +
+                            "mimeType=${mimeType}&" +
+                            "height=${imageInfo.height}&" +
+                            "width=${imageInfo.width}&" +
+                            "objectId=" + inbyteObjectStoragePo.getObjectId());
+            jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
+            String base64CallbackBody = BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
+
+            AliyunOssStsTokenDto aliYunOssSignDto = AliyunOssStsTokenDto.builder()
+                    .accessKeyId(aliyunOssProperties.getAccessKeyId())
+                    .policy(encodedPolicy)
+                    .signature(postSignature)
+                    .dir(direction)
                     .host("https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint())
+                    .expire(expireEndTime / 1000)
+                    .callback(base64CallbackBody)
                     .build();
-
-            return R.ok(tokenDto);
+            return R.ok(aliYunOssSignDto);
         } catch (Exception e) {
-            log.error("获取STS Token异常", e);
-            return R.fail("获取STS Token失败: " + e.getMessage());
+            log.error("获取阿里云 OSS 文件上传授权异常", e);
+            return R.fail("获取授权失败");
         }
     }
 
