@@ -118,9 +118,10 @@ public class AliyunOssService {
             AssumeRoleResponse.Credentials credentials = response.getCredentials();
 
             // 构建返回对象
-            // getExpiration() 返回 ISO 8601 格式的字符串，需要解析
+            // getExpiration() 返回 ISO 8601 格式的字符串（如：2026-01-14T13:14:32Z），需要解析
             String expirationStr = response.getCredentials().getExpiration();
-            LocalDateTime expirationTime = LocalDateTime.parse(expirationStr);
+            // 使用ZonedDateTime解析带时区的ISO 8601格式字符串，然后转换为LocalDateTime
+            LocalDateTime expirationTime = ZonedDateTime.parse(expirationStr).toLocalDateTime();
 //            long expiration = expirationTime.toEpochSecond();
 
             JSONObject jasonCallback = new JSONObject();
