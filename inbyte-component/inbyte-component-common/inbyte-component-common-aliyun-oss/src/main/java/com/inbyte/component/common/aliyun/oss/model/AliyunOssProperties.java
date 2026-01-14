@@ -25,7 +25,7 @@ public class AliyunOssProperties {
     /**
      * STS角色会话名称
      */
-    private String roleSessionName = "oss-sts-session";
+    private String roleSessionName;
     
     /**
      * STS临时凭证有效期（秒），默认3600秒

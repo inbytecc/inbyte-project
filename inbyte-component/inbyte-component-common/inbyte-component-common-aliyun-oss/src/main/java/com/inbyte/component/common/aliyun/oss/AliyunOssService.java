@@ -53,28 +53,13 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class AliyunOssService {
 
-    /**
-     * STS角色ARN - 固定值，无需配置
-     */
-    private static final String ROLE_ARN = "acs:ram::YOUR_ACCOUNT_ID:role/YOUR_ROLE_NAME";
-    
-    /**
-     * STS角色会话名称 - 固定值
-     */
-    private static final String ROLE_SESSION_NAME = "oss-sts-session";
-    
-    /**
-     * STS策略 - 固定值，使用null表示使用默认策略
-     */
-    private static final String POLICY = null;
-    
+    @Value("${inbyte.app.server}")
+    private String server;
+
     /**
      * STS临时凭证有效期（秒）- 固定值，默认3600秒（1小时）
      */
     private static final Long DURATION_SECONDS = 3600L;
-
-    @Value("${inbyte.app.server}")
-    private String server;
 
     private final AliyunOssProperties aliyunOssProperties;
 
@@ -127,13 +112,11 @@ public class AliyunOssService {
         // 构建AssumeRole请求
         AssumeRoleRequest request = new AssumeRoleRequest();
         request.setSysMethod(MethodType.POST);
-        request.setRoleArn(ROLE_ARN);
-        request.setRoleSessionName(ROLE_SESSION_NAME);
+        request.setRoleArn(aliyunOssProperties.getRoleArn());
+        request.setRoleSessionName(aliyunOssProperties.getRoleSessionName());
         request.setDurationSeconds(DURATION_SECONDS);
 
-
         try {
-
             // 获取STS临时凭证
             AssumeRoleResponse response = stsClient.getAcsResponse(request);
             AssumeRoleResponse.Credentials credentials = response.getCredentials();
@@ -168,7 +151,6 @@ public class AliyunOssService {
                     .endpoint(aliyunOssProperties.getEndpoint())
                     .callback(base64CallbackBody)
                     .build();
-
             return R.ok(stsToken);
         } catch (Exception e) {
             log.error("获取阿里云 OSS 文件上传授权异常", e);
@@ -273,7 +255,6 @@ public class AliyunOssService {
             String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
             JSONObject json = StringUtil.strToJson(decode);
             String object = json.getString("object");
-
 
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .objectId(json.getInteger("objectId"))
