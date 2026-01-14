@@ -9,9 +9,6 @@ package com.inbyte.commons.model.enums;
 public enum FileTypeEnum {
 
     IMAGE("图片"),
-    IMAGE_PNG("图片"),
-    IMAGE_JPG("图片"),
-    IMAGE_JPEG("图片"),
     VIDEO("视频"),
     AUDIO("音频"),
     DOC("文档"),
