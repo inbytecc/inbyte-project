@@ -33,10 +33,10 @@ public class AliyunOssStsTokenDto {
      */
     private String securityToken;
 
-    /**
-     * 过期时间（时间戳，秒）
-     */
-    private Long expiration;
+//    /**
+//     * 过期时间（时间戳，秒）
+//     */
+//    private Long expiration;
 
     /**
      * 过期时间（LocalDateTime）
@@ -54,19 +54,10 @@ public class AliyunOssStsTokenDto {
     private String endpoint;
 
     /**
-     * 文件存放地址
+     * 文件存放路径
+     * 包含了文件名称
      */
-    private String dir;
-
-//    /**
-//     * Post上传策略
-//     */
-//    private String policy;
-
-//    /**
-//     * Post上传签名
-//     */
-//    private String signature;
+    private String fileStoragePath;
 
     /**
      * 回调参数

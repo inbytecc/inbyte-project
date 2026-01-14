@@ -10,7 +10,6 @@ public enum AccountTypeEnum {
 
     MERCHANT("商户"),
     USER("用户"),
-//    PERSONAL("个人"),
     ;
 
     public final String name;

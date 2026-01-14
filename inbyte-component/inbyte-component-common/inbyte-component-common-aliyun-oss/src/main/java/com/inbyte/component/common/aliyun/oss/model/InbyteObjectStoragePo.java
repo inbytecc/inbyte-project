@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.inbyte.commons.model.enums.FileTypeEnum;
 import com.inbyte.commons.model.enums.AccountTypeEnum;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -36,24 +37,14 @@ public class InbyteObjectStoragePo {
     private String url;
 
     /**
-     * 访问域名
+     * 模块名称
      */
-    private String endPoint;
-
-    /**
-     * oss存储桶
-     */
-    private String bucket;
+    private String moduleName;
 
     /**
      * 文件名
      */
-    private String name;
-
-    /**
-     * 模块路径
-     */
-    private String path;
+    private String fileName;
 
     /**
      * 已上传

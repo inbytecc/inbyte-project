@@ -79,29 +79,25 @@ public class AliyunOssService {
          * 文件目录格式
          * 商户空间/可删除/商户名/年/月/日/模块参数/防重复随机数
          */
-        String deletableDesc = param.getDeletable() == 1 ? "deletable/" : "";
-        String direction = new StringBuilder()
+        String fileStoragePath = new StringBuilder()
                 .append("mct-space/")
-                .append(param.getMctNo()).append("/").append(deletableDesc)
+                .append(param.getMctNo()).append("/")
                 .append(now.getYear()).append("/")
                 .append(now.getMonthValue()).append("/")
-                .append(now.getDayOfMonth()).append("/")
                 .append(new Random().nextInt(1000000)).append("-")
                 .append(param.getFileName())
                 .toString()
                 .replace("//", "/");
 
-        String host = "https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint() + "/" + direction;
+        String host = "https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint() + "/" + fileStoragePath;
         InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                 .mctNo(param.getMctNo())
                 .url(host)
-                .endPoint(aliyunOssProperties.getEndpoint())
-                .name(param.getFileName())
+                .moduleName(param.getModuleName())
+                .fileName(param.getFileName())
                 .fileType(param.getFileType())
-                .uploadBy(AccountTypeEnum.USER)
-                .bucket(aliyunOssProperties.getBucketName())
                 .createTime(now)
-//                    .creator(sessionUser.getNickname())
+                .creator(param.getOperator())
                 .build();
         objectStorageMapper.insert(inbyteObjectStoragePo);
 
@@ -124,9 +120,8 @@ public class AliyunOssService {
             // 构建返回对象
             // getExpiration() 返回 ISO 8601 格式的字符串，需要解析
             String expirationStr = response.getCredentials().getExpiration();
-            ZonedDateTime zonedDateTime = ZonedDateTime.parse(expirationStr, DateTimeFormatter.ISO_DATE_TIME);
-            long expiration = zonedDateTime.toEpochSecond();
-            LocalDateTime expirationTime = zonedDateTime.toLocalDateTime();
+            LocalDateTime expirationTime = LocalDateTime.parse(expirationStr);
+//            long expiration = expirationTime.toEpochSecond();
 
             JSONObject jasonCallback = new JSONObject();
             jasonCallback.put("callbackUrl", server + "/api/aliyun/oss/callback");
@@ -142,10 +137,11 @@ public class AliyunOssService {
             String base64CallbackBody = BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
 
             AliyunOssStsTokenDto stsToken = AliyunOssStsTokenDto.builder()
+                    .fileStoragePath(fileStoragePath)
                     .accessKeyId(credentials.getAccessKeyId())
                     .accessKeySecret(credentials.getAccessKeySecret())
                     .securityToken(credentials.getSecurityToken())
-                    .expiration(expiration)
+//                    .expiration(expiration)
                     .expirationTime(expirationTime)
                     .bucketName(aliyunOssProperties.getBucketName())
                     .endpoint(aliyunOssProperties.getEndpoint())
@@ -242,7 +238,9 @@ public class AliyunOssService {
     }
 
     /**
-     * Post请求
+     * 回调通知 Post请求
+     *
+     * https://help.aliyun.com/zh/oss/user-guide/python-1?spm=a2c4g.11186623.0.i12
      */
     public void callback(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -258,8 +256,7 @@ public class AliyunOssService {
 
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                     .objectId(json.getInteger("objectId"))
-                    .name(object.substring(object.lastIndexOf("/") + 1))
-                    .path(object)
+                    .fileName(object.substring(object.lastIndexOf("/") + 1))
                     .mimeType(json.getString("mimeType"))
                     .height(json.getInteger("height"))
                     .width(json.getInteger("width"))
