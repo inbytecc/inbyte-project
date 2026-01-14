@@ -62,4 +62,19 @@ public class AliyunOssStsTokenDto {
      * 文件存放地址
      */
     private String dir;
+
+//    /**
+//     * Post上传策略
+//     */
+//    private String policy;
+
+//    /**
+//     * Post上传签名
+//     */
+//    private String signature;
+
+    /**
+     * 回调参数
+     */
+    private String callback;
 }

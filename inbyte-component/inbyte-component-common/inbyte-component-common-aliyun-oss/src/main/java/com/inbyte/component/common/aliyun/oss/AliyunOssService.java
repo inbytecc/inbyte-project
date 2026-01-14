@@ -1,6 +1,7 @@
 package com.inbyte.component.common.aliyun.oss;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
@@ -54,6 +55,26 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class AliyunOssService {
 
+    /**
+     * STS角色ARN - 固定值，无需配置
+     */
+    private static final String ROLE_ARN = "acs:ram::YOUR_ACCOUNT_ID:role/YOUR_ROLE_NAME";
+    
+    /**
+     * STS角色会话名称 - 固定值
+     */
+    private static final String ROLE_SESSION_NAME = "oss-sts-session";
+    
+    /**
+     * STS策略 - 固定值，使用null表示使用默认策略
+     */
+    private static final String POLICY = null;
+    
+    /**
+     * STS临时凭证有效期（秒）- 固定值，默认3600秒（1小时）
+     */
+    private static final Long DURATION_SECONDS = 3600L;
+
     @Value("${inbyte.app.server}")
     private String server;
 
@@ -69,8 +90,7 @@ public class AliyunOssService {
      */
     public R<AliyunOssStsTokenDto> getStsToken(AliYunOssStsTokenParam param) {
         LocalDateTime now = LocalDateTime.now();
-
-        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
+//        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
 
         /**
          * 文件格式
@@ -83,8 +103,8 @@ public class AliyunOssService {
                 .append(now.getYear()).append("/")
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
-                .append(new Random().nextInt(1000000)).append("-")
-                .append(fileName)
+                .append(new Random().nextInt(10000000)).append("-")
+                .append(param.getFileName())
                 .toString()
                 .replace("//", "/");
 
@@ -93,7 +113,7 @@ public class AliyunOssService {
                 .mctNo(param.getMctNo())
                 .url(host)
                 .endPoint(aliyunOssProperties.getEndpoint())
-                .name(fileName)
+                .name(param.getFileName())
                 .fileType(param.getFileType())
                 .uploadBy(AccountTypeEnum.USER)
                 .bucket(aliyunOssProperties.getBucketName())
@@ -102,22 +122,27 @@ public class AliyunOssService {
                 .build();
         objectStorageMapper.insert(inbyteObjectStoragePo);
 
+        // 创建STS客户端用于获取临时凭证
         IClientProfile profile = DefaultProfile.getProfile(aliyunOssProperties.getRegion(), aliyunOssProperties.getAccessKeyId(), aliyunOssProperties.getAccessKeySecret());
-        DefaultAcsClient client = new DefaultAcsClient(profile);
+        DefaultAcsClient stsClient = new DefaultAcsClient(profile);
+        
+        // 创建OSS客户端用于生成Post策略和签名
+        OSSClient ossClient = new OSSClient(aliyunOssProperties.getEndpoint(), aliyunOssProperties.getAccessKeyId(), aliyunOssProperties.getAccessKeySecret());
+        
         try {
-
+            // 获取STS临时凭证
             final AssumeRoleRequest request = new AssumeRoleRequest();
             // 适用于Java SDK 3.12.0及以上版本。
             request.setSysMethod(MethodType.POST);
             // 适用于Java SDK 3.12.0以下版本。
             // request.setMethod(MethodType.POST);
-            request.setRoleArn(roleArn);
-            request.setRoleSessionName(roleSessionName);
-            request.setPolicy(policy);
-            request.setDurationSeconds(durationSeconds);
-            final AssumeRoleResponse response = client.getAcsResponse(request);
+            request.setRoleArn(ROLE_ARN);
+            request.setRoleSessionName(ROLE_SESSION_NAME);
+            request.setPolicy(POLICY);
+            request.setDurationSeconds(DURATION_SECONDS);
+            final AssumeRoleResponse response = stsClient.getAcsResponse(request);
 
-
+            // 生成Post上传策略
             long expireTime = 10;
             long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
             Date expiration = new Date(expireEndTime);
@@ -125,10 +150,10 @@ public class AliyunOssService {
             policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
             policyConditions.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, direction);
 
-            String postPolicy = client.generatePostPolicy(expiration, policyConditions);
+            String postPolicy = ossClient.generatePostPolicy(expiration, policyConditions);
             byte[] binaryData = postPolicy.getBytes("utf-8");
             String encodedPolicy = BinaryUtil.toBase64String(binaryData);
-            String postSignature = client.calculatePostSignature(postPolicy);
+            String postSignature = ossClient.calculatePostSignature(postPolicy);
 
             JSONObject jasonCallback = new JSONObject();
             jasonCallback.put("callbackUrl", server + "/api/aliyun/oss/callback");
@@ -145,17 +170,22 @@ public class AliyunOssService {
 
             AliyunOssStsTokenDto aliYunOssSignDto = AliyunOssStsTokenDto.builder()
                     .accessKeyId(aliyunOssProperties.getAccessKeyId())
-                    .policy(encodedPolicy)
-                    .signature(postSignature)
+//                    .policy(encodedPolicy)
+//                    .signature(postSignature)
                     .dir(direction)
                     .host("https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint())
-                    .expire(expireEndTime / 1000)
+//                    .expire(expireEndTime / 1000)
                     .callback(base64CallbackBody)
                     .build();
             return R.ok(aliYunOssSignDto);
         } catch (Exception e) {
             log.error("获取阿里云 OSS 文件上传授权异常", e);
             return R.fail("获取授权失败");
+        } finally {
+            // 关闭OSS客户端
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
         }
     }
 
@@ -197,8 +227,8 @@ public class AliyunOssService {
                     log.error("阿里云OSS, 关闭流", e);
                 }
             }
-            return content;
         }
+        return content;
     }
 
     /**
