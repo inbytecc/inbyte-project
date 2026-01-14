@@ -1,10 +1,7 @@
 package com.inbyte.component.common.aliyun.oss;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.common.utils.BinaryUtil;
-import com.aliyun.oss.model.MatchMode;
-import com.aliyun.oss.model.PolicyConditions;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
@@ -40,8 +37,9 @@ import java.net.URLDecoder;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
-import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 /**
@@ -93,7 +91,7 @@ public class AliyunOssService {
 //        String fileName = param.getFileName().replaceAll("[^\\p{L}\\p{N}]+", "");
 
         /**
-         * 文件格式
+         * 文件目录格式
          * 商户空间/可删除/商户名/年/月/日/模块参数/防重复随机数
          */
         String deletableDesc = param.getDeletable() == 1 ? "deletable/" : "";
@@ -103,7 +101,7 @@ public class AliyunOssService {
                 .append(now.getYear()).append("/")
                 .append(now.getMonthValue()).append("/")
                 .append(now.getDayOfMonth()).append("/")
-                .append(new Random().nextInt(10000000)).append("-")
+                .append(new Random().nextInt(1000000)).append("-")
                 .append(param.getFileName())
                 .toString()
                 .replace("//", "/");
@@ -122,38 +120,30 @@ public class AliyunOssService {
                 .build();
         objectStorageMapper.insert(inbyteObjectStoragePo);
 
-        // 创建STS客户端用于获取临时凭证
-        IClientProfile profile = DefaultProfile.getProfile(aliyunOssProperties.getRegion(), aliyunOssProperties.getAccessKeyId(), aliyunOssProperties.getAccessKeySecret());
+        IClientProfile profile = DefaultProfile.getProfile(aliyunOssProperties.getRegion(),
+                aliyunOssProperties.getAccessKeyId(), aliyunOssProperties.getAccessKeySecret());
         DefaultAcsClient stsClient = new DefaultAcsClient(profile);
-        
-        // 创建OSS客户端用于生成Post策略和签名
-        OSSClient ossClient = new OSSClient(aliyunOssProperties.getEndpoint(), aliyunOssProperties.getAccessKeyId(), aliyunOssProperties.getAccessKeySecret());
-        
+
+        // 构建AssumeRole请求
+        AssumeRoleRequest request = new AssumeRoleRequest();
+        request.setSysMethod(MethodType.POST);
+        request.setRoleArn(ROLE_ARN);
+        request.setRoleSessionName(ROLE_SESSION_NAME);
+        request.setDurationSeconds(DURATION_SECONDS);
+
+
         try {
+
             // 获取STS临时凭证
-            final AssumeRoleRequest request = new AssumeRoleRequest();
-            // 适用于Java SDK 3.12.0及以上版本。
-            request.setSysMethod(MethodType.POST);
-            // 适用于Java SDK 3.12.0以下版本。
-            // request.setMethod(MethodType.POST);
-            request.setRoleArn(ROLE_ARN);
-            request.setRoleSessionName(ROLE_SESSION_NAME);
-            request.setPolicy(POLICY);
-            request.setDurationSeconds(DURATION_SECONDS);
-            final AssumeRoleResponse response = stsClient.getAcsResponse(request);
+            AssumeRoleResponse response = stsClient.getAcsResponse(request);
+            AssumeRoleResponse.Credentials credentials = response.getCredentials();
 
-            // 生成Post上传策略
-            long expireTime = 10;
-            long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
-            Date expiration = new Date(expireEndTime);
-            PolicyConditions policyConditions = new PolicyConditions();
-            policyConditions.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
-            policyConditions.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, direction);
-
-            String postPolicy = ossClient.generatePostPolicy(expiration, policyConditions);
-            byte[] binaryData = postPolicy.getBytes("utf-8");
-            String encodedPolicy = BinaryUtil.toBase64String(binaryData);
-            String postSignature = ossClient.calculatePostSignature(postPolicy);
+            // 构建返回对象
+            // getExpiration() 返回 ISO 8601 格式的字符串，需要解析
+            String expirationStr = response.getCredentials().getExpiration();
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse(expirationStr, DateTimeFormatter.ISO_DATE_TIME);
+            long expiration = zonedDateTime.toEpochSecond();
+            LocalDateTime expirationTime = zonedDateTime.toLocalDateTime();
 
             JSONObject jasonCallback = new JSONObject();
             jasonCallback.put("callbackUrl", server + "/api/aliyun/oss/callback");
@@ -168,24 +158,21 @@ public class AliyunOssService {
             jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
             String base64CallbackBody = BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
 
-            AliyunOssStsTokenDto aliYunOssSignDto = AliyunOssStsTokenDto.builder()
-                    .accessKeyId(aliyunOssProperties.getAccessKeyId())
-//                    .policy(encodedPolicy)
-//                    .signature(postSignature)
-                    .dir(direction)
-                    .host("https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint())
-//                    .expire(expireEndTime / 1000)
+            AliyunOssStsTokenDto stsToken = AliyunOssStsTokenDto.builder()
+                    .accessKeyId(credentials.getAccessKeyId())
+                    .accessKeySecret(credentials.getAccessKeySecret())
+                    .securityToken(credentials.getSecurityToken())
+                    .expiration(expiration)
+                    .expirationTime(expirationTime)
+                    .bucketName(aliyunOssProperties.getBucketName())
+                    .endpoint(aliyunOssProperties.getEndpoint())
                     .callback(base64CallbackBody)
                     .build();
-            return R.ok(aliYunOssSignDto);
+
+            return R.ok(stsToken);
         } catch (Exception e) {
             log.error("获取阿里云 OSS 文件上传授权异常", e);
             return R.fail("获取授权失败");
-        } finally {
-            // 关闭OSS客户端
-            if (ossClient != null) {
-                ossClient.shutdown();
-            }
         }
     }
 

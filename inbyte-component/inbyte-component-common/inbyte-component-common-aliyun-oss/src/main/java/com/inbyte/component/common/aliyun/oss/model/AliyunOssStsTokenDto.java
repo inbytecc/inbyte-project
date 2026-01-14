@@ -54,11 +54,6 @@ public class AliyunOssStsTokenDto {
     private String endpoint;
 
     /**
-     * OSS访问域名
-     */
-    private String host;
-
-    /**
      * 文件存放地址
      */
     private String dir;
