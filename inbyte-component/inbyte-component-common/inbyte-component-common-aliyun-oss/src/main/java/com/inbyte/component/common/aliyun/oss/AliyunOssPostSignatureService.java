@@ -10,19 +10,19 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.inbyte.commons.exception.BizException;
 import com.inbyte.commons.model.dto.R;
+import com.inbyte.component.common.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.common.aliyun.oss.model.AliYunOssStsTokenParam;
 import com.inbyte.component.common.aliyun.oss.model.AliyunOssPostSignatureDto;
 import com.inbyte.component.common.aliyun.oss.model.AliyunOssProperties;
+import com.inbyte.component.common.aliyun.oss.model.InbyteObjectStoragePo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -49,6 +49,8 @@ public class AliyunOssPostSignatureService {
     private static final String SIGNATURE_VERSION = "OSS4-HMAC-SHA256";
 
     private final AliyunOssProperties aliyunOssProperties;
+
+    private final ObjectStorageMapper objectStorageMapper;
 
     /**
      * 获取POST签名
@@ -98,6 +100,17 @@ public class AliyunOssPostSignatureService {
 
         // host格式: http://bucketname.oss-region.aliyuncs.com
         String host = "https://" + aliyunOssProperties.getBucketName() + "." + aliyunOssProperties.getEndpoint();
+
+        InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
+                .mctNo(param.getMctNo())
+                .url(host)
+                .moduleName(param.getModuleName())
+                .fileName(param.getFileName())
+                .fileType(param.getFileType())
+                .createTime(LocalDateTime.now())
+                .creator(param.getOperator())
+                .build();
+        objectStorageMapper.insert(inbyteObjectStoragePo);
 
         AliyunOssPostSignatureDto signatureDto = AliyunOssPostSignatureDto.builder()
                 .ossSignatureVersion(SIGNATURE_VERSION)
