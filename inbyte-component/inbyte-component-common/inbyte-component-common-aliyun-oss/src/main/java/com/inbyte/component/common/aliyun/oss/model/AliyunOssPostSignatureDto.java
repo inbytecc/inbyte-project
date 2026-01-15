@@ -20,8 +20,8 @@ public class AliyunOssPostSignatureDto {
 
     /**
      * 签名版本，固定值为 OSS4-HMAC-SHA256
+     * 对弈参数：x_oss_signature_version
      */
-    @JsonProperty("x_oss_signature_version")
     private String ossSignatureVersion;
 
     /**
@@ -32,15 +32,15 @@ public class AliyunOssPostSignatureDto {
     /**
      * 派生密钥的参数集
      * 格式: accessKeyId/date/region/oss/aliyun_v4_request
+     * 对应参数：x_oss_credential
      */
-    @JsonProperty("x_oss_credential")
     private String xOssCredential;
 
     /**
      * 请求时间
      * 格式: yyyyMMddTHHmmssZ (ISO 8601)
+     * 对应参数：x_oss_date
      */
-    @JsonProperty("x_oss_date")
     private String xOssDate;
 
     /**
@@ -50,8 +50,8 @@ public class AliyunOssPostSignatureDto {
 
     /**
      * 安全令牌 (STS Token)
+     * 对应参数：security_token
      */
-    @JsonProperty("security_token")
     private String securityToken;
 
     /**
@@ -63,4 +63,9 @@ public class AliyunOssPostSignatureDto {
      * OSS Bucket域名
      */
     private String host;
+
+    /**
+     * 上传回调配置（Base64编码的JSON字符串）
+     */
+    private String callback;
 }

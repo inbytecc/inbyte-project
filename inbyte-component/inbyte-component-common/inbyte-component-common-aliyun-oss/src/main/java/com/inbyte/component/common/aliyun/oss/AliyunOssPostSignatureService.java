@@ -17,7 +17,7 @@ import com.inbyte.component.common.aliyun.oss.model.AliyunOssProperties;
 import com.inbyte.component.common.aliyun.oss.model.InbyteObjectStoragePo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
@@ -51,6 +51,9 @@ public class AliyunOssPostSignatureService {
     private final AliyunOssProperties aliyunOssProperties;
 
     private final ObjectStorageMapper objectStorageMapper;
+
+    @Value("${inbyte.app.server}")
+    private String appServer;
 
     /**
      * 获取POST签名
@@ -89,10 +92,10 @@ public class AliyunOssPostSignatureService {
                 accessKeyId, date, aliyunOssProperties.getRegion());
 
         // 构建上传目录前缀
-        String uploadDir = buildUploadDir(param);
+        String uploadPath = buildUploadDir(param);
 
         // 创建Policy
-        String policy = createPolicy(xOssCredential, xOssDate, securityToken, uploadDir);
+        String policy = createPolicy(xOssCredential, xOssDate, securityToken, uploadPath);
 
         // 计算签名
         String signature = calculateSignature(policy, accessKeySecret, date,
@@ -103,7 +106,7 @@ public class AliyunOssPostSignatureService {
 
         InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                 .mctNo(param.getMctNo())
-                .url(host)
+                .url(host + "/" + uploadPath)
                 .moduleName(param.getModuleName())
                 .fileName(param.getFileName())
                 .fileType(param.getFileType())
@@ -112,6 +115,9 @@ public class AliyunOssPostSignatureService {
                 .build();
         objectStorageMapper.insert(inbyteObjectStoragePo);
 
+        // 生成回调配置
+        String callback = createCallback(inbyteObjectStoragePo.getObjectId());
+
         AliyunOssPostSignatureDto signatureDto = AliyunOssPostSignatureDto.builder()
                 .ossSignatureVersion(SIGNATURE_VERSION)
                 .policy(policy)
@@ -119,8 +125,9 @@ public class AliyunOssPostSignatureService {
                 .xOssDate(xOssDate)
                 .signature(signature)
                 .securityToken(securityToken)
-                .uploadPath(uploadDir)
+                .uploadPath(uploadPath)
                 .host(host)
+                .callback(callback)
                 .build();
 
         return R.ok(signatureDto);
@@ -285,5 +292,34 @@ public class AliyunOssPostSignatureService {
         // 步骤5: 计算最终签名
         byte[] result = hmacsha256(signingKey, stringToSign);
         return BinaryUtil.toHex(result);
+    }
+
+    /**
+     * 创建上传回调配置
+     * 回调配置会被Base64编码后返回给前端
+     *
+     * @param objectId 对象存储ID，用于回调时更新上传状态
+     * @return Base64编码的回调配置字符串
+     */
+    private String createCallback(Integer objectId) {
+        if (appServer == null || appServer.isEmpty()) {
+            log.warn("回调服务器地址未配置，将不返回回调配置");
+            return null;
+        }
+
+        JSONObject callbackJson = new JSONObject();
+        callbackJson.put("callbackUrl", appServer + "/api/aliyun/oss/callback");
+        callbackJson.put("callbackBody",
+                "object=${object}&" +
+                        "size=${size}&" +
+                        "etag=${etag}&" +
+                        "mimeType=${mimeType}&" +
+                        "height=${imageInfo.height}&" +
+                        "width=${imageInfo.width}&" +
+                        "objectId=" + objectId);
+        callbackJson.put("callbackBodyType", "application/x-www-form-urlencoded");
+
+        // Base64编码回调配置
+        return BinaryUtil.toBase64String(callbackJson.toString().getBytes());
     }
 }
