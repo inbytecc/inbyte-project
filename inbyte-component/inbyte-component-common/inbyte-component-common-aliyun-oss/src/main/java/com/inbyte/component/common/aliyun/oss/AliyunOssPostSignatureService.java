@@ -307,19 +307,18 @@ public class AliyunOssPostSignatureService {
             return null;
         }
 
-        JSONObject callbackJson = new JSONObject();
-        callbackJson.put("callbackUrl", appServer + "/api/aliyun/oss/callback");
-        callbackJson.put("callbackBody",
-                "object=${object}&" +
-                        "size=${size}&" +
-                        "etag=${etag}&" +
-                        "mimeType=${mimeType}&" +
-                        "height=${imageInfo.height}&" +
-                        "width=${imageInfo.width}&" +
-                        "objectId=" + objectId);
-        callbackJson.put("callbackBodyType", "application/x-www-form-urlencoded");
+        // 步骤5：设置回调。
+        JSONObject jasonCallback = new JSONObject();
+        jasonCallback.put("callbackUrl", appServer + "/api/aliyun/oss/callback");
+        jasonCallback.put("callbackBody","filename=${object}&" +
+                "size=${size}&" +
+                "mimeType=${mimeType}&" +
+                "height=${imageInfo.height}&" +
+                "width=${imageInfo.width}" +
+                "objectId=" + objectId);
+        jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
 
         // Base64编码回调配置
-        return BinaryUtil.toBase64String(callbackJson.toString().getBytes());
+        return BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
     }
 }
