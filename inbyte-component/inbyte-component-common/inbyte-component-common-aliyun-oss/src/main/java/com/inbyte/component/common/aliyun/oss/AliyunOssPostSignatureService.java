@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
@@ -270,8 +271,8 @@ public class AliyunOssPostSignatureService {
         // 将Policy转换为JSON字符串
         String jsonPolicy = JSONObject.toJSONString(policy);
 
-        // Base64编码
-        return BinaryUtil.toBase64String(jsonPolicy.getBytes());
+        // Base64编码，明确使用UTF-8编码
+        return BinaryUtil.toBase64String(jsonPolicy.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -286,7 +287,7 @@ public class AliyunOssPostSignatureService {
             SecretKeySpec secretKeySpec = new SecretKeySpec(key, "HmacSHA256");
             Mac mac = Mac.getInstance("HmacSHA256");
             mac.init(secretKeySpec);
-            return mac.doFinal(data.getBytes());
+            return mac.doFinal(data.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             throw new RuntimeException("Failed to calculate HMAC-SHA256", e);
         }
@@ -344,8 +345,8 @@ public class AliyunOssPostSignatureService {
                 "objectId=" + objectId);
         jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
 
-        // Base64编码回调配置
-        return BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
+        // Base64编码回调配置，明确使用UTF-8编码
+        return BinaryUtil.toBase64String(jasonCallback.toString().getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -407,7 +408,6 @@ public class AliyunOssPostSignatureService {
     }
 
 
-
     /**
      * 验证上传回调的Request
      *
@@ -419,34 +419,49 @@ public class AliyunOssPostSignatureService {
      */
     protected boolean VerifyOSSCallbackRequest(HttpServletRequest request, String ossCallbackBody)
             throws NumberFormatException, IOException {
-        boolean ret = false;
-        String authorizationInput = request.getHeader("Authorization");
+        // 检查必要的header
+        String autorizationInput = request.getHeader("Authorization");
         String pubKeyInput = request.getHeader("x-oss-pub-key-url");
-        byte[] authorization = BinaryUtil.fromBase64String(authorizationInput);
-        byte[] pubKey = BinaryUtil.fromBase64String(pubKeyInput);
-        String pubKeyAddr = new String(pubKey);
-        if (!pubKeyAddr.startsWith("http://gosspublic.alicdn.com/")
-                && !pubKeyAddr.startsWith("https://gosspublic.alicdn.com/")) {
-            log.info("pub key addr must be oss addrss");
+        
+        
+        try {
+            byte[] authorization = BinaryUtil.fromBase64String(autorizationInput);
+            byte[] pubKey = BinaryUtil.fromBase64String(pubKeyInput);
+            String pubKeyAddr = new String(pubKey, StandardCharsets.UTF_8);
+            
+            if (!pubKeyAddr.startsWith("http://gosspublic.alicdn.com/")
+                    && !pubKeyAddr.startsWith("https://gosspublic.alicdn.com/")) {
+                log.warn("pub key addr must be oss address: {}", pubKeyAddr);
+                return false;
+            }
+            
+            String retString = executeGet(pubKeyAddr);
+            if (retString == null || retString.isEmpty()) {
+                log.warn("Failed to get public key from: {}", pubKeyAddr);
+                return false;
+            }
+            
+            // 清理公钥字符串
+            retString = retString.replace("-----BEGIN PUBLIC KEY-----", "");
+            retString = retString.replace("-----END PUBLIC KEY-----", "");
+            retString = retString.replaceAll("\\s", ""); // 移除所有空白字符
+            
+            String queryString = request.getQueryString();
+            String uri = request.getRequestURI();
+            String decodeUri = java.net.URLDecoder.decode(uri, "UTF-8");
+            String authStr = decodeUri;
+            if (queryString != null && !queryString.isEmpty()) {
+                authStr += "?" + queryString;
+            }
+            authStr += "\n" + ossCallbackBody;
+            
+            log.debug("验证字符串: {}", authStr);
+            boolean ret = doCheck(authStr, authorization, retString);
+            return ret;
+        } catch (Exception e) {
+            log.error("验证OSS回调请求时发生异常", e);
             return false;
         }
-        String retString = executeGet(pubKeyAddr);
-        retString = retString.replace("-----BEGIN PUBLIC KEY-----", "");
-        retString = retString.replace("-----END PUBLIC KEY-----", "");
-        String queryString = request.getQueryString();
-
-        /**
-         * 特别注意： 因为接口签名时需要以 /api 前缀访问回调接口, 且 Nginx 反向代理时去掉了 /api 前缀, 导致 doCheck 验证不通过
-         * 所以此处补充 /api 前缀，使校验通过
-         */
-        String decodeUri = URLDecoder.decode(request.getRequestURI(), "UTF-8");
-        String authStr = decodeUri;
-        if (queryString != null && !queryString.equals("")) {
-            authStr += "?" + queryString;
-        }
-        authStr += "\n" + ossCallbackBody;
-        ret = doCheck(authStr, authorization, retString);
-        return ret;
     }
 
     /**
@@ -462,12 +477,15 @@ public class AliyunOssPostSignatureService {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             byte[] encodedKey = BinaryUtil.fromBase64String(publicKey);
             PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
-            java.security.Signature signature = java.security.Signature.getInstance("MD5withRSA");
+            // 阿里云OSS回调验证使用SHA1withRSA算法，不是MD5withRSA
+            java.security.Signature signature = java.security.Signature.getInstance("SHA1withRSA");
             signature.initVerify(pubKey);
-            signature.update(content.getBytes());
-            return signature.verify(sign);
+            signature.update(content.getBytes(StandardCharsets.UTF_8));
+            boolean bverify = signature.verify(sign);
+            return bverify;
+
         } catch (Exception e) {
-            log.error("OSS 验证RSA异常", e);
+            log.error("RSA验证失败", e);
         }
 
         return false;
@@ -492,7 +510,7 @@ public class AliyunOssPostSignatureService {
             request.setURI(new URI(url));
             CloseableHttpResponse response = client.execute(request);
 
-            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8));
             StringBuffer sb = new StringBuffer("");
             String line = "";
             String NL = System.getProperty("line.separator");
