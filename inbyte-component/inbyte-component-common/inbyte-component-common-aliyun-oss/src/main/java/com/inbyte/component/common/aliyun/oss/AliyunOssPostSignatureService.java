@@ -15,11 +15,11 @@ import com.inbyte.commons.util.StringUtil;
 import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.common.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.common.aliyun.oss.model.AliYunOssStsTokenParam;
+import com.inbyte.component.common.aliyun.oss.model.AliyunOssCallbackDto;
 import com.inbyte.component.common.aliyun.oss.model.AliyunOssPostSignatureDto;
 import com.inbyte.component.common.aliyun.oss.model.AliyunOssProperties;
 import com.inbyte.component.common.aliyun.oss.model.InbyteObjectStoragePo;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -63,6 +63,16 @@ public class AliyunOssPostSignatureService {
      * 签名版本
      */
     private static final String SIGNATURE_VERSION = "OSS4-HMAC-SHA256";
+
+    /**
+     * OSS回调成功响应
+     */
+    private static final AliyunOssCallbackDto CALLBACK_SUCCESS = new AliyunOssCallbackDto("OK");
+
+    /**
+     * OSS回调验证失败响应
+     */
+    private static final AliyunOssCallbackDto CALLBACK_VERIFY_FAILED = new AliyunOssCallbackDto("verify not ok");
 
     private final AliyunOssProperties aliyunOssProperties;
 
@@ -338,65 +348,64 @@ public class AliyunOssPostSignatureService {
         return BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
     }
 
-
     /**
      * 回调通知 Post请求
+     * 
+     * OSS上传文件成功后，会向应用服务器发送POST回调请求
+     * 应用服务器需要在5秒内返回JSON响应，HTTP状态码200表示成功
+     * 
+     * 参考文档：https://help.aliyun.com/zh/oss/developer-reference/callback
      *
      * https://help.aliyun.com/zh/oss/user-guide/python-1?spm=a2c4g.11186623.0.i12
+     *
+     * @param request HTTP请求
+     * @return 回调响应结果，Spring Boot会自动序列化为JSON返回给OSS
+     *         成功返回：{"Status": "OK"}
+     *         失败返回：{"Status": "verify not ok"}
      */
-    public void callback(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        String ossCallbackBody = WebUtil.getRequestBodyString(request);
-        log.info("阿里云 OSS 回调参数:{}", ossCallbackBody);
-        boolean ret = VerifyOSSCallbackRequest(request, ossCallbackBody);
-        log.info("verify result : " + ret);
-        if (ret) {
+    public AliyunOssCallbackDto callback(HttpServletRequest request) {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            String ossCallbackBody = WebUtil.getRequestBodyString(request);
+            log.info("阿里云 OSS 回调参数:{}", ossCallbackBody);
+            boolean ret = VerifyOSSCallbackRequest(request, ossCallbackBody);
+            log.info("verify result : " + ret);
+
+            if (!ret) {
+                log.warn("OSS回调验证失败");
+                return CALLBACK_VERIFY_FAILED;
+            }
+
             String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
             JSONObject json = StringUtil.strToJson(decode);
             String object = json.getString("object");
+            Integer objectId = json.getInteger("objectId");
+            String fileName = object.substring(object.lastIndexOf("/") + 1);
+            String mimeType = json.getString("mimeType");
+            Integer height = json.getInteger("height");
+            Integer width = json.getInteger("width");
+            Integer size = json.getInteger("size");
 
             InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
-                    .objectId(json.getInteger("objectId"))
-                    .fileName(object.substring(object.lastIndexOf("/") + 1))
-                    .mimeType(json.getString("mimeType"))
-                    .height(json.getInteger("height"))
-                    .width(json.getInteger("width"))
-                    .size(json.getInteger("size"))
+                    .objectId(objectId)
+                    .fileName(fileName)
+                    .mimeType(mimeType)
+                    .height(height)
+                    .width(width)
+                    .size(size)
                     .uploaded(WhetherDict.Yes.code)
                     .updateTime(LocalDateTime.now())
                     .build();
             objectStorageMapper.updateById(inbyteObjectStoragePo);
-        }
 
-        if (ret) {
-            response(request, response, "{\"Status\":\"OK\"}", HttpServletResponse.SC_OK);
-        } else {
-            response(request, response, "{\"Status\":\"verify not ok\"}", HttpServletResponse.SC_BAD_REQUEST);
+            log.info("OSS回调处理成功, objectId: {}, fileName: {}", objectId, fileName);
+            return CALLBACK_SUCCESS;
+        } catch (IOException e) {
+            log.error("阿里云OSS回调异常:", e);
+            return CALLBACK_VERIFY_FAILED;
         }
     }
 
-    /**
-     * 服务器响应结果
-     *
-     * @param request
-     * @param response
-     * @param results
-     * @param status
-     * @throws IOException
-     */
-    private void response(HttpServletRequest request, HttpServletResponse response, String results, int status)
-            throws IOException {
-        String callbackFunName = request.getParameter("callback");
-        response.addHeader("Content-Length", String.valueOf(results.length()));
-        if (callbackFunName == null || callbackFunName.equalsIgnoreCase("")) {
-            response.getWriter().println(results);
-        } else {
-            response.getWriter().println(callbackFunName + "( " + results + " )");
-        }
-        response.setStatus(status);
-        response.flushBuffer();
-    }
 
 
     /**
