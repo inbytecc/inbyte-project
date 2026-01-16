@@ -434,12 +434,12 @@ public class AliyunOssPostSignatureService {
         retString = retString.replace("-----BEGIN PUBLIC KEY-----", "");
         retString = retString.replace("-----END PUBLIC KEY-----", "");
         String queryString = request.getQueryString();
+
         /**
          * 特别注意： 因为接口签名时需要以 /api 前缀访问回调接口, 且 Nginx 反向代理时去掉了 /api 前缀, 导致 doCheck 验证不通过
          * 所以此处补充 /api 前缀，使校验通过
          */
-        String uri = "/api" + request.getRequestURI();
-        String decodeUri = URLDecoder.decode(uri, "UTF-8");
+        String decodeUri = URLDecoder.decode(request.getRequestURI(), "UTF-8");
         String authStr = decodeUri;
         if (queryString != null && !queryString.equals("")) {
             authStr += "?" + queryString;
