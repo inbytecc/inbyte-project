@@ -1,8 +1,14 @@
 package com.inbyte.component.common.aliyun.oss;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.oss.common.utils.BinaryUtil;
+import com.inbyte.commons.model.dict.WhetherDict;
+import com.inbyte.commons.util.StringUtil;
+import com.inbyte.component.common.aliyun.oss.dao.ObjectStorageMapper;
 import com.inbyte.component.common.aliyun.oss.model.AliyunOssCallbackDto;
+import com.inbyte.component.common.aliyun.oss.model.InbyteObjectStoragePo;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,9 +17,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.time.LocalDateTime;
 
 /**
  * 阿里云OSS POST签名服务
@@ -24,6 +32,7 @@ import java.security.spec.X509EncodedKeySpec;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AliyunOssCallbackService {
 
     /**
@@ -35,6 +44,54 @@ public class AliyunOssCallbackService {
      * OSS回调验证失败响应
      */
     private static final AliyunOssCallbackDto CALLBACK_VERIFY_FAILED = new AliyunOssCallbackDto("verify not ok");
+
+    private final ObjectStorageMapper objectStorageMapper;
+
+    /**
+     * 阿里云 OSS 回调验证
+     *
+     * @param request
+     * @return
+     */
+    public AliyunOssCallbackDto callbackVerify(HttpServletRequest request) {
+        try {
+            String ossCallbackBody = GetPostBody(request.getInputStream(), Integer.parseInt(request.getHeader("content-length")));
+            boolean verified = VerifyOSSCallbackRequest(request, ossCallbackBody);
+            log.info("verify result:{}", verified);
+            log.info("OSS Callback Body:{}", ossCallbackBody);
+            if (verified) {
+                String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
+                JSONObject json = StringUtil.strToJson(decode);
+                String object = json.getString("object");
+                Integer objectId = json.getInteger("objectId");
+                String fileName = object.substring(object.lastIndexOf("/") + 1);
+                String mimeType = json.getString("mimeType");
+                Integer height = json.getInteger("height");
+                Integer width = json.getInteger("width");
+                Integer size = json.getInteger("size");
+
+                InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
+                        .objectId(objectId)
+                        .fileName(fileName)
+                        .mimeType(mimeType)
+                        .height(height)
+                        .width(width)
+                        .size(size)
+                        .uploaded(WhetherDict.Yes.code)
+                        .updateTime(LocalDateTime.now())
+                        .build();
+                objectStorageMapper.updateById(inbyteObjectStoragePo);
+
+                log.info("OSS回调处理成功, objectId: {}, fileName: {}", objectId, fileName);
+                return CALLBACK_SUCCESS;
+            } else {
+                return CALLBACK_VERIFY_FAILED;
+            }
+        } catch (Exception e) {
+            log.error("verify oss callback error", e);
+            return CALLBACK_VERIFY_FAILED;
+        }
+    }
 
     @SuppressWarnings({ "finally" })
     public String executeGet(String url) {
@@ -124,23 +181,6 @@ public class AliyunOssCallbackService {
         }
         authStr += "\n" + ossCallbackBody;
         return doCheck(authStr, authorization, retString);
-    }
-
-    public AliyunOssCallbackDto callbackVerify(HttpServletRequest request) {
-        try {
-            String ossCallbackBody = GetPostBody(request.getInputStream(), Integer.parseInt(request.getHeader("content-length")));
-            boolean ret = VerifyOSSCallbackRequest(request, ossCallbackBody);
-            log.info("verify result:{}", ret);
-            log.info("OSS Callback Body:{}", ossCallbackBody);
-            if (ret) {
-                return CALLBACK_SUCCESS;
-            } else {
-                return CALLBACK_VERIFY_FAILED;
-            }
-        } catch (Exception e) {
-            log.error("verify oss callback error", e);
-            return CALLBACK_VERIFY_FAILED;
-        }
     }
 
     public static boolean doCheck(String content, byte[] sign, String publicKey) {

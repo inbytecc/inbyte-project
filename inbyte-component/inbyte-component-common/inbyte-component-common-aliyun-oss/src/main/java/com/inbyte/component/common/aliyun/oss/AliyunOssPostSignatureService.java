@@ -9,36 +9,17 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.inbyte.commons.exception.BizException;
-import com.inbyte.commons.model.dict.WhetherDict;
 import com.inbyte.commons.model.dto.R;
-import com.inbyte.commons.util.StringUtil;
-import com.inbyte.commons.util.WebUtil;
 import com.inbyte.component.common.aliyun.oss.dao.ObjectStorageMapper;
-import com.inbyte.component.common.aliyun.oss.model.AliYunOssStsTokenParam;
-import com.inbyte.component.common.aliyun.oss.model.AliyunOssCallbackDto;
-import com.inbyte.component.common.aliyun.oss.model.AliyunOssPostSignatureDto;
-import com.inbyte.component.common.aliyun.oss.model.AliyunOssProperties;
-import com.inbyte.component.common.aliyun.oss.model.InbyteObjectStoragePo;
-import jakarta.servlet.http.HttpServletRequest;
+import com.inbyte.component.common.aliyun.oss.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.spec.X509EncodedKeySpec;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -349,189 +330,189 @@ public class AliyunOssPostSignatureService {
         return BinaryUtil.toBase64String(jasonCallback.toString().getBytes(StandardCharsets.UTF_8));
     }
 
-    /**
-     * 回调通知 Post请求
-     * 
-     * OSS上传文件成功后，会向应用服务器发送POST回调请求
-     * 应用服务器需要在5秒内返回JSON响应，HTTP状态码200表示成功
-     * 
-     * 参考文档：https://help.aliyun.com/zh/oss/developer-reference/callback
-     *
-     * https://help.aliyun.com/zh/oss/user-guide/python-1?spm=a2c4g.11186623.0.i12
-     *
-     * @param request HTTP请求
-     * @return 回调响应结果，Spring Boot会自动序列化为JSON返回给OSS
-     *         成功返回：{"Status": "OK"}
-     *         失败返回：{"Status": "verify not ok"}
-     */
-    public AliyunOssCallbackDto callback(HttpServletRequest request) {
-        try {
-            request.setCharacterEncoding("UTF-8");
-            String ossCallbackBody = WebUtil.getRequestBodyString(request);
-            log.info("阿里云 OSS 回调参数:{}", ossCallbackBody);
-            boolean ret = VerifyOSSCallbackRequest(request, ossCallbackBody);
-            log.info("verify result : " + ret);
-
-            if (!ret) {
-                log.warn("OSS回调验证失败");
-                return CALLBACK_VERIFY_FAILED;
-            }
-
-            String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
-            JSONObject json = StringUtil.strToJson(decode);
-            String object = json.getString("object");
-            Integer objectId = json.getInteger("objectId");
-            String fileName = object.substring(object.lastIndexOf("/") + 1);
-            String mimeType = json.getString("mimeType");
-            Integer height = json.getInteger("height");
-            Integer width = json.getInteger("width");
-            Integer size = json.getInteger("size");
-
-            InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
-                    .objectId(objectId)
-                    .fileName(fileName)
-                    .mimeType(mimeType)
-                    .height(height)
-                    .width(width)
-                    .size(size)
-                    .uploaded(WhetherDict.Yes.code)
-                    .updateTime(LocalDateTime.now())
-                    .build();
-            objectStorageMapper.updateById(inbyteObjectStoragePo);
-
-            log.info("OSS回调处理成功, objectId: {}, fileName: {}", objectId, fileName);
-            return CALLBACK_SUCCESS;
-        } catch (IOException e) {
-            log.error("阿里云OSS回调异常:", e);
-            return CALLBACK_VERIFY_FAILED;
-        }
-    }
-
-
-    /**
-     * 验证上传回调的Request
-     *
-     * @param request
-     * @param ossCallbackBody
-     * @return
-     * @throws NumberFormatException
-     * @throws IOException
-     */
-    protected boolean VerifyOSSCallbackRequest(HttpServletRequest request, String ossCallbackBody)
-            throws NumberFormatException, IOException {
-        // 检查必要的header
-        String autorizationInput = request.getHeader("Authorization");
-        String pubKeyInput = request.getHeader("x-oss-pub-key-url");
-        
-        
-        try {
-            byte[] authorization = BinaryUtil.fromBase64String(autorizationInput);
-            byte[] pubKey = BinaryUtil.fromBase64String(pubKeyInput);
-            String pubKeyAddr = new String(pubKey, StandardCharsets.UTF_8);
-            
-            if (!pubKeyAddr.startsWith("http://gosspublic.alicdn.com/")
-                    && !pubKeyAddr.startsWith("https://gosspublic.alicdn.com/")) {
-                log.warn("pub key addr must be oss address: {}", pubKeyAddr);
-                return false;
-            }
-            
-            String retString = executeGet(pubKeyAddr);
-            if (retString == null || retString.isEmpty()) {
-                log.warn("Failed to get public key from: {}", pubKeyAddr);
-                return false;
-            }
-            
-            // 清理公钥字符串
-            retString = retString.replace("-----BEGIN PUBLIC KEY-----", "");
-            retString = retString.replace("-----END PUBLIC KEY-----", "");
-            retString = retString.replaceAll("\\s", ""); // 移除所有空白字符
-            
-            String queryString = request.getQueryString();
-            String uri = request.getRequestURI();
-            String decodeUri = java.net.URLDecoder.decode(uri, "UTF-8");
-            String authStr = decodeUri;
-            if (queryString != null && !queryString.isEmpty()) {
-                authStr += "?" + queryString;
-            }
-            authStr += "\n" + ossCallbackBody;
-            
-            log.debug("验证字符串: {}", authStr);
-            boolean ret = doCheck(authStr, authorization, retString);
-            return ret;
-        } catch (Exception e) {
-            log.error("验证OSS回调请求时发生异常", e);
-            return false;
-        }
-    }
-
-    /**
-     * 验证RSA
-     *
-     * @param content
-     * @param sign
-     * @param publicKey
-     * @return
-     */
-    public static boolean doCheck(String content, byte[] sign, String publicKey) {
-        try {
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            byte[] encodedKey = BinaryUtil.fromBase64String(publicKey);
-            PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
-            // 阿里云OSS回调验证使用SHA1withRSA算法，不是MD5withRSA
-            java.security.Signature signature = java.security.Signature.getInstance("SHA1withRSA");
-            signature.initVerify(pubKey);
-            signature.update(content.getBytes(StandardCharsets.UTF_8));
-            boolean bverify = signature.verify(sign);
-            return bverify;
-
-        } catch (Exception e) {
-            log.error("RSA验证失败", e);
-        }
-
-        return false;
-    }
-
-    /**
-     * 获取public key
-     *
-     * @param url
-     * @return
-     */
-    private String executeGet(String url) {
-        BufferedReader in = null;
-
-        String content = null;
-        try {
-            // 定义HttpClient
-            @SuppressWarnings("resource")
-            DefaultHttpClient client = new DefaultHttpClient();
-            // 实例化HTTP方法
-            HttpGet request = new HttpGet();
-            request.setURI(new URI(url));
-            CloseableHttpResponse response = client.execute(request);
-
-            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8));
-            StringBuffer sb = new StringBuffer("");
-            String line = "";
-            String NL = System.getProperty("line.separator");
-            while ((line = in.readLine()) != null) {
-                sb.append(line + NL);
-            }
-            in.close();
-            content = sb.toString();
-        } catch (Exception e) {
-            log.error("阿里云OSS, GET请求错误", e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();// 最后要关闭BufferedReader
-                } catch (Exception e) {
-                    log.error("阿里云OSS, 关闭流", e);
-                }
-            }
-        }
-        return content;
-    }
+//    /**
+//     * 回调通知 Post请求
+//     *
+//     * OSS上传文件成功后，会向应用服务器发送POST回调请求
+//     * 应用服务器需要在5秒内返回JSON响应，HTTP状态码200表示成功
+//     *
+//     * 参考文档：https://help.aliyun.com/zh/oss/developer-reference/callback
+//     *
+//     * https://help.aliyun.com/zh/oss/user-guide/python-1?spm=a2c4g.11186623.0.i12
+//     *
+//     * @param request HTTP请求
+//     * @return 回调响应结果，Spring Boot会自动序列化为JSON返回给OSS
+//     *         成功返回：{"Status": "OK"}
+//     *         失败返回：{"Status": "verify not ok"}
+//     */
+//    public AliyunOssCallbackDto callback(HttpServletRequest request) {
+//        try {
+//            request.setCharacterEncoding("UTF-8");
+//            String ossCallbackBody = WebUtil.getRequestBodyString(request);
+//            log.info("阿里云 OSS 回调参数:{}", ossCallbackBody);
+//            boolean ret = VerifyOSSCallbackRequest(request, ossCallbackBody);
+//            log.info("verify result : " + ret);
+//
+//            if (!ret) {
+//                log.warn("OSS回调验证失败");
+//                return CALLBACK_VERIFY_FAILED;
+//            }
+//
+//            String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
+//            JSONObject json = StringUtil.strToJson(decode);
+//            String object = json.getString("object");
+//            Integer objectId = json.getInteger("objectId");
+//            String fileName = object.substring(object.lastIndexOf("/") + 1);
+//            String mimeType = json.getString("mimeType");
+//            Integer height = json.getInteger("height");
+//            Integer width = json.getInteger("width");
+//            Integer size = json.getInteger("size");
+//
+//            InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
+//                    .objectId(objectId)
+//                    .fileName(fileName)
+//                    .mimeType(mimeType)
+//                    .height(height)
+//                    .width(width)
+//                    .size(size)
+//                    .uploaded(WhetherDict.Yes.code)
+//                    .updateTime(LocalDateTime.now())
+//                    .build();
+//            objectStorageMapper.updateById(inbyteObjectStoragePo);
+//
+//            log.info("OSS回调处理成功, objectId: {}, fileName: {}", objectId, fileName);
+//            return CALLBACK_SUCCESS;
+//        } catch (IOException e) {
+//            log.error("阿里云OSS回调异常:", e);
+//            return CALLBACK_VERIFY_FAILED;
+//        }
+//    }
+//
+//
+//    /**
+//     * 验证上传回调的Request
+//     *
+//     * @param request
+//     * @param ossCallbackBody
+//     * @return
+//     * @throws NumberFormatException
+//     * @throws IOException
+//     */
+//    protected boolean VerifyOSSCallbackRequest(HttpServletRequest request, String ossCallbackBody)
+//            throws NumberFormatException, IOException {
+//        // 检查必要的header
+//        String autorizationInput = request.getHeader("Authorization");
+//        String pubKeyInput = request.getHeader("x-oss-pub-key-url");
+//
+//
+//        try {
+//            byte[] authorization = BinaryUtil.fromBase64String(autorizationInput);
+//            byte[] pubKey = BinaryUtil.fromBase64String(pubKeyInput);
+//            String pubKeyAddr = new String(pubKey, StandardCharsets.UTF_8);
+//
+//            if (!pubKeyAddr.startsWith("http://gosspublic.alicdn.com/")
+//                    && !pubKeyAddr.startsWith("https://gosspublic.alicdn.com/")) {
+//                log.warn("pub key addr must be oss address: {}", pubKeyAddr);
+//                return false;
+//            }
+//
+//            String retString = executeGet(pubKeyAddr);
+//            if (retString == null || retString.isEmpty()) {
+//                log.warn("Failed to get public key from: {}", pubKeyAddr);
+//                return false;
+//            }
+//
+//            // 清理公钥字符串
+//            retString = retString.replace("-----BEGIN PUBLIC KEY-----", "");
+//            retString = retString.replace("-----END PUBLIC KEY-----", "");
+//            retString = retString.replaceAll("\\s", ""); // 移除所有空白字符
+//
+//            String queryString = request.getQueryString();
+//            String uri = request.getRequestURI();
+//            String decodeUri = java.net.URLDecoder.decode(uri, "UTF-8");
+//            String authStr = decodeUri;
+//            if (queryString != null && !queryString.isEmpty()) {
+//                authStr += "?" + queryString;
+//            }
+//            authStr += "\n" + ossCallbackBody;
+//
+//            log.debug("验证字符串: {}", authStr);
+//            boolean ret = doCheck(authStr, authorization, retString);
+//            return ret;
+//        } catch (Exception e) {
+//            log.error("验证OSS回调请求时发生异常", e);
+//            return false;
+//        }
+//    }
+//
+//    /**
+//     * 验证RSA
+//     *
+//     * @param content
+//     * @param sign
+//     * @param publicKey
+//     * @return
+//     */
+//    public static boolean doCheck(String content, byte[] sign, String publicKey) {
+//        try {
+//            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//            byte[] encodedKey = BinaryUtil.fromBase64String(publicKey);
+//            PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
+//            // 阿里云OSS回调验证使用SHA1withRSA算法，不是MD5withRSA
+//            java.security.Signature signature = java.security.Signature.getInstance("SHA1withRSA");
+//            signature.initVerify(pubKey);
+//            signature.update(content.getBytes(StandardCharsets.UTF_8));
+//            boolean bverify = signature.verify(sign);
+//            return bverify;
+//
+//        } catch (Exception e) {
+//            log.error("RSA验证失败", e);
+//        }
+//
+//        return false;
+//    }
+//
+//    /**
+//     * 获取public key
+//     *
+//     * @param url
+//     * @return
+//     */
+//    private String executeGet(String url) {
+//        BufferedReader in = null;
+//
+//        String content = null;
+//        try {
+//            // 定义HttpClient
+//            @SuppressWarnings("resource")
+//            DefaultHttpClient client = new DefaultHttpClient();
+//            // 实例化HTTP方法
+//            HttpGet request = new HttpGet();
+//            request.setURI(new URI(url));
+//            CloseableHttpResponse response = client.execute(request);
+//
+//            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8));
+//            StringBuffer sb = new StringBuffer("");
+//            String line = "";
+//            String NL = System.getProperty("line.separator");
+//            while ((line = in.readLine()) != null) {
+//                sb.append(line + NL);
+//            }
+//            in.close();
+//            content = sb.toString();
+//        } catch (Exception e) {
+//            log.error("阿里云OSS, GET请求错误", e);
+//        } finally {
+//            if (in != null) {
+//                try {
+//                    in.close();// 最后要关闭BufferedReader
+//                } catch (Exception e) {
+//                    log.error("阿里云OSS, 关闭流", e);
+//                }
+//            }
+//        }
+//        return content;
+//    }
 
 
 }
