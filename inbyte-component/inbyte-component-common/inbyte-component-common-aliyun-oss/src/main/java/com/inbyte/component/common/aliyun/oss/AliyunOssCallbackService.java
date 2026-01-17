@@ -62,9 +62,8 @@ public class AliyunOssCallbackService {
             if (verified) {
                 String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
                 JSONObject json = StringUtil.strToJson(decode);
-                String object = json.getString("object");
                 Integer objectId = json.getInteger("objectId");
-                String fileName = object.substring(object.lastIndexOf("/") + 1);
+                String object = json.getString("object");
                 String mimeType = json.getString("mimeType");
                 Integer height = json.getInteger("height");
                 Integer width = json.getInteger("width");
@@ -72,7 +71,7 @@ public class AliyunOssCallbackService {
 
                 InbyteObjectStoragePo inbyteObjectStoragePo = InbyteObjectStoragePo.builder()
                         .objectId(objectId)
-                        .fileName(fileName)
+                        .fileName(object)
                         .mimeType(mimeType)
                         .height(height)
                         .width(width)
@@ -82,7 +81,7 @@ public class AliyunOssCallbackService {
                         .build();
                 objectStorageMapper.updateById(inbyteObjectStoragePo);
 
-                log.info("OSS回调处理成功, objectId: {}, fileName: {}", objectId, fileName);
+                log.info("OSS回调处理成功, objectId: {}, fileName: {}", objectId, object);
                 return CALLBACK_SUCCESS;
             } else {
                 return CALLBACK_VERIFY_FAILED;
