@@ -62,6 +62,7 @@ public class AliyunOssCallbackService {
             if (verified) {
                 String decode = URLDecoder.decode(ossCallbackBody, "UTF-8");
                 JSONObject json = StringUtil.strToJson(decode);
+                // TODO 待优化增加回调参数
                 Integer objectId = json.getInteger("objectId");
                 String object = json.getString("object");
                 String mimeType = json.getString("mimeType");

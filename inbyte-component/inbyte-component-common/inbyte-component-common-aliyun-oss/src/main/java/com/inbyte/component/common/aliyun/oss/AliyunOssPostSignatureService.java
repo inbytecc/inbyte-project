@@ -318,6 +318,7 @@ public class AliyunOssPostSignatureService {
         // 步骤5：设置回调。
         JSONObject jasonCallback = new JSONObject();
         jasonCallback.put("callbackUrl", appServer + "/api/aliyun/oss/callback");
+        // TODO 待优化增加回调参数
         jasonCallback.put("callbackBody","object=${object}&" +
                 "size=${size}&" +
                 "mimeType=${mimeType}&" +
