@@ -1,47 +1,19 @@
 package com.inbyte.component.common.aliyun.oss;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.aliyun.oss.common.utils.BinaryUtil;
-import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.auth.sts.AssumeRoleRequest;
-import com.aliyuncs.auth.sts.AssumeRoleResponse;
-import com.aliyuncs.http.MethodType;
-import com.aliyuncs.profile.DefaultProfile;
-import com.aliyuncs.profile.IClientProfile;
-import com.inbyte.commons.exception.BizException;
-import com.inbyte.commons.model.dict.WhetherDict;
-import com.inbyte.commons.model.dto.R;
-import com.inbyte.commons.util.StringUtil;
-import com.inbyte.commons.util.WebUtil;
-import com.inbyte.component.common.aliyun.oss.dao.ObjectStorageMapper;
-import com.inbyte.component.common.aliyun.oss.model.*;
-import jakarta.servlet.ServletException;
+import com.inbyte.component.common.aliyun.oss.model.AliyunOssCallbackDto;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URI;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 /**
  * 阿里云OSS POST签名服务
@@ -52,20 +24,17 @@ import java.util.*;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
-public class TestService {
+public class AliyunOssCallbackService {
 
     /**
-     *
+     * OSS回调成功响应
      */
-    private static final long serialVersionUID = 5522372203700422672L;
+    private static final AliyunOssCallbackDto CALLBACK_SUCCESS = new AliyunOssCallbackDto("OK");
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        System.out.println("用户输入url:" + request.getRequestURI());
-        response(request, response, "input get ", 200);
-
-    }
+    /**
+     * OSS回调验证失败响应
+     */
+    private static final AliyunOssCallbackDto CALLBACK_VERIFY_FAILED = new AliyunOssCallbackDto("verify not ok");
 
     @SuppressWarnings({ "finally" })
     public String executeGet(String url) {
@@ -124,47 +93,53 @@ public class TestService {
     }
 
 
-    protected boolean VerifyOSSCallbackRequest(HttpServletRequest request, String ossCallbackBody) throws NumberFormatException, IOException
-    {
-        boolean ret = false;
-        String autorizationInput = new String(request.getHeader("Authorization"));
+    protected boolean VerifyOSSCallbackRequest(HttpServletRequest request, String ossCallbackBody) {
+        String authorizationInput = new String(request.getHeader("Authorization"));
         String pubKeyInput = request.getHeader("x-oss-pub-key-url");
-        byte[] authorization = BinaryUtil.fromBase64String(autorizationInput);
+        byte[] authorization = BinaryUtil.fromBase64String(authorizationInput);
         byte[] pubKey = BinaryUtil.fromBase64String(pubKeyInput);
         String pubKeyAddr = new String(pubKey);
-        if (!pubKeyAddr.startsWith("http://gosspublic.alicdn.com/") && !pubKeyAddr.startsWith("https://gosspublic.alicdn.com/"))
-        {
-            System.out.println("pub key addr must be oss addrss");
+        if (!pubKeyAddr.startsWith("http://gosspublic.alicdn.com/") &&
+                !pubKeyAddr.startsWith("https://gosspublic.alicdn.com/")) {
+            log.warn("pub key addr must be oss addrss");
             return false;
         }
+
         String retString = executeGet(pubKeyAddr);
         retString = retString.replace("-----BEGIN PUBLIC KEY-----", "");
         retString = retString.replace("-----END PUBLIC KEY-----", "");
         String queryString = request.getQueryString();
         String uri = request.getRequestURI();
-        String decodeUri = java.net.URLDecoder.decode(uri, "UTF-8");
+        String decodeUri;
+        try {
+            decodeUri = java.net.URLDecoder.decode(uri, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("decode uri error", e);
+            return false;
+        }
+
         String authStr = decodeUri;
         if (queryString != null && !queryString.equals("")) {
             authStr += "?" + queryString;
         }
         authStr += "\n" + ossCallbackBody;
-        ret = doCheck(authStr, authorization, retString);
-        return ret;
+        return doCheck(authStr, authorization, retString);
     }
 
-    public void verify(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String ossCallbackBody = GetPostBody(request.getInputStream(), Integer.parseInt(request.getHeader("content-length")));
-        boolean ret = VerifyOSSCallbackRequest(request, ossCallbackBody);
-        System.out.println("verify result:" + ret);
-        System.out.println("OSS Callback Body:" + ossCallbackBody);
-        if (ret)
-        {
-            response(request, response, "{\"Status\":\"OK\"}", HttpServletResponse.SC_OK);
-        }
-        else
-        {
-            response(request, response, "{\"Status\":\"verdify not ok\"}", HttpServletResponse.SC_BAD_REQUEST);
+    public AliyunOssCallbackDto callbackVerify(HttpServletRequest request) {
+        try {
+            String ossCallbackBody = GetPostBody(request.getInputStream(), Integer.parseInt(request.getHeader("content-length")));
+            boolean ret = VerifyOSSCallbackRequest(request, ossCallbackBody);
+            log.info("verify result:{}", ret);
+            log.info("OSS Callback Body:{}", ossCallbackBody);
+            if (ret) {
+                return CALLBACK_SUCCESS;
+            } else {
+                return CALLBACK_VERIFY_FAILED;
+            }
+        } catch (Exception e) {
+            log.error("verify oss callback error", e);
+            return CALLBACK_VERIFY_FAILED;
         }
     }
 
@@ -176,24 +151,11 @@ public class TestService {
             java.security.Signature signature = java.security.Signature.getInstance("MD5withRSA");
             signature.initVerify(pubKey);
             signature.update(content.getBytes());
-            boolean bverify = signature.verify(sign);
-            return bverify;
-
+            return signature.verify(sign);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("doCheck oss error", e);
+            return false;
         }
-
-        return false;
     }
 
-    private void response(HttpServletRequest request, HttpServletResponse response, String results, int status) throws IOException {
-        String callbackFunName = request.getParameter("callback");
-        response.addHeader("Content-Length", String.valueOf(results.length()));
-        if (callbackFunName == null || callbackFunName.equalsIgnoreCase(""))
-            response.getWriter().println(results);
-        else
-            response.getWriter().println(callbackFunName + "( " + results + " )");
-        response.setStatus(status);
-        response.flushBuffer();
-    }
 }
